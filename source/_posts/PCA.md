@@ -1,0 +1,402 @@
+---
+title: pca
+date: 2021-03-01 00:02:38
+tags: true
+---
+
+# 3D视觉系列（一）
+
+
+
+##  主成分分析（PCA）
+
+输入：m个中心化的n维向量，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,...,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,...,m$。 
+
+输出：k个n维向量，代表着m个里面最主要的k个。
+
+结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特征值第二大的特征向量，以此类推
+
+
+
+### 证明过程
+
+现在有m个n维向量，n维是用列来表示，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,...,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,...,m,$         $\overline{x}=\frac{1}{m}\Sigma_{i=1}^mx_i$
+
+PCA是获取投影到某一方向上$z$方差的最大值为目标，因为要尽可能多的呈现出所有的样本，代表样本的最主要成分，设某一维度信息投影到z轴的值为$\alpha_i=\tilde{x}^T_iz, i=1,2,...m$, 则投影的方差为
+$$
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2
+$$
+注意
+$$
+\begin{equation}
+\begin{split}
+\overline{\alpha}=\frac{1}{m}\sum_{i=1}^m\alpha_i&=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)\\
+&=\frac{1}{m}\sum_{i=1}^m(x_i-\overline{x})^Tz\\
+&=(\frac{1}{m}\sum_{i=1}^mx_i-\frac{1}{m}\cdot m\cdot\overline{x})^Tz\\
+&=0
+\end{split}
+\end{equation}
+$$
+因此
+$$
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2
+=\frac{1}{m}\sum_{i=1}^m\alpha_i^2
+=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)^T\tilde{x}_i^Tz
+=\frac{1}{m}\sum_{i=1}^mz^T\tilde{x}_i\tilde{x}_i^Tz
+=\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz
+$$
+目标转换为求$\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz$的最大值。
+
+
+
+通过奇异值分解，我们有$XX^T=U\Sigma V^T(U\Sigma V^T)^T=U\Sigma^2U^T$
+$$
+z^T\tilde{X}\tilde{X}^Tz=z^TU\Sigma^2 U^Tz
+$$
+其中，$\Sigma=diag(\lambda_1^2,...,\lambda_n^2)，\lambda_1>\lambda_2>...>\lambda_n$，当$z=u_1$，即$U_r$的第一列时，可以取得$z^T(\tilde{X}\tilde{X}^T)z$ 的最大值。
+
+**Proof**:
+
+设$H=\tilde{X}\tilde{X}^T$, 则根据Rayleigh 商（见附录），我们有
+$$
+z^THz \leq \lambda_{max}(H)z^Tz \tag{1}
+$$
+
+其中，
+当即的第一列时，可以取得 的最大值。问题就是$z$取什么值，可以取得$H$的最大特征值。
+
+我们知道
+$$
+z^THz =z^T(\tilde{X}\tilde{X}^T)z=(U_r^Tz)^T\Sigma U_r^Tz=
+(U_r^Tz)^T
+\begin{bmatrix}
+\lambda_1^2 &0&...&0\\
+0 &\lambda_2^2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n^2
+\end{bmatrix}U_r^Tz
+$$
+$\lambda_1>\lambda_2>...>\lambda_n$。如果要取得最大特征值$\lambda_1$, 只需要令除了$\lambda_1$ 之外的对应特征向量为0即可，只需要令$z=u_1$，即$U_r$的第一列时, 我们有
+$$
+(U_r^Tz)^T=z^TU_r=u_1^T(u_1,u_2,...,u_n)=(u_1^Tu_1,0,...,0)
+$$
+我们有
+$$
+z^THz=||u_1||^2\lambda_1||u_1||^2= \lambda_{max}(H)z^Tz
+$$
+因此，当$z=u_1$时$(1)$式等号成立. $u_1$正是$\tilde{X}$最大特征值所对应的特征向量
+
+
+
+当取得了第一个维度$z$的向量后，每一个向量都需要减去在$z$上的投影。$u_1^T\tilde{x}$代表$x$在$u_1$上的投影的长度，$u_1(u_1^T\tilde{x})$代表在$u_1$方向上的投影长度
+$$
+\tilde{x}_i=\tilde{x}_i-u_1(u_1^T\tilde{x}),i=1,...,m
+$$
+则
+$$
+\tilde{X}=(I_n-u_1u_1^T)\tilde{X}\tag{2}
+$$
+因为各个特征向量是线性无关的，当然对$\tilde{X},n\times m$,做$SVD$分解，
+$$
+\begin{equation}
+\begin{split}
+\tilde{X}&=U\Sigma V^T\\
+&=\begin{bmatrix}
+u_{11}&u_{12}&...&u_{1n}\\
+u_{21}&u_{22}&...&u_{1n}\\
+...&...&...&...\\
+u_{n1}&u_{n2}&...&u_{nn}\\
+\end{bmatrix}_{n\times n}
+\begin{bmatrix}
+\lambda_{1}&0&...&0&0\\
+0&\lambda_{2}&...&0&0\\
+...&...&...&...&...\\
+0&0&...&0&0\\
+\end{bmatrix}_{n \times m}
+\begin{bmatrix}
+v_{11}&v_{21}&...&v_{m1}\\
+v_{12}&v_{22}&...&v_{m2}\\
+...&...&...&...\\
+v_{1m}&v_{2m}&...&v_{mm}\\
+\end{bmatrix}_{m\times m}\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}
+$$
+其中$UU^T=I,VV^T=I，r$表示$\lambda$的个数，$u_i=[u_{i1},u_{i2},...,u_{in}]，v_i=[v_{i1},v_{i2},...,v_{in}]$。则根据(2)， 
+$$
+\begin{equation}
+\begin{split}
+\tilde{X}&=\sum_{i=1}^r\lambda_iu_iv_i^T-u_1u_1^T\sum_{i=1}^r\lambda_iu_iv_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\sum_{i=1}^r\lambda_iu_1(u_1^Tu_i)v_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_1u_1^Tu_iv_1^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_iv_1^T\\
+&=\sum_{i=2}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}
+$$
+这也就是说，除去所有向量在$u_1$上的投影，剩下的一点没有变
+
+说白了，数据已经被表示成以特征向量为基的表示方法，而各个特征向量是线性无关的，减去在$u_1$上面的投影，当然只有$u_1$被减掉，其它都是正交的，没有影响。
+
+
+
+
+
+### **附录：**
+
+**高代p288 定义3**：
+
+设A, B为数域P上的两个n级矩阵，如果可以找到数域P上的n级可逆矩阵X，使得
+$$
+B=X^{-1}AX
+$$
+就说A相似于B。这里$X$是n组线性无关的正交基。
+
+
+
+当B是实对称矩阵即$B= B^T$, 则$B^T=(X^{-1}AX)^T=X^TA^T(X^{-1})^T=B=X^{-1}AX$
+
+我们有$X^T=X^{-1}$, 因此
+
+**谱定理**：当B是实对称矩阵时，我们有
+$$
+B=X^TAX
+$$
+推理(Inference)与预测(Prediction)_deephub-CSDN博客很明显，因为B是实对称矩阵，所以$X^TX=X^{-1}X=I$
+
+
+
+**Rayleigh 商：**
+
+对于维度为$(n,1)$任意的$x$和实对称矩阵$A$，有
+$$
+\lambda_{min}(A)\leq\frac{x^TAx}{x^Tx}\leq\lambda_{max}(A)\tag{1}
+$$
+
+Proof:
+$$
+\begin{equation}
+\begin{split}
+x^TAx&=x^TU^T\Lambda Ux=\overline{x}^T\Lambda\overline{x} \\
+&=[\overline{x}_1,\overline{x}_2,...,\overline{x}_n]
+\begin{bmatrix}
+\lambda_1 &0&...&0\\
+0 &\lambda_2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n
+\end{bmatrix}
+\begin{bmatrix}
+\overline{x}_1\\
+\overline{x}_2\\
+...\\
+\overline{x}_n
+\end{bmatrix}
+\\
+&=\sum_i^n\lambda_i\overline{x}_i^T\overline{x}_i\\
+&=\sum_i^n\lambda_ix^TU^TUx\\
+&=\sum_i^n\lambda_ix^Tx
+\end{split}
+\end{equation}
+$$
+又有
+$$
+\lambda_{min}\sum_i^n{x}_i^T{x}_i\leq\sum_i^n\lambda_i{x}_i^T{x}_i\leq \lambda_{max}\sum_i^n{x}_i^T{x}_i
+$$
+因此
+$$
+\lambda_{min}\leq\frac{\sum_i^n\lambda_i{x}_i^T{x}_i}{\sum_i^n{x}_i^T{x}_i}\leq \lambda_{max}
+$$
+从而$(1)$式得证。
+
+
+
+**SVD分解**：参考刘建平博客【https://www.cnblogs.com/pinard/p/6251584.html】
+
+完成对非方阵矩阵的分解
+
+SVD也是对矩阵进行分解，但是和特征分解不同，SVD并不要求要分解的矩阵为方阵。假设我们的矩阵A是一个m×nm×n的矩阵，那么我们定义矩阵A的SVD为：
+$$
+A = U\Sigma V^T
+$$
+　　　　其中U是一个m×m的矩阵，Σ是一个m×n的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，V是一个n×n的矩阵。U和V都是酉矩阵，即满足$U^TU=I, V^TV=I$。下图可以很形象的看出上面SVD的定义：
+
+![img](fig1.png)
+
+## 降维
+
+给定一组数据$x_i\in R^n,i=1,2,...m$，利用PCA获得其最主要的$l$个成分$[z_1,z_2,...,z_l],z_j\in R^n$.
+
+
+
+把$x_i$从n维压缩为$l$维
+$$
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+=
+\begin{bmatrix}
+z_1^T\\z_2^T\\...\\z_l^T
+\end{bmatrix}x_i=\begin{bmatrix}
+z_{11}&z_{12} & ...&z_{1n}\\
+z_{21}&z_{22} & ...&z_{2n}\\
+...&...& ...&...\\
+z_{l1}&z_{l2} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}
+\end{split}
+\end{equation}
+$$
+从主成分中重建$x_i$
+$$
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}=
+\begin{bmatrix}
+z_1&z_2&...&z_l
+\end{bmatrix}\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}=\begin{bmatrix}
+z_{11}&z_{21} & ...&z_{l1}\\
+z_{12}&z_{22} & ...&z_{l2}\\
+...&...& ...&...\\
+z_{1n}&z_{2n} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+\end{split}
+\end{equation}
+$$
+
+
+举例：
+
+把$n$个二维数据上的点，投影到数轴上，变成一维数据上的点
+
+![img](fig5.png)
+
+假设有一组二维的点$A$
+$$
+A = \begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}
+$$
+
+通过奇异值分解，得到最大值对应的特征向量为$a=[\sqrt2/2;\sqrt2/2]$, 此特征向量就是新求出的坐标系。下面开始降维操作，即求出二维点在此坐标系下的投影（坐标是多少）
+
+**向量乘法**：通常可以表示一个投影的关系，假设有一个点$b=[1,2]$，则$a\cdot b$代表$b$在$a$上的投影再乘以$a$的长度。在这里，$a$作为一个基，他的模长为1。因此$a\cdot b$就是$b$在$a$下的投影值
+
+因此，可以通过
+$$
+a^TA=
+[\sqrt2/2,\sqrt2/2]
+\begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}
+$$
+来计算所有的点在新坐标系的下的坐标。
+
+## 应用实例
+
+### 投影
+
+本例子是一个把三维点云降维到二维平面的例子，也就是投影！
+
+无论三维点云是如何偏转的（不和Z轴平行），我们都可以找出最主要的两个成分（特征向量），就找到了新的基底，然后做投影。
+
+先随便去一个数据集找到一个点云文件，进行加载，下面的加载需要文件有六列
+
+```
+import open3d as o3d
+import numpy as np
+from pyntcloud import PyntCloud
+import matplotlib.pyplot as plt
+
+point_cloud_pynt = PyntCloud.from_file(filename,
+                                sep=",",
+                                names=["x", "y", "z", "nx", "ny", "nz"])
+point_cloud_o3d = point_cloud_pynt.to_instance("open3d", mesh=False)
+o3d.visualization.draw_geometries([point_cloud_o3d]) # 显示原始点云
+```
+
+![airplane](fig2.jpg)
+
+```
+def PCA(data, correlation=False, sort=True):
+    # 1.中心化
+    data = data - np.mean(data)
+    # 2 求X^TX的特征值和特征向量
+    eigenvalues, eigenvectors = np.linalg.eig(data.T@data)
+    if sort:
+        sort = eigenvalues.argsort()[::-1]
+        eigenvalues = eigenvalues[sort]
+        eigenvectors = eigenvectors[:, sort]
+
+    return eigenvalues, eigenvectors
+
+# 从点云中获取点，只对点进行处理
+points = point_cloud_pynt.points.iloc[:,:3] # get x,y,z cols
+print('total points number is:', points.shape[0])
+
+# 用PCA分析点云主方向
+w, v = PCA(points)
+point_cloud_vector = v[:, :2] # 方向对应的向量点云主
+print('the main orientation of this pointcloud is: ', point_cloud_vector)
+
+projection = points @ point_cloud_vector
+
+plt.scatter(projection[0], projection[1])
+plt.show()
+plt.savefig("PCA.png")
+```
+
+经过投影，其结果为
+
+![img](fig3.jpg)
+
+### 法向量
+
+通过收集某一个点的附近点来近似一个平面，通过这几个点计算出来的前面两个主成分（特征向量）就可以几乎完全表达出平面的基（也就是说这几两个基就可以完全表达出这些点的分布情况了，显然因为他们本身被近似为一个平面），而第三个特征向量是需要垂直于前面两个特征向量的，因此几乎是垂直的，可以近似为此平面的法向量。就是这个点的法向量。
+
+![添加法向量点云](fig4.jpg)添加法向量点云
+
+计算法向量的步骤：
+
+1. 选取一个点
+2. 计算其最近的几个点，这样可以比较好的近似平面
+3. 计算这几个点特征值最小的特征向量，就是法向量
+
+```
+# 先建立一颗树
+pcd_tree = o3d.geometry.KDTreeFlann(point_cloud_o3d)
+normals = []
+
+for idx in range(points.shape[0]):
+    # 删除噪声
+    [k, idxs, _] = pcd_tree.search_radius_vector_3d(points.iloc[idx].to_numpy(), 0.02)
+    if k < 10:
+        point_cloud_pynt.points.drop([idx])
+
+for idx in range(points.shape[0]):
+    # 计算法向量
+    # 1. 找到附近的几个点，
+    # 2. 计算这几个点的最小特征值的特征向量
+    [k, idxs, _] = pcd_tree.search_knn_vector_3d(points.iloc[idx].to_numpy(), 200)
+
+    w, v = PCA(np.array(points)[idxs])
+    normals.append(v[:,2])
+
+    # 由于最近邻搜索是第二章的内容，所以此处允许直接调用open3d中的函数
+    normals = np.array(normals, dtype=np.float64)
+    point_cloud_o3d.normals = o3d.utility.Vector3dVector(normals)
+    o3d.visualization.draw_geometries([point_cloud_o3d])
+```
