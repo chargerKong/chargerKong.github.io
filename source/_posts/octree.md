@@ -33,6 +33,7 @@ date: 2021-03-07 16:24:35
 下面设计一下Octant需要存储的信息
 
 ```
+
 11 class Octant:
 12     def __init__(self, children, center, extent, point_indices, is_leaf):
 13         """

@@ -45,7 +45,7 @@ cmake ..
 make
 ```
 
-可以看见编译之后会**产生一个新的文件加，名字为bin**，**并且可执行文件slam在bin文件下**。在add_subdirectory中倘若不指定第二个参数，则默认编译生成 的目录名字为src。
+可以看见编译之后会**产生一个新的文件加，名字为bin**，**并且可执行文件slam在bin文件下**。在add_subdirectory中倘若不指定第二个参数，则:默认编译生成 的目录名字为src。
 
 
 
@@ -214,7 +214,7 @@ INSTALL(PROGRAMS runhello.sh DESTINATION bin)
 键入
 
 ```
-NSTALL(FILES hello.txt DESTINATION share)
+INSTALL(FILES hello.txt DESTINATION share)
 ```
 
 
