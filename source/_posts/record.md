@@ -120,8 +120,6 @@ ICP方法是用于找到一个R和T来找到两个集合的位姿变换，怎么
 
 ## 链接libnabo库  undefined reference to `Nabo::NearestNeighbourSearch...
 
-
-
 解决
 
 ```
@@ -132,4 +130,17 @@ target_link_libraries(imlsMatcher_node
    ${libnabo_LIBRARIES} libnabo::nabo           -------------------这里没有添加
 )
 ```
+
+
+
+## Python 显示ply文件
+
+```python
+import open3d as o3d
+# visualization of point clouds.
+pcd = o3d.io.read_point_cloud('test.ply')
+o3d.visualization.draw_geometries([pcd])
+```
+
+
 
