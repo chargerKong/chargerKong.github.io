@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            矩阵求导 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">矩阵求导</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-06-25 10:23:20
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h3 id="行向量偏导"><a href="#行向量偏导" class="headerlink" title="行向量偏导"></a>行向量偏导</h3><p>若自变量是$1\times m$向量，行向量偏导算子</p>
+<script type="math/tex; mode=display">
+D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_1},...,\frac{\partial}{\partial x_m}\right]</script><p>则标量函数$f(x)$的行向量偏导为</p>
+<script type="math/tex; mode=display">
+D_xf(x)=\frac{\partial f(x)}{\partial x^T}=\left[\frac{\partial f(x)}{\partial x_1},...,\frac{\partial f(x)}{\partial x_m}\right]</script><p>如果自变量变为$X\in R^{m\times n}$，则需要把$X$先列向量化，然后转置变为行向量。</p>
+<script type="math/tex; mode=display">
+D_{vec^T(X)}f(X)=\frac{\partial f(X)}{\partial vec^T(X)}=\left[\frac{\partial f(X)}{\partial X_{11}},...,\frac{\partial f(X)}{\partial X_{m1}},...,\frac{\partial f(X)}{\partial X_{1n}},...,\frac{\partial f(X)}{\partial X_{mn}}\right]</script><p>这里</p>
+<script type="math/tex; mode=display">
+vec(X)=[X_1,X_2,...,X_n]</script><p>每一个$X_i$都是一个列向量。</p>
+<p>这里$D_{vec^T(X)}f(X)$称为$f(X)$的在$X$处的行向量偏导</p>
+<h3 id="Jacobian矩阵"><a href="#Jacobian矩阵" class="headerlink" title="Jacobian矩阵"></a>Jacobian矩阵</h3><p>如果直接以矩阵的形式定义$f(X)$在$X$处的偏，则</p>
+<script type="math/tex; mode=display">
+D_Xf(X)=\frac{\partial f(X)}{\partial X^T}=\begin{bmatrix}
+\frac{\partial f(X)}{\partial X_{11}}&...&\frac{\partial f(X)}{\partial X_{m1}}\\
+...&...&...\\
+\frac{\partial f(X)}{\partial X_{1n}} & ...&\frac{\partial f(X)}{\partial X_{mn}}
+\end{bmatrix}</script><p>注意，如果把行向量偏导按照一行一行排列成矩阵，就是Jacobian矩阵</p>
+<h3 id="列向量偏导"><a href="#列向量偏导" class="headerlink" title="列向量偏导"></a>列向量偏导</h3><p>若自变量是$m\times 1$的向量</p>
+<script type="math/tex; mode=display">
+\nabla_x\overset{def}=\frac{\partial}{\partial x}=\left[\frac{\partial}{\partial x_1},...,\frac{\partial}{\partial x_m}\right]^T</script><p>别名：梯度算子</p>
+<p>如果自变量变为$X\in R^{m\times n}$，则需要把$X$先列向量化，直接求导</p>
+<script type="math/tex; mode=display">
+\nabla_{vec(X)}f(X)=\frac{\partial f(X)}{\partial vec(X)}=\left[\frac{\partial f(X)}{\partial X_{11}},...,\frac{\partial f(X)}{\partial X_{m1}},...,\frac{\partial f(X)}{\partial X_{1n}},...,\frac{\partial f(X)}{\partial X_{mn}}\right]</script><h3 id="梯度矩阵"><a href="#梯度矩阵" class="headerlink" title="梯度矩阵"></a>梯度矩阵</h3><p>如果直接以矩阵的形式定义$f(X)$在$X$处的偏导数的列向量形式，则</p>
+<script type="math/tex; mode=display">
+\nabla_Xf(X)=\frac{\partial f(X)}{\partial X}=\begin{bmatrix}
+\frac{\partial f(X)}{\partial X_{11}}&...&\frac{\partial f(X)}{\partial X_{1n}}\\
+...&...&...\\
+\frac{\partial f(X)}{\partial X_{m1}} & ...&\frac{\partial f(X)}{\partial X_{mn}}
+\end{bmatrix}</script><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>梯度矩阵和Jacobian矩阵是一个互为转置</p>
+<h3 id="Hessian-矩阵"><a href="#Hessian-矩阵" class="headerlink" title="Hessian 矩阵"></a>Hessian 矩阵</h3><p>标量函数$f(x)$相对于$m\times 1$的$x$的二阶偏导是一个由$m^2$个二阶偏导组成的矩阵（Hessian矩阵） 。定义为</p>
+<script type="math/tex; mode=display">
+\frac{\partial^2f(x)}{\partial x\partial x^T}=\frac{\partial}{\partial x^T}\left[\frac{\partial f(x)}{\partial x}\right]</script><p>或者记为</p>
+<script type="math/tex; mode=display">
+\nabla_x^2f(x)=D_x(\nabla_xf(x))=D_xg(x)</script><p>先列向量求偏导，再行向量求偏导。</p>
+<h2 id="矩阵微分"><a href="#矩阵微分" class="headerlink" title="矩阵微分"></a>矩阵微分</h2><h3 id="向量微分"><a href="#向量微分" class="headerlink" title="向量微分"></a>向量微分</h3><script type="math/tex; mode=display">
+\Delta f(x_1,...,x_m)=f(x_1+\Delta x_1,...,x_m+\Delta x_m)-f(x_1,...,x_m)\\
+=A_1\Delta x_1+...+A_m\Delta x_m+O(\Delta x_1,...,\Delta x_m)</script><p>在这里，我们假设，各变量之间相互独立，并且有</p>
+<script type="math/tex; mode=display">
+\frac{\partial f}{\partial x_1}=A_1,...,\frac{\partial f}{\partial x_m}=A_m</script><p>因此，我们有</p>
+<script type="math/tex; mode=display">
+df(x_1,...,x_m)=\frac{\partial f}{\partial x_1}dx_1+...+\frac{\partial f}{\partial x_m}dx_m</script><p>需要$f$在在该点是的各个变量的偏导数是存在且连续。或者简单记为</p>
+<script type="math/tex; mode=display">
+df(x)=\frac{\partial f(x)}{dx^T}dx</script><p>这里，$x$为列向量</p>
+<h3 id="矩阵微分-1"><a href="#矩阵微分-1" class="headerlink" title="矩阵微分"></a>矩阵微分</h3><p>假设变元为$X\in R^{m\times n}$，记$\boldsymbol{x}<em>j=[x</em>{1j},…,.x_{mj}]^T，j=1,…,n$为列向量，则</p>
+<script type="math/tex; mode=display">
+df(X)=\frac{\partial f}{\partial \boldsymbol{x_1}}d\boldsymbol{x_1}+...+\frac{\partial f}{\partial \boldsymbol{x_m}}d\boldsymbol{x_n}\\
+=\frac{\partial f}{\partial x_{11}}dx_{11}+...+\frac{\partial f}{\partial x_{m1}}dx_{m1}+...+\frac{\partial f}{\partial x_{1n}}dx_{1n}+...+\frac{\partial f}{\partial x_{mn}}dx_{mn}\\
+=
+\left[
+\frac{\partial f}{\partial x_{11}},...,\frac{\partial f}{\partial x_{m1}}...,\frac{\partial f}{\partial x_{1n}},...,\frac{\partial f}{\partial x_{mn}}
+\right]
+\begin{bmatrix}
+dx_{11}\\
+...\\
+dx_{m1}\\
+...\\
+dx_{1n}\\
+...\\
+dx_{mn}
+\end{bmatrix}
+\\</script><p>可以把上式简写为</p>
+<script type="math/tex; mode=display">
+df(X)=rvec(A)vec(dX)=tr(AdX)</script><p>其中 ，$rvec(A)$表示Jacobian矩阵的行向量化，$vec(dX)$是列向量化，</p>
+<script type="math/tex; mode=display">
+dX=\begin{bmatrix}
+dX_{11}&...&dX_{1n}\\
+...&...&...\\
+dX_{m1} & ...&dX_{mn}
+\end{bmatrix}</script><p>并且</p>
+<script type="math/tex; mode=display">
+A=D_Xf(X)=\frac{\partial f(X)}{\partial X^T}=\begin{bmatrix}
+\frac{\partial f(X)}{\partial X_{11}}&...&\frac{\partial f(X)}{\partial X_{m1}}\\
+...&...&...\\
+\frac{\partial f(X)}{\partial X_{1n}} & ...&\frac{\partial f(X)}{\partial X_{mn}}
+\end{bmatrix}</script><p>应用行向量化和列向量化的关系</p>
+<script type="math/tex; mode=display">
+rvec(A)=(vec(A^T)^T</script><p>因此可以重写</p>
+<script type="math/tex; mode=display">
+df(X)=(vec(A^T)^Tvec(dX)</script><p>利用向量化和迹之间的关系</p>
+<script type="math/tex; mode=display">
+tr(B^TC)=vec(B)^Tvec(C)</script><p>所以，$df(X)$可以最终表示为</p>
+<script type="math/tex; mode=display">
+df(X)=tr(AdX)</script><p><strong>命题三</strong></p>
+<p>这里给出了如何求实值函数求梯度矩阵$\nabla f(X)$的方法</p>
+<ul>
+<li>可以先把他表示为(22)右边的形式</li>
+<li>$\nabla f(X)=\frac{\partial f(X)}{\partial X}=A^T$</li>
+</ul>
+<h2 id="实矩阵微分运算"><a href="#实矩阵微分运算" class="headerlink" title="实矩阵微分运算"></a>实矩阵微分运算</h2><p>通过考察$(dX)_{ij}$，可以得到实微分矩阵具有如下性质</p>
+<p>转置：观察（17），</p>
+<script type="math/tex; mode=display">
+d(X^T)=(dX)^T</script><p>线性：观察（11），</p>
+<script type="math/tex; mode=display">
+d(\alpha X+\beta Y)=\alpha dX+\beta dY</script><h3 id="迹的微分"><a href="#迹的微分" class="headerlink" title="迹的微分"></a>迹的微分</h3><script type="math/tex; mode=display">
+d(trU)=d\left( \sum_{i=1}^n u_{ii}\right)=\sum_{i=1}^n du_{ii}=tr(dU)</script><h3 id="矩阵乘积微分"><a href="#矩阵乘积微分" class="headerlink" title="矩阵乘积微分"></a>矩阵乘积微分</h3><script type="math/tex; mode=display">
+d(UV)=Ud(V)+Vd(U)\\
+d(UVW)=Ud(VW)+U(dV)W+UVdW</script><p>特别的当$A$为常数矩阵的时候：</p>
+<script type="math/tex; mode=display">
+d(XAX^{-1})=(dX)AX^T+XA(dX)^T</script><h4 id="逆矩阵的微分"><a href="#逆矩阵的微分" class="headerlink" title="逆矩阵的微分"></a>逆矩阵的微分</h4><script type="math/tex; mode=display">
+d(X^{-1})=-X^{-1}(dX)X^{-1}</script><h3 id="迹函数的梯度矩阵"><a href="#迹函数的梯度矩阵" class="headerlink" title="迹函数的梯度矩阵"></a>迹函数的梯度矩阵</h3><p>对于$tr(X^TX)$，注意到$tr(A^TB)=tr(B^TA)$，有</p>
+<script type="math/tex; mode=display">
+dtr(X^TX)=tr(d(X^TX))=tr((dX)^TX+X^TdX)\\
+=tr((dX)^TX)+tr(X^TdX)\\
+=tr(2X^TdX)</script><p>根据命题三，我们可以直接得出</p>
+<script type="math/tex; mode=display">
+\frac{\partial tr(X^TX)}{\partial X}=(2X^T)^T=2X</script><h3 id="三条总结"><a href="#三条总结" class="headerlink" title="三条总结"></a>三条总结</h3><ol>
+<li>实值函数总是可以写完迹的形式</li>
+<li>总可以把dx写到后面</li>
+<li>(dx)^T也可以写到后面为dX</li>
+</ol>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/06/29/%E5%89%8D%E7%AB%AF%E9%85%8D%E5%87%86icp%E7%B3%BB%E5%88%97/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">前段匹配系列</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/06/16/%E6%9D%8E%E4%BB%A3%E6%95%B0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">SLAM之李代数</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%90%91%E9%87%8F%E5%81%8F%E5%AF%BC"><span class="nav-number">1.</span> <span class="nav-text">行向量偏导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jacobian%E7%9F%A9%E9%98%B5"><span class="nav-number">2.</span> <span class="nav-text">Jacobian矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E5%90%91%E9%87%8F%E5%81%8F%E5%AF%BC"><span class="nav-number">3.</span> <span class="nav-text">列向量偏导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E7%9F%A9%E9%98%B5"><span class="nav-number">4.</span> <span class="nav-text">梯度矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">5.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hessian-%E7%9F%A9%E9%98%B5"><span class="nav-number">6.</span> <span class="nav-text">Hessian 矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86"><span class="nav-number"></span> <span class="nav-text">矩阵微分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E5%BE%AE%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">向量微分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86-1"><span class="nav-number">2.</span> <span class="nav-text">矩阵微分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86%E8%BF%90%E7%AE%97"><span class="nav-number"></span> <span class="nav-text">实矩阵微分运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%B9%E7%9A%84%E5%BE%AE%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">迹的微分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E4%B9%98%E7%A7%AF%E5%BE%AE%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">矩阵乘积微分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%86%E7%9F%A9%E9%98%B5%E7%9A%84%E5%BE%AE%E5%88%86"><span class="nav-number">2.1.</span> <span class="nav-text">逆矩阵的微分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%B9%E5%87%BD%E6%95%B0%E7%9A%84%E6%A2%AF%E5%BA%A6%E7%9F%A9%E9%98%B5"><span class="nav-number">3.</span> <span class="nav-text">迹函数的梯度矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E6%9D%A1%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">三条总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            Navigation2-获得回溯消息 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Navigation2-获得回溯消息</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-29 16:24:35
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Nav2/">Nav2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>GDB是Unix系统上最流行的C ++调试器。 它可用于确定崩溃的原因并跟踪线程。 它也可以用于在代码中添加断点，以检查内存中的值，即软件中的特定点。</p>
+<p>对于所有使用C/ c++的软件开发人员来说，使用GDB是一项关键技能。许多ide都内置了某种调试器或分析器，但是有了ROS，就很少有ide可供选择了。因此，理解如何使用这些可用的原始工具，而不是依赖IDE来提供它们，这一点很重要。此外，理解这些工具是C/ c++开发的一项基本技能，如果你不再能够访问IDE，或者正在通过远程资产的ssh会话进行动态开发，那么无法使用IDE调试将会是一个比较麻烦的问题了。</p>
+<p>幸运的是在掌握了基础知识之后，使用GDB会非常简单。第一步是将<code>-g</code>添加到要分析/调试的ROS包的编译器标志中。 此标志生成GDB和valgrind可以读取的调试符号，以告诉您项目中特定的代码行失败以及为什么，如果未设置此标志，则仍然可以获取回溯记录，但不会提供失败的行号。 确保在调试完成之后后删除此标志，因为这会降低运行时的性能。</p>
+<p>将以下行添加到项目的CMakeLists.txt中即可解决问题。 如果您的项目已经具有add_compile_options（），则可以简单地在其中添加-g。 然后只需使用此软件包<code>colcon build --packages-select &lt;package-name&gt;</code>重建您的工作区。 编译可能需要比通常更长的时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(-g)</span><br></pre></td></tr></table></figure>
+<p>现在可以调试代码了!如果这是一个非ros项目，此时您可能会执行如下操作。在这里，我们启动了一个GDB会话，并告诉我们的程序立即运行。一旦程序崩溃，它将返回一个由(gdb)表示的gdb会话提示。在这个提示符下，您可以访问您感兴趣的信息。然而，由于这是一个包含大量节点配置和其他事情的ROS项目，对于初学者或不喜欢大量命令行工作和不理解文件系统的人来说，这不是一个很好的选择。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb ex run --args &#x2F;path&#x2F;to&#x2F;exe&#x2F;program</span><br></pre></td></tr></table></figure>
+<p>下面是三种可以运行基于ROS2系统的方式</p>
+<h2 id="From-a-Node"><a href="#From-a-Node" class="headerlink" title="From a Node"></a>From a Node</h2><p>与我们的非ros示例一样，我们需要在启动我们的ROS2节点之前设置一个GDB会话。虽然我们可以通过命令行通过对ROS 2文件系统的一些了解来设置它，但是我们可以使用Open Robotics为我们提供的launch <code>-prefix</code>选项。</p>
+<p><code>--prefix</code>将在我们的ros2命令之前执行一些代码，允许我们插入一些信息。如果您试图执行<code>gdb ex run --args ros2 run</code>，作为我们在初步示例中的模拟，您会发现它无法找到<code>ros2</code>命令。如果你再聪明一点，你会发现试图source你的工作空间也会因为类似的原因而失败。</p>
+<p>我们可以使用<code>--prefix</code>代替查找可执行文件的安装路径并将其全部输入出来。这允许我们使用您习惯的相同的ros2运行语法，而不必担心一些GDB细节。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run --prefix &#39;gdb -ex run --args&#39; &lt;pkg&gt; &lt;node&gt; --all-other-launch arguments</span><br></pre></td></tr></table></figure>
+<p>与前面一样，这个prefix将启动一个GDB会话，并使用所有附加命令行参数运行您请求的节点。您现在应该已经运行了您的节点，并且应该正在进行一些调试打印。</p>
+<p>一旦服务器崩溃，您将看到如下提示。此时，您可以获得一个回溯。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb)</span><br></pre></td></tr></table></figure>
+<p>在这个会话中，输入<code>backtrace</code>他会返回错误的回溯，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(gdb) backtrace</span><br><span class="line">#0  __GI_raise (sig&#x3D;sig@entry&#x3D;6) at ..&#x2F;sysdeps&#x2F;unix&#x2F;sysv&#x2F;linux&#x2F;raise.c:50</span><br><span class="line">#1  0x00007ffff79cc859 in __GI_abort () at abort.c:79</span><br><span class="line">#2  0x00007ffff7c52951 in ?? () from &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libstdc++.so.6</span><br><span class="line">#3  0x00007ffff7c5e47c in ?? () from &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libstdc++.so.6</span><br><span class="line">#4  0x00007ffff7c5e4e7 in std::terminate() () from &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libstdc++.so.6</span><br><span class="line">#5  0x00007ffff7c5e799 in __cxa_throw () from &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libstdc++.so.6</span><br><span class="line">#6  0x00007ffff7c553eb in ?? () from &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;libstdc++.so.6</span><br><span class="line">#7  0x000055555555936c in std::vector&lt;int, std::allocator&lt;int&gt; &gt;::_M_range_check (</span><br><span class="line">    this&#x3D;0x5555555cfdb0, __n&#x3D;100) at &#x2F;usr&#x2F;include&#x2F;c++&#x2F;9&#x2F;bits&#x2F;stl_vector.h:1070</span><br><span class="line">#8  0x0000555555558e1d in std::vector&lt;int, std::allocator&lt;int&gt; &gt;::at (this&#x3D;0x5555555cfdb0,</span><br><span class="line">    __n&#x3D;100) at &#x2F;usr&#x2F;include&#x2F;c++&#x2F;9&#x2F;bits&#x2F;stl_vector.h:1091</span><br><span class="line">#9  0x000055555555828b in GDBTester::VectorCrash (this&#x3D;0x5555555cfb40)</span><br><span class="line">    at &#x2F;home&#x2F;steve&#x2F;Documents&#x2F;nav2_ws&#x2F;src&#x2F;gdb_test_pkg&#x2F;src&#x2F;gdb_test_node.cpp:44</span><br><span class="line">#10 0x0000555555559cfc in main (argc&#x3D;1, argv&#x3D;0x7fffffffc108)</span><br><span class="line">    at &#x2F;home&#x2F;steve&#x2F;Documents&#x2F;nav2_ws&#x2F;src&#x2F;gdb_test_pkg&#x2F;src&#x2F;main.cpp:25</span><br></pre></td></tr></table></figure>
+<p>此回溯应该从下往上读</p>
+<ul>
+<li>正在main函数中，25行调用了函数VectorCrash</li>
+<li>在VectorCrash中，44行，在输入100的时候Vector的at方法崩溃</li>
+<li>…</li>
+</ul>
+<p>这些回溯需要花费一些时间来习惯阅读，但是通常，从底部开始，然后沿着堆栈向上，直到您看到它崩溃的那一行为止。 然后，您可以推断出其崩溃的原因。 完成GDB的操作后，键入quit，它将退出会话并杀死仍在运行的所有进程。 它可能会询问您是否要结束一些线程，输入yes</p>
+<h2 id="From-a-Launch-File"><a href="#From-a-Launch-File" class="headerlink" title="From a Launch File"></a>From a Launch File</h2><p>与我们的非ros示例一样，我们需要在启动我们的ROS2启动文件之前设置一个GDB会话。虽然我们可以通过命令行进行设置，但是我们可以使用与在ros2运行节点示例中相同的机制，现在使用一个启动文件。</p>
+<p>在launch文件中，找到你想要debugging的节点。在此，我们假设你的launch文件只包含了一个节点，在launch_ros包中使用的Node函数将接受一个字段<code>prefix</code>，该<code>prefix</code>包含一个前缀参数列表。我们只需要在例子中一处就可以在这里插入GDB片段，即使用<code>xterm</code>。<code>xterm</code>将弹出一个新的终端窗口来显示并与GDB交互。我们这样做是因为在启动文件上处理stdin的问题. 下面是一个debugging一个SLAM工具箱的例子</p>
+<p>与以前一样，这个prefix将启动一个GDB会话，现在是在<code>xterm</code>中，并运行您请求的启动文件，其中定义了所有附加的启动参数。</p>
+<p>一旦服务器崩溃，您将在<code>xterm</code>会话中看到如下提示。此时，您可以获得一个回溯。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb)</span><br></pre></td></tr></table></figure>
+<p>和上面的一样，只要输入backtrace就会有一个回溯的信息</p>
+<p>这些回溯需要花费一些时间来习惯阅读，但是通常，从底部开始，然后沿着堆栈向上，直到您看到它崩溃的那一行为止。 然后，您可以推断出其崩溃的原因。 完成GDB的操作后，键入quit，它将退出会话并杀死仍在运行的所有进程。 它可能会询问您是否要结束一些线程，输入yes</p>
+<h2 id="From-Nav2-Bringup（再看）"><a href="#From-Nav2-Bringup（再看）" class="headerlink" title="From Nav2 Bringup（再看）"></a>From Nav2 Bringup（再看）</h2><p>使用多个节点的启动文件略有不同，因此您可以与您的GDB会话交互，而不会被同一终端中的其他日志所困扰。出于这个原因，在处理更大的启动文件时，最好选择您感兴趣的特定服务器并单独启动它。</p>
+<p>因此，对于这种情况，当您看到想要调查的崩溃时，最好将此服务器与其他服务器分开。</p>
+<p>如果你的服务器正在从一个嵌套的启动文件(例如，一个包含的启动文件的启动文件)启动，你可能要做以下事情:</p>
+<ul>
+<li>注释掉父启动文件中的启动文件内容</li>
+<li>用调试符号的<code>-g</code>标志重新编译感兴趣的包</li>
+<li>在终端中启动父启动文件</li>
+<li>按照“从启动文件”中的说明在另一个终端中启动服务器的启动文件。</li>
+</ul>
+<p>或者，如果你的服务器直接在这些文件中启动(例如，你看到一个Node, LifecycleNode，或在一个ComponentContainer内)，你将需要将它与其他分开:</p>
+<ul>
+<li>注释掉父启动文件中的启动文件内容</li>
+<li>用调试符号的<code>-g</code>标志重新编译感兴趣的包</li>
+<li>在终端中启动父启动文件</li>
+<li>按照“从启动文件”中的说明在另一个终端中启动服务器的启动文件。</li>
+</ul>
+<p>一旦出现程序崩溃也会出现如下情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb)</span><br></pre></td></tr></table></figure>
+<p>和上面的一样，只要输入backtrace就会有一个回溯的信息</p>
+<p>这些回溯需要花费一些时间来习惯阅读，但是通常，从底部开始，然后沿着堆栈向上，直到您看到它崩溃的那一行为止。 然后，您可以推断出其崩溃的原因。 完成GDB的操作后，键入quit，它将退出会话并杀死仍在运行的所有进程。 它可能会询问您是否要结束一些线程，输入yes</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/05/05/docker/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker简单使用</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/28/Nav2-%E5%9C%A8tb3%E4%B8%8A%E5%AF%BC%E8%88%AA/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Navigation2设置指南</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#From-a-Node"><span class="nav-number">1.</span> <span class="nav-text">From a Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-a-Launch-File"><span class="nav-number">2.</span> <span class="nav-text">From a Launch File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-Nav2-Bringup%EF%BC%88%E5%86%8D%E7%9C%8B%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">From Nav2 Bringup（再看）</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            pca |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">pca</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-03-01 00:02:38
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/true/">true</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="3D视觉系列（一）"><a href="#3D视觉系列（一）" class="headerlink" title="3D视觉系列（一）"></a>3D视觉系列（一）</h1><h2 id="主成分分析（PCA）"><a href="#主成分分析（PCA）" class="headerlink" title="主成分分析（PCA）"></a>主成分分析（PCA）</h2><p>输入：m个中心化的n维向量，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m$。 </p>
+<p>输出：k个n维向量，代表着m个里面最主要的k个。</p>
+<p>结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特征值第二大的特征向量，以此类推</p>
+<h3 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h3><p>现在有m个n维向量，n维是用列来表示，$\tilde{X}=[\tilde{x}<em>1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m,$         $\overline{x}=\frac{1}{m}\Sigma</em>{i=1}^mx_i$</p>
+<p>PCA是获取投影到某一方向上$z$方差的最大值为目标，因为要尽可能多的呈现出所有的样本，代表样本的最主要成分，设某一维度信息投影到z轴的值为$\alpha_i=\tilde{x}^T_iz, i=1,2,…m$, 则投影的方差为</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2</script><p>注意</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\overline{\alpha}=\frac{1}{m}\sum_{i=1}^m\alpha_i&=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)\\
+&=\frac{1}{m}\sum_{i=1}^m(x_i-\overline{x})^Tz\\
+&=(\frac{1}{m}\sum_{i=1}^mx_i-\frac{1}{m}\cdot m\cdot\overline{x})^Tz\\
+&=0
+\end{split}
+\end{equation}</script><p>因此</p>
+<script type="math/tex; mode=display">
+\frac{1}{m}\sum_{i=1}^m(\alpha_i-\overline\alpha)^2
+=\frac{1}{m}\sum_{i=1}^m\alpha_i^2
+=\frac{1}{m}\sum_{i=1}^m(\tilde{x}_i^Tz)^T\tilde{x}_i^Tz
+=\frac{1}{m}\sum_{i=1}^mz^T\tilde{x}_i\tilde{x}_i^Tz
+=\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz</script><p>目标转换为求$\frac{1}{m}z^T\tilde{X}\tilde{X}^Tz$的最大值。</p>
+<p>通过奇异值分解，我们有$XX^T=U\Sigma V^T(U\Sigma V^T)^T=U\Sigma^2U^T$</p>
+<script type="math/tex; mode=display">
+z^T\tilde{X}\tilde{X}^Tz=z^TU\Sigma^2 U^Tz</script><p>其中，$\Sigma=diag(\lambda_1^2,…,\lambda_n^2)，\lambda_1&gt;\lambda_2&gt;…&gt;\lambda_n$，当$z=u_1$，即$U_r$的第一列时，可以取得$z^T(\tilde{X}\tilde{X}^T)z$ 的最大值。</p>
+<p><strong>Proof</strong>:</p>
+<p>设$H=\tilde{X}\tilde{X}^T$, 则根据Rayleigh 商（见附录），我们有</p>
+<script type="math/tex; mode=display">
+z^THz \leq \lambda_{max}(H)z^Tz \tag{1}</script><p>其中，<br>当即的第一列时，可以取得 的最大值。问题就是$z$取什么值，可以取得$H$的最大特征值。</p>
+<p>我们知道</p>
+<script type="math/tex; mode=display">
+z^THz =z^T(\tilde{X}\tilde{X}^T)z=(U_r^Tz)^T\Sigma U_r^Tz=
+(U_r^Tz)^T
+\begin{bmatrix}
+\lambda_1^2 &0&...&0\\
+0 &\lambda_2^2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n^2
+\end{bmatrix}U_r^Tz</script><p>$\lambda_1&gt;\lambda_2&gt;…&gt;\lambda_n$。如果要取得最大特征值$\lambda_1$, 只需要令除了$\lambda_1$ 之外的对应特征向量为0即可，只需要令$z=u_1$，即$U_r$的第一列时, 我们有</p>
+<script type="math/tex; mode=display">
+(U_r^Tz)^T=z^TU_r=u_1^T(u_1,u_2,...,u_n)=(u_1^Tu_1,0,...,0)</script><p>我们有</p>
+<script type="math/tex; mode=display">
+z^THz=||u_1||^2\lambda_1||u_1||^2= \lambda_{max}(H)z^Tz</script><p>因此，当$z=u_1$时$(1)$式等号成立. $u_1$正是$\tilde{X}$最大特征值所对应的特征向量</p>
+<p>当取得了第一个维度$z$的向量后，每一个向量都需要减去在$z$上的投影。$u_1^T\tilde{x}$代表$x$在$u_1$上的投影的长度，$u_1(u_1^T\tilde{x})$代表在$u_1$方向上的投影长度</p>
+<script type="math/tex; mode=display">
+\tilde{x}_i=\tilde{x}_i-u_1(u_1^T\tilde{x}),i=1,...,m</script><p>则</p>
+<script type="math/tex; mode=display">
+\tilde{X}=(I_n-u_1u_1^T)\tilde{X}\tag{2}</script><p>因为各个特征向量是线性无关的，当然对$\tilde{X},n\times m$,做$SVD$分解，</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\tilde{X}&=U\Sigma V^T\\
+&=\begin{bmatrix}
+u_{11}&u_{12}&...&u_{1n}\\
+u_{21}&u_{22}&...&u_{1n}\\
+...&...&...&...\\
+u_{n1}&u_{n2}&...&u_{nn}\\
+\end{bmatrix}_{n\times n}
+\begin{bmatrix}
+\lambda_{1}&0&...&0&0\\
+0&\lambda_{2}&...&0&0\\
+...&...&...&...&...\\
+0&0&...&0&0\\
+\end{bmatrix}_{n \times m}
+\begin{bmatrix}
+v_{11}&v_{21}&...&v_{m1}\\
+v_{12}&v_{22}&...&v_{m2}\\
+...&...&...&...\\
+v_{1m}&v_{2m}&...&v_{mm}\\
+\end{bmatrix}_{m\times m}\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}</script><p>其中$UU^T=I,VV^T=I，r$表示$\lambda$的个数，$u<em>i=[u</em>{i1},u<em>{i2},…,u</em>{in}]，v<em>i=[v</em>{i1},v<em>{i2},…,v</em>{in}]$。则根据(2)， </p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\tilde{X}&=\sum_{i=1}^r\lambda_iu_iv_i^T-u_1u_1^T\sum_{i=1}^r\lambda_iu_iv_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\sum_{i=1}^r\lambda_iu_1(u_1^Tu_i)v_i^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_1u_1^Tu_iv_1^T\\
+&=\sum_{i=1}^r\lambda_iu_iv_i^T-\lambda_1u_iv_1^T\\
+&=\sum_{i=2}^r\lambda_iu_iv_i^T
+\end{split}
+\end{equation}</script><p>这也就是说，除去所有向量在$u_1$上的投影，剩下的一点没有变</p>
+<p>说白了，数据已经被表示成以特征向量为基的表示方法，而各个特征向量是线性无关的，减去在$u_1$上面的投影，当然只有$u_1$被减掉，其它都是正交的，没有影响。</p>
+<h3 id="附录："><a href="#附录：" class="headerlink" title="附录："></a><strong>附录：</strong></h3><p><strong>高代p288 定义3</strong>：</p>
+<p>设A, B为数域P上的两个n级矩阵，如果可以找到数域P上的n级可逆矩阵X，使得</p>
+<script type="math/tex; mode=display">
+B=X^{-1}AX</script><p>就说A相似于B。这里$X$是n组线性无关的正交基。</p>
+<p>当B是实对称矩阵即$B= B^T$, 则$B^T=(X^{-1}AX)^T=X^TA^T(X^{-1})^T=B=X^{-1}AX$</p>
+<p>我们有$X^T=X^{-1}$, 因此</p>
+<p><strong>谱定理</strong>：当B是实对称矩阵时，我们有</p>
+<script type="math/tex; mode=display">
+B=X^TAX</script><p>推理(Inference)与预测(Prediction)_deephub-CSDN博客很明显，因为B是实对称矩阵，所以$X^TX=X^{-1}X=I$</p>
+<p><strong>Rayleigh 商：</strong></p>
+<p>对于维度为$(n,1)$任意的$x$和实对称矩阵$A$，有</p>
+<script type="math/tex; mode=display">
+\lambda_{min}(A)\leq\frac{x^TAx}{x^Tx}\leq\lambda_{max}(A)\tag{1}</script><p>Proof:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+x^TAx&=x^TU^T\Lambda Ux=\overline{x}^T\Lambda\overline{x} \\
+&=[\overline{x}_1,\overline{x}_2,...,\overline{x}_n]
+\begin{bmatrix}
+\lambda_1 &0&...&0\\
+0 &\lambda_2 &...&0\\
+0&0&...&0\\
+0 &0&...&\lambda_n
+\end{bmatrix}
+\begin{bmatrix}
+\overline{x}_1\\
+\overline{x}_2\\
+...\\
+\overline{x}_n
+\end{bmatrix}
+\\
+&=\sum_i^n\lambda_i\overline{x}_i^T\overline{x}_i\\
+&=\sum_i^n\lambda_ix^TU^TUx\\
+&=\sum_i^n\lambda_ix^Tx
+\end{split}
+\end{equation}</script><p>又有</p>
+<script type="math/tex; mode=display">
+\lambda_{min}\sum_i^n{x}_i^T{x}_i\leq\sum_i^n\lambda_i{x}_i^T{x}_i\leq \lambda_{max}\sum_i^n{x}_i^T{x}_i</script><p>因此</p>
+<script type="math/tex; mode=display">
+\lambda_{min}\leq\frac{\sum_i^n\lambda_i{x}_i^T{x}_i}{\sum_i^n{x}_i^T{x}_i}\leq \lambda_{max}</script><p>从而$(1)$式得证。</p>
+<p><strong>SVD分解</strong>：参考刘建平博客【<a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinard/p/6251584.html】">https://www.cnblogs.com/pinard/p/6251584.html】</a></p>
+<p>完成对非方阵矩阵的分解</p>
+<p>SVD也是对矩阵进行分解，但是和特征分解不同，SVD并不要求要分解的矩阵为方阵。假设我们的矩阵A是一个m×nm×n的矩阵，那么我们定义矩阵A的SVD为：</p>
+<script type="math/tex; mode=display">
+A = U\Sigma V^T</script><p>　　　　其中U是一个m×m的矩阵，Σ是一个m×n的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，V是一个n×n的矩阵。U和V都是酉矩阵，即满足$U^TU=I, V^TV=I$。下图可以很形象的看出上面SVD的定义：</p>
+<p><img src="fig1.png" alt="img"></p>
+<h2 id="降维"><a href="#降维" class="headerlink" title="降维"></a>降维</h2><p>给定一组数据$x_i\in R^n,i=1,2,…m$，利用PCA获得其最主要的$l$个成分$[z_1,z_2,…,z_l],z_j\in R^n$.</p>
+<p>把$x_i$从n维压缩为$l$维</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+=
+\begin{bmatrix}
+z_1^T\\z_2^T\\...\\z_l^T
+\end{bmatrix}x_i=\begin{bmatrix}
+z_{11}&z_{12} & ...&z_{1n}\\
+z_{21}&z_{22} & ...&z_{2n}\\
+...&...& ...&...\\
+z_{l1}&z_{l2} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}
+\end{split}
+\end{equation}</script><p>从主成分中重建$x_i$</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\begin{bmatrix}
+x_{i1}\\x_{i2}\\x_{i3}\\...\\...\\x_{in}
+\end{bmatrix}=
+\begin{bmatrix}
+z_1&z_2&...&z_l
+\end{bmatrix}\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}=\begin{bmatrix}
+z_{11}&z_{21} & ...&z_{l1}\\
+z_{12}&z_{22} & ...&z_{l2}\\
+...&...& ...&...\\
+z_{1n}&z_{2n} & ...&z_{ln}\\
+\end{bmatrix}
+\begin{bmatrix}
+a_{i1}\\a_{i2}\\...\\a_{il}
+\end{bmatrix}
+\end{split}
+\end{equation}</script><p>举例：</p>
+<p>把$n$个二维数据上的点，投影到数轴上，变成一维数据上的点</p>
+<p><img src="fig5.png" alt="img"></p>
+<p>假设有一组二维的点$A$</p>
+<script type="math/tex; mode=display">
+A = \begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}</script><p>通过奇异值分解，得到最大值对应的特征向量为$a=[\sqrt2/2;\sqrt2/2]$, 此特征向量就是新求出的坐标系。下面开始降维操作，即求出二维点在此坐标系下的投影（坐标是多少）</p>
+<p><strong>向量乘法</strong>：通常可以表示一个投影的关系，假设有一个点$b=[1,2]$，则$a\cdot b$代表$b$在$a$上的投影再乘以$a$的长度。在这里，$a$作为一个基，他的模长为1。因此$a\cdot b$就是$b$在$a$下的投影值</p>
+<p>因此，可以通过</p>
+<script type="math/tex; mode=display">
+a^TA=
+[\sqrt2/2,\sqrt2/2]
+\begin{bmatrix}
+2&3&...&1\\
+1&2&...&4\\
+\end{bmatrix}</script><p>来计算所有的点在新坐标系的下的坐标。</p>
+<h2 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h2><h3 id="投影"><a href="#投影" class="headerlink" title="投影"></a>投影</h3><p>本例子是一个把三维点云降维到二维平面的例子，也就是投影！</p>
+<p>无论三维点云是如何偏转的（不和Z轴平行），我们都可以找出最主要的两个成分（特征向量），就找到了新的基底，然后做投影。</p>
+<p>先随便去一个数据集找到一个点云文件，进行加载，下面的加载需要文件有六列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import open3d as o3d</span><br><span class="line">import numpy as np</span><br><span class="line">from pyntcloud import PyntCloud</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">point_cloud_pynt &#x3D; PyntCloud.from_file(filename,</span><br><span class="line">                                sep&#x3D;&quot;,&quot;,</span><br><span class="line">                                names&#x3D;[&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;nx&quot;, &quot;ny&quot;, &quot;nz&quot;])</span><br><span class="line">point_cloud_o3d &#x3D; point_cloud_pynt.to_instance(&quot;open3d&quot;, mesh&#x3D;False)</span><br><span class="line">o3d.visualization.draw_geometries([point_cloud_o3d]) # 显示原始点云</span><br></pre></td></tr></table></figure>
+<p><img src="fig2.jpg" alt="airplane"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">def PCA(data, correlation&#x3D;False, sort&#x3D;True):</span><br><span class="line">    # 1.中心化</span><br><span class="line">    data &#x3D; data - np.mean(data)</span><br><span class="line">    # 2 求X^TX的特征值和特征向量</span><br><span class="line">    eigenvalues, eigenvectors &#x3D; np.linalg.eig(data.T@data)</span><br><span class="line">    if sort:</span><br><span class="line">        sort &#x3D; eigenvalues.argsort()[::-1]</span><br><span class="line">        eigenvalues &#x3D; eigenvalues[sort]</span><br><span class="line">        eigenvectors &#x3D; eigenvectors[:, sort]</span><br><span class="line"></span><br><span class="line">    return eigenvalues, eigenvectors</span><br><span class="line"></span><br><span class="line"># 从点云中获取点，只对点进行处理</span><br><span class="line">points &#x3D; point_cloud_pynt.points.iloc[:,:3] # get x,y,z cols</span><br><span class="line">print(&#39;total points number is:&#39;, points.shape[0])</span><br><span class="line"></span><br><span class="line"># 用PCA分析点云主方向</span><br><span class="line">w, v &#x3D; PCA(points)</span><br><span class="line">point_cloud_vector &#x3D; v[:, :2] # 方向对应的向量点云主</span><br><span class="line">print(&#39;the main orientation of this pointcloud is: &#39;, point_cloud_vector)</span><br><span class="line"></span><br><span class="line">projection &#x3D; points @ point_cloud_vector</span><br><span class="line"></span><br><span class="line">plt.scatter(projection[0], projection[1])</span><br><span class="line">plt.show()</span><br><span class="line">plt.savefig(&quot;PCA.png&quot;)</span><br></pre></td></tr></table></figure>
+<p>经过投影，其结果为</p>
+<p><img src="fig3.jpg" alt="img"></p>
+<h3 id="法向量"><a href="#法向量" class="headerlink" title="法向量"></a>法向量</h3><p>通过收集某一个点的附近点来近似一个平面，通过这几个点计算出来的前面两个主成分（特征向量）就可以几乎完全表达出平面的基（也就是说这几两个基就可以完全表达出这些点的分布情况了，显然因为他们本身被近似为一个平面），而第三个特征向量是需要垂直于前面两个特征向量的，因此几乎是垂直的，可以近似为此平面的法向量。就是这个点的法向量。</p>
+<p><img src="fig4.jpg" alt="添加法向量点云">添加法向量点云</p>
+<p>计算法向量的步骤：</p>
+<ol>
+<li>选取一个点</li>
+<li>计算其最近的几个点，这样可以比较好的近似平面</li>
+<li>计算这几个点特征值最小的特征向量，就是法向量</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 先建立一颗树</span><br><span class="line">pcd_tree &#x3D; o3d.geometry.KDTreeFlann(point_cloud_o3d)</span><br><span class="line">normals &#x3D; []</span><br><span class="line"></span><br><span class="line">for idx in range(points.shape[0]):</span><br><span class="line">    # 删除噪声</span><br><span class="line">    [k, idxs, _] &#x3D; pcd_tree.search_radius_vector_3d(points.iloc[idx].to_numpy(), 0.02)</span><br><span class="line">    if k &lt; 10:</span><br><span class="line">        point_cloud_pynt.points.drop([idx])</span><br><span class="line"></span><br><span class="line">for idx in range(points.shape[0]):</span><br><span class="line">    # 计算法向量</span><br><span class="line">    # 1. 找到附近的几个点，</span><br><span class="line">    # 2. 计算这几个点的最小特征值的特征向量</span><br><span class="line">    [k, idxs, _] &#x3D; pcd_tree.search_knn_vector_3d(points.iloc[idx].to_numpy(), 200)</span><br><span class="line"></span><br><span class="line">    w, v &#x3D; PCA(np.array(points)[idxs])</span><br><span class="line">    normals.append(v[:,2])</span><br><span class="line"></span><br><span class="line">    # 由于最近邻搜索是第二章的内容，所以此处允许直接调用open3d中的函数</span><br><span class="line">    normals &#x3D; np.array(normals, dtype&#x3D;np.float64)</span><br><span class="line">    point_cloud_o3d.normals &#x3D; o3d.utility.Vector3dVector(normals)</span><br><span class="line">    o3d.visualization.draw_geometries([point_cloud_o3d])</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/03/07/octree/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">octree</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#3D%E8%A7%86%E8%A7%89%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">3D视觉系列（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%EF%BC%88PCA%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">主成分分析（PCA）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%81%E6%98%8E%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">证明过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A"><span class="nav-number">1.1.2.</span> <span class="nav-text">附录：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%8D%E7%BB%B4"><span class="nav-number">1.2.</span> <span class="nav-text">降维</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.3.</span> <span class="nav-text">应用实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%95%E5%BD%B1"><span class="nav-number">1.3.1.</span> <span class="nav-text">投影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%95%E5%90%91%E9%87%8F"><span class="nav-number">1.3.2.</span> <span class="nav-text">法向量</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

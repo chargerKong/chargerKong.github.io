@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            Navigation2设置指南 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Navigation2设置指南</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-28 16:24:35
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Nav2/">Nav2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="首次机器人设置指南"><a href="#首次机器人设置指南" class="headerlink" title="首次机器人设置指南"></a>首次机器人设置指南</h1><p>本节内容是一系列的指引：内容有：</p>
+<ul>
+<li>帮助新用户利用Navigation2设置一个新的机器人</li>
+<li>使用自定义机器人帮助人们正确地设置他们的机器人以用于ROS/Navigation2</li>
+<li>为更有经验的读者提供清单、模板或样板参考.</li>
+<li>提供可以在模拟器/工具上运行的示例，如Gazebo或RViz，以指导读者在没有物理机器人的情况下安装、设置Nav2。</li>
+<li>概述配置某些软件包和集成机器人平台的不同组件(传感器、里程表等)的技巧和窍门</li>
+</ul>
+<p>为了指导您完成机器人的第一次安装，我们将处理以下主题:</p>
+<ul>
+<li><p>介绍TF2，设置你的机器人URDF</p>
+</li>
+<li><p>设置机器人里程表的传感器源</p>
+</li>
+<li><p>设置感知传感器源</p>
+</li>
+<li><p>为机器人配置圆形或任意形状的footprints</p>
+</li>
+<li><p>生命周期节点管理，便于启动其他相关传感器或节点</p>
+</li>
+<li><p>行为树的选择和设置</p>
+</li>
+</ul>
+<h2 id="设置transformation"><a href="#设置transformation" class="headerlink" title="设置transformation"></a>设置transformation</h2><p>在本指南中，我们将着眼于Nav2所需的必要转换。这些转换使Nav2能够通过将传感器和里程表等不同来源的信息转换为使用的坐标系来解释信息。下面是一个机器人的完整变换树，但我们将从一些更简单的东西开始。</p>
+<p><img src="tf_full_tree.png" alt="../../_images/tf_full_tree.png"></p>
+<p>对于本教程，我们将首先简要介绍ROS中的转换。其次，我们将对TF2静态发布者进行简单的命令行演示，以使其实际运行。最后，我们将概述为使Nav2正常运行而需要发布的必要转换。</p>
+<h3 id="Transforms-介绍"><a href="#Transforms-介绍" class="headerlink" title="Transforms 介绍"></a>Transforms 介绍</h3><p>很多ROS包都要求使用TF2来发布机器人的变换树，变换树定义了不同坐标系之间的关系，这包括平移，旋转和相对运动，下面我们使用一个简单的机器人模型来具体说明。</p>
+<p>此机器人有两个定义好的坐标系，一个对应于机器人的移动底座的中心点，一个对应于安装在底座顶部的激光器的中心点。我们称连接到会移动的底座坐标系为<code>base_link</code>，连接到激光的坐标系为<code>base_laser</code>.</p>
+<p>我们假设有一些来自激光的数据，即测量出的从激光的中心点的距离。换句话说，我们在<code>base_laser</code>坐标系中有一些数据。</p>
+<p>现在我们假设我们需要使用雷达传过来的数据帮助机器人对面前的物体进行避障，为了达到此目的，我们需要把从雷达收集到的数据的坐标系<code>base_laser</code>转换为<code>base_link</code>的坐标系的数据，因此我们需要定义<code>base_laser</code>和<code>base_link</code>坐标系之间的关系。</p>
+<p><img src="https://navigation.ros.org/_images/simple_robot.png" alt=""></p>
+<p>我们假设雷达中心距离<code>base_link</code>中心前方十厘米，以及上方20厘米处。这给了我们一个将<code>base_link</code>与<code>base_laser</code>关联起来的平移偏移量。即，我们知道了数据从<code>base_link</code>到<code>base_laser</code>的变换，我们需要应用平移(x:0.1m，y:0.0m，z:0.2m)。因此，若是要通过<code>base_laser</code>到<code>base_link</code>的变换， 只需要反一下就行了(x:-0.1m，y:0.0m，z:-0.2m)。</p>
+<p>我们可以选择自己管理这种关系，即在必要时存储和应用坐标系之间的适当转换，但随着坐标系数量的增加，这会引起一定的麻烦。幸运的是，我们不需要自己做整个工作，我们只需要定义<code>base_link</code>和<code>laser_link</code>一次，就可以使用TF2来为我们管理这两个坐标系之间的关系。这在涉及非静态变换的时候十分有用，比如一组相对移动的框架，比如地图框架中的机器人基础框架</p>
+<p>为了使用TF2定义和存储<code>base_link</code>和<code>base_laser</code>俩坐标系之间的关系，我们需要将它们添加到转换树中。从概念上讲，转换树中的每个节点对应于一个坐标框架，而每条边对应于从当前节点移动到其子节点的转换。TF2使用树形结构来确保将任何两个坐标系连接在一起的都是单向连接，并假设树中的所有边都是从父节点指向子节点。</p>
+<p><img src="tf_robot.png" alt="../../_images/tf_robot.png"></p>
+<p>为了建立上述简单例子的变换树，我们需要创建两个节点：<code>base_link</code>坐标系节点和<code>base_laser</code>坐标系节点。并且指定哪个是父节点，哪个是子节点。千万记住：TF2默认所有的变换都是从父节点变换到子节点</p>
+<p>我们选择<code>base_link</code>坐标系为父节点，因为其他的传感器是添加到他的上面的，通过<code>base_link</code>来找关于<code>base_laser</code>的关系是比较合理的，这也就是说连接<code>base_link</code>和<code>base_laser</code>的变换应该为(x:0.1m，y:0.0m，z:0.2m)。</p>
+<p>只要我们设置了这个变换树，我们只要调用tf2库就可以轻松的得到从<code>base_laser</code>到<code>base_link</code>的转换。我们的机器人现在可以使用这些信息来推理base_link坐标系中的激光扫描，并安全地绕过环境中的障碍物。</p>
+<h3 id="发布静态变换案例"><a href="#发布静态变换案例" class="headerlink" title="发布静态变换案例"></a>发布静态变换案例</h3><p>现在我们利用由TF2提供的<code>static_transform_publisher</code>工具发布一个简单的变换，发布一个从<code>base_link</code>到<code>base_laser</code>的平移变换(x:0.1m，y:0.0m，z:0.2m)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run tf2_ros static_transform_publisher 0.1 0 0.2 0 0 0 base_link base_laser</span><br></pre></td></tr></table></figure>
+<p>现在我们成功发布了一个从<code>base_link</code>到<code>base_laser</code>的变换，可以通过<code>tf2_echo</code>来查看是否发布成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run tf2_ros tf2_echo base_link base_laser</span><br></pre></td></tr></table></figure>
+<p>应该返回类似于下面消息的重复信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">At time 0.0</span><br><span class="line">- Translation: [0.100, 0.000, 0.200]</span><br><span class="line">- Rotation: in Quaternion [0.000, 0.000, 0.000, 1.000]</span><br></pre></td></tr></table></figure>
+<p>上面是一个很简单的例子，我们通过命令行的方式发布了一条变换，但是实际上我们并不推荐在实际的项目中这么做。在实际的机器人系统中，我们会创建一个URDF文件，里面会有相应的信息。</p>
+<h3 id="在Navigation2-中的变换"><a href="#在Navigation2-中的变换" class="headerlink" title="在Navigation2 中的变换"></a>在Navigation2 中的变换</h3><p>有两个重要的ROS REPs 是强烈推荐阅读的</p>
+<p>为了快速总结REP 105，本文档指定了ROS中使用的不同坐标系的命名约定和语义。在此我们感兴趣的是 <code>base_link</code>, <code>odom</code> 和 <code>map</code> ，base_link是一个坐标系，它连接到机器人的固定位置，通常位于其主底盘和旋转中心。odom坐标系是相对于机器人起始位置的固定，主要用于距离的局部一致表示。 最后，<code>map</code>坐标框架是世界固定框架，用于全局一致的距离表示。</p>
+<p>另一方面，REP 103讨论了一些标准度量单位和其他相关约定，以使不同ROS软件包之间的集成问题降至最低。 基本概述是使用右手规则定义坐标系，Z轴向上和X向前，并且单位应为标准SI单位。</p>
+<p>现在让我们来看看Navigation2包正确运行的一些细节。Nav2需要在ROS中发布以下转换:</p>
+<ol>
+<li><code>map</code> =&gt; <code>odom</code></li>
+<li><code>odom</code> =&gt; <code>base_link</code></li>
+<li><code>base_link</code> =&gt; <code>base_laser</code> (sensor base frames)</li>
+</ol>
+<p>第一个变换<code>map</code>=&gt;<code>odom</code>通常由处理定位和建图的不同ROS包(如AMCL)提供。这个转换在使用中实时更新，所以我们不会在我们的机器人的TF树中为它设置静态值，更多的是细节建议去看你使用的ROS包的文档，所有SLAM和定位的包都会提供在launch的时候提供这个变换</p>
+<p><code>odom</code> =&gt; <code>base_link</code>通常由我们的里程计系统使用车轮编码器之类的传感器发布。这通常是通过使用robot_localization包，通过传感器融合的里程表传感器(IMU，车轮编码器，VIO等)来计算的。</p>
+<p>所有其他静态定义的转换(例如base_link =&gt; base_laser, base_link =&gt; wheels, wheels =&gt; IMU等)是我们将在本指南的其余部分讨论的内容。Nav2利用这个变换树将传感器个机器人的其他部分进行适当的关联。这两个坐标系之间的转换通常通过Robot State Publisher和通用机器人描述符文件(URDF)提供给Nav2。如果你的平台上有更多的传感器坐标系，那么需要发布一个从base_link到每个传感器坐标系的转换树。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在本教程中，我们讨论了变换的概念以及在Nav2中如何使用它们。</p>
+<p>在上一节中，我们还探索了使用TF2的static_transform_publisher发布转换。 您可以使用它来为Nav2设置转换，但这通常不是最好的方法。 在大多数机器人项目中，我们都使用Robot State Publisher，因为随着机器人变得越来越复杂，它更易于使用和扩展。 我们将在下一个关于设置URDF的教程中讨论Robot State Publisher，URDF，以及如何设置它。</p>
+<p>最后，我们还讨论了Nav2的三个已发布的转换要求以及在设置它们时要记住的必要REP。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/28/Nav2-%E5%9C%A8tb3%E4%B8%8A%E5%AF%BC%E8%88%AA/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Navigation2设置指南</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/27/Navigation%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Navigation基本概念</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A6%96%E6%AC%A1%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%AE%BE%E7%BD%AE%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">首次机器人设置指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEtransformation"><span class="nav-number">1.1.</span> <span class="nav-text">设置transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transforms-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.1.</span> <span class="nav-text">Transforms 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E9%9D%99%E6%80%81%E5%8F%98%E6%8D%A2%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">发布静态变换案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8Navigation2-%E4%B8%AD%E7%9A%84%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">在Navigation2 中的变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">1.1.4.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

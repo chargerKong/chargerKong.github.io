@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ros控制机器人 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ros控制机器人</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-14 10:11:26
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>到目前位置，我们通过sdf、xacro以及gazebo的用户界面完成了一个机器人的模型在gazebo中的显示，距离真正的机器人还缺少的就是如何驱动它。下面我们开始添加传动装置</p>
+<h2 id="传动装置"><a href="#传动装置" class="headerlink" title="传动装置"></a>传动装置</h2><p>传动系统可以把机器人的关节指令转换乘执行器的控制信号，让机器人真正的动起来。因此对于机器人每一个需要运动的关节都需要有一个传动系统。这就是机器人运动的动力来源</p>
+<p>我们在设定两个驱动轮的宏中，需要添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">transmission</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_wheel_joint_trans&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">type</span>&gt;</span>transmission_interface/SimpleTransmission<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_wheel_joint&quot;</span> &gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">hardwareInterface</span>&gt;</span>hardware_interface/VelocityJointInterface<span class="tag">&lt;/<span class="name">hardwareInterface</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">actuator</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_wheel_joint_motor&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">hardwareInterface</span>&gt;</span>hardware_interface/VelocityJointInterface<span class="tag">&lt;/<span class="name">hardwareInterface</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mechanicalReduction</span>&gt;</span>1<span class="tag">&lt;/<span class="name">mechanicalReduction</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">actuator</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">transmission</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如此我们就对每一个驱动轮添加了传动装置，<code>&lt;transmission&gt;</code>标签用来链接<code>joint</code>到执行器进行运动，它需要表明如下属性</p>
+<ul>
+<li><code>&lt;type&gt;</code>: 传动装置的类型。</li>
+<li><code>&lt;joint name=&quot;&quot;&gt;</code> ：这里的name必须要对应我们文件中的joint。表示运动的关节</li>
+<li><code>&lt;transmission_interface/SimpleTransmission&gt;</code>：在标签joint和actuator的里面，这表示告诉gazebo_ros_control插件，需要加载哪些硬件接口，在这里我们使用的速度控制接口</li>
+</ul>
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>到现在位置，他还只是一个gazebo的模型，没有ros的信息绑定，我们可以通过Gazeb插件将他和ROS的消息进行绑定，以此来和ROS进行信息的交互，例如传感器的仿真传输和对电机的控制等</p>
+<p>我们的机器人是两轮驱动的，在Gazebo中有一个差速控制插件<code>libgazebo_ros_diff_drive.so</code>，可以很好的解决机器人在转弯过程中两个轮子的速度控制，同时也还有非常重要的一点，它可以订阅发布速度指令的topic，类型为：<code>geometry_msgs/msg/Twist</code>。以及<code>libgazebo_ros_joint_state_publisher.so</code>用于发布joint的state</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gazebo</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">&quot;differential_drive_controller&quot;</span> </span></span><br><span class="line"><span class="tag">            <span class="attr">filename</span>=<span class="string">&quot;libgazebo_ros_diff_drive.so&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ros</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- Set namespace --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">namespace</span>&gt;</span>/<span class="tag">&lt;/<span class="name">namespace</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- Remap default topics --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">argument</span>&gt;</span>--ros-args --remap cmd_vel:=cmd_vel<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">argument</span>&gt;</span>--ros-args --remap odom:=odom<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">update_rate</span>&gt;</span>10.0<span class="tag">&lt;/<span class="name">update_rate</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ros</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">left_joint</span>&gt;</span>left_wheel_joint<span class="tag">&lt;/<span class="name">left_joint</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">right_joint</span>&gt;</span>right_wheel_joint<span class="tag">&lt;/<span class="name">right_joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">update_rate</span>&gt;</span>100.0<span class="tag">&lt;/<span class="name">update_rate</span>&gt;</span>                                                                                                                                     </span><br><span class="line">        <span class="comment">&lt;!-- 表示两个驱动轮的距离, 单位为米 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wheel_separation</span>&gt;</span>$&#123;wheel_joint_y*2&#125;<span class="tag">&lt;/<span class="name">wheel_separation</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 表示轮子的直径, 单位为米 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wheel_diameter</span>&gt;</span>$&#123;2*wheel_radius&#125;<span class="tag">&lt;/<span class="name">wheel_diameter</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 最大的转矩 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">max_wheel_torque</span>&gt;</span>30<span class="tag">&lt;/<span class="name">max_wheel_torque</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">max_wheel_acceleration</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">max_wheel_acceleration</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 设置fixed frame --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">odometry_frame</span>&gt;</span>odom<span class="tag">&lt;/<span class="name">odometry_frame</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">publish_odom</span>&gt;</span>true<span class="tag">&lt;/<span class="name">publish_odom</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 发布odom和其他link的tf变换 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">publish_odom_tf</span>&gt;</span>true<span class="tag">&lt;/<span class="name">publish_odom_tf</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 设置从哪儿计算里程计 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">robot_base_frame</span>&gt;</span>base_footprint<span class="tag">&lt;/<span class="name">robot_base_frame</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">name</span>=<span class="string">&quot;gazebo_ros_joint_state_publisher&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">filename</span>=<span class="string">&quot;libgazebo_ros_joint_state_publisher.so&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ros</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">namespace</span>&gt;</span>/<span class="tag">&lt;/<span class="name">namespace</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">argument</span>&gt;</span>--ros-args --remap joint_states:=joint_states<span class="tag">&lt;/<span class="name">argument</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ros</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">update_rate</span>&gt;</span>100<span class="tag">&lt;/<span class="name">update_rate</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">joint_name</span>&gt;</span>left_wheel_joint<span class="tag">&lt;/<span class="name">joint_name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">joint_name</span>&gt;</span>right_wheel_joint<span class="tag">&lt;/<span class="name">joint_name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">joint_name</span>&gt;</span>front_caster_joint<span class="tag">&lt;/<span class="name">joint_name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">joint_name</span>&gt;</span>back_caster_joint<span class="tag">&lt;/<span class="name">joint_name</span>&gt;</span>        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>这里，通过<code>&lt;plugin&gt;</code>标签来导入gazebo的插件，这些插件位于<code>~/dev_ws/install/gazebo_plugins/lib</code>或者<code>~/dev_ws/install/gazebo_ros/lib</code>之下</p>
+<p>配置<code>libgazebo_ros_diff_drive.so</code>插件需要较多的参数，主要的参数为</p>
+<ul>
+<li><code>&lt;ros&gt;&lt;namespace&gt;</code>：表示机器人的命名空间，这里我们没有命名</li>
+<li><code>&lt;ros&gt;&lt;argument&gt;</code>：表示需要重映射的topic名字，这里其实我们只是作为示例也并没有修改</li>
+<li><code>left_joint</code>：表示驱动的左轮子</li>
+<li><code>right_joint</code>： 表示驱动的右轮子</li>
+<li><code>&lt;max_wheel_acceleration&gt;</code> ：表示机器人转动的加速度</li>
+<li><code>&lt;odometry_frame&gt;</code>：表示里程计数据的参考坐标系，一般命名都为odom</li>
+<li><code>&lt;publish_odom_tf&gt;</code>：表示发布odom和其他link的tf变换</li>
+</ul>
+<p>在<code>gazebo_ros_joint_state_publisher</code>中，我们发布了四个joint的状态，即他们的tf变换，这个信息将会在rviz中的显示里面用到。</p>
+<p>此时，我们再一次启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
+<p><img src="subscribe.png" alt=""></p>
+<p>可以看见，<code>differential_drive_controller</code>已经开始订阅了<code>\cmd_vel</code>topic，可以通过如下方式查看此topic的数据结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic list -t</span><br></pre></td></tr></table></figure>
+<p>返回的内容应该包含如下一条</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;cmd_vel [geometry_msgs&#x2F;msg&#x2F;Twist]</span><br></pre></td></tr></table></figure>
+<p><code>[..]</code>里面的内容表示传输在cmd_vel话题中的数据结构</p>
+<p>通过如下操作可以看见此数据结构的字段定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show geometry_msgs&#x2F;msg&#x2F;Twist</span><br></pre></td></tr></table></figure>
+<p>应该返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Vector3  linear</span><br><span class="line">	float64 x</span><br><span class="line">	float64 y</span><br><span class="line">	float64 z</span><br><span class="line">Vector3  angular</span><br><span class="line">	float64 x</span><br><span class="line">	float64 y</span><br><span class="line">	float64 z</span><br></pre></td></tr></table></figure>
+<p>表面，<code>cmd_vel</code>话题发布的两个内容，一个是线速度，一个是角速度。要了解其他的话题内容，也可以通过一样的形式进行查看</p>
+<p><code>gazebo_ros_joint_state_publisher</code>也发布了左右轮的两个joint。接下来我们就要去写一个ros节点，用于发布<code>cmd_vel</code>话题。</p>
+<h2 id="话题发布"><a href="#话题发布" class="headerlink" title="话题发布"></a>话题发布</h2><p>发布话题我们可以直接使用终端发布一个简单的话题，先测试一下在gazebo中的机器人是否能正常移动。然后在编写一个包，来满足键盘控制机器人控制的需求</p>
+<h3 id="终端发布话题"><a href="#终端发布话题" class="headerlink" title="终端发布话题"></a>终端发布话题</h3><p>首先是用终端进行发布一个topic的内容</p>
+<p>打开另外一个终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic pub --rate 1 &#x2F;cmd_vel geometry_msgs&#x2F;msg&#x2F;Twist &quot;&#123;linear: &#123;x: 2.0, y: 0.0, z: 0.0&#125;, angular: &#123;x: 0.0, y: 0.0, z: 1.8&#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+<p>应该可以看见，在gazebo中的机器人已经开始移动了。这说明之前的配置已经成功</p>
+<h3 id="编写一个publisher"><a href="#编写一个publisher" class="headerlink" title="编写一个publisher"></a>编写一个publisher</h3><p>在os2官方的例子基础之上，我们可以做适当的修改即可</p>
+<h4 id="创建包"><a href="#创建包" class="headerlink" title="创建包"></a>创建包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br><span class="line">ros2 pkg create --build-type ament_python teleop_key_control</span><br></pre></td></tr></table></figure>
+<h4 id="创建执行文件"><a href="#创建执行文件" class="headerlink" title="创建执行文件"></a>创建执行文件</h4><p>进入<code>teleop_key_control</code>包，在<code>teleop_key_control</code>文件夹中建立执行文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src&#x2F;teleop_key_control</span><br><span class="line">vi teleop_key_control&#x2F;teleop_key_control.py</span><br></pre></td></tr></table></figure>
+<p>在文件中，输入以下内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys                                                                                                                                                                      </span><br><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> Twist</span><br><span class="line"><span class="keyword">import</span> tty, termios</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RobotPublisher</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&#x27;robot_publisher&#x27;</span>)</span><br><span class="line">        self.publisher_ = self.create_publisher(Twist, <span class="string">&#x27;cmd_vel&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        self.key_map = &#123;</span><br><span class="line">            <span class="string">&quot;i&quot;</span>: (-<span class="number">1.0</span>, <span class="number">0.0</span>),</span><br><span class="line">            <span class="string">&quot;k&quot;</span>: (<span class="number">1.0</span>, <span class="number">0.0</span>),</span><br><span class="line">            <span class="string">&quot;j&quot;</span>: (<span class="number">0.0</span>, -<span class="number">1.0</span>),</span><br><span class="line">            <span class="string">&quot;l&quot;</span>: (<span class="number">0.0</span>, <span class="number">1.0</span>),</span><br><span class="line">            <span class="string">&quot;s&quot;</span>: (<span class="number">0.0</span>, <span class="number">0.0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        self._logger.info(<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">we are ready, please press </span></span><br><span class="line"><span class="string">  i</span></span><br><span class="line"><span class="string">j k l</span></span><br><span class="line"><span class="string">to  control the robot and press s to stop the robot</span></span><br><span class="line"><span class="string">                          &quot;&quot;&quot;</span>)</span><br><span class="line">        self.pub_vel_from_keyboard()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pub_vel_from_keyboard</span>(<span class="params">self</span>):</span></span><br><span class="line">        msg = Twist()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                fd = sys.stdin.fileno()</span><br><span class="line">                old_settings = termios.tcgetattr(fd)</span><br><span class="line">                tty.setraw(fd)</span><br><span class="line">                ch = sys.stdin.read(<span class="number">1</span>)</span><br><span class="line">                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)</span><br><span class="line">                <span class="keyword">if</span> ch <span class="keyword">in</span> self.key_map.keys():</span><br><span class="line">                    msg.linear.x, msg.angular.z = self.key_map[ch]</span><br><span class="line">                    self.publisher_.publish(msg)</span><br><span class="line">                    self._logger.info(<span class="string">&quot;publish x:&#123;&#125;， z:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(msg.linear.x, msg.angular.z))</span><br><span class="line">                <span class="keyword">elif</span> <span class="built_in">ord</span>(ch) == <span class="number">0x3</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span> e:</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br><span class="line">        msg = Twist()</span><br><span class="line">        msg.angular.x = <span class="number">0.0</span></span><br><span class="line">        msg.angular.y = <span class="number">0.0</span></span><br><span class="line">        msg.angular.z = <span class="number">0.0</span></span><br><span class="line">        msg.linear.x = <span class="number">0.0</span></span><br><span class="line">        msg.linear.y = <span class="number">0.0</span></span><br><span class="line">        msg.linear.z = <span class="number">0.0</span></span><br><span class="line">        self.publisher_.publish(msg)</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">args=<span class="literal">None</span></span>):</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    minimal_publisher = RobotPublisher()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_publisher)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    minimal_publisher.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()          </span><br></pre></td></tr></table></figure>
+<h4 id="代码审查"><a href="#代码审查" class="headerlink" title="代码审查"></a>代码审查</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mport sys                                                                                                                                                                      </span><br><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> Twist</span><br><span class="line"><span class="keyword">import</span> tty, termios</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RobotPublisher</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&#x27;robot_publisher&#x27;</span>)</span><br><span class="line">        self.publisher_ = self.create_publisher(Twist, <span class="string">&#x27;cmd_vel&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        self.key_map = &#123;</span><br><span class="line">            <span class="string">&quot;i&quot;</span>: (-<span class="number">1.0</span>, <span class="number">0.0</span>),</span><br><span class="line">            <span class="string">&quot;k&quot;</span>: (<span class="number">1.0</span>, <span class="number">0.0</span>),</span><br><span class="line">            <span class="string">&quot;j&quot;</span>: (<span class="number">0.0</span>, -<span class="number">1.0</span>),</span><br><span class="line">            <span class="string">&quot;l&quot;</span>: (<span class="number">0.0</span>, <span class="number">1.0</span>),</span><br><span class="line">            <span class="string">&quot;s&quot;</span>: (<span class="number">0.0</span>, <span class="number">0.0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        self._logger.info(<span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">we are ready, please press </span></span><br><span class="line"><span class="string">  i</span></span><br><span class="line"><span class="string">j k l</span></span><br><span class="line"><span class="string">to  control the robot and key s to stop the robot</span></span><br><span class="line"><span class="string">                          &quot;&quot;&quot;</span>)</span><br><span class="line">        self.pub_vel_from_keyboard()</span><br></pre></td></tr></table></figure>
+<p>再此。我们创立了一个publisher，其数据结构为<code>Twist</code>，发布的topic名字为<code>cmd_vel</code>，队列长度为10.</p>
+<p>此队列大小是必须的一个设置，如果订阅者接收队列消息的速度不够快，它将限制队列消息的数量</p>
+<p>此外，我们定义了可以操作的按键<code>key_map</code>，其键为按下的键名，值为一个元祖，分别表示x方向上的线速度，和z方向上的角速度，即绕着z轴旋转。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pub_vel_from_keyboard</span>(<span class="params">self</span>):</span></span><br><span class="line">    msg = Twist()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            fd = sys.stdin.fileno()</span><br><span class="line">            old_settings = termios.tcgetattr(fd)</span><br><span class="line">            tty.setraw(fd)</span><br><span class="line">            ch = sys.stdin.read(<span class="number">1</span>)</span><br><span class="line">            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)</span><br><span class="line">            <span class="keyword">if</span> ch <span class="keyword">in</span> self.key_map.keys():</span><br><span class="line">                msg.linear.x, msg.angular.z = self.key_map[ch]</span><br><span class="line">                self.publisher_.publish(msg)</span><br><span class="line">                self._logger.info(<span class="string">&quot;publish x:&#123;&#125;， z:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(msg.linear.x, msg.angular.z))</span><br><span class="line">            <span class="keyword">elif</span> <span class="built_in">ord</span>(ch) == <span class="number">0x3</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> e:</span><br><span class="line">        <span class="built_in">print</span>(e)</span><br><span class="line">    msg = Twist()</span><br><span class="line">    msg.angular.x = <span class="number">0.0</span></span><br><span class="line">    msg.angular.y = <span class="number">0.0</span></span><br><span class="line">    msg.angular.z = <span class="number">0.0</span></span><br><span class="line">    msg.linear.x = <span class="number">0.0</span></span><br><span class="line">    msg.linear.y = <span class="number">0.0</span></span><br><span class="line">    msg.linear.z = <span class="number">0.0</span></span><br><span class="line">    self.publisher_.publish(msg)</span><br></pre></td></tr></table></figure>
+<p>在<code>pub_vel_from_keyboard</code>函数中，我们重复不断的获取按键信息，只要他在我们的<code>key_map</code>中，就修改<code>msg</code>的信息，并发布到topic中，并打印相应的线速度和角速度。当程序按下组合键<code>ctrl-c</code>，重新发布一个速度为0的topic给机器人</p>
+<p> 下面是main函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">args=<span class="literal">None</span></span>):</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    minimal_publisher = RobotPublisher()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_publisher)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    minimal_publisher.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()         </span><br></pre></td></tr></table></figure>
+<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build --packages-select teleop_key_control --symlink-install</span><br></pre></td></tr></table></figure>
+<p>这里选择单独编译这个包，<code>--symlink-install</code>表示在之后改变代码的时候，无需再一次编译</p>
+<h3 id="运行节点"><a href="#运行节点" class="headerlink" title="运行节点"></a>运行节点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run teleop_key_control teleop_key_control</span><br></pre></td></tr></table></figure>
+<p>出现如下信息则说明，程序已经准备完毕</p>
+<p><img src="node_start.png" alt=""></p>
+<p>此时按下<code>i,j,k.l</code>，在终端会返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [1618554843.483519335] [robot_publisher]: </span><br><span class="line">we are ready, please press </span><br><span class="line">  i</span><br><span class="line">j k l</span><br><span class="line">to  control the robot and press s to stop the robot</span><br><span class="line">                          </span><br><span class="line">[INFO] [1618554948.329805806] [robot_publisher]: publish x:0.0， z:-1.0</span><br><span class="line">[INFO] [1618554948.736472114] [robot_publisher]: publish x:1.0， z:0.0</span><br><span class="line">[INFO] [1618554949.951230725] [robot_publisher]: publish x:0.0， z:1.0</span><br><span class="line">[INFO] [1618554950.393064298] [robot_publisher]: publish x:1.0， z:0.0</span><br><span class="line">[INFO] [1618554950.823001403] [robot_publisher]: publish x:0.0， z:1.0</span><br><span class="line">[INFO] [1618554952.271946683] [robot_publisher]: publish x:0.0， z:-1.0</span><br><span class="line">[INFO] [1618554952.609704862] [robot_publisher]: publish x:0.0， z:1.0</span><br><span class="line">[INFO] [1618554952.957432100] [robot_publisher]: publish x:-1.0， z:0.0</span><br><span class="line">[INFO] [1618554957.612637394] [robot_publisher]: publish x:0.0， z:0.0</span><br></pre></td></tr></table></figure>
+<p>同时在gazebo中，机器人也会有移动的效果</p>
+<p><img src="robot_move.png" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/16/%E6%B7%BB%E5%8A%A0%E4%BC%A0%E6%84%9F%E5%99%A8/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">添加传感器</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/12/record/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">错误记录</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E5%8A%A8%E8%A3%85%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">传动装置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">添加插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%9D%E9%A2%98%E5%8F%91%E5%B8%83"><span class="nav-number">3.</span> <span class="nav-text">话题发布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E5%8F%91%E5%B8%83%E8%AF%9D%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">终端发布话题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AApublisher"><span class="nav-number">3.2.</span> <span class="nav-text">编写一个publisher</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8C%85"><span class="nav-number">3.2.1.</span> <span class="nav-text">创建包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.2.</span> <span class="nav-text">创建执行文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">3.2.3.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">3.2.4.</span> <span class="nav-text">编译</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E8%8A%82%E7%82%B9"><span class="nav-number">3.3.</span> <span class="nav-text">运行节点</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

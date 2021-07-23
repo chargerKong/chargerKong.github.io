@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            octree |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">octree</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-03-07 16:24:35
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="1-八叉树性质"><a href="#1-八叉树性质" class="headerlink" title="1. 八叉树性质"></a>1. 八叉树性质</h2><p>八叉树应用于三维数据的存储和显示，有以下特点</p>
+<ul>
+<li>每一个节点Octant都有八个子节点</li>
+<li>KD树中，我们不确定其它区域是否有更近的点，因此还需要回去查看。但是八叉树不需要，因此八叉树</li>
+</ul>
+<p><img src="fig1.jpg" alt="img"></p>
+<h2 id="2-1-Octant-构建"><a href="#2-1-Octant-构建" class="headerlink" title="2.1 Octant 构建"></a>2.1 Octant 构建</h2><p>以二维的为例，作为最大的区域，进行分割一分为四, ,,。其中一个没有点，不做标记。</p>
+<p><img src="fig2.jpg" alt="img"></p>
+<p>然后对小区域再一次进行分割, 形成第三层小区域</p>
+<p><img src="fig3.jpg" alt="img"></p>
+<p>然后形成第四层小区域，在此处，我们叶子节点数量<code>leaf_size=1</code></p>
+<p><img src="fig4.jpg" alt="img"></p>
+<p>这就形成了根据点的密集程度来划分点的网格。</p>
+<p>1.2 八叉树构建</p>
+<p>下面设计一下Octant需要存储的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">11 class Octant:</span><br><span class="line">12     def __init__(self, children, center, extent, point_indices, is_leaf):</span><br><span class="line">13         &quot;&quot;&quot;</span><br><span class="line">14         children: 长度为8的列表</span><br><span class="line">15         center: Octant的中心点</span><br><span class="line">16         extent: Octant的半径</span><br><span class="line">17         point_indices: 数据的序号</span><br><span class="line">18         is_leaf: 是否为叶子节点                                                                                                          </span><br><span class="line">19         &quot;&quot;&quot;</span><br><span class="line">20         self.children &#x3D; children</span><br><span class="line">21         self.center &#x3D; center</span><br><span class="line">22         self.extent &#x3D; extent</span><br><span class="line">23         self.point_indices &#x3D; point_indices</span><br><span class="line">24         self.is_leaf &#x3D; is_leafpoint_indices</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-八叉树构建"><a href="#2-2-八叉树构建" class="headerlink" title="2.2 八叉树构建"></a>2.2 八叉树构建</h2><p>构建八叉树的过程其实就是建立各个Octant关系的一个过程。</p>
+<p>我们创建一个函数，传入一个root, 即便是None，只要有点，就返回一个是Octant的root。<code>octree_recursive_build</code> , 这里添加一个参数<code>min_extent</code>，这是为了防止两个完全重合的点，无论怎么切割都无法分出一个Octant。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">63 def octree_recursive_build(root, db, center, extent, point_indices, leaf_size, min_extent):</span><br><span class="line">64     if len(point_indices) &#x3D;&#x3D; 0:</span><br><span class="line">65         return None</span><br><span class="line">66 octree_recursive_build</span><br><span class="line">67     if root is None:</span><br><span class="line">68         root &#x3D; Oct</span><br><span class="line">68         root &#x3D; Octant([None for i in range(8)], center, extent, point_indices, is_leaf&#x3D;True)</span><br><span class="line">69 </span><br><span class="line">70     # determine whether to split this octant</span><br><span class="line">71     if len(point_indices) &lt;&#x3D; leaf_size or extent &lt;&#x3D; min_extent:</span><br><span class="line">72         root.is_leaf &#x3D; True</span><br><span class="line">73     else:</span><br></pre></td></tr></table></figure>
+<p>代码64行，如果没有点了，直接返回None</p>
+<p>代码67行，如果有点，这个点还是None，那么就对这个点创建一个Octant。我们每一次只要传入一个None就行，因为会自动创建出一个Octant</p>
+<p>代码70行，如果点的数量小于叶子节点的最大数量或者半径太小。则判定此为一个叶子节点</p>
+<p>octree_recursive_build当以上条件均不满足，我们开始建立此Octant 和其它子Octant的关系</p>
+<p>关于子Octant的信息，有：center,extent,point_indices</p>
+<ol>
+<li><p>point<em>indiand len(root.point_indices) &gt; 0:ces: 确定现在这些点属于哪个小的Octant。我们可以先建立一个`child_list=[[] for </em> in range(8)]`，然后往这八个区域里面添加point的序号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">child_list&#x3D;[[] for _ in range(8)]</span><br><span class="line">for point_idx in point_indices:</span><br><span class="line">    point &#x3D; db[point_idx]</span><br><span class="line">    # 判断下标为point_idx的点应该要去哪个子区域</span><br><span class="line">    # 通过判断x, y, z和center的相对位置来判定去哪个子区域</span><br><span class="line">    zone &#x3D; 0</span><br><span class="line">    if point[0] &gt; center[0]:</span><br><span class="line">        zone &#x3D; zone | 1</span><br><span class="line">    if point[1] &gt; center[1]:</span><br><span class="line">        zone &#x3D; zone | 2</span><br><span class="line">    if point[2] &gt; center[2]:</span><br><span class="line">        zone &#x3D; zone | 4</span><br><span class="line">    # 把相应的点放入相应的区域</span><br><span class="line">    child_list[zone].append(point_idx)    </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>extent: 1小的Octant为原来Octant的一半</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extent &#x3D; extent &#x2F; 2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>center: 有八个小Octant，根据不同的小Octant计算每一个的center</p>
+<p>计算方式：</p>
+<p>new_center = center 0.5 * extent</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">factor &#x3D; [-0.5, 0.5]</span><br><span class="line">for i in range(8):</span><br><span class="line">    center_new_x &#x3D; center[0] + factor[(i &amp; 1) &gt; 0] * extent</span><br><span class="line">    center_new_y &#x3D; center[1] + factor[(i &amp; 2) &gt; 0] * extent</span><br><span class="line">    center_new_z &#x3D; center[2] + factor[(i &amp; 4) &gt; 0] * extent</span><br><span class="line">    cen_new &#x3D; np.asarray([center_new_x, center_new_y, center_new_z])</span><br><span class="line">    child_extent &#x3D; extent &#x2F; 2</span><br><span class="line">    root.children[i] &#x3D; octree_recursive_build(root.children[i],</span><br><span class="line">                                            											db,</span><br><span class="line">                                            											cen_new,</span><br><span class="line">                                            											child_extent,</span><br><span class="line">                                            											children_list[i],</span><br><span class="line">                                            											leaf_size,</span><br><span class="line">                                            											min_extent)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">return root</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="3-Knn搜索"><a href="#3-Knn搜索" class="headerlink" title="3. Knn搜索"></a>3. Knn搜索</h2><p>假设有query点。首先快速定位到query点所在的区域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def knn(root, query):</span><br><span class="line">    if root.is_leaf():</span><br><span class="line">        pass</span><br><span class="line">    else:</span><br><span class="line">        zone &#x3D; 0</span><br><span class="line">        if query[0] &gt; root.center[0]:</span><br><span class="line">            zone &#x3D; zone | 1</span><br><span class="line">        if query[1] &gt; root.center[1]:</span><br><span class="line">            zone &#x3D; zone | 2</span><br><span class="line">        if query[2] &gt; root.center[2]:</span><br><span class="line">            zone &#x3D; zone | 4</span><br><span class="line">        knn(root.chilren[zone], query)</span><br></pre></td></tr></table></figure>
+<p>如果到了叶子节点，计算每一个点到query的距离</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">242     if root.is_leaf and len(root.point_indices) &gt; 0:</span><br><span class="line">243         # compare the contents of a leaf</span><br><span class="line">244         leaf_points &#x3D; db[root.point_indices, :]</span><br><span class="line">245         diff &#x3D; np.linalg.norm(np.expand_dims(query, 0) - leaf_points, axis&#x3D;1)</span><br><span class="line">246         for i in range(diff.shape[0]):</span><br><span class="line">247             result_set.add_point(diff[i], root.point_indices[i])</span><br><span class="line">248         # check whether we can stop search now</span><br><span class="line">249         return inside(query, result_set.worstDist(), root)</span><br></pre></td></tr></table></figure>
+<p>整个KNN搜索思路</p>
+<p>首先快速定位到该点（query）所在区域，遍历区域内所有的点，记录下最远的距离。遍历结束判断该点所在的最远区域的球是否再该区域的正方体内，是，则停止搜索其它区域。</p>
+<p>否则，开始寻找上层区域的其它的孩子节点（区域），跳过上一段去过的区域和没有与球重叠的区域。加入有重叠区域的点，更新最远距离。结束后，判断本区域是否完全包含query所在的球，是就 结束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">238 def octree_knn_search(root: Octant, db: np.ndarray, result_set: KNNResultSet, query: np.ndarray):</span><br><span class="line">239     if root is None:</span><br><span class="line">240         return False</span><br><span class="line">241 </span><br><span class="line">242     if root.is_leaf and len(root.point_indices) &gt; 0:</span><br><span class="line">243         # compare the contents of a leaf</span><br><span class="line">244         leaf_points &#x3D; db[root.point_indices, :]</span><br><span class="line">245         diff &#x3D; np.linalg.norm(np.expand_dims(query, 0) - leaf_points, axis&#x3D;1)</span><br><span class="line">246         for i in range(diff.shape[0]):</span><br><span class="line">247             result_set.add_point(diff[i], root.point_indices[i])</span><br><span class="line">248         # check whether we can stop search now</span><br><span class="line">249         return inside(query, result_set.worstDist(), root)</span><br><span class="line">250 </span><br><span class="line">251     # 作业7</span><br><span class="line">252     # 屏蔽开始</span><br><span class="line">253     # 前去相应的区域</span><br><span class="line">254     zone &#x3D; 0</span><br><span class="line">255     if query[0] &gt; root.center[0]:</span><br><span class="line">256         zone &#x3D; zone | 1</span><br><span class="line">257     if query[1] &gt; root.center[1]:</span><br><span class="line">258         zone &#x3D; zone | 2</span><br><span class="line">259     if query[2] &gt; root.center[2]:</span><br><span class="line">260         zone &#x3D; zone | 4</span><br><span class="line">261     </span><br><span class="line">262     if octree_knn_search(root.children[zone], db, result_set, query):</span><br><span class="line">263         return True</span><br><span class="line">264 </span><br><span class="line">265     # 检查别的子节点</span><br><span class="line">266     for idx, child in enumerate(root.children):</span><br><span class="line">267         # zone 是自己的所在的区域，直接跳过。</span><br><span class="line">268         if idx &#x3D;&#x3D; zone or child is None:</span><br><span class="line">269             continue</span><br><span class="line">270         # 跳过没有重叠的区域                                                                                                                               </span><br><span class="line">271         if False &#x3D;&#x3D; overlaps(query, result_set.worstDist(), child):</span><br><span class="line">272             continue</span><br><span class="line">273         if octree_knn_search(root.children[idx], db, result_set, query):</span><br><span class="line">274             return True</span><br><span class="line">275     </span><br><span class="line">276     return inside(query, result_set.worstDist(), root)</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-碰撞检测"><a href="#3-1-碰撞检测" class="headerlink" title="3.1 碰撞检测"></a>3.1 碰撞检测</h3><ol>
+<li>case 1: 没有碰撞</li>
+</ol>
+<p><img src="fig5.jpg" alt="img"></p>
+<p>假设query点到八叉树某区域正方体的中心点的距离是，<strong>其实只要任何一个轴的距离大于max_dis = extent + radius</strong>（extent为八叉树某区域的正方体边长的一半，radius为以query点为圆心，radius为半径的球的半径）</p>
+<p>若三个维度的值都小于等于max_dis, 则说明球不会距离正方体太远，投影到二维平面上，应该包含如下这些情况</p>
+<p><img src="fig7.jpg" alt="图6">图6</p>
+<p>这里三个球都是满足, 但是也有两种不同的情况，可以看见依然是有情况是没有碰撞的，最上面的球和最下面的球都是没有碰撞的。</p>
+<p>下面先处理上图中画圈圈的区域，因为在这种区域内，一旦控制了只要任何一个轴的距离小于等于max_dis，则球体和正方体一定会有碰撞。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">max_dis &#x3D; root.extent + radius</span><br><span class="line">if np.any(np.fabs(query - root.extent)) &gt; max_dis:</span><br><span class="line">    return False</span><br></pre></td></tr></table></figure>
+<ol>
+<li>case 2: 非四个角有碰撞</li>
+</ol>
+<p><img src="fig6.jpg" alt="img"></p>
+<p>需要控制球在图6画上黑色圈圈的范围内，则需要</p>
+<p>首先看图6的正上方点，就是再z轴上的投影。query点的必须要再center点的的一半边长的范围内即并且上面整合一下其它两个轴同理。</p>
+<p>图8是图6的三维形式</p>
+<p><img src="fig8.jpg" alt="图8">图8</p>
+<p>如果需要控制query点在再六个面投射出去对应的空间内，则需要下面三个条件任意两个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query_offset_abs &#x3D; np.fabs(query - root.center)</span><br><span class="line"># query_offset_abs 就是 (\Delta x ,\Delta y, \Delta z)</span><br><span class="line"># np.sum(query_offset_abs  &lt; extent)  的结果类似于是 [0, 0, 1]， 只要有两个及以上就行</span><br><span class="line">if np.sum(query_offset_abs  &lt; extent) &gt;&#x3D; 2:</span><br><span class="line">    return True</span><br></pre></td></tr></table></figure>
+<ol>
+<li>case 3</li>
+</ol>
+<p>除去上述两种情况，剩下的情况，也会有碰撞以及没有碰撞的情况，如下图</p>
+<p><img src="fig9.jpg" alt="图9">图9</p>
+<p>这里的两个圆，圆心都已经在四个投射面的外面了，但是依然会有碰撞和没有碰撞的情况。下面这个是临界点</p>
+<p><img src="fig10.jpg" alt="图10">图10</p>
+<p><code>query - root.center</code>可以表示为由向量和向量向量组成的向量( 这里E 画的不太标准）， 如果我们不计算球是否再正方体内，则可以减去半径，</p>
+<p>则可以理解为由向量和向量组成的。</p>
+<p>如果向量的长度小于半径，则可以判定他和立方体是有交集的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query_offset_abs &#x3D; np.fabs(query - root.center)</span><br><span class="line">x_diff &#x3D; query_offset_abs[0] - root.center</span><br><span class="line">y_diff &#x3D; query_offset_abs[1] - root.center</span><br><span class="line">z_diff &#x3D; query_offset_abs[2] - root.center</span><br><span class="line">return x_diff^2 + y_diff^2 + z_diff^2 &lt; radius * radius</span><br></pre></td></tr></table></figure>
+<p><img src="fig11.jpg" alt="img"></p>
+<p>但是在三维空间中，多了一个z轴，是可以在z轴上进行上下平移的，图10仅为投影下的情况，下面看图11，球所在的高度没有高于正方体，那么z轴其实是不需要了，按照投影来看，其实就是图9。因此在当发现z_diff的值是负数的时候，可以将其设置为0。就退化到图9的情形，也可以正确的判定。</p>
+<p>同理也可以应对贴着x轴和y轴的情况。</p>
+<p>代码修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query_offset_abs &#x3D; np.fabs(query - root.center)</span><br><span class="line">x_diff &#x3D; max(query_offset_abs[0] - root.center, 0)</span><br><span class="line">y_diff &#x3D; max(query_offset_abs[1] - root.center, 0)</span><br><span class="line">z_diff &#x3D; max(query_offset_abs[2] - root.center, 0)</span><br><span class="line">return x_diff^2 + y_diff^2 + z_diff^2 &lt; radius * radius</span><br></pre></td></tr></table></figure>
+<p>最后给出一个判断有没有重叠部分的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">135 def overlaps(query: np.ndarray, radius: float, octant:Octant):</span><br><span class="line">136     &quot;&quot;&quot;</span><br><span class="line">137     Determines if the query ball overlaps with the octant</span><br><span class="line">138     :param query:</span><br><span class="line">139     :param radius:</span><br><span class="line">140     :param octant:</span><br><span class="line">141     :return:</span><br><span class="line">142     &quot;&quot;&quot;</span><br><span class="line">143     query_offset &#x3D; query - octant.center</span><br><span class="line">144     query_offset_abs &#x3D; np.fabs(query_offset)</span><br><span class="line">145 </span><br><span class="line">146     # completely outside, since query is outside the relevant area</span><br><span class="line">147     max_dist &#x3D; radius + octant.extent</span><br><span class="line">148     if np.any(query_offset_abs &gt; max_dist):</span><br><span class="line">149         return False</span><br><span class="line">150 </span><br><span class="line">151     # if pass the above check, consider the case that the ball is contacting the face of the octant</span><br><span class="line">152     if np.sum((query_offset_abs &lt; octant.extent).astype(np.int)) &gt;&#x3D; 2:</span><br><span class="line">153         return True</span><br><span class="line">154 </span><br><span class="line">155     # conside the case that the ball is contacting the edge or corner of the octant</span><br><span class="line">156     # since the case of the ball center (query) inside octant has been considered,</span><br><span class="line">157     # we only consider the ball center (query) outside octant</span><br><span class="line">158     x_diff &#x3D; max(query_offset_abs[0] - octant.extent, 0)</span><br><span class="line">159     y_diff &#x3D; max(query_offset_abs[1] - octant.extent, 0)</span><br><span class="line">160     z_diff &#x3D; max(query_offset_abs[2] - octant.extent, 0)</span><br><span class="line">161 </span><br><span class="line">162     return x_diff * x_diff + y_diff * y_diff + z_diff * z_diff &lt; radius * radius</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/03/26/ros2%E5%AD%A6%E4%B9%A0%E4%B8%80/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros学习一</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/03/01/PCA/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">pca</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%AB%E5%8F%89%E6%A0%91%E6%80%A7%E8%B4%A8"><span class="nav-number">1.</span> <span class="nav-text">1. 八叉树性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Octant-%E6%9E%84%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">2.1 Octant 构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%85%AB%E5%8F%89%E6%A0%91%E6%9E%84%E5%BB%BA"><span class="nav-number">3.</span> <span class="nav-text">2.2 八叉树构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Knn%E6%90%9C%E7%B4%A2"><span class="nav-number">4.</span> <span class="nav-text">3. Knn搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 碰撞检测</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            简单案例-让机器人自己移动 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">简单案例-让机器人自己移动</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-25 18:38:29
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="建立一个工作包"><a href="#建立一个工作包" class="headerlink" title="建立一个工作包"></a>建立一个工作包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br><span class="line">ros2 pkg create robot_auto_move --build-type ament_python </span><br></pre></td></tr></table></figure>
+<h2 id="创建执行节点"><a href="#创建执行节点" class="headerlink" title="创建执行节点"></a>创建执行节点</h2><p>创立两个py节点文件到robot_auto_move文件夹下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br><span class="line">cd robot_auto_move&#x2F;robot_auto_move</span><br><span class="line">vi robot_estimator.py</span><br></pre></td></tr></table></figure>
+<p><code>robot_estimator.py</code>用于接收机器人目前的位置在哪，此信息是通过odom的topic发布过来，可以启动带有world的launch文件之后查看topic</p>
+<h3 id="查看gazebo-topic"><a href="#查看gazebo-topic" class="headerlink" title="查看gazebo topic"></a>查看gazebo topic</h3><p>首先打开启动带有world的launch文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_lab_world.launch.py</span><br></pre></td></tr></table></figure>
+<p>打开另外一个终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic list -t</span><br></pre></td></tr></table></figure>
+<p>应该返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;clock [rosgraph_msgs&#x2F;msg&#x2F;Clock]</span><br><span class="line">&#x2F;cmd_vel [geometry_msgs&#x2F;msg&#x2F;Twist]</span><br><span class="line">&#x2F;joint_states [sensor_msgs&#x2F;msg&#x2F;JointState]</span><br><span class="line">&#x2F;odom [nav_msgs&#x2F;msg&#x2F;Odometry]</span><br><span class="line">&#x2F;parameter_events [rcl_interfaces&#x2F;msg&#x2F;ParameterEvent]</span><br><span class="line">&#x2F;performance_metrics [gazebo_msgs&#x2F;msg&#x2F;PerformanceMetrics]</span><br><span class="line">&#x2F;robot_description [std_msgs&#x2F;msg&#x2F;String]</span><br><span class="line">&#x2F;rosout [rcl_interfaces&#x2F;msg&#x2F;Log]</span><br><span class="line">&#x2F;scan [sensor_msgs&#x2F;msg&#x2F;LaserScan]</span><br><span class="line">&#x2F;tf [tf2_msgs&#x2F;msg&#x2F;TFMessage]</span><br><span class="line">&#x2F;tf_static [tf2_msgs&#x2F;msg&#x2F;TFMessage]</span><br></pre></td></tr></table></figure>
+<p>其中<code>/scan</code>是我们通过雷达传感器插件进行发布的，类型为<code>sensor_msgs/msg/LaserScan</code></p>
+<h4 id="查看topic数据类型"><a href="#查看topic数据类型" class="headerlink" title="查看topic数据类型"></a>查看topic数据类型</h4><p><strong>首先查看关于雷达信息sensor_msgs/msg/LaserScan的数据结构</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 inteface show sensor_msgs&#x2F;msg&#x2F;LaserScan</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># Single scan from a planar laser range-finder</span><br><span class="line">#</span><br><span class="line"># If you have another ranging device with different behavior (e.g. a sonar</span><br><span class="line"># array), please find or create a different message, since applications</span><br><span class="line"># will make fairly laser-specific assumptions about this data</span><br><span class="line"></span><br><span class="line">std_msgs&#x2F;Header header # timestamp in the header is the acquisition time of</span><br><span class="line">	builtin_interfaces&#x2F;Time stamp</span><br><span class="line">		int32 sec</span><br><span class="line">		uint32 nanosec</span><br><span class="line">	string frame_id</span><br><span class="line">                             # the first ray in the scan.</span><br><span class="line">                             #</span><br><span class="line">                             # in frame frame_id, angles are measured around</span><br><span class="line">                             # the positive Z axis (counterclockwise, if Z is up)</span><br><span class="line">                             # with zero angle being forward along the x axis</span><br><span class="line"></span><br><span class="line">float32 angle_min            # start angle of the scan [rad]</span><br><span class="line">float32 angle_max            # end angle of the scan [rad]</span><br><span class="line">float32 angle_increment      # angular distance between measurements [rad]</span><br><span class="line"></span><br><span class="line">float32 time_increment       # time between measurements [seconds] - if your scanner</span><br><span class="line">                             # is moving, this will be used in interpolating position</span><br><span class="line">                             # of 3d points</span><br><span class="line">float32 scan_time            # time between scans [seconds]</span><br><span class="line"></span><br><span class="line">float32 range_min            # minimum range value [m]</span><br><span class="line">float32 range_max            # maximum range value [m]</span><br><span class="line"></span><br><span class="line">float32[] ranges             # range data [m]</span><br><span class="line">                             # (Note: values &lt; range_min or &gt; range_max should be discarded)</span><br><span class="line">float32[] intensities        # intensity data [device-specific units].  If your</span><br><span class="line">                             # device does not provide intensities, please leave</span><br><span class="line">                             # the array empty. </span><br></pre></td></tr></table></figure>
+<p>这里包含着许多的数据，包括最小、最大的角度，最大、最小的距离值等等，在此我们主要使用<code>range</code>来做一个简单的判断。注意：在设定雷达信息的时候我们就给了水平距离是接收180个点</p>
+<p><strong>查看cmd_vel，即<code>geometry_msgs/msg/Twist</code>的数据结构</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show geometry_msgs&#x2F;msg&#x2F;Twist</span><br></pre></td></tr></table></figure>
+<p>返回的信息我们应该熟悉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># This expresses velocity in free space broken into its linear and angular parts.</span><br><span class="line"></span><br><span class="line">Vector3  linear</span><br><span class="line">	float64 x</span><br><span class="line">	float64 y</span><br><span class="line">	float64 z</span><br><span class="line">Vector3  angular</span><br><span class="line">	float64 x</span><br><span class="line">	float64 y</span><br><span class="line">	float64 z</span><br></pre></td></tr></table></figure>
+<p>有两个变量，类型都是Vector3</p>
+<h3 id="创建一个运行节点"><a href="#创建一个运行节点" class="headerlink" title="创建一个运行节点"></a>创建一个运行节点</h3><p>思路：通过接收的雷达信息，来判断和墙面的距离，从而给出相应的操作。</p>
+<p>因此，我们需要一个接收雷达信息的订阅者，以及用于发布速度指令的一个发布者</p>
+<h4 id="创建订阅、发布"><a href="#创建订阅、发布" class="headerlink" title="创建订阅、发布"></a>创建订阅、发布</h4><p>此订阅者用于接收odom的topic信息，其数据类型是<code>show nav_msgs/msg/Odometry</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> Twist                                                                                                                 </span><br><span class="line"><span class="keyword">from</span> sensor_msgs.msg <span class="keyword">import</span> LaserScan</span><br><span class="line"><span class="keyword">from</span> rclpy.qos <span class="keyword">import</span> qos_profile_sensor_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RobotMove</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&quot;RobotMove&quot;</span>)</span><br><span class="line">        <span class="comment"># 建立一个订阅雷达信息的订阅者</span></span><br><span class="line">        self.subscribe_ = self.create_subscription(LaserScan, <span class="string">&#x27;scan&#x27;</span>, self.scan_callback, qos_profile_sensor_data)</span><br><span class="line">		<span class="comment"># 建立一个发布速度指令的发布者</span></span><br><span class="line">        self.publisher_ = self.create_publisher(Twist, <span class="string">&#x27;cmd_vel&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="comment"># 表示达到了改变指令的最小距离</span></span><br><span class="line">        self.dist_thresh = <span class="number">0.25</span></span><br><span class="line">        <span class="comment"># 旋转速度</span></span><br><span class="line">        self.turning_speed = <span class="number">0.1</span></span><br><span class="line">        <span class="comment"># 移动速度</span></span><br><span class="line">        self.forward_speed = -<span class="number">0.025</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">scan_callback</span>(<span class="params">self, msg</span>):</span></span><br><span class="line">        self.leftfront_dist = msg.ranges[<span class="number">180</span>]</span><br><span class="line">        self.front_dist = msg.ranges[<span class="number">90</span>]</span><br><span class="line">        self.rightfront_dist = msg.ranges[<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># 一旦接收到了以此scan，就计算如何移动</span></span><br><span class="line">        self.move()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move</span>(<span class="params">self</span>):</span></span><br><span class="line">        msg = Twist()</span><br><span class="line">        msg.linear.x = <span class="number">0.0</span> </span><br><span class="line">        msg.linear.y = <span class="number">0.0</span> </span><br><span class="line">        msg.linear.z = <span class="number">0.0</span> </span><br><span class="line">        msg.angular.x = <span class="number">0.0</span> </span><br><span class="line">        msg.angular.y = <span class="number">0.0</span> </span><br><span class="line">        msg.angular.z = <span class="number">0.0</span> </span><br><span class="line">    </span><br><span class="line">        d = self.dist_thresh</span><br><span class="line"> 		<span class="comment"># 周围没有墙面，则前进</span></span><br><span class="line">    	<span class="keyword">if</span> self.leftfront_dist &gt; d <span class="keyword">and</span> self.front_dist &gt; d <span class="keyword">and</span> self.rightfront_dist &gt; d:</span><br><span class="line">            msg.linear.x = self.forward_speed</span><br><span class="line">		<span class="comment"># 右边有墙，左转</span></span><br><span class="line">        <span class="keyword">elif</span> self.leftfront_dist &gt; d <span class="keyword">and</span>  self.rightfront_dist &lt; d:</span><br><span class="line">            msg.angular.z = self.turning_speed</span><br><span class="line">		<span class="comment"># 左边有墙，右转</span></span><br><span class="line">        <span class="keyword">elif</span> self.leftfront_dist &lt; d  <span class="keyword">and</span> self.rightfront_dist &gt; d:</span><br><span class="line">            msg.angular.z = -self.turning_speed</span><br><span class="line">		<span class="comment"># 其他情况，左转。适用于饶围墙走</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            msg.angular.z = self.turning_speed</span><br><span class="line"></span><br><span class="line">		<span class="comment"># 发布速度指令</span></span><br><span class="line">        self.publisher_.publish(msg)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Initialize rclpy library</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create the node</span></span><br><span class="line">    robot_move = RobotMove()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Spin the node so the callback function is called</span></span><br><span class="line">    <span class="comment"># Pull messages from any topics this node is subscribed to</span></span><br><span class="line">    <span class="comment"># Publish any pending messages to the topics</span></span><br><span class="line">    rclpy.spin(robot_move)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    robot_move.destroy_node()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Shutdown the ROS client library for Python</span></span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="代码审查"><a href="#代码审查" class="headerlink" title="代码审查"></a>代码审查</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RobotMove</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&quot;RobotMove&quot;</span>)</span><br><span class="line">        <span class="comment"># 建立一个订阅雷达信息的订阅者</span></span><br><span class="line">        self.subscribe_ = self.create_subscription(LaserScan, <span class="string">&#x27;scan&#x27;</span>, self.scan_callback, qos_profile_sensor_data)</span><br><span class="line">		<span class="comment"># 建立一个发布速度指令的发布者</span></span><br><span class="line">        self.publisher_ = self.create_publisher(Twist, <span class="string">&#x27;cmd_vel&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="comment"># 表示达到了改变指令的最小距离</span></span><br><span class="line">        self.dist_thresh = <span class="number">0.25</span></span><br><span class="line">        <span class="comment"># 旋转速度</span></span><br><span class="line">        self.turning_speed = <span class="number">0.1</span></span><br><span class="line">        <span class="comment"># 移动速度</span></span><br><span class="line">        self.forward_speed = <span class="number">0.1</span></span><br></pre></td></tr></table></figure>
+<p>定义一个接收雷达信息的订阅者<code>self.subscribe_</code>以及一个<code>self.publisher_</code>用于发布速度指令方向，也包括旋转的信息。并定义了订阅者收到消息之后调用的回调函数为<code>self.scan_callback</code>.</p>
+<ul>
+<li><code>self.dist_thresh</code>: 用于判断雷达和墙面的距离的临界点</li>
+<li><code>self.turning_speed</code>： 用于机器人在Gazebo中旋转的转速</li>
+<li><code>self.forward</code>：用于机器人在Gazebo中直行的速度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan_callback</span>(<span class="params">self, msg</span>):</span></span><br><span class="line">    self.leftfront_dist = msg.ranges[<span class="number">180</span>]</span><br><span class="line">    self.front_dist = msg.ranges[<span class="number">90</span>]</span><br><span class="line">    self.rightfront_dist = msg.ranges[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 一旦接收到了以此scan，就计算如何移动</span></span><br><span class="line">    self.move()</span><br></pre></td></tr></table></figure>
+<p>这是scan订阅者的回调函数，msg为收到的数据，里面的数据已经在之前可以看见。我们简单的获取三个点，即最左右的点和中间的点</p>
+<p>然后调用move函数，move是根据当前雷达返回的数据来判断如何发布机器人指令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">move</span>(<span class="params">self</span>):</span></span><br><span class="line">      msg = Twist()</span><br><span class="line">      msg.linear.x = <span class="number">0.0</span> </span><br><span class="line">      msg.linear.y = <span class="number">0.0</span> </span><br><span class="line">      msg.linear.z = <span class="number">0.0</span> </span><br><span class="line">      msg.angular.x = <span class="number">0.0</span> </span><br><span class="line">      msg.angular.y = <span class="number">0.0</span> </span><br><span class="line">      msg.angular.z = <span class="number">0.0</span> </span><br><span class="line">  </span><br><span class="line">      d = self.dist_thresh</span><br><span class="line">	<span class="comment"># 周围没有墙面，则前进</span></span><br><span class="line">  	<span class="keyword">if</span> self.leftfront_dist &gt; d <span class="keyword">and</span> self.front_dist &gt; d <span class="keyword">and</span> self.rightfront_dist &gt; d:</span><br><span class="line">          msg.linear.x = self.forward_speed</span><br><span class="line"><span class="comment"># 右边有墙，左转</span></span><br><span class="line">      <span class="keyword">elif</span> self.leftfront_dist &gt; d <span class="keyword">and</span>  self.rightfront_dist &lt; d:</span><br><span class="line">          msg.angular.z = -self.turning_speed</span><br><span class="line"><span class="comment"># 左边有墙，右转</span></span><br><span class="line">      <span class="keyword">elif</span> self.leftfront_dist &lt; d  <span class="keyword">and</span> self.rightfront_dist &gt; d:</span><br><span class="line">          msg.angular.z = self.turning_speed</span><br><span class="line"><span class="comment"># 其他情况，右转。适用于饶围墙走</span></span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">          msg.angular.z = -self.turning_speed</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发布速度指令</span></span><br><span class="line">      self.publisher_.publish(msg)</span><br></pre></td></tr></table></figure>
+<p>上面我们写了一个非常简单的move函数，为了方便在每一个if语句里面设定所要下达的命令，在每一次move的时候都创立一个对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> self.leftfront_dist &gt; d <span class="keyword">and</span> self.front_dist &gt; d <span class="keyword">and</span> self.rightfront_dist &gt; d:</span><br><span class="line">       msg.linear.x = self.forward_speed</span><br></pre></td></tr></table></figure>
+<p>第一个if表示左前方和右前方和正前方都没有墙面，则直走</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 右边有墙，左转</span></span><br><span class="line">      <span class="keyword">elif</span> self.leftfront_dist &gt; d <span class="keyword">and</span>  self.rightfront_dist &lt; d:</span><br><span class="line">          msg.angular.z = -self.turning_speed</span><br><span class="line"><span class="comment"># 左边有墙，右转</span></span><br><span class="line">      <span class="keyword">elif</span> self.leftfront_dist &lt; d  <span class="keyword">and</span> self.rightfront_dist &gt; d:</span><br><span class="line">          msg.angular.z = self.turning_speed</span><br></pre></td></tr></table></figure>
+<p>这里判断左右边是否有墙，则向反向转弯</p>
+<p>其余情况，譬如三个方向的距离都小于d，无论什么情况，我们简单处理为左转。</p>
+<p>下面是main函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Initialize rclpy library</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create the node</span></span><br><span class="line">    robot_move = RobotMove()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Spin the node so the callback function is called</span></span><br><span class="line">    <span class="comment"># Pull messages from any topics this node is subscribed to</span></span><br><span class="line">    <span class="comment"># Publish any pending messages to the topics</span></span><br><span class="line">    rclpy.spin(robot_move)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    robot_move.destroy_node()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Shutdown the ROS client library for Python</span></span><br><span class="line">    rclpy.shutdown()</span><br></pre></td></tr></table></figure>
+<h4 id="修改setpy-py"><a href="#修改setpy-py" class="headerlink" title="修改setpy.py"></a>修改setpy.py</h4><p>打开setup.py，修改entry_points</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">entry_points&#x3D;&#123;</span><br><span class="line">    &#39;console_scripts&#39;: [                                                                                                                        </span><br><span class="line">        &#39;robot_auto_move &#x3D; robot_auto_move.robot_auto_move_demo:main&#39;,</span><br><span class="line">    ],</span><br></pre></td></tr></table></figure>
+<h4 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build --packages-select robot_auto_move --symlink-install</span><br></pre></td></tr></table></figure>
+<h2 id="仿真运行"><a href="#仿真运行" class="headerlink" title="仿真运行"></a>仿真运行</h2><p>打开一个终端，记得source</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_lab_world.launch.py</span><br></pre></td></tr></table></figure>
+<p>打开另外一个终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run robot_auto_move robot_auto_move</span><br></pre></td></tr></table></figure>
+<p><img src="auto_move.gif" alt=""></p>
+<p>打开另外一个终端，打开<code>robot_description</code>下的rviz配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rviz2 rviz.rviz</span><br></pre></td></tr></table></figure>
+<p><img src="auto_move_rviz.gif" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/26/Nav2%E5%AD%A6%E4%B9%A0%E4%B8%80/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Navigation2总览</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/24/%E6%B7%BB%E5%8A%A0world%E5%88%B0%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">添加world到启动文件</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B7%A5%E4%BD%9C%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">建立一个工作包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%89%A7%E8%A1%8C%E8%8A%82%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">创建执行节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bgazebo-topic"><span class="nav-number">2.1.</span> <span class="nav-text">查看gazebo topic</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Btopic%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">查看topic数据类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E8%BF%90%E8%A1%8C%E8%8A%82%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">创建一个运行节点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%AE%A2%E9%98%85%E3%80%81%E5%8F%91%E5%B8%83"><span class="nav-number">2.2.1.</span> <span class="nav-text">创建订阅、发布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">2.2.2.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9setpy-py"><span class="nav-number">2.2.3.</span> <span class="nav-text">修改setpy.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">2.2.4.</span> <span class="nav-text">编译运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BF%E7%9C%9F%E8%BF%90%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">仿真运行</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

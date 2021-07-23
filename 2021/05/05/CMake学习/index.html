@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            CMake实践 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">CMake实践</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-05-05 14:30:29
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="Project（name）"><a href="#Project（name）" class="headerlink" title="Project（name）"></a>Project（name）</h2><p>声明一个project的名字，这个指令隐式的定义了两个 cmake 变量，<code>$&#123;PROJECT_BINARY_DIR&#125;</code> 以及<code>$&#123;PROJECT_SOURCE_DIR&#125;</code></p>
+<h2 id="add-subdirectory"><a href="#add-subdirectory" class="headerlink" title="add_subdirectory"></a>add_subdirectory</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">----CMakeLists.txt</span><br><span class="line">----src</span><br><span class="line">	|</span><br><span class="line">	----main.cpp</span><br><span class="line">	----CMakeLists.txt</span><br></pre></td></tr></table></figure>
+<p>在外层的CMakeLists.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 project(hello)                                                                                                  </span><br><span class="line">2 cmake_minimum_required(VERSION 3.16)</span><br><span class="line">3 add_subdirectory(src bin)</span><br></pre></td></tr></table></figure>
+<p>这里告诉cmake，有一个子目录</p>
+<p>在目录中的CMakeLIsts.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 add_executable(slam main.cpp)                                                                                   </span><br></pre></td></tr></table></figure>
+<p>和src同级的目录下建立一个目录build。进入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake ..</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>可以看见编译之后会<strong>产生一个新的文件加，名字为bin</strong>，<strong>并且可执行文件slam在bin文件下</strong>。在add_subdirectory中倘若不指定第二个参数，则:默认编译生成 的目录名字为src。</p>
+<h2 id="换个地方保存目标二进制可执行文件"><a href="#换个地方保存目标二进制可执行文件" class="headerlink" title="换个地方保存目标二进制可执行文件"></a>换个地方保存目标二进制可执行文件</h2><p>我们可以通过 SET 指令重新定义 EXECUTABLE_OUTPUT_PATH 和 LIBRARY_OUTPUT_PATH 变量来指定最终的目标二进制的位置(指最终生成的 slam 或者最终的共享库,不包含编译生成的中间文件)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;&#x2F;bin)</span><br><span class="line">SET(LIBRARY_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;&#x2F;lib)</span><br></pre></td></tr></table></figure>
+<p>​    上面两个指令分别定义了:<br>可执行二进制的输出路径为 build/bin 和库的输出路径为 build/lib</p>
+<p>问题是,我应该把这两条指令写在工程的 CMakeLists.txt 还是 src 目录下的CMakeLists.txt,把握一个简单的原则,在哪里 ADD_EXECUTABLE 或 ADD_LIBRARY,<br>如果需要改变目标存放路径,就在哪里加入上述的定义，因此是在SRC目录下的CMakeLists下添加。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装的需要有两种,一种是从代码编译后直接 make install 安装,一种是打包时的指定目录安装</p>
+<p>可以通过命令行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>将其安装到<code>/usr/bin</code>中</p>
+<p>稍微复杂一些的就需要用到<code>CMAKE_INSTALL_PREFIX。</code>一个常见的用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_INSTALL_PREFIX&#x3D;&#x2F;usr</span><br></pre></td></tr></table></figure>
+<h4 id="目标文件的安装"><a href="#目标文件的安装" class="headerlink" title="目标文件的安装"></a>目标文件的安装</h4><p>在CMakeLists里， 填写规则为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(TARGETS targets...</span><br><span class="line">[[ARCHIVE|LIBRARY|RUNTIME]</span><br><span class="line">	[DESTINATION &lt;dir&gt;]</span><br><span class="line">	[PERMISSIONS permissions...]</span><br><span class="line">	[CONFIGURATIONS</span><br><span class="line">[Debug|Release|...]]</span><br><span class="line">	[COMPONENT &lt;component&gt;]</span><br><span class="line">	[OPTIONAL]</span><br><span class="line">	] [...])</span><br></pre></td></tr></table></figure>
+<p>参数中的 TARGETS 后面跟的就是我们通过 ADD_EXECUTABLE 或者 ADD_LIBRARY 定义的目标文件, 可能是可执行二进制、动态库、静态库</p>
+<p>目标类型为三种</p>
+<ul>
+<li>ARCHIVE 特指静态库</li>
+<li>LIBRARY 特指动态库</li>
+<li>UNTIME特指可执行目标二进制。</li>
+</ul>
+<p>DESTINATION 定义了安装的路径,如果路径以/开头,那么指的是绝对路径,这时候CMAKE_INSTALL_PREFIX 其实就无效了。如果你希望使用 CMAKE_INSTALL_PREFIX 来定义安装路径,就要写成相对路径,即不要以/开头,那么安装后的路径就是${CMAKE_INSTALL_PREFIX}/<DESTINATION 定义的路径></p>
+<p>举个简单的例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(TARGETS myrun mylib mystaticlib</span><br><span class="line">RUNTIME DESTINATION bin</span><br><span class="line">LIBRARY DESTINATION lib</span><br><span class="line">ARCHIVE DESTINATION libstatic</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>上面的例子会将:</p>
+<ul>
+<li>可执行二进制 myrun 安装到<code>$&#123;CMAKE_INSTALL_PREFIX&#125;/bin</code> </li>
+<li>动态库 mylib 安装到<code>$&#123;CMAKE_INSTALL_PREFIX&#125;/lib</code> 目录</li>
+<li>静态库 mystaticlib 安装到<code>$&#123;CMAKE_INSTALL_PREFIX&#125;/libstatic</code>目录</li>
+</ul>
+<h4 id="普通文件的安装"><a href="#普通文件的安装" class="headerlink" title="普通文件的安装"></a>普通文件的安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(FILES files... DESTINATION &lt;dir&gt;</span><br><span class="line">    [PERMISSIONS permissions...]</span><br><span class="line">    [CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">    [COMPONENT &lt;component&gt;]</span><br><span class="line">    [RENAME &lt;name&gt;] [OPTIONAL])</span><br></pre></td></tr></table></figure>
+<p>可用于安装一般文件,并可以指定访问权限,文件名是此指令所在路径下的相对路径。如果默认不定义权限 PERMISSIONS,安装后的权限为644</p>
+<h4 id="非目标文件的可执行程序安装-比如脚本之类"><a href="#非目标文件的可执行程序安装-比如脚本之类" class="headerlink" title="非目标文件的可执行程序安装(比如脚本之类)"></a>非目标文件的可执行程序安装(比如脚本之类)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(PROGRAMS files... DESTINATION &lt;dir&gt;</span><br><span class="line">    [PERMISSIONS permissions...]</span><br><span class="line">    [CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">    [COMPONENT &lt;component&gt;]</span><br><span class="line">    [RENAME &lt;name&gt;] [OPTIONAL])</span><br></pre></td></tr></table></figure>
+<p>默认权限是755</p>
+<h4 id="目录的安装"><a href="#目录的安装" class="headerlink" title="目录的安装"></a>目录的安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(DIRECTORY dirs... DESTINATION &lt;dir&gt;</span><br><span class="line">    [FILE_PERMISSIONS permissions...]</span><br><span class="line">    [DIRECTORY_PERMISSIONS permissions...]</span><br><span class="line">    [USE_SOURCE_PERMISSIONS]</span><br><span class="line">    [CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">    [COMPONENT &lt;component&gt;]</span><br><span class="line">    [[PATTERN &lt;pattern&gt; | REGEX &lt;regex&gt;]</span><br><span class="line">    [EXCLUDE] [PERMISSIONS permissions...]] [...])</span><br></pre></td></tr></table></figure>
+<p>DIRECTORY 后面连接的是所在 Source 目录的相对路径,但务必注意: abc/ 会在目标丼下再建立一个abc文件夹，但是abc就不会在建立</p>
+<p>PATTERN 用于使用正则表达式进行过滤</p>
+<p>PERMISSIONS 用于指定 PATTERN 过滤后的文件权限</p>
+<h3 id="安装举例"><a href="#安装举例" class="headerlink" title="安装举例"></a>安装举例</h3><h4 id="安装README"><a href="#安装README" class="headerlink" title="安装README"></a>安装README</h4><p>在src同级目录下，添加文件COPYRIGHT和README，打开主工程文件 CMakelists.txt，加入以下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(FILES COPYRIGHT README DESTINATION share&#x2F;doc&#x2F;cmake&#x2F;t2)</span><br></pre></td></tr></table></figure>
+<p>这句话的意识为：安装COPYRIGHT 和README 两个文件到 <CMAKE_INSTALL_PREFIX>/share/doc/cmake/t2目录之下</p>
+<p>前缀目录需要在cmake的时候指定，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_INSTALL_PREFIX&#x3D;&#x2F;home&#x2F;kong</span><br></pre></td></tr></table></figure>
+<p>最后sudo make install 即可</p>
+<h4 id="安装runhello-sh"><a href="#安装runhello-sh" class="headerlink" title="安装runhello.sh"></a>安装runhello.sh</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(PROGRAMS runhello.sh DESTINATION bin)</span><br></pre></td></tr></table></figure>
+<h4 id="安装-doc-中的-hello-txt"><a href="#安装-doc-中的-hello-txt" class="headerlink" title="安装 doc 中的 hello.txt"></a>安装 doc 中的 hello.txt</h4><p>首先在主工程中添加add_subdirectory(doc)</p>
+<p>然后打开doc文件夹，新建CMakeLIsts.txt</p>
+<p>键入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(FILES hello.txt DESTINATION share)</span><br></pre></td></tr></table></figure>
+<p>另外一种方式可以直接安装文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(DIRECTORY doc&#x2F; DESTINATION share&#x2F;doc&#x2F;cmake&#x2F;t2)</span><br></pre></td></tr></table></figure>
+<h3 id="默认安装路径"><a href="#默认安装路径" class="headerlink" title="默认安装路径"></a>默认安装路径</h3><p>如果没有指定安装路径，那么默认安装的路径是<code>/usr/local</code></p>
+<h2 id="静态库和动态库构建"><a href="#静态库和动态库构建" class="headerlink" title="静态库和动态库构建"></a>静态库和动态库构建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ----CMakeLists.txt</span><br><span class="line"> ----lib</span><br><span class="line">    |    </span><br><span class="line">----hello.h</span><br><span class="line">----hello.cpp</span><br><span class="line">----CMakeLists.txt</span><br></pre></td></tr></table></figure>
+<p>主工程下的CMakeLists.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PROJECT(HELLOLIB)</span><br><span class="line">ADD_SUBDIRECTORY(lib)</span><br></pre></td></tr></table></figure>
+<p>lib目录下的CMakeLists.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET(LIBHELLO_SRC hello.cpp)</span><br><span class="line">ADD_LIBRARY(hello SHARED $&#123;LIBHELLO_SRC&#125;)</span><br></pre></td></tr></table></figure>
+<p>编译之后会在build文件夹下，产生libhello.so文件</p>
+<h3 id="ADD-LIBRARY"><a href="#ADD-LIBRARY" class="headerlink" title="ADD_LIBRARY"></a>ADD_LIBRARY</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 ... sourceN)</span><br></pre></td></tr></table></figure>
+<p>你不需要写全 libhello.so,只需要填写 hello 即可,cmake 系统会自动为你生成libhello.X</p>
+<p>类型有三种:<br>SHARED,动态库<br>STATIC,静态库<br>MODULE,在使用 dyld 的系统有效,如果不支持 dyld,则被当作 SHARED 对待。</p>
+<p>EXCLUDE_FROM_ALL 参数的意思是这个库不会被默认构建,除非有其他的组件依赖或者手工构建</p>
+<p><strong>注意！</strong></p>
+<p>如果想要名字相同的和静态库和动态库，则不能只通过add_library来实现，因为target的名字，libname是唯一的</p>
+<p>此时需要引入其他的一个指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET_TARGET_PROPERTIES(target1 target2 ...</span><br><span class="line">    PROPERTIES prop1 value1</span><br><span class="line">    prop2 value2 ...)</span><br></pre></td></tr></table></figure>
+<p>修改lib下的CMakeLists.txt，修改了静态文件的名字，并且通过SET_TARGET_PROPERTIES来修改名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SET(LIBHELLO_SRC hello.cpp)                                                                                                                         </span><br><span class="line">ADD_LIBRARY(hello_static STATIC $&#123;LIBHELLO_SRC&#125;)</span><br><span class="line">ADD_LIBRARY(hello SHARED $&#123;LIBHELLO_SRC&#125;)</span><br><span class="line">SET_TARGET_PROPERTIES(hello_static PROPERTIES OUTPUT_NAME &quot;hello&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="动态库版本"><a href="#动态库版本" class="headerlink" title="动态库版本"></a>动态库版本</h3><p>一般的动态库是跟着版本号的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libhello.so.1.2</span><br><span class="line">libhello.so -&gt;libhello.so.1</span><br><span class="line">libhello.so.1-&gt;libhello.so.1.2</span><br></pre></td></tr></table></figure>
+<p>为了实现动态库版本号,我们仍然需要使用 SET_TARGET_PROPERTIES 指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET_TARGET_PROPERTIES(hello PROPERTIES VERSION 1.2 SOVERSION 1)</span><br></pre></td></tr></table></figure>
+<p>添加到lib/CmakeLists.txt中，重新编译可以看见</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在 build&#x2F;lib 目录会生成:</span><br><span class="line">libhello.so.1.2</span><br><span class="line">libhello.so.1-&gt;libhello.so.1.2</span><br><span class="line">libhello.so -&gt;libhello.so.1</span><br></pre></td></tr></table></figure>
+<h3 id="安装共享库和头文件"><a href="#安装共享库和头文件" class="headerlink" title="安装共享库和头文件"></a>安装共享库和头文件</h3><p>我们需要把.a、.so文件和h文件安装到系统目录才可以让别人使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(TARGETS hello hello_static</span><br><span class="line">LIBRARY DESTINATION lib</span><br><span class="line">ARCHIVE DESTINATION lib)</span><br></pre></td></tr></table></figure>
+<p>注意,静态库要使用 ARCHIVE 关键字</p>
+<p>以及h文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSTALL(FILES hello.h DESTINATION include&#x2F;hello)</span><br></pre></td></tr></table></figure>
+<h3 id="使用共享库"><a href="#使用共享库" class="headerlink" title="使用共享库"></a>使用共享库</h3><h4 id="找到头文件-INCLUDE-DIRECTORIES"><a href="#找到头文件-INCLUDE-DIRECTORIES" class="headerlink" title="找到头文件 INCLUDE_DIRECTORIES"></a>找到头文件 INCLUDE_DIRECTORIES</h4><p>完整语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 ...)</span><br></pre></td></tr></table></figure>
+<p>这条指令可以用来向工程添加多个特定的头文件搜索路径,路径之间用空格分割,如果路径中包含了空格,可以使用双引号将它括起来</p>
+<p>默认的行为是追加到当前的头文件搜索路径的后面,你可以通过两种方式来进行控制搜索路径添加的方式:</p>
+<p>通过配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AFTER|BEFORE</span><br></pre></td></tr></table></figure>
+<p>在src/CMakeLists.txt文件中添加头文件导入目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INCLUDE_DIRECTORIES(&#x2F;usr&#x2F;include&#x2F;hello)</span><br></pre></td></tr></table></figure>
+<h4 id="为target添加共享库"><a href="#为target添加共享库" class="headerlink" title="为target添加共享库"></a>为target添加共享库</h4><p>LINK_DIRECTORIES(directory1 directory2 …)</p>
+<p>整个可以添加非标准的共享库文件夹</p>
+<p>现在只是找到了头文件，却不知道真正的函数定义在哪</p>
+<p>我们现在需要完成的任务是将目标文件链接到 libhello,这里我们需要引入两个新的指令</p>
+<p><code>TARGET_LINK_LIBRARIES(main hello)</code><br>也可以写成<br><code>TARGET_LINK_LIBRARIES(main libhello.so)</code></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">位姿变换</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/05/05/docker/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker简单使用</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Project%EF%BC%88name%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">Project（name）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-subdirectory"><span class="nav-number">2.</span> <span class="nav-text">add_subdirectory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%A2%E4%B8%AA%E5%9C%B0%E6%96%B9%E4%BF%9D%E5%AD%98%E7%9B%AE%E6%A0%87%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">换个地方保存目标二进制可执行文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">4.0.1.</span> <span class="nav-text">目标文件的安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">4.0.2.</span> <span class="nav-text">普通文件的安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%AE%89%E8%A3%85-%E6%AF%94%E5%A6%82%E8%84%9A%E6%9C%AC%E4%B9%8B%E7%B1%BB"><span class="nav-number">4.0.3.</span> <span class="nav-text">非目标文件的可执行程序安装(比如脚本之类)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">4.0.4.</span> <span class="nav-text">目录的安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.1.</span> <span class="nav-text">安装举例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85README"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装README</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85runhello-sh"><span class="nav-number">4.1.2.</span> <span class="nav-text">安装runhello.sh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-doc-%E4%B8%AD%E7%9A%84-hello-txt"><span class="nav-number">4.1.3.</span> <span class="nav-text">安装 doc 中的 hello.txt</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84"><span class="nav-number">4.2.</span> <span class="nav-text">默认安装路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E6%9E%84%E5%BB%BA"><span class="nav-number">5.</span> <span class="nav-text">静态库和动态库构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ADD-LIBRARY"><span class="nav-number">5.1.</span> <span class="nav-text">ADD_LIBRARY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%BA%93%E7%89%88%E6%9C%AC"><span class="nav-number">5.2.</span> <span class="nav-text">动态库版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%85%B1%E4%BA%AB%E5%BA%93%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">5.3.</span> <span class="nav-text">安装共享库和头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%B1%E4%BA%AB%E5%BA%93"><span class="nav-number">5.4.</span> <span class="nav-text">使用共享库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%BE%E5%88%B0%E5%A4%B4%E6%96%87%E4%BB%B6-INCLUDE-DIRECTORIES"><span class="nav-number">5.4.1.</span> <span class="nav-text">找到头文件 INCLUDE_DIRECTORIES</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BAtarget%E6%B7%BB%E5%8A%A0%E5%85%B1%E4%BA%AB%E5%BA%93"><span class="nav-number">5.4.2.</span> <span class="nav-text">为target添加共享库</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

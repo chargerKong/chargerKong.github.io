@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            错误记录 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">错误记录</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-12 09:59:22
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>可以通过robot_state_publisher来带一个world file</p>
+<p>有一个很好的项目，<a class="link"   target="_blank" rel="noopener" href="https://github.com/ROBOTIS-GIT" >ROBOTIS-GIT<i class="fas fa-external-link-alt"></i></a>/<strong><a class="link"   target="_blank" rel="noopener" href="https://github.com/ROBOTIS-GIT/turtlebot3_simulations" >turtlebot3_simulations<i class="fas fa-external-link-alt"></i></a></strong></p>
+<h2 id="Invalid-frame-ID-“front-caster-link”-passed-to-canTransform-argument-source-frame"><a href="#Invalid-frame-ID-“front-caster-link”-passed-to-canTransform-argument-source-frame" class="headerlink" title="Invalid frame ID “front_caster_link” passed to canTransform argument source_frame"></a>Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</h2><p>利用可视化model的时候, 发现没有从base_link到前后万向轮的转换，同时通过<code>tf2</code>的工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os2 run tf2_tools view_frames </span><br></pre></td></tr></table></figure>
+<p>生成的PDF文件为</p>
+<p><img src="wrong_tf2.png" alt=""></p>
+<p>的确是缺少了<code>base_link</code>和前后万向轮的一个连接。</p>
+<p>“robot_description” 参数定义了urdf文件的路径，它被 robot_state_publisher节点使用。该节点解析urdf文件后将各个frame的状态发布给tf. 因此在rviz里面就看到各个frame(link)之间的tf转换显示OK.否则会显示warning.</p>
+<p>需要添加<code>joint_state_piblisher</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone </span><br></pre></td></tr></table></figure>
+<p>然后在source    </p>
+<p>再启动    </p>
+<h2 id="TF-OLD-DATA-odom-没有"><a href="#TF-OLD-DATA-odom-没有" class="headerlink" title="TF_OLD_DATA  odom 没有"></a>TF_OLD_DATA  odom 没有</h2><p>调整插件<code>libgazebo_ros_diff_drive.so</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;publish_wheel_tf&gt;true&lt;&#x2F;publish_wheel_tf&gt; </span><br></pre></td></tr></table></figure>
+<h2 id="TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable"><a href="#TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable" class="headerlink" title="TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable"></a>TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable</h2><p>经检查发现是tf变换冲突，可能是launch文件里面的joint_state_publisher发布的tf变换和插件发布的有冲突</p>
+<h2 id="接收不到雷达信息"><a href="#接收不到雷达信息" class="headerlink" title="接收不到雷达信息"></a>接收不到雷达信息</h2><p>之前我们只输入了一个队列长度作为参数就会导致QoS配置出问题最终导致无法接收消息，现在我们采用专门为传感器设计的QoS配置文件或者系统默认的配置文件就可以正常工作了。</p>
+<p>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub &#x3D; node.create_subscription(</span><br><span class="line">    LaserScan, &#39;&#x2F;scan&#39;, lambda msg: node.get_logger().info(&#39;I get a msg&#39;), 1)</span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub &#x3D; node.create_subscription(</span><br><span class="line">    LaserScan, &#39;&#x2F;scan&#39;, lambda msg: node.get_logger().info(&#39;I get a msg&#39;), rclpy.qos.qos_profile_sensor_data)</span><br></pre></td></tr></table></figure>
+<h2 id="编译foxy错误-Could-not-find-RTI-Connext-skipping-‘rmw-connext-cpp’"><a href="#编译foxy错误-Could-not-find-RTI-Connext-skipping-‘rmw-connext-cpp’" class="headerlink" title="编译foxy错误  Could not find RTI Connext - skipping ‘rmw_connext_cpp’"></a>编译foxy错误  Could not find RTI Connext - skipping ‘rmw_connext_cpp’</h2><p>6 packages had stderr output: qt_gui_cpp rmw_connext_cpp rmw_connext_shared_cpp ros1_bridge rosidl_typesupport_connext_c rosidl_typesupport_connext_cpp</p>
+<p>Nav案例問題</p>
+<h2 id="Err-Joint-cc-297-EXCEPTION-Couldn’t-Find-Child-Link-camera-rgb-frame"><a href="#Err-Joint-cc-297-EXCEPTION-Couldn’t-Find-Child-Link-camera-rgb-frame" class="headerlink" title="[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]"></a>[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]</h2><p>打開model文件，直接修改相關link，發現的確沒有關於camera_rgb_frame的link。先把關於camera_rgb_frame的joint刪除</p>
+<h2 id="Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-“”-model-turtlebot3-waffle-meshes-left-tire-dae"><a href="#Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-“”-model-turtlebot3-waffle-meshes-left-tire-dae" class="headerlink" title="[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model://turtlebot3_waffle/meshes/left_tire.dae]"></a>[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model://turtlebot3_waffle/meshes/left_tire.dae]</h2><p>去<a class="link"   target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2/tree/main/nav2_system_tests/models/turtlebot3_burger/meshes" >这里<i class="fas fa-external-link-alt"></i></a>下载<code>left_tire.dae</code>和<code>right_tire.dae</code>到<code>/opt/ros/foxy/share/turtlebot3_gazebo/models/turtlebot3_waffle/meshes</code>下面</p>
+<h2 id="rviz2-PluginlibFactory-The-plugin-for-class-‘rviz-common-Time’-failed-to-load"><a href="#rviz2-PluginlibFactory-The-plugin-for-class-‘rviz-common-Time’-failed-to-load" class="headerlink" title="[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common/Time’ failed to load."></a>[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common/Time’ failed to load.</h2><p>(zai roszhong 是很重要的机器人描述格式，是XML来描述，里面有一系列的标签和属性，利用这些标签就可以完成建模的工作， 可以模拟手臂的形状，小臂和大臂就相当于是连杆，刚体。要让刚体运行必须要一个关节，连接大臂和小臂，需要关节带动刚体，所以有两个部分，一个是lin，刚体部分，另外一个是关节joint ，机器人也是这样，需要joint来带动。所以在任意一个urdf文件中，都会是一系列的link和joint描述</p>
+<p>除了机器人，其实对外界的物体也是建模的，比如这个桌子，比如有一个桌面，四个桌腿，也是可以通过五个link进行建模</p>
+<p>joint_state_publisher:</p>
+<p>监控各个关节的角度，实时位置，打包为自己的话题发布出去</p>
+<p>robot_state_publisher</p>
+<p>订阅joint_state_publisher的位置，封装，发布tf</p>
+<p>ICP方法是用于找到一个R和T来找到两个集合的位姿变换，怎么又可以用于运动畸变去除？</p>
+<h2 id="链接libnabo库-undefined-reference-to-Nabo-NearestNeighbourSearch…"><a href="#链接libnabo库-undefined-reference-to-Nabo-NearestNeighbourSearch…" class="headerlink" title="链接libnabo库  undefined reference to `Nabo::NearestNeighbourSearch…"></a>链接libnabo库  undefined reference to `Nabo::NearestNeighbourSearch…</h2><p>解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries(imlsMatcher_node</span><br><span class="line">   $&#123;catkin_LIBRARIES&#125;</span><br><span class="line">   $&#123;EXTERNAL_LIBS&#125;</span><br><span class="line">   &#x2F;opt&#x2F;ros&#x2F;noetic&#x2F;lib&#x2F;libcsm.so</span><br><span class="line">   $&#123;libnabo_LIBRARIES&#125; libnabo::nabo           -------------------这里没有添加</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="Python-显示ply文件"><a href="#Python-显示ply文件" class="headerlink" title="Python 显示ply文件"></a>Python 显示ply文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> open3d <span class="keyword">as</span> o3d</span><br><span class="line"><span class="comment"># visualization of point clouds.</span></span><br><span class="line">pcd = o3d.io.read_point_cloud(<span class="string">&#x27;test.ply&#x27;</span>)</span><br><span class="line">o3d.visualization.draw_geometries([pcd])</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/14/ros-control/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros控制机器人</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">xacro文件创建机器人</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Invalid-frame-ID-%E2%80%9Cfront-caster-link%E2%80%9D-passed-to-canTransform-argument-source-frame"><span class="nav-number">1.</span> <span class="nav-text">Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF-OLD-DATA-odom-%E6%B2%A1%E6%9C%89"><span class="nav-number">2.</span> <span class="nav-text">TF_OLD_DATA  odom 没有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF-OLD-DATA-ignoring-data-from-the-past-for-frame-right-wheel-link-at-time-25-479000-according-to-authority-Authority-undetectable"><span class="nav-number">3.</span> <span class="nav-text">TF_OLD_DATA ignoring data from the past for frame right_wheel_link at time 25.479000 according to authority Authority undetectable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E9%9B%B7%E8%BE%BE%E4%BF%A1%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">接收不到雷达信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91foxy%E9%94%99%E8%AF%AF-Could-not-find-RTI-Connext-skipping-%E2%80%98rmw-connext-cpp%E2%80%99"><span class="nav-number">5.</span> <span class="nav-text">编译foxy错误  Could not find RTI Connext - skipping ‘rmw_connext_cpp’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Err-Joint-cc-297-EXCEPTION-Couldn%E2%80%99t-Find-Child-Link-camera-rgb-frame"><span class="nav-number">6.</span> <span class="nav-text">[Err] [Joint.cc:297] EXCEPTION: Couldn’t Find Child Link[camera_rgb_frame]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wrn-SystemPaths-cc-459-File-or-path-does-not-exist-%E2%80%9C%E2%80%9D-model-turtlebot3-waffle-meshes-left-tire-dae"><span class="nav-number">7.</span> <span class="nav-text">[Wrn] [SystemPaths.cc:459] File or path does not exist [“”] [model:&#x2F;&#x2F;turtlebot3_waffle&#x2F;meshes&#x2F;left_tire.dae]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rviz2-PluginlibFactory-The-plugin-for-class-%E2%80%98rviz-common-Time%E2%80%99-failed-to-load"><span class="nav-number">8.</span> <span class="nav-text">[rviz2]: PluginlibFactory: The plugin for class ‘rviz_common&#x2F;Time’ failed to load.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5libnabo%E5%BA%93-undefined-reference-to-Nabo-NearestNeighbourSearch%E2%80%A6"><span class="nav-number">9.</span> <span class="nav-text">链接libnabo库  undefined reference to &#96;Nabo::NearestNeighbourSearch…</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-%E6%98%BE%E7%A4%BAply%E6%96%87%E4%BB%B6"><span class="nav-number">10.</span> <span class="nav-text">Python 显示ply文件</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

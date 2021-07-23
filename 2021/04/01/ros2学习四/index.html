@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ros2学习四 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ros2学习四</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-01 09:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="ros2学习四"><a href="#ros2学习四" class="headerlink" title="ros2学习四"></a>ros2学习四</h1><p>Table of Contents</p>
+<h2 id="写一个简单的publisher和subscriber"><a href="#写一个简单的publisher和subscriber" class="headerlink" title="写一个简单的publisher和subscriber"></a>写一个简单的publisher和subscriber</h2><p>在本教程中，您将创建节点，这些节点以字符串消息的形式在主题之间相互传递信息。这里使用的例子是一个简单的“talker”和“listener”系统;一个节点发布数据，另一个节点订阅主题，以便接收数据。</p>
+<h2 id="1-创建一个package"><a href="#1-创建一个package" class="headerlink" title="1.创建一个package"></a>1.创建一个package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source ros2_dashing&#x2F;install&#x2F;setup.bash </span><br><span class="line">cd dev_ws&#x2F;src&#x2F;</span><br><span class="line">ros2 pkg create --build-type ament_python py_pubsub</span><br></pre></td></tr></table></figure>
+<h2 id="2-写publisher的一个node"><a href="#2-写publisher的一个node" class="headerlink" title="2. 写publisher的一个node"></a>2. 写publisher的一个node</h2><p>下载一个example talker。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros2&#x2F;examples&#x2F;foxy&#x2F;rclpy&#x2F;topics&#x2F;minimal_publisher&#x2F;examples_rclpy_minimal_publisher&#x2F;publisher_member_function.py</span><br></pre></td></tr></table></figure>
+<p>打开文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> std_msgs.msg <span class="keyword">import</span> String</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinimalPublisher</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&#x27;minimal_publisher&#x27;</span>)</span><br><span class="line">        self.publisher_ = self.create_publisher(String, <span class="string">&#x27;topic&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">        timer_period = <span class="number">0.5</span>  <span class="comment"># seconds</span></span><br><span class="line">        self.timer = self.create_timer(timer_period, self.timer_callback)</span><br><span class="line">        self.i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">timer_callback</span>(<span class="params">self</span>):</span></span><br><span class="line">        msg = String()</span><br><span class="line">        msg.data = <span class="string">&#x27;Hello World: %d&#x27;</span> % self.i</span><br><span class="line">        self.publisher_.publish(msg)</span><br><span class="line">        self.get_logger().info(<span class="string">&#x27;Publishing: &quot;%s&quot;&#x27;</span> % msg.data)</span><br><span class="line">        self.i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">args=<span class="literal">None</span></span>):</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    minimal_publisher = MinimalPublisher()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_publisher)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    minimal_publisher.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-代码审视"><a href="#2-1-代码审视" class="headerlink" title="2.1.代码审视"></a>2.1.代码审视</h3><p>节点使用该类型来构造它在主题上传递的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from std_msgs.msg import String</span><br></pre></td></tr></table></figure>
+<p>下面建立一个类，继承了Node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.publisher_ &#x3D; self.create_publisher(String, &#39;topic&#39;, 10)</span><br></pre></td></tr></table></figure>
+<p>这里表示node传送的信息是通过一个名为‘topic’的一个topic，并且消息的类型是String类，队列长度为10.</p>
+<p>此队列大小是必须的一个设置，如果订阅者接收队列消息的速度不够快，它将限制队列消息的数量。</p>
+<p>接下来，创建一个带有回调的计时器，以每0.5秒执行一次。 self.i是在回调中使用的计数器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="built_in">super</span>().__init__(<span class="string">&#x27;minimal_publisher&#x27;</span>)</span><br><span class="line">    self.publisher_ = self.create_publisher(String, <span class="string">&#x27;topic&#x27;</span>, <span class="number">10</span>)</span><br><span class="line">    timer_period = <span class="number">0.5</span>  <span class="comment"># seconds</span></span><br><span class="line">    self.timer = self.create_timer(timer_period, self.timer_callback)</span><br><span class="line">    self.i = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>timer_callback创建一个附加计数器值的消息，并使用get_logger().info将其发布到控制台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def timer_callback(self):</span><br><span class="line">    msg &#x3D; String()</span><br><span class="line">    msg.data &#x3D; &#39;Hello World: %d&#39; % self.i</span><br><span class="line">    self.publisher_.publish(msg)</span><br><span class="line">    self.get_logger().info(&#39;Publishing: &quot;%s&quot;&#39; % msg.data)</span><br><span class="line">    self.i +&#x3D; 1</span><br></pre></td></tr></table></figure>
+<p>最后定义main函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_publisher &#x3D; MinimalPublisher()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_publisher)</span><br><span class="line"></span><br><span class="line">    # Destroy the node explicitly</span><br><span class="line">    # (optional - otherwise it will be done automatically</span><br><span class="line">    # when the garbage collector destroys the node object)</span><br><span class="line">    minimal_publisher.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br></pre></td></tr></table></figure>
+<p>首先初始化rclpy库，然后创建节点，然后它“spin”节点，以便调用它的回调。</p>
+<h3 id="2-2添加依赖项"><a href="#2-2添加依赖项" class="headerlink" title="2.2添加依赖项"></a>2.2添加依赖项</h3><p>回到之前所说的，完善一下description，licence</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;dev_ws&#x2F;src&#x2F;py_pubsub</span><br><span class="line">vi package.xml</span><br></pre></td></tr></table></figure>
+<p>除了完善上述信息，还需要添加一下执行时所需要的依赖内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;exec_depend&gt;rclpy&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;std_msgs&lt;&#x2F;exec_depend&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-添加入口点"><a href="#2-3-添加入口点" class="headerlink" title="2.3 添加入口点"></a>2.3 添加入口点</h3><p>再一次打开<code>setup.py</code>，完善一下description 和 licence</p>
+<p>并且添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">entry_points&#x3D;&#123;</span><br><span class="line">        &#39;console_scripts&#39;: [</span><br><span class="line">                &#39;talker &#x3D; py_pubsub.publisher_member_function:main&#39;,</span><br><span class="line">        ],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>这里写的是py_pubsub文件夹下的 py_pubsub/publisher_member_function 文件</p>
+<h3 id="2-4-查看setup-cfg"><a href="#2-4-查看setup-cfg" class="headerlink" title="2.4 查看setup.cfg"></a>2.4 查看setup.cfg</h3><p>setup.cfg文件的内容应该自动正确填充，如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[develop]</span><br><span class="line">script-dir&#x3D;$base&#x2F;lib&#x2F;py_pubsub</span><br><span class="line">[install]</span><br><span class="line">install-scripts&#x3D;$base&#x2F;lib&#x2F;py_pubsub</span><br></pre></td></tr></table></figure>
+<p>这只是告诉setuptools将可执行文件放到lib中，因为ros2 run将在那里查找它们。</p>
+<p>您现在可以构建自己的包、source local setup文件并运行它，但是让我们首先创建subscriber节点，以便您可以看到工作中的整个系统。</p>
+<h2 id="3-写一个subscriber节点"><a href="#3-写一个subscriber节点" class="headerlink" title="3.写一个subscriber节点"></a>3.写一个subscriber节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src&#x2F;py_pubsub&#x2F;py_pubsub</span><br><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros2&#x2F;examples&#x2F;dashing&#x2F;rclpy&#x2F;topics&#x2F;minimal_subscriber&#x2F;examples_rclpy_minimal_subscriber&#x2F;subscriber_member_function.py</span><br></pre></td></tr></table></figure>
+<h3 id="3-1审视代码"><a href="#3-1审视代码" class="headerlink" title="3.1审视代码"></a>3.1审视代码</h3><p>查看<code>subscriber_member_function.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> std_msgs.msg <span class="keyword">import</span> String</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinimalSubscriber</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__(<span class="string">&#x27;minimal_subscriber&#x27;</span>)</span><br><span class="line">        self.subscription = self.create_subscription(</span><br><span class="line">            String,</span><br><span class="line">            <span class="string">&#x27;topic&#x27;</span>,</span><br><span class="line">            self.listener_callback,</span><br><span class="line">            <span class="number">10</span>)</span><br><span class="line">        self.subscription  <span class="comment"># prevent unused variable warning  </span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">listener_callback</span>(<span class="params">self, msg</span>):</span></span><br><span class="line">        self.get_logger().info(<span class="string">&#x27;I heard: &quot;%s&quot;&#x27;</span> % msg.data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>(<span class="params">args=<span class="literal">None</span></span>):</span></span><br><span class="line">    rclpy.init(args=args)</span><br><span class="line"></span><br><span class="line">    minimal_subscriber = MinimalSubscriber()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_subscriber)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Destroy the node explicitly</span></span><br><span class="line">    <span class="comment"># (optional - otherwise it will be done automatically</span></span><br><span class="line">    <span class="comment"># when the garbage collector destroys the node object)</span></span><br><span class="line">    minimal_subscriber.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>订阅服务器节点的代码与发布服务器节点的代码几乎相同。构造函数使用与publisher相同的参数创建subscriber。回想一下主题教程，发布者和订阅者使用的主题名称和消息类型必须匹配，才允许它们通信。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">self.subscription &#x3D; self.create_subscription(</span><br><span class="line">    String,</span><br><span class="line">    &#39;topic&#39;,</span><br><span class="line">    self.listener_callback,</span><br><span class="line">    10)</span><br></pre></td></tr></table></figure>
+<p>subscriber的构造函数和回调函数不包括任何计时器定义，因为它不需要计时器定义。一旦收到消息，它的回调函数就会被调用。</p>
+<p>回调定义只是将一条信息消息及其接收到的数据打印到控制台。回想一下，发布者定义了msg.data =’Hello World：％d’％self.i</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def listener_callback(self, msg):</span><br><span class="line">    self.get_logger().info(&#39;I heard: &quot;%s&quot;&#39; % msg.data)</span><br></pre></td></tr></table></figure>
+<p>主要定义几乎完全相同，用subscriber代替了publisher的创建和旋转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">minimal_subscriber &#x3D; MinimalSubscriber()</span><br><span class="line"></span><br><span class="line">rclpy.spin(minimal_subscriber)</span><br></pre></td></tr></table></figure>
+<p>由于此节点与发布者具有相同的依赖关系，因此没有新内容可添加到package.xml中。 setup.cfg文件也可以保持不变。</p>
+<h3 id="3-2-添加一个entry-point"><a href="#3-2-添加一个entry-point" class="headerlink" title="3.2 添加一个entry point"></a>3.2 添加一个entry point</h3><p>打开setup.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">entry_points&#x3D;&#123;</span><br><span class="line">        &#39;console_scripts&#39;: [</span><br><span class="line">                &#39;talker &#x3D; py_pubsub.publisher_member_function:main&#39;,</span><br><span class="line">                &#39;listener &#x3D; py_pubsub.subscriber_member_function:main&#39;,</span><br><span class="line">        ],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="4-build-and-run"><a href="#4-build-and-run" class="headerlink" title="4.build and run"></a>4.build and run</h2><p>您可能已经安装了rclpy和std_msgs软件包作为ROS 2系统的一部分。最好的做法是在工作区的根目录（dev_ws）中运行rosdep，以在构建之前检查缺少的依赖项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install -i --from-path src --rosdistro dashing -y</span><br></pre></td></tr></table></figure>
+<p>前往工作区的根目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build</span><br></pre></td></tr></table></figure>
+<p>打开新终端运行，记得先source</p>
+<h2 id="5-Summary"><a href="#5-Summary" class="headerlink" title="5.Summary"></a>5.Summary</h2><p>您创建了两个节点来发布和订阅主题上的数据。在运行它们之前，您已将它们的依赖项和入口点添加到程序包配置文件中。</p>
+<h2 id="写一个简单的客户端和服务端"><a href="#写一个简单的客户端和服务端" class="headerlink" title="写一个简单的客户端和服务端"></a>写一个简单的客户端和服务端</h2><h2 id="1-建立一个package"><a href="#1-建立一个package" class="headerlink" title="1. 建立一个package"></a>1. 建立一个package</h2><p>进入src目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python py_srvcli --dependencies rclpy example_interfaces</span><br></pre></td></tr></table></figure>
+<p><code>--dependencies</code>代表需要的依赖，他会自动的添加到setup.py里面，<code>example_interfaces</code> 是包含<code>.srv</code>文件的软件包，您需要用它来构建请求和响应</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int64 a</span><br><span class="line">int64 b</span><br><span class="line">---</span><br><span class="line">int64 sum</span><br></pre></td></tr></table></figure>
+<p>前两行是请求的参数，短划线下方是响应。</p>
+<h3 id="1-1-更新package-xml和setup-py"><a href="#1-1-更新package-xml和setup-py" class="headerlink" title="1.1 更新package.xml和setup.py"></a>1.1 更新package.xml和setup.py</h3><p>更新<code>&lt;description&gt;,&lt;maintainer&gt;,&lt;licence&gt;</code></p>
+<h2 id="2-写服务端节点"><a href="#2-写服务端节点" class="headerlink" title="2.写服务端节点"></a>2.写服务端节点</h2><p>打开</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src&#x2F;py_srvcli&#x2F;py_srvcli</span><br><span class="line">service_memeber_function.py</span><br></pre></td></tr></table></figure>
+<p>输入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">from example_interfaces.srv import AddTwoInts</span><br><span class="line"></span><br><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalService(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_service&#39;)</span><br><span class="line">        self.srv &#x3D; self.create_service(AddTwoInts, &#39;add_two_ints&#39;, self.add_two_ints_callback)</span><br><span class="line"></span><br><span class="line">    def add_two_ints_callback(self, request, response):</span><br><span class="line">        response.sum &#x3D; request.a + request.b</span><br><span class="line">        self.get_logger().info(&#39;Incoming request\na: %d b: %d&#39; % (request.a, request.b))</span><br><span class="line"></span><br><span class="line">        return response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_service &#x3D; MinimalService()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_service)</span><br><span class="line"></span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="2-1代码审查"><a href="#2-1代码审查" class="headerlink" title="2.1代码审查"></a>2.1代码审查</h3><p>可以通过<code>ros2 srv show example_interface/srv/AddTwoInts</code>查看</p>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int64 a</span><br><span class="line">int64 b</span><br><span class="line">---</span><br><span class="line">int64 sum</span><br></pre></td></tr></table></figure>
+<p>client 这里会发布a和b, 服务端返回一个response，sum</p>
+<p>第一条import语句从example_interfaces包中导入AddTwoInts服务类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from example_interfaces.srv import AddTwoInts</span><br></pre></td></tr></table></figure>
+<p>MinimalService类构造函数初始化名称为minimal_service的节点。然后，它创建一个service并定义类型、名称和回调。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def __init__(self):</span><br><span class="line">    super().__init__(&#39;minimal_service&#39;)</span><br><span class="line">    self.srv &#x3D; self.create_service(AddTwoInts, &#39;add_two_ints&#39;, self.add_two_ints_callback)</span><br></pre></td></tr></table></figure>
+<p>服务回调的定义接收请求数据，将其求和，然后将总和作为响应返回。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def add_two_ints_callback(self, request, response):</span><br><span class="line">    response.sum &#x3D; request.a + request.b</span><br><span class="line">    self.get_logger().info(&#39;Incoming request\na: %d b: %d&#39; % (request.a, request.b))</span><br><span class="line"></span><br><span class="line">    return response</span><br></pre></td></tr></table></figure>
+<p>最后，main类初始化ROS 2 Python<strong>客户端</strong>(服务端？)库，实例化MinimalService类以创建服务节点，旋转节点以处理回调。</p>
+<h3 id="2-2-添加启动项"><a href="#2-2-添加启动项" class="headerlink" title="2.2 添加启动项"></a>2.2 添加启动项</h3><p>要允许ros2 run命令运行您的节点，必须将入口点添加到setup.py（位于dev_ws / src / py_srvcli目录中）。</p>
+<h2 id="3-写客户端代码"><a href="#3-写客户端代码" class="headerlink" title="3.写客户端代码"></a>3.写客户端代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src&#x2F;py_srvcli&#x2F;py_srvcli</span><br><span class="line">vi client_member_function.py</span><br></pre></td></tr></table></figure>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">from example_interfaces.srv import AddTwoInts</span><br><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalClientAsync(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_client_async&#39;)</span><br><span class="line">        self.cli &#x3D; self.create_client(AddTwoInts, &#39;add_two_ints&#39;)</span><br><span class="line">        while not self.cli.wait_for_service(timeout_sec&#x3D;1.0):</span><br><span class="line">            self.get_logger().info(&#39;service not available, waiting again...&#39;)</span><br><span class="line">        self.req &#x3D; AddTwoInts.Request()</span><br><span class="line"></span><br><span class="line">    def send_request(self):</span><br><span class="line">        self.req.a &#x3D; int(sys.argv[1])</span><br><span class="line">        self.req.b &#x3D; int(sys.argv[2])</span><br><span class="line">        self.future &#x3D; self.cli.call_async(self.req)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_client &#x3D; MinimalClientAsync()</span><br><span class="line">    minimal_client.send_request()</span><br><span class="line"></span><br><span class="line">    while rclpy.ok():</span><br><span class="line">        rclpy.spin_once(minimal_client)</span><br><span class="line">        if minimal_client.future.done():</span><br><span class="line">            try:</span><br><span class="line">                response &#x3D; minimal_client.future.result()</span><br><span class="line">            except Exception as e:</span><br><span class="line">                minimal_client.get_logger().info(</span><br><span class="line">                    &#39;Service call failed %r&#39; % (e,))</span><br><span class="line">            else:</span><br><span class="line">                minimal_client.get_logger().info(</span><br><span class="line">                    &#39;Result of add_two_ints: for %d + %d &#x3D; %d&#39; %</span><br><span class="line">                    (minimal_client.req.a, minimal_client.req.b, response.sum))</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line">    minimal_client.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-代码审查"><a href="#3-1-代码审查" class="headerlink" title="3.1 代码审查"></a>3.1 代码审查</h3><p>客户端的唯一不同的导入语句是import sys。客户端节点代码使用sys.argv来访问请求的命令行输入参数。</p>
+<p>构造函数构造了一个与服务节点具有相同类型和名称的客户端，构造函数中的while循环每秒检查一次与客户端类型和名称匹配的服务是否可用。</p>
+<p>客户主体的唯一显着差异是while循环。只要系统正在运行，循环就会检查<code>future</code>是否有服务响应。如果服务已发送响应，则结果将写入日志消息中</p>
+<h2 id="3-2-添加entry-point"><a href="#3-2-添加entry-point" class="headerlink" title="3.2 添加entry point"></a>3.2 添加entry point</h2><p>与服务节点一样，您还必须添加一个入口点才能运行客户端节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">entry_points&#x3D;&#123;</span><br><span class="line">    &#39;console_scripts&#39;: [</span><br><span class="line">        &#39;service &#x3D; py_srvcli.service_member_function:main&#39;,</span><br><span class="line">        &#39;client &#x3D; py_srvcli.client_member_function:main&#39;,</span><br><span class="line">    ],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="4-build-and-run-1"><a href="#4-build-and-run-1" class="headerlink" title="4.build and run"></a>4.build and run</h2><p>首先利用<code>rosdep</code>检查一下依赖是否都已经安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install -i --from-path src --rosdistro dashing -y</span><br></pre></td></tr></table></figure>
+<p>去根目录进行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select py_srvcli</span><br></pre></td></tr></table></figure>
+<p>新打开一个终端运行，工作区根目录，运行服务端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;ros2_dashing&#x2F;install&#x2F;setup.bash</span><br><span class="line">source install&#x2F;local_setup.bash </span><br><span class="line">ros2 run py_srvcli service</span><br></pre></td></tr></table></figure>
+<p>打开另外一个终端，运行客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;ros2_dashing&#x2F;install&#x2F;setup.bash</span><br><span class="line">source install&#x2F;local_setup.bash </span><br><span class="line">ros2 run py_srvcli client 2 4</span><br></pre></td></tr></table></figure>
+<p>这是，客户端返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [minimal_client_async]: Result of add_two_ints: for 2 + 4 &#x3D; 6</span><br></pre></td></tr></table></figure>
+<p>服务端返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [minimal_service]: Incoming request</span><br><span class="line">a: 2 b: 4</span><br></pre></td></tr></table></figure>
+<h2 id="5-Summary-1"><a href="#5-Summary-1" class="headerlink" title="5.Summary"></a>5.Summary</h2><p>您创建了两个节点来通过服务请求和响应数据。您将它们的依赖项和可执行文件添加到程序包配置文件中，以便可以构建和运行它们，从而使您可以看到正在使用的服务/客户端系统。</p>
+<h1 id="自定义接口"><a href="#自定义接口" class="headerlink" title="自定义接口"></a>自定义接口</h1><p>目标：定义自定义接口文件（.msg和.srv），并将其与Python和C ++节点一起使用。</p>
+<h2 id="1-新建一个package"><a href="#1-新建一个package" class="headerlink" title="1.新建一个package"></a>1.新建一个package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br><span class="line">ros2 pkg create --build-type ament_python tutorial_interfaces</span><br></pre></td></tr></table></figure>
+<p>请注意，它是一个CMake软件包。目前还没有一种在纯Python包中生成.msg或.srv文件的方法。您可以在CMake包中创建一个自定义接口，然后在Python节点中使用它，这将在最后一部分中介绍。</p>
+<p>将.msg和.srv文件保存在包中各自的目录中是一种很好的做法。在dev_ws/src/tutorial_interfaces中创建目录:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir msg</span><br><span class="line"></span><br><span class="line">mkdir srv</span><br></pre></td></tr></table></figure>
+<h2 id="2-自定义definition"><a href="#2-自定义definition" class="headerlink" title="2.自定义definition"></a>2.自定义definition</h2><p>在<code>tutorial_interfaces/msg</code>文件里新建文件<code>Num.msg</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int64 num</span><br></pre></td></tr></table></figure>
+<p>在<code>tutorial_interfaces/s</code>rv文件里新建文件<code>AddThreeInts.srv</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int64 a</span><br><span class="line">int64 b</span><br><span class="line">int64 c</span><br><span class="line">---</span><br><span class="line">int64 sum</span><br></pre></td></tr></table></figure>
+<p>这是您的自定义服务，它请求三个名为a，b和c的整数，并以一个称为sum的整数进行响应。</p>
+<h2 id="3-CMakeLists"><a href="#3-CMakeLists" class="headerlink" title="3.CMakeLists"></a>3.CMakeLists</h2><p>要将定义的接口转换为特定语言的代码(如c++和Python)，以便它们可以在这些语言中使用，请在CMakeLists.txt中添加以下行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">find_package(rosidl_default_generators REQUIRED)</span><br><span class="line"></span><br><span class="line">rosidl_generate_interfaces($&#123;PROJECT_NAME&#125;</span><br><span class="line">  &quot;msg&#x2F;Num.msg&quot;</span><br><span class="line">  &quot;srv&#x2F;AddThreeInts.srv&quot;</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+<h2 id="4-package-xml"><a href="#4-package-xml" class="headerlink" title="4.package.xml"></a>4.package.xml</h2><p>由于接口依赖于rosidl_default_generators来生成特定于语言的代码，因此您需要声明对它的依赖关系。将以下行添加到package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;build_depend&gt;rosidl_default_generators&lt;&#x2F;build_depend&gt;</span><br><span class="line"></span><br><span class="line">&lt;exec_depend&gt;rosidl_default_runtime&lt;&#x2F;exec_depend&gt;</span><br><span class="line"></span><br><span class="line">&lt;member_of_group&gt;rosidl_interface_packages&lt;&#x2F;member_of_group&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="5-build"><a href="#5-build" class="headerlink" title="5.build"></a>5.build</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select tutorial_interfaces</span><br></pre></td></tr></table></figure>
+<p>现在，其他ROS 2软件包将可以发现这些接口。</p>
+<h2 id="6-确定msg和srv的创建"><a href="#6-确定msg和srv的创建" class="headerlink" title="6.确定msg和srv的创建"></a>6.确定msg和srv的创建</h2><p>现在打开一个新的终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source . install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+<p>就可以尝试使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 msg show tutorial_interfaces&#x2F;msg&#x2F;Num</span><br></pre></td></tr></table></figure>
+<p>会返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int64 num</span><br></pre></td></tr></table></figure>
+<p>这将作为发布和订阅传输的一个格式</p>
+<p>还可以尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 srv show tutorial_interfaces&#x2F;srv&#x2F;AddThreeInts</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int64 a</span><br><span class="line">int64 b</span><br><span class="line">int64 c</span><br><span class="line">---</span><br><span class="line">int64 sum</span><br></pre></td></tr></table></figure>
+<p>这将是作为服务中的调用和请求的参数使用</p>
+<h2 id="7-测试一下新的interface"><a href="#7-测试一下新的interface" class="headerlink" title="7 测试一下新的interface"></a>7 测试一下新的interface</h2><p>您可以使用在前面的教程中创建的包。对节点、CMakeLists和包文件做一些简单的修改就可以使用新的接口</p>
+<h3 id="7-1-利用pub-sub来测试Num-msg"><a href="#7-1-利用pub-sub来测试Num-msg" class="headerlink" title="7.1 利用pub/sub来测试Num.msg"></a>7.1 利用pub/sub来测试Num.msg</h3><p>打开pub/sub下的Publisher：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line">from tutorial_interfaces.msg import Num    # CHANGE</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalPublisher(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_publisher&#39;)</span><br><span class="line">        self.publisher_ &#x3D; self.create_publisher(Num, &#39;topic&#39;, 10)     # CHANGE</span><br><span class="line">        timer_period &#x3D; 0.5</span><br><span class="line">        self.timer &#x3D; self.create_timer(timer_period, self.timer_callback)</span><br><span class="line">        self.i &#x3D; 0</span><br><span class="line"></span><br><span class="line">    def timer_callback(self):</span><br><span class="line">        msg &#x3D; Num()                                           # CHANGE</span><br><span class="line">        msg.num &#x3D; self.i                                      # CHANGE</span><br><span class="line">        self.publisher_.publish(msg)</span><br><span class="line">        self.get_logger().info(&#39;Publishing: &quot;%d&quot;&#39; % msg.num)  # CHANGE</span><br><span class="line">        self.i +&#x3D; 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_publisher &#x3D; MinimalPublisher()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_publisher)</span><br><span class="line"></span><br><span class="line">    minimal_publisher.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>subscriber:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line">from tutorial_interfaces.msg import Num        # CHANGE</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalSubscriber(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_subscriber&#39;)</span><br><span class="line">        self.subscription &#x3D; self.create_subscription(</span><br><span class="line">            Num,                                              # CHANGE</span><br><span class="line">            &#39;topic&#39;,</span><br><span class="line">            self.listener_callback,</span><br><span class="line">            10)</span><br><span class="line">        self.subscription</span><br><span class="line"></span><br><span class="line">    def listener_callback(self, msg):</span><br><span class="line">            self.get_logger().info(&#39;I heard: &quot;%d&quot;&#39; % msg.num) # CHANGE</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_subscriber &#x3D; MinimalSubscriber()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_subscriber)</span><br><span class="line"></span><br><span class="line">    minimal_subscriber.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;exec_depend&gt;tutorial_interfaces&lt;&#x2F;exec_depend&gt;</span><br></pre></td></tr></table></figure>
+<p>进入根目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select py_pubsub</span><br></pre></td></tr></table></figure>
+<p>打开俩新的终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ros2 run py_pubsub talker</span><br><span class="line">ros2 run py_pubsub listener</span><br><span class="line">[INFO] [minimal_publisher]: Publishing: &#39;0&#39;</span><br><span class="line">[INFO] [minimal_publisher]: Publishing: &#39;1&#39;</span><br><span class="line">[INFO] [minimal_publisher]: Publishing: &#39;2&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="7-2-通过service-client-来测试-AddThreeInts-srv"><a href="#7-2-通过service-client-来测试-AddThreeInts-srv" class="headerlink" title="7.2 通过service/client 来测试 AddThreeInts.srv"></a>7.2 通过service/client 来测试 <code>AddThreeInts.srv</code></h3><p>修改之前的项目<code>py_srvcli</code></p>
+<p>打开服务端代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">from tutorial_interfaces.srv import AddThreeInts     # CHANGE</span><br><span class="line"></span><br><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalService(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_service&#39;)</span><br><span class="line">        self.srv &#x3D; self.create_service(AddThreeInts, &#39;add_three_ints&#39;, self.add_three_ints_callback)        # CHANGE</span><br><span class="line"></span><br><span class="line">    def add_three_ints_callback(self, request, response):</span><br><span class="line">        response.sum &#x3D; request.a + request.b + request.c                                                  # CHANGE</span><br><span class="line">        self.get_logger().info(&#39;Incoming request\na: %d b: %d c: %d&#39; % (request.a, request.b, request.c)) # CHANGE</span><br><span class="line"></span><br><span class="line">        return response</span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_service &#x3D; MinimalService()</span><br><span class="line"></span><br><span class="line">    rclpy.spin(minimal_service)</span><br><span class="line"></span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>打开客户端代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">from tutorial_interfaces.srv import AddThreeInts       # CHANGE</span><br><span class="line">import sys</span><br><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class MinimalClientAsync(Node):</span><br><span class="line"></span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__(&#39;minimal_client_async&#39;)</span><br><span class="line">        self.cli &#x3D; self.create_client(AddThreeInts, &#39;add_three_ints&#39;)       # CHANGE</span><br><span class="line">        while not self.cli.wait_for_service(timeout_sec&#x3D;1.0):</span><br><span class="line">            self.get_logger().info(&#39;service not available, waiting again...&#39;)</span><br><span class="line">        self.req &#x3D; AddThreeInts.Request()                                   # CHANGE</span><br><span class="line"></span><br><span class="line">    def send_request(self):</span><br><span class="line">        self.req.a &#x3D; int(sys.argv[1])</span><br><span class="line">        self.req.b &#x3D; int(sys.argv[2])</span><br><span class="line">        self.req.c &#x3D; int(sys.argv[3])                  # CHANGE</span><br><span class="line">        self.future &#x3D; self.cli.call_async(self.req)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main(args&#x3D;None):</span><br><span class="line">    rclpy.init(args&#x3D;args)</span><br><span class="line"></span><br><span class="line">    minimal_client &#x3D; MinimalClientAsync()</span><br><span class="line">    minimal_client.send_request()</span><br><span class="line"></span><br><span class="line">    while rclpy.ok():</span><br><span class="line">        rclpy.spin_once(minimal_client)</span><br><span class="line">        if minimal_client.future.done():</span><br><span class="line">            try:</span><br><span class="line">                response &#x3D; minimal_client.future.result()</span><br><span class="line">            except Exception as e:</span><br><span class="line">                minimal_client.get_logger().info(</span><br><span class="line">                    &#39;Service call failed %r&#39; % (e,))</span><br><span class="line">            else:</span><br><span class="line">                minimal_client.get_logger().info(</span><br><span class="line">                    &#39;Result of add_three_ints: for %d + %d + %d &#x3D; %d&#39; %                               # CHANGE</span><br><span class="line">                    (minimal_client.req.a, minimal_client.req.b, minimal_client.req.c, response.sum)) # CHANGE</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line">    minimal_client.destroy_node()</span><br><span class="line">    rclpy.shutdown()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>package.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select py_srvcli</span><br></pre></td></tr></table></figure>
+<p>打开俩终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ros2 run py_srvcli service</span><br><span class="line">ros2 run py_srvcli client 2 3 1</span><br></pre></td></tr></table></figure>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>在本教程中，您学习了如何在自己的程序包中创建自定义接口，以及如何在其他程序包中利用这些接口。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/02/ros2%E5%AD%A6%E4%B9%A0%E4%BA%94/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros2学习五</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/03/28/SLAM%20ToolBox/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros学习三</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ros2%E5%AD%A6%E4%B9%A0%E5%9B%9B"><span class="nav-number">1.</span> <span class="nav-text">ros2学习四</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84publisher%E5%92%8Csubscriber"><span class="nav-number">1.1.</span> <span class="nav-text">写一个简单的publisher和subscriber</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AApackage"><span class="nav-number">1.2.</span> <span class="nav-text">1.创建一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%99publisher%E7%9A%84%E4%B8%80%E4%B8%AAnode"><span class="nav-number">1.3.</span> <span class="nav-text">2. 写publisher的一个node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%A7%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1.代码审视</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2添加依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3%E7%82%B9"><span class="nav-number">1.3.3.</span> <span class="nav-text">2.3 添加入口点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%9F%A5%E7%9C%8Bsetup-cfg"><span class="nav-number">1.3.4.</span> <span class="nav-text">2.4 查看setup.cfg</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%99%E4%B8%80%E4%B8%AAsubscriber%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.</span> <span class="nav-text">3.写一个subscriber节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E5%AE%A1%E8%A7%86%E4%BB%A3%E7%A0%81"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.1审视代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AAentry-point"><span class="nav-number">1.4.2.</span> <span class="nav-text">3.2 添加一个entry point</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-build-and-run"><span class="nav-number">1.5.</span> <span class="nav-text">4.build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Summary"><span class="nav-number">1.6.</span> <span class="nav-text">5.Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">1.7.</span> <span class="nav-text">写一个简单的客户端和服务端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AApackage"><span class="nav-number">1.8.</span> <span class="nav-text">1. 建立一个package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%9B%B4%E6%96%B0package-xml%E5%92%8Csetup-py"><span class="nav-number">1.8.1.</span> <span class="nav-text">1.1 更新package.xml和setup.py</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%99%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%8A%82%E7%82%B9"><span class="nav-number">1.9.</span> <span class="nav-text">2.写服务端节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">1.9.1.</span> <span class="nav-text">2.1代码审查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%B7%BB%E5%8A%A0%E5%90%AF%E5%8A%A8%E9%A1%B9"><span class="nav-number">1.9.2.</span> <span class="nav-text">2.2 添加启动项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%99%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">1.10.</span> <span class="nav-text">3.写客户端代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">1.10.1.</span> <span class="nav-text">3.1 代码审查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%B7%BB%E5%8A%A0entry-point"><span class="nav-number">1.11.</span> <span class="nav-text">3.2 添加entry point</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-build-and-run-1"><span class="nav-number">1.12.</span> <span class="nav-text">4.build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Summary-1"><span class="nav-number">1.13.</span> <span class="nav-text">5.Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.</span> <span class="nav-text">自定义接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AApackage"><span class="nav-number">2.1.</span> <span class="nav-text">1.新建一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89definition"><span class="nav-number">2.2.</span> <span class="nav-text">2.自定义definition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-CMakeLists"><span class="nav-number">2.3.</span> <span class="nav-text">3.CMakeLists</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-package-xml"><span class="nav-number">2.4.</span> <span class="nav-text">4.package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-build"><span class="nav-number">2.5.</span> <span class="nav-text">5.build</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A1%AE%E5%AE%9Amsg%E5%92%8Csrv%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">2.6.</span> <span class="nav-text">6.确定msg和srv的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%8B%E6%96%B0%E7%9A%84interface"><span class="nav-number">2.7.</span> <span class="nav-text">7 测试一下新的interface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%88%A9%E7%94%A8pub-sub%E6%9D%A5%E6%B5%8B%E8%AF%95Num-msg"><span class="nav-number">2.7.1.</span> <span class="nav-text">7.1 利用pub&#x2F;sub来测试Num.msg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E9%80%9A%E8%BF%87service-client-%E6%9D%A5%E6%B5%8B%E8%AF%95-AddThreeInts-srv"><span class="nav-number">2.7.2.</span> <span class="nav-text">7.2 通过service&#x2F;client 来测试 AddThreeInts.srv</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">2.8.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

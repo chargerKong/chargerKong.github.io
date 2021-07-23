@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            光流法匹配 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">光流法匹配</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-07-08 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E8%A7%86%E8%A7%89SLAM%EF%BC%8C%E5%8C%B9%E9%85%8D/">视觉SLAM，匹配</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>提取特征的话是真的比较慢，换一个方法</p>
+<p>可以不通过特征匹配，来拿到匹配点</p>
+<ul>
+<li>通过其他方式寻找配对点：光流</li>
+<li>不需要配对点：直接法</li>
+</ul>
+<h1 id="光流介绍"><a href="#光流介绍" class="headerlink" title="光流介绍"></a>光流介绍</h1><p>光流：追踪源图像某一个点在其他图像中的运动</p>
+<p>一般分为稀疏光流和稠密光流</p>
+<ul>
+<li>稀疏以Lucas-Kanade(LK)光流为代表</li>
+<li>稠密以Horn-Schunck(HS)光流为代表，要GPU才行</li>
+<li>本质上是估计像素在不同时刻图像中的运动</li>
+</ul>
+<p><img src="/home/kong/repo/blog/blog/source/_posts/78光流法匹配/2021-07-08 15-33-33屏幕截图.png" alt=""></p>
+<p>假设在这个时间点内，像素的亮度或者灰度是不变的！</p>
+<script type="math/tex; mode=display">
+I(x+dx,y+dy,t+dt)=I(x,y,t)</script><p><strong>我们希望能够求出$dx, dy$</strong></p>
+<h2 id="利用最小二乘求解单层光流"><a href="#利用最小二乘求解单层光流" class="headerlink" title="利用最小二乘求解单层光流"></a>利用最小二乘求解单层光流</h2><p><img src="78光流法匹配/2021-07-08 16-27-10屏幕截图.png" alt=""></p>
+<p>这里有两个变量待求解，因此为了求解他们，我们需要引入额外的约束。我们假定在这个点为中心的宽度为W的窗口，假定他们的窗口不变，则，我们可以得到$W^2$个和上述一样的方程</p>
+<p><img src="78光流法匹配/2021-07-08 16-49-03屏幕截图.png" alt=""></p>
+<h2 id="利用牛顿高斯法求解单层光流"><a href="#利用牛顿高斯法求解单层光流" class="headerlink" title="利用牛顿高斯法求解单层光流"></a>利用牛顿高斯法求解单层光流</h2><p>对于方程(1)，我们可以把他看作是一个求误差最小的最优化问题（注意，这里可以加平方的原因的是因为我们想要他们差值为0，而不是单纯的求最小，）</p>
+<script type="math/tex; mode=display">
+\mathop{\arg\min}\limits_{dx,dy}\frac{1}{2}||I(x,y,t)-I(x+dx,y+dy,t+dt)||^2</script><p>不同的时间，可以看做是不同的图像，我们只需要找到第二幅图中对应与第一幅图中关键点的点即可。</p>
+<script type="math/tex; mode=display">
+\mathop{\arg\min}\limits_{dx,dy}\frac{1}{2}||I(x,y)_{m2}-I(x+dx,y+dy)_{m1}||^2</script><p>令$f(dx,dy) = I(x,y)<em>{m2}-I(x+dx,y+dy)</em>{m1}$，</p>
+<p>高斯牛顿法的思想为对$f(x)$进行一阶的泰勒展开，然后我们寻找增量$\Delta x$，使得$||f(x+\Delta x)||^2$达到最小。则有</p>
+<script type="math/tex; mode=display">
+\Delta x^*=\mathop{\arg\min}\limits_{\Delta x}\frac{1}{2}||f(x)+J(x)^T\Delta x||^2</script><p>多扯一句，若$x$是一个列向量，那么$J(x)$也为一个列向量，因此在这里需要转置，才可以进行$f(x)$标量加$J(x)^T\Delta x$标量的操作</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}||f(x)+J(x)^T\Delta x||^2=\frac{1}{2}(f(x)+J(x)^T\Delta x)^T(f(x)+J(x)^T\Delta x)\\
+=\frac{1}{2}(||f(x)||^2+f(x)^TJ(x)^T\Delta x+(J(x)^T\Delta x)^Tf(x)+\Delta x^TJ(x)J(x)^T\Delta x)\\</script><p>注意，这里$f(x)^TJ(x)^T\Delta x$是一个标量，因此，上式可以写做</p>
+<script type="math/tex; mode=display">
+=\frac{1}{2}(||f(x)||^2+2f(x)^TJ(x)^T\Delta x+\Delta x^TJ(x)J(x)^T\Delta x)\\</script><p>开，然后我们寻找求上面的式子对$\Delta x$求导，并另其等于为零：</p>
+<script type="math/tex; mode=display">
+J(x)f(x)+J(x)J(x)^T\Delta x=0</script><p>则有</p>
+<script type="math/tex; mode=display">
+H\Delta x=b</script><p>其中，$H=J(x)J(x)^T，b=-J(x)f(x)$。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OpticalFlowSingleLevel</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> Mat &amp;img1, <span class="comment">//为第一幅图</span></span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> Mat &amp;img2, <span class="comment">//为第二幅图</span></span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> vector&lt;KeyPoint&gt; &amp;kp1, <span class="comment">//第一幅图关键点</span></span></span></span><br><span class="line"><span class="function"><span class="params">        vector&lt;KeyPoint&gt; &amp;kp2,<span class="comment">//第二幅图关键点，待求，输入的时候是一个空的vector</span></span></span></span><br><span class="line"><span class="function"><span class="params">        vector&lt;<span class="keyword">bool</span>&gt; &amp;success,<span class="comment">//返回值，判断是否计算成功</span></span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">bool</span> inverse<span class="comment">//是否为反向光流</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// parameters</span></span><br><span class="line">    <span class="keyword">int</span> half_patch_size = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">int</span> iterations = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">bool</span> have_initial = !kp2.<span class="built_in">empty</span>();</span><br><span class="line">	<span class="comment">// 对每一个关键点进行计算</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; kp1.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">auto</span> kp = kp1[i];</span><br><span class="line">        <span class="comment">// 如果是第一次计算，dx=dy=0</span></span><br><span class="line">        <span class="keyword">double</span> dx = <span class="number">0</span>, dy = <span class="number">0</span>; <span class="comment">// dx,dy need to be estimated</span></span><br><span class="line">        <span class="comment">// 若不是第一次计算，则为两幅图对应关键点的差值</span></span><br><span class="line">        <span class="keyword">if</span> (have_initial) &#123;</span><br><span class="line">            dx = kp2[i].pt.x - kp.pt.x;</span><br><span class="line">            dy = kp2[i].pt.y - kp.pt.y;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> cost = <span class="number">0</span>, lastCost = <span class="number">0</span>;                        <span class="comment">// NOTE this J does not change when dx, dy is updated, so we can store it and only compute error</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">bool</span> succ = <span class="literal">true</span>; <span class="comment">// indicate if this point succeeded</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 针对每一个点，都通过高斯牛顿法求解和他对应的在第二张图中的点。8x8的框</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> iter = <span class="number">0</span>; iter &lt; iterations; iter++) &#123;</span><br><span class="line">            Eigen::Matrix2d H = Eigen::Matrix2d::<span class="built_in">Zero</span>();</span><br><span class="line">            Eigen::Vector2d b = Eigen::Vector开，然后我们寻找<span class="number">2</span>d::<span class="built_in">Zero</span>();</span><br><span class="line">            cost = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (kp.pt.x + dx &lt;= half_patch_size || kp.pt.x + dx &gt;= img1.cols - half_patch_size ||</span><br><span class="line">                kp.pt.y + dy &lt;= half_patch_size || kp.pt.y + dy &gt;= img1.rows - half_patch_size) &#123;   <span class="comment">// go outside</span></span><br><span class="line">                succ = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 循环8x8的框中的每一个点，其实在这里构造8x8的框，我认为是更好的求Delta x。可以更精确的找到下降的方向。</span></span><br><span class="line">            <span class="comment">// 比如两个点也可以求直线，但是他不可以很好的代表所有点所表示的线，需要考虑求所有点，然后最小二乘，那就可以找到近似的线</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> x = -half_patch_size; x &lt; half_patch_size; x++)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> y = -half_patch_size; y &lt; half_patch_size; y++) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// GetPixelValue函数是可以求任何值对应的亮度，通过插值计算得到</span></span><br><span class="line">                    <span class="keyword">double</span> error = <span class="built_in">GetPixelValue</span>(img1, x + kp.pt.x, y + kp.pt.y) - <span class="built_in">GetPixelValue</span>(img2, x + kp.pt.x + dx, y + kp.pt.y + dy);</span><br><span class="line">                    Eigen::Vector2d J;  <span class="comment">// Jacobian</span></span><br><span class="line">                    <span class="keyword">if</span> (inverse == <span class="literal">false</span>) &#123;</span><br><span class="line">                        <span class="comment">// f(x,y)_x = (f(x+1,y) - f(x-1,y))/2</span></span><br><span class="line">                        J &lt;&lt; <span class="number">-0.5</span> * (<span class="built_in">GetPixelValue</span>(img2, x+kp.pt.x+dx+<span class="number">1</span>, y+kp.pt.y+dy) - <span class="built_in">GetPixelValue</span>(img2, x+kp.pt.x+dx - <span class="number">1</span>, y+kp.pt.y+dy)),</span><br><span class="line">                            <span class="number">-0.5</span> * (<span class="built_in">GetPixelValue</span>(img2, x+kp.pt.x+dx, y+kp.pt.y+dy + <span class="number">1</span>) - <span class="built_in">GetPixelValue</span>(img2, x+kp.pt.x+dx, y+kp.pt.y+dy - <span class="number">1</span>));</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">// Inverse Jacobian</span></span><br><span class="line">                        <span class="comment">// NOTE this J does not change when dx, dy is updated, so we can store it and only compute error</span></span><br><span class="line">                        J &lt;&lt; <span class="number">-0.5</span> * (<span class="built_in">GetPixelValue</span>(img1, x+kp.pt.x+dx+<span class="number">1</span>, y+kp.pt.y+dy) - <span class="built_in">GetPixelValue</span>(img1, x+kp.pt.x+dx - <span class="number">1</span>, y+kp.pt.y+dy)),</span><br><span class="line">                            <span class="number">-0.5</span> * (<span class="built_in">GetPixelValue</span>(img1, x+kp.pt.x+dx, y+kp.pt.y+dy + <span class="number">1</span>) - <span class="built_in">GetPixelValue</span>(img1, x+kp.pt.x+dx, y+kp.pt.y+dy - <span class="number">1</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// compute H, b and set cost;</span></span><br><span class="line">                    H += J * J.<span class="built_in">transpose</span>();</span><br><span class="line">                    b += -error *J;</span><br><span class="line">                    cost += error * error;</span><br><span class="line">                    <span class="comment">// TODO END YOUR CODE HERE</span></span><br><span class="line">                &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// compute update</span></span><br><span class="line">            <span class="comment">// TODO START YOUR CODE HERE (~1 lines)</span></span><br><span class="line">            Eigen::Vector2d update = H.<span class="built_in">ldlt</span>().<span class="built_in">solve</span>(b);</span><br><span class="line">            <span class="comment">// TODO END YOUR CODE HERE</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isnan</span>(update[<span class="number">0</span>])) &#123;</span><br><span class="line">                <span class="comment">// sometimes occurred when we have a black or white patch and H is irreversible</span></span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;update is nan&quot;</span> &lt;&lt; endl;</span><br><span class="line">                succ = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (iter &gt; <span class="number">0</span> &amp;&amp; cost &gt; lastCost) &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;cost increased: &quot;</span> &lt;&lt; cost &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; lastCost &lt;&lt; endl;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// update dx, dy</span></span><br><span class="line">            dx += update[<span class="number">0</span>];</span><br><span class="line">            dy += update[<span class="number">1</span>];</span><br><span class="line">            lastCost = cost;</span><br><span class="line">            succ = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        success.<span class="built_in">push_back</span>(succ);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// set kp2</span></span><br><span class="line">        <span class="keyword">if</span> (have_initial) &#123;</span><br><span class="line">            kp2[i].pt = kp.pt + <span class="built_in">Point2f</span>(dx, dy);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            KeyPoint tracked = kp;</span><br><span class="line">            tracked.pt += cv::<span class="built_in">Point2f</span>(dx, dy);</span><br><span class="line">            kp2.<span class="built_in">push_back</span>(tracked);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="逆向光流法"><a href="#逆向光流法" class="headerlink" title="逆向光流法"></a>逆向光流法</h2><p>在你实现了上述算法之后,就会发现,在迭代开始时, 高斯牛顿法的计算依赖于 img2 在$ (x_i +\Delta x_i , y_i +<br>\Delta y_i )$ 处的梯度信息。然而,角点提取算法仅保证了 Imag1 $(x_i , y_i )$ 处是角点(可以认为角度点存在明显梯度)，但对于 imag2 ,我们并没有办法假设 imag2 在 $(x_i , y_i)$ 处亦有梯度,从而 Gauss-Newton 并不一定成立。反向的光流法(inverse)则做了一个巧妙的技巧,即用 imag1$ (x_i , y_i )$ 处的梯度,替换掉原本要计算的 imag2 $<br>(x_i +\Delta x_i , y_i +\Delta y_i)$。这样做的好处有:</p>
+<ul>
+<li><p>$I_1 (x_i , y_i )$ 是角点,梯度总有意义;</p>
+</li>
+<li><p>$I_1 (x_i , y_i )$处的梯度不随迭代改变,所以只需计算一次,就可以在后续的迭代中一直使用,节省了大量计算时间</p>
+</li>
+</ul>
+<p>在上述代码中我们为 OpticalFlowSingleLevel 函数添加一个 bool inverse 参数,指定要使用正常的算法还是反向的算法。</p>
+<h2 id="多层光流"><a href="#多层光流" class="headerlink" title="多层光流"></a>多层光流</h2><p><strong>问题：</strong>因为LK光流的结果依赖于图像梯度</p>
+<ul>
+<li>但梯度不够平滑，可能剧烈变化</li>
+<li>局部的梯度不能用于预测长期图像走向</li>
+<li>解决方式：多层光流</li>
+</ul>
+<p><img src="/home/kong/repo/blog/blog/source/_posts/78光流法匹配/2021-07-08 16-51-24屏幕截图.png" alt=""></p>
+<p>假设运动过快，一个在$I_1$上的像素点运动了20个像素点，那么在缩放的金字塔顶端也不过是移动了5个像素，这样一来就相对好算。可以改善掉单层图像光流容易达到一个局部的最小值的问题</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OpticalFlowMultiLevel</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> Mat &amp;img1,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> Mat &amp;img2,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> vector&lt;KeyPoint&gt; &amp;kp1,</span></span></span><br><span class="line"><span class="function"><span class="params">        vector&lt;KeyPoint&gt; &amp;kp2,</span></span></span><br><span class="line"><span class="function"><span class="params">        vector&lt;<span class="keyword">bool</span>&gt; &amp;success,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">bool</span> inverse)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// parameters</span></span><br><span class="line">    <span class="keyword">int</span> pyramids = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">double</span> pyramid_scale = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">double</span> scales[] = &#123;<span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.25</span>, <span class="number">0.125</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create pyramids</span></span><br><span class="line">    vector&lt;Mat&gt; pyr1, pyr2; <span class="comment">// image pyramids</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pyramids; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">            pyr1.<span class="built_in">push_back</span>(img1);</span><br><span class="line">            pyr2.<span class="built_in">push_back</span>(img2);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Mat imag1_pyr1, imag2_pyr2;</span><br><span class="line">            cv::<span class="built_in">resize</span>(pyr1[i - <span class="number">1</span>], imag1_pyr1, cv::<span class="built_in">Size</span>(pyr1[i - <span class="number">1</span>].cols * pyramid_scale, pyr1[i - <span class="number">1</span>].rows * pyramid_scale));</span><br><span class="line">            cv::<span class="built_in">resize</span>(pyr2[i - <span class="number">1</span>], imag2_pyr2, cv::<span class="built_in">Size</span>(pyr2[i - <span class="number">1</span>].cols * pyramid_scale, pyr2[i - <span class="number">1</span>].rows * pyramid_scale));</span><br><span class="line">            pyr1.<span class="built_in">push_back</span>(imag1_pyr1);</span><br><span class="line">            pyr2.<span class="built_in">push_back</span>(imag2_pyr2);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// TODO END YOUR CODE HERE</span></span><br><span class="line">    <span class="comment">// 从小的开始进行寻找对应I1上I2的关键点</span></span><br><span class="line">    vector&lt;KeyPoint&gt; py1, py2;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;p: kp1) &#123;</span><br><span class="line">        KeyPoint kp = p;</span><br><span class="line">        kp.pt *= scales[pyramids - <span class="number">1</span>];</span><br><span class="line">        py1.<span class="built_in">push_back</span>(kp);</span><br><span class="line">        py2.<span class="built_in">push_back</span>(kp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// coarse-to-fine LK tracking in pyramids</span></span><br><span class="line">    <span class="comment">// TODO START YOUR CODE HERE</span></span><br><span class="line">    <span class="comment">// 开始匹配</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = pyramids - <span class="number">1</span>; j &gt;= <span class="number">0</span>; --j) &#123;</span><br><span class="line">        <span class="comment">// success.clear();</span></span><br><span class="line">        <span class="built_in">OpticalFlowSingleLevel</span>(pyr1[j], pyr2[j], py1, py2, success, inverse);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 放大关键点到下一层金字塔</span></span><br><span class="line">        <span class="keyword">if</span> (j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; py1.<span class="built_in">size</span>(); ++k) &#123;</span><br><span class="line">                py1[k].pt /= pyramid_scale;</span><br><span class="line">                py2[k].pt /= pyramid_scale;</span><br><span class="line">            &#125;</span><br><span class="line">           </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    kp2 = py2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>代码解读：</strong></p>
+<p>设置金字塔为四层，每一层的倍数为0.5</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// parameters</span></span><br><span class="line"><span class="keyword">int</span> pyramids = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">double</span> pyramid_scale = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">double</span> scales[] = &#123;<span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.25</span>, <span class="number">0.125</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>建立金字塔，就是对两幅图像的对应缩放。第一个位置放原图，第二个是0.5倍图，以此类推</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;Mat&gt; pyr1, pyr2; <span class="comment">// image pyramids</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pyramids; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">        pyr1.<span class="built_in">push_back</span>(img1);</span><br><span class="line">        pyr2.<span class="built_in">push_back</span>(img2);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Mat imag1_pyr1, imag2_pyr2;</span><br><span class="line">        cv::<span class="built_in">resize</span>(pyr1[i - <span class="number">1</span>], imag1_pyr1, cv::<span class="built_in">Size</span>(pyr1[i - <span class="number">1</span>].cols * pyramid_scale, pyr1[i - <span class="number">1</span>].rows * pyramid_scale));</span><br><span class="line">        cv::<span class="built_in">resize</span>(pyr2[i - <span class="number">1</span>], imag2_pyr2, cv::<span class="built_in">Size</span>(pyr2[i - <span class="number">1</span>].cols * pyramid_scale, pyr2[i - <span class="number">1</span>].rows * pyramid_scale));</span><br><span class="line">        pyr1.<span class="built_in">push_back</span>(imag1_pyr1);</span><br><span class="line">        pyr2.<span class="built_in">push_back</span>(imag2_pyr2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，金字塔的模型是需要从最糙的图片开始进行计算，然而我们传入的关键点的位置是针对于原图的，因此我们需要把关键点缩放到对应于最小的图片上，注意这里使用的py2</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从小的开始进行寻找对应I1上I2的关键点</span></span><br><span class="line">vector&lt;KeyPoint&gt; py1, py2;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;p: kp1) &#123;push_back</span><br><span class="line">    KeyPoint kp = p;</span><br><span class="line">    kp.pt *= scales[pyramids - <span class="number">1</span>];</span><br><span class="line">    py1.<span class="built_in">push_back</span>(kp);</span><br><span class="line">    py2.<span class="built_in">push_back</span>(kp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进行单层之间的匹配，本层匹配完了之后，需要把两幅图像的关键点放大到下一层的对应的位置，可以更好的估计下一层的位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = pyramids - <span class="number">1</span>; j &gt;= <span class="number">0</span>; --j) &#123;</span><br><span class="line">       <span class="comment">// success.clear();</span></span><br><span class="line">       <span class="built_in">OpticalFlowSingleLevel</span>(pyr1[j], pyr2[j], py1, py2, success, inverse);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 放大关键点到下一层金字塔</span></span><br><span class="line">       <span class="keyword">if</span> (j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; py1.<span class="built_in">size</span>(); ++k) &#123;</span><br><span class="line">               py1[k].pt /= pyramid_scale;</span><br><span class="line">               py2[k].pt /= pyramid_scale;</span><br><span class="line">           &#125;</span><br><span class="line">          </span><br><span class="line">       &#125;</span><br><span class="line">   &#125; </span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>光流法相对于特征提取来说算是非常快乐，但是如果第一幅图角点的位置提取的不好，那么光流容易跟丢或者给出错误的结果。但是光流法依然有一些不足：</p>
+<ul>
+<li>没有考虑相机的旋转，只是在平移上做了考虑</li>
+<li>没有用到相机本身的几何结构</li>
+<li>边界上的点不好追踪</li>
+</ul>
+<p>下面可以参考直接法，进行处理</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/07/12/711%E7%9B%B4%E6%8E%A5%E6%B3%95/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">直接法匹配</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/07/02/GPU%E5%9C%A8docker%E4%B8%AD%E4%BD%BF%E7%94%A8/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">GPU在docker中使用</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%89%E6%B5%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">光流介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B1%82%E8%A7%A3%E5%8D%95%E5%B1%82%E5%85%89%E6%B5%81"><span class="nav-number">1.1.</span> <span class="nav-text">利用最小二乘求解单层光流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E7%89%9B%E9%A1%BF%E9%AB%98%E6%96%AF%E6%B3%95%E6%B1%82%E8%A7%A3%E5%8D%95%E5%B1%82%E5%85%89%E6%B5%81"><span class="nav-number">1.2.</span> <span class="nav-text">利用牛顿高斯法求解单层光流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%86%E5%90%91%E5%85%89%E6%B5%81%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">逆向光流法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%B1%82%E5%85%89%E6%B5%81"><span class="nav-number">1.4.</span> <span class="nav-text">多层光流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

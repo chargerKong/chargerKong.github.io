@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            xacro文件创建机器人 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">xacro文件创建机器人</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-12 09:59:22
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="在Gazebo中使用URDF"><a href="#在Gazebo中使用URDF" class="headerlink" title="在Gazebo中使用URDF"></a>在Gazebo中使用URDF</h1><h2 id="SDF和URDF的选择"><a href="#SDF和URDF的选择" class="headerlink" title="SDF和URDF的选择"></a>SDF和URDF的选择</h2><p>URDF优势:</p>
+<ul>
+<li>利用宏定义，编写速度快</li>
+<li>支持rviz，可以可视化</li>
+<li>Solidworks建模导出可以urdf</li>
+</ul>
+<p>SDF优势:</p>
+<ul>
+<li>研究多个机器人</li>
+<li>仿真的动力学特性可以更为真实</li>
+<li>可以定义world。</li>
+</ul>
+<p>在上一节中，我们使用了一个SDF文件简单的实现了一个机器人在Gazebo的展示，但是我们会发现，似乎很多内容都是及其相似的，比如左轮和右轮仅仅是相差了一个 参数，但是我们依然还是<code>link, collision</code>这样子又来了一遍，如果我们去建立一个复杂的机器人，那么SDF文件将会比较复杂。</p>
+<h2 id="什么是URDF"><a href="#什么是URDF" class="headerlink" title="什么是URDF"></a>什么是URDF</h2><ul>
+<li><p>Unified Robot Description Format(URDF)，统一机器人描述格式</p>
+</li>
+<li><p>用于解析xml格式的机器人模型</p>
+</li>
+</ul>
+<p>  <img src="xacro文件创建机器人/link_sample.png" alt=""></p>
+<p>统一机器人描述格式(URDF)是ROS中用于描述机器人所有元素的XML文件格式，他的语法和SDF文件十分相似</p>
+<h2 id="标签属性"><a href="#标签属性" class="headerlink" title="标签属性"></a>标签属性</h2><h3 id="robot"><a href="#robot" class="headerlink" title="robot"></a>robot</h3><ul>
+<li>完整机器人模型的最顶层标签</li>
+<li>link 和 joint 标签都必须包含在robot 标签内</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;your_robot_name&quot;</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">link</span>&gt;</span>...<span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">joint</span>&gt;</span>...<span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">link</span>&gt;</span>...<span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">joint</span>&gt;</span>...<span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">link</span>&gt;</span>...<span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">joint</span>&gt;</span>...<span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">	...</span><br><span class="line"><span class="tag">&lt;/<span class="name">robot</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="xacro文件创建机器人/robot_demo.png" alt=""></p>
+<h3 id="link"><a href="#link" class="headerlink" title="link"></a>link</h3><ul>
+<li>描述机器人某一个刚体部分的外观和物理属性</li>
+<li>描述尺寸、颜色、形状、惯性矩阵、碰撞等</li>
+<li>每一个link都会是一个坐标系</li>
+</ul>
+<p><img src="xacro文件创建机器人/demo_visual.png" alt=""></p>
+<p>example1.urdf</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.08&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.1&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.08&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.1&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span>                                                                                                                                                      </span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.24&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">iyy</span>=<span class="string">&quot;0.24&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">izz</span>=<span class="string">&quot;0.4&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>visual: 外观上的，利用gazebo呈现的结果<ul>
+<li>origin: 距离原点的偏移，注意坐标系在此不动，单位米，弧度</li>
+<li>geometry: 这里可以选择cylinder，box，sphere，和mesh</li>
+</ul>
+</li>
+<li>collision: 实际碰撞的几何形状和位置</li>
+<li>惯性：他被用于描述碰撞之后的效果<ul>
+<li>mass：单位kg</li>
+<li>转动惯量：由于其对称性，只取上三角，六个元素</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+ixx & ixy & ixz\\
+ixy & iyy & iyz\\
+ixz & iyz & izz
+\end{bmatrix}</script><p>​            如果不知道如何获得转动惯量，可以从<a href="/https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors">维基百科</a>上做参考，复杂的物体可以从其他三维软件中获得，例如meshlab</p>
+<p>如若要仿真一个link，以上三者缺一不可。</p>
+<h3 id="joint"><a href="#joint" class="headerlink" title="joint"></a><a target="_blank" rel="noopener" href="http://wiki.ros.org/urdf/XML/joint">joint</a></h3><ul>
+<li>描述两个link之间的关系，分为六种类型<ul>
+<li>continuous：旋转关节，可以围绕单轴无限旋转</li>
+<li>revolute：旋转关节，类似于continuous，但是有旋转的角度极限</li>
+<li>prismatic：滑动关节，沿某一轴线移动的关节带有位置极限</li>
+<li>planar：平面关节，允许在平面正交方向上平移或者旋转</li>
+<li>floating：浮动关节，允许进行平移、旋转运动</li>
+<li>fixed：固定关节，不允许运动的关节</li>
+</ul>
+</li>
+</ul>
+<p><img src="xacro文件创建机器人/link_demo.png" alt=""></p>
+<p>example2.urdf</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;base_right&quot;</span> <span class="attr">type</span>=<span class="string">&quot;revolute&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0.2 0.06&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;right_wheel_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">limit</span> <span class="attr">lower</span>=<span class="string">&quot;-3.14&quot;</span> <span class="attr">upper</span>=<span class="string">&quot;3.14&quot;</span> <span class="attr">velocity</span>=<span class="string">&quot;1.0&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意limit仅仅只有在revolute和prismatic类型的时候才有效。</p>
+<p>说明：</p>
+<ul>
+<li>origin：表示joint链接到的child的位置</li>
+<li>parent：链接的父级</li>
+<li>child：链接的子级</li>
+<li>axis：旋转轴</li>
+</ul>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><p>下面我们以一个案例来说明如何在gazebo中使用xacro文件，在Gazebo中加载xacro文件，我们需要借助一下ros2中的launch文件</p>
+<h3 id="建立一个ROS2工作区"><a href="#建立一个ROS2工作区" class="headerlink" title="建立一个ROS2工作区"></a>建立一个ROS2工作区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~&#x2F;dev_ws&#x2F;src</span><br></pre></td></tr></table></figure>
+<h3 id="gazebo-ros-package下载"><a href="#gazebo-ros-package下载" class="headerlink" title="gazebo-ros-package下载"></a>gazebo-ros-package下载</h3><p>获得<code>gazebo_ros_pkgs</code>的包的yaml文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros-simulation&#x2F;gazebo_ros_pkgs&#x2F;ros2&#x2F;gazebo_ros_pkgs.repos</span><br></pre></td></tr></table></figure>
+<p>把各个包下载都src文件夹下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcs import src &lt; gazebo_ros_pkgs.repos</span><br></pre></td></tr></table></figure>
+<p>切换分支到对应的ROS版本(不支持rolling的情况下，先切换到ROS2分支)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcs custom --args checkout rolling</span><br></pre></td></tr></table></figure>
+<p>安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install --from-paths src --ignore-src -r -y</span><br></pre></td></tr></table></figure>
+<p>build 所有的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --symlink-install</span><br></pre></td></tr></table></figure>
+<h3 id="新建一个robot-description仓库"><a href="#新建一个robot-description仓库" class="headerlink" title="新建一个robot_description仓库"></a>新建一个robot_description仓库</h3><p>在这个库中，我们首先需要创建两个文件夹</p>
+<ul>
+<li>launch：放我们的启动文件</li>
+<li>urdf：放入我们的文件描述文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python robot_description</span><br><span class="line">cd robot_description</span><br><span class="line">mkdir launch</span><br><span class="line">mkdir urdf</span><br></pre></td></tr></table></figure>
+<h3 id="配置setup-py"><a href="#配置setup-py" class="headerlink" title="配置setup.py"></a>配置setup.py</h3><p>为了让colcon找到启动文件，我们需要使用setup的data_files参数通知Python的安装工具我们的启动文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> glob <span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"></span><br><span class="line">package_name = <span class="string">&#x27;robot_description&#x27;</span></span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    <span class="comment"># Other parameters ...</span></span><br><span class="line">    data_files=[</span><br><span class="line">        <span class="comment"># ... Other data files</span></span><br><span class="line">        <span class="comment"># Include all launch files. This is the most important line here!</span></span><br><span class="line">        (<span class="string">&#x27;share/&#x27;</span> + package_name, glob(<span class="string">&#x27;launch/*.launch.py&#x27;</span>)),</span><br><span class="line">        <span class="comment"># Include all xacro files</span></span><br><span class="line">        (<span class="string">&#x27;share/&#x27;</span> + package_name, glob(<span class="string">&#x27;urdf/*.urdf&#x27;</span>)),</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="launch-文件"><a href="#launch-文件" class="headerlink" title="launch 文件"></a>launch 文件</h3><p>在launch文件夹下建立一个文件：<code>gazebo_empty_urdf.launch.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> ament_index_python.packages <span class="keyword">import</span> get_package_share_directory</span><br><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> IncludeLaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.launch_description_sources <span class="keyword">import</span> PythonLaunchDescriptionSource</span><br><span class="line"><span class="keyword">from</span> launch_ros.actions <span class="keyword">import</span> Node                                                             </span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> Command, PathJoinSubstitution, LaunchConfiguration</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> DeclareLaunchArgument</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">    pkg_gazebo_ros = get_package_share_directory(<span class="string">&quot;gazebo_ros&quot;</span>)</span><br><span class="line">    <span class="comment"># &quot;example1&quot;</span></span><br><span class="line">    urdf_file = os.path.join(get_package_share_directory(<span class="string">&#x27;robot_description&#x27;</span>), <span class="string">&#x27;example1.urdf&#x27;</span>)</span><br><span class="line">    <span class="comment"># urdf_file = os.path.join(get_package_share_directory(&#x27;robot_description&#x27;), &#x27;example2.urdf&#x27;)</span></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">    gazebo = IncludeLaunchDescription(</span><br><span class="line">        PythonLaunchDescriptionSource(</span><br><span class="line">            os.path.join(pkg_gazebo_ros, <span class="string">&#x27;launch&#x27;</span>, <span class="string">&#x27;gazebo.launch.py&#x27;</span>)</span><br><span class="line">        ),  </span><br><span class="line">    )   </span><br><span class="line"></span><br><span class="line">    use_sim_time = LaunchConfiguration(<span class="string">&#x27;use_sim_time&#x27;</span>, default=<span class="string">&#x27;true&#x27;</span>)</span><br><span class="line">    <span class="comment"># GAZEBO_MODEL_PATH has to be correctly set for Gazebo to be able to find the model</span></span><br><span class="line">    spawn_entity = Node(package=<span class="string">&#x27;gazebo_ros&#x27;</span>, executable=<span class="string">&#x27;spawn_entity.py&#x27;</span>,</span><br><span class="line">                      arguments=[<span class="string">&#x27;-entity&#x27;</span>, <span class="string">&#x27;demo&#x27;</span>, <span class="string">&quot;-file&quot;</span>, urdf_file],</span><br><span class="line">                      output=<span class="string">&#x27;screen&#x27;</span>)</span><br><span class="line">                          </span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">            </span><br><span class="line">        DeclareLaunchArgument(<span class="string">&#x27;pause&#x27;</span>, default_value=<span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">                             description=<span class="string">&quot;pause the world&quot;</span>),</span><br><span class="line">        gazebo,</span><br><span class="line">        spawn_entity,</span><br><span class="line">    ])  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这里我们启动了两个节点</p>
+<ul>
+<li>gazebo：用于启动gezebo的客户端和服务端</li>
+<li>spawn_entity：通过文件生成一个机器人</li>
+</ul>
+<h3 id="编写机器人"><a href="#编写机器人" class="headerlink" title="编写机器人"></a>编写机器人</h3><p>打开urdf文件夹，新建文件exmaple1.urdf</p>
+<h4 id="编写底盘"><a href="#编写底盘" class="headerlink" title="编写底盘"></a>编写底盘</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;my_robot&quot;</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.08&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.1&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.08&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.1&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.24&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">iyy</span>=<span class="string">&quot;0.24&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">izz</span>=<span class="string">&quot;0.4&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">robot</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="编译启动"><a href="#编译启动" class="headerlink" title="编译启动"></a>编译启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select robot_description --symlink-install</span><br><span class="line">ros2 launch robot_description gazebo_empty_urdf.launch.py</span><br></pre></td></tr></table></figure>
+<p>应该可以在gazebo的界面中显示</p>
+<p><img src="xacro文件创建机器人/base_link.png" alt=""></p>
+<h4 id="添加驱动轮"><a href="#添加驱动轮" class="headerlink" title="添加驱动轮"></a>添加驱动轮</h4><p>注意，在每一个文件里，不可以有单独的link，各个link之间必须要有joint 表明关系</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;example2&quot;</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.08&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.1&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0.08&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.16&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span>                                                                 </span><br><span class="line">            <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.24&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                     <span class="attr">iyy</span>=<span class="string">&quot;0.24&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span>                                                       </span></span><br><span class="line"><span class="tag">                     <span class="attr">izz</span>=<span class="string">&quot;0.4&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_link&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.025&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.06&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.025&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.06&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;5&quot;</span> /&gt;</span>    </span><br><span class="line">            <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.00228&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                     <span class="attr">iyy</span>=<span class="string">&quot;0.00228&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                     <span class="attr">izz</span>=<span class="string">&quot;0.0015&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;base_right&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0.2 0.06&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;left_wheel_link&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">robot</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="xacro文件创建机器人/one_wheel.png" alt=""></p>
+<p>在这里，设置origin距离原点为0.2m，为底盘的半径，高度是0.06，为驱动轮的半径。同时定义了旋转轴为y轴。</p>
+<p>或者调整为</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0.2 0.06&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span> /&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 1&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>若要再添加一个驱动轮，在robot里面再添加一项</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.025&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.06&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;0.025&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;0.06&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;5&quot;</span> /&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.00228&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                 <span class="attr">iyy</span>=<span class="string">&quot;0.00228&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                 <span class="attr">izz</span>=<span class="string">&quot;0.0015&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;base_right&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 -0.2 0.06&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;right_wheel_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="xacro文件创建机器人/wheel_finish.png" alt=""></p>
+<h4 id="添加万向轮"><a href="#添加万向轮" class="headerlink" title="添加万向轮"></a>添加万向轮</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;front_caster_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;0.015&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;0.015&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;0.1&quot;</span> /&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.000009&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                 <span class="attr">iyy</span>=<span class="string">&quot;0.000009&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                 <span class="attr">izz</span>=<span class="string">&quot;0.000009&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;front_right_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0.18 0 0.015&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;front_caster_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>操作和添加驱动轮的操作完全一样</p>
+<h4 id="添加颜色"><a href="#添加颜色" class="headerlink" title="添加颜色"></a><a target="_blank" rel="noopener" href="http://wiki.ros.org/simulator_gazebo/Tutorials/ListOfMaterials">添加颜色</a></h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Blue<span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;front_caster_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Blue<span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="添加mesh"><a href="#添加mesh" class="headerlink" title="添加mesh"></a>添加mesh</h4><p>在visual -&gt; geometry中的几何形状修改为mesh</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- &lt;cylinder length=&quot;0.1&quot; radius=&quot;0.2&quot; /&gt; --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mesh</span> <span class="attr">filename</span>=<span class="string">&quot;model://create/meshes/create_body.dae&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意，此dae需要在model，即gazebo的model路径之下。</p>
+<p>记得需要添加<code>GAZEBO_MODEL_PATH</code>的值。可以在终端确定也可以在launch文件中加入</p>
+<p>我们发现写urdf文件十分的繁琐，修改参数也十分的麻烦，不便于二次开发</p>
+<p>针对于URDF文件，产生了一种可以将模型精简化、复用性强的一种描述格式，即xacro文件，Xacro是一种XML宏语言,使用xacro，你可以通过使用扩展为更大的XML表达式的宏来构造更短、更可读的XML文件，其文件尾缀为 .xacro</p>
+<h2 id="xacro-下载"><a href="#xacro-下载" class="headerlink" title="xacro 下载"></a>xacro 下载</h2><p>因为<code>xacro</code>没有被ros2安装，因此需要手动下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ros&#x2F;xacro</span><br></pre></td></tr></table></figure>
+<p>切换到最新的分支<code>dashing-devel</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dashing-devel origin&#x2F;dashing-devel</span><br></pre></td></tr></table></figure>
+<p>build构建，安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --symlink-install --packages-select xacro</span><br></pre></td></tr></table></figure>
+<h2 id="xacro文件描述"><a href="#xacro文件描述" class="headerlink" title="xacro文件描述"></a>xacro文件描述</h2><h3 id="xacro头部声明"><a href="#xacro头部声明" class="headerlink" title="xacro头部声明"></a>xacro头部声明</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;robot_name&quot;</span> <span class="attr">xmlns:xacro</span>=<span class="string">&quot;http://www.ros.org/wiki/xacro&gt;&quot;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_radius&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span>                                   </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_length&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.16&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这相当于程序过程中定义的一个常量，可以方便后续调用，增加了建模文件的可读性</p>
+<h3 id="常量调用"><a href="#常量调用" class="headerlink" title="常量调用"></a>常量调用</h3><p>我们可以通过 <code>$&#123;variable&#125;</code>来调用使用常量，并且在<code>&#123;&#125;</code>做简单的数学计算。例如</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot; 0 0 $&#123;base_radius/2&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="定义宏"><a href="#定义宏" class="headerlink" title="定义宏"></a>定义宏</h3><p>对于inertial的定义，其实除了数字的不同之外，其余是几乎完全一致的。因此为了URDF代码的简介性，我们可以定义一个宏就像是C里面的宏定义，通过传入一个参数，我们就可以产生一段对应的URDF的代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;cylinder_inertial_matrix&quot;</span> <span class="attr">params</span>=<span class="string">&quot;m r h&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;m&#125;&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;$&#123;m*(3*r*r+h*h)/12&#125;&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">iyy</span>=<span class="string">&quot;$&#123;m*(3*r*r+h*h)/12&#125;&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">izz</span>=<span class="string">&quot;$&#123;m*r*r/2&#125;&quot;</span> /&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在这里，我们通过<code>xacro:macro</code>定义了一个名字为<code>cylinder_inertial_matrix</code>的宏，传入的参数为<code>m, r, h</code>。</p>
+<h3 id="宏调用"><a href="#宏调用" class="headerlink" title="宏调用"></a>宏调用</h3><p>定义了<code>cylinder_inertial_matrix</code>宏，我们就可以简单快速的完成<code>base_link</code>中惯性张量的定义，如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- inertial part --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:cylinder_inertial_matrix</span>  <span class="attr">m</span>=<span class="string">&quot;$&#123;base_mass&#125;&quot;</span> <span class="attr">r</span>=<span class="string">&quot;$&#123;base_radius&#125;&quot;</span> <span class="attr">h</span>=<span class="string">&quot;$&#123;base_length&#125;&quot;</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- inertial part --&gt;</span></span><br></pre></td></tr></table></figure>
+<p>并且添加对底座参数的定义</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_mass&quot;</span>   <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span> </span><br></pre></td></tr></table></figure>
+<h2 id="launch文件"><a href="#launch文件" class="headerlink" title="launch文件"></a>launch文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> ament_index_python.packages <span class="keyword">import</span> get_package_share_directory</span><br><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> IncludeLaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.launch_description_sources <span class="keyword">import</span> PythonLaunchDescriptionSource</span><br><span class="line"><span class="keyword">from</span> launch_ros.actions <span class="keyword">import</span> Node</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> Command, PathJoinSubstitution, LaunchConfiguration</span><br><span class="line"><span class="keyword">from</span> launch_ros.substitutions <span class="keyword">import</span> FindPackagePrefix</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">    pkg_gazebo_ros = get_package_share_directory(<span class="string">&quot;gazebo_ros&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># gazebo launch</span></span><br><span class="line">    gazebo = IncludeLaunchDescription(</span><br><span class="line">                PythonLaunchDescriptionSource(</span><br><span class="line">                    os.path.join(pkg_gazebo_ros, <span class="string">&#x27;launch&#x27;</span>, <span class="string">&#x27;gazebo.launch.py&#x27;</span>)</span><br><span class="line">                )</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># GAZEBO_MODEL_PATH has to be correctly set for Gazebo to be able to find the model</span></span><br><span class="line">    spawn_entity = Node(package=<span class="string">&#x27;gazebo_ros&#x27;</span>, executable=<span class="string">&#x27;spawn_entity.py&#x27;</span>,</span><br><span class="line">                      arguments=[<span class="string">&#x27;-entity&#x27;</span>, <span class="string">&#x27;demo&#x27;</span>, <span class="string">&quot;-topic&quot;</span>, <span class="string">&quot;robot_description&quot;</span>],</span><br><span class="line">                      output=<span class="string">&#x27;screen&#x27;</span>)</span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    robot_pub = Node(</span><br><span class="line">        package=<span class="string">&#x27;robot_state_publisher&#x27;</span>,</span><br><span class="line">        executable=<span class="string">&#x27;robot_state_publisher&#x27;</span>,</span><br><span class="line">        name=<span class="string">&#x27;robot_state_publisher&#x27;</span>,</span><br><span class="line">        output=<span class="string">&#x27;screen&#x27;</span>,</span><br><span class="line">        parameters=[&#123;<span class="string">&#x27;robot_description&#x27;</span>: Command([</span><br><span class="line">                        PathJoinSubstitution([FindPackagePrefix(<span class="string">&#x27;xacro&#x27;</span>), <span class="string">&quot;bin&quot;</span>, <span class="string">&quot;xacro&quot;</span>]),</span><br><span class="line">                        <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">                        PathJoinSubstitution(</span><br><span class="line">                            [get_package_share_directory(<span class="string">&#x27;robot_description&#x27;</span>), <span class="string">&#x27;my_robot.xacro&#x27;</span>]),</span><br><span class="line">                    ])</span><br><span class="line">                    &#125;],</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">        gazebo,</span><br><span class="line">        robot_pub,</span><br><span class="line">        spawn_entity,</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<p>在这里我们启动了三个节点，</p>
+<ul>
+<li><p><code>gazebo</code>：用于启动gazebo，他包括了gzserver和gzclient，在gzserver中，默认加载了<code>gazebo_ros_factory.so</code>插件，他可以通过ros中的<code>service</code>来产生或者删除一个模型</p>
+</li>
+<li><p><code>robot_pub</code>：发布机器人状态的节点，在整个节点中，我们使用Command去读取了xacro模型文件，以topic的形式进行发布</p>
+</li>
+<li><code>spawn_entity</code>：用于在gazebo中产生一个model的节点，数据来源是以一个topic，接收<code>robot_state_publisher</code>发来的topic来产生model</li>
+</ul>
+<h2 id="机器人模型建立"><a href="#机器人模型建立" class="headerlink" title="机器人模型建立"></a>机器人模型建立</h2><p>打开urdf文件夹，新建一个<code>my_robot.xacro</code>文件，首先输入头部声明</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;robot_name&quot;</span> <span class="attr">xmlns:xacro</span>=<span class="string">&quot;http://www.ros.org/wiki/xacro&gt;&quot;</span></span></span><br><span class="line"><span class="tag"></span></span><br><span class="line">&lt;/robot&gt;</span><br></pre></td></tr></table></figure>
+<p>输入模型建立之前，我们需要定义一些变量进行统一的管理</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;PI&quot;</span> <span class="attr">value</span>=<span class="string">&quot;3.1415926&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_mass&quot;</span>   <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_radius&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.20&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_length&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.10&quot;</span>/&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_mass&quot;</span>   <span class="attr">value</span>=<span class="string">&quot;5&quot;</span> /&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_radius&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.06&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_length&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.025&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_joint_y&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.19&quot;</span>/&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_joint_z&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.05&quot;</span>/&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;caster_mass&quot;</span>    <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;caster_radius&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;0.015&quot;</span>/&gt;</span> <span class="comment">&lt;!-- wheel_radius - ( base_length/2 - wheel_joint_z) --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;caster_joint_x&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.18&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="定义底座"><a href="#定义底座" class="headerlink" title="定义底座"></a>定义底座</h3><p>和SDF文件，定义一个link需要三个部分</p>
+<ul>
+<li>visual：视觉外观看起来的属性</li>
+<li>collision：内容和visual一样，但是表示的是实际判定碰撞时候用到的大小</li>
+<li>inertial：惯性，物理引擎使用惯性信息来计算模型在受力时的行为</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot; 0 0 $&#123;base_length/2+wheel_radius/3&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span>                                                                  </span><br><span class="line">        	<span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;$&#123;base_length&#125;&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;base_radius&#125;&quot;</span>/&gt;</span>             </span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span>                                                                 </span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span>                                                                       </span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span>                                                                     </span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot; 0 0 $&#123;base_length/2+wheel_radius/3&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span>                                                                  </span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;$&#123;base_length&#125;&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;base_radius&#125;&quot;</span>/&gt;</span>             </span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span>                                                                 </span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span>                                                                    </span><br><span class="line">	<span class="tag">&lt;<span class="name">xacro:cylinder_inertial_matrix</span>  <span class="attr">m</span>=<span class="string">&quot;$&#123;base_mass&#125;&quot;</span> <span class="attr">r</span>=<span class="string">&quot;$&#123;base_radius&#125;&quot;</span> <span class="attr">h</span>=<span class="string">&quot;$&#123;base_length&#125;&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>​    我们将惯性部分的写法放到后面。注意URDF文件的写法和SDF文件有一些不同，他将一些属性内嵌在标签里面，而不是单独拿出来重新定义。例如对于一个圆柱体的定义：</p>
+<ul>
+<li><p>SDF：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.20<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.16<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>urdf：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">length</span>=<span class="string">&quot;$&#123;base_length&#125;&quot;</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;base_radius&#125;&quot;</span>/&gt;</span>   </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>除了在定义属性上的区别之外，我们还使用了<code>$&#123;variable&#125;</code>这种方式去代替了原来的数字，<code>$&#123;base_length&#125;</code>和<code>$&#123;base_radius&#125;</code>就是我们之前使用<code>xacro:property</code>所定义的。</p>
+<h3 id="定义宏—驱动轮"><a href="#定义宏—驱动轮" class="headerlink" title="定义宏—驱动轮"></a>定义宏—驱动轮</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;wheel&quot;</span> <span class="attr">params</span>=<span class="string">&quot;prefix reflect&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_wheel_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 $&#123;reflect*wheel_joint_y&#125; $&#123;wheel_radius&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;$&#123;PI/2&#125; 0 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;$&#123;prefix&#125;_wheel_link&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 1&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_wheel_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;wheel_radius&#125;&quot;</span> <span class="attr">length</span> = <span class="string">&quot;$&#123;wheel_length&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 $&#123;reflect*wheel_joint_y&#125; $&#123;wheel_radius&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;$&#123;PI/2&#125; 0 0&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;wheel_radius&#125;&quot;</span> <span class="attr">length</span> = <span class="string">&quot;$&#123;wheel_length&#125;&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:cylinder_inertial_matrix</span>  <span class="attr">m</span>=<span class="string">&quot;$&#123;wheel_mass&#125;&quot;</span> <span class="attr">r</span>=<span class="string">&quot;$&#123;wheel_radius&#125;&quot;</span> <span class="attr">h</span>=<span class="string">&quot;$&#123;wheel_length&#125;&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在整个宏里面，我们定义了一个link，并且对整个link添加了和base_link的joint。传入的参数为<code>prefix</code>和<code>reflect</code>，<code>prefix</code>用于joint和link的name定义，<code>reflect</code>来控制左右轮的y轴正负。定义joint的方式和SDF文件的也十分类似，定义父节点子节点以及旋转轴.</p>
+<p>但是在URDF文件中，没有pose来直接改变物体坐标系的位置。因此我们设置joint的原点位置</p>
+<p>在<code>base_link</code>同级的下方，直接调用两个轮子</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:wheel</span> <span class="attr">prefix</span>=<span class="string">&quot;left&quot;</span> <span class="attr">reflect</span>=<span class="string">&quot;-1&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:wheel</span> <span class="attr">prefix</span>=<span class="string">&quot;right&quot;</span> <span class="attr">reflect</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>现在我们可以打开gazebo进行查看模型情况，别忘记对自己的工作区进行source</p>
+<p>首先需要进行编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select robot_description</span><br></pre></td></tr></table></figure>
+<p>然后启动launch文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
+<p>可以看见如下形式的模型在gazebo中显示</p>
+<p><img src="xacro文件创建机器人/two_wheel.png" alt=""></p>
+<h3 id="定义万向轮"><a href="#定义万向轮" class="headerlink" title="定义万向轮"></a>定义万向轮</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;caster&quot;</span> <span class="attr">params</span>=<span class="string">&quot;prefix reflect&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_caster_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;$&#123;reflect*caster_joint_x&#125; 0 $&#123;caster_radius&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;$&#123;prefix&#125;_caster_link&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_caster_link&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;caster_radius&#125;&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;caster_radius&#125;&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span>      </span><br><span class="line">    	<span class="tag">&lt;<span class="name">xacro:sphere_inertial_matrix</span>  <span class="attr">m</span>=<span class="string">&quot;$&#123;caster_mass&#125;&quot;</span> <span class="attr">r</span>=<span class="string">&quot;$&#123;caster_radius&#125;&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在URDF中，joint的类型没有ball，我们使用<code>continuous</code>类型来做一个替代</p>
+<p>然后进行宏的调用</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:caster</span> <span class="attr">prefix</span>=<span class="string">&quot;front&quot;</span> <span class="attr">reflect</span>=<span class="string">&quot;-1&quot;</span>/&gt;</span>                                                                                                                             </span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:caster</span> <span class="attr">prefix</span>=<span class="string">&quot;back&quot;</span>  <span class="attr">reflect</span>=<span class="string">&quot;1&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后可以看见如下的机器人在模型中</p>
+<p><img src="xacro文件创建机器人/robot_finish.png" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/12/record/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">错误记录</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/09/SDF%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">SDF文件创建机器人</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8Gazebo%E4%B8%AD%E4%BD%BF%E7%94%A8URDF"><span class="nav-number">1.</span> <span class="nav-text">在Gazebo中使用URDF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SDF%E5%92%8CURDF%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.1.</span> <span class="nav-text">SDF和URDF的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFURDF"><span class="nav-number">1.2.</span> <span class="nav-text">什么是URDF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E5%B1%9E%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">标签属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#robot"><span class="nav-number">1.3.1.</span> <span class="nav-text">robot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#link"><span class="nav-number">1.3.2.</span> <span class="nav-text">link</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#joint"><span class="nav-number">1.3.3.</span> <span class="nav-text">joint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">案例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AAROS2%E5%B7%A5%E4%BD%9C%E5%8C%BA"><span class="nav-number">1.4.1.</span> <span class="nav-text">建立一个ROS2工作区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gazebo-ros-package%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">gazebo-ros-package下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AArobot-description%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.3.</span> <span class="nav-text">新建一个robot_description仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEsetup-py"><span class="nav-number">1.4.4.</span> <span class="nav-text">配置setup.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#launch-%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.5.</span> <span class="nav-text">launch 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="nav-number">1.4.6.</span> <span class="nav-text">编写机器人</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E5%BA%95%E7%9B%98"><span class="nav-number">1.4.6.1.</span> <span class="nav-text">编写底盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%90%AF%E5%8A%A8"><span class="nav-number">1.4.6.2.</span> <span class="nav-text">编译启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E9%A9%B1%E5%8A%A8%E8%BD%AE"><span class="nav-number">1.4.6.3.</span> <span class="nav-text">添加驱动轮</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%87%E5%90%91%E8%BD%AE"><span class="nav-number">1.4.6.4.</span> <span class="nav-text">添加万向轮</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E9%A2%9C%E8%89%B2"><span class="nav-number">1.4.6.5.</span> <span class="nav-text">添加颜色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0mesh"><span class="nav-number">1.4.6.6.</span> <span class="nav-text">添加mesh</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xacro-%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.5.</span> <span class="nav-text">xacro 下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xacro%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.6.</span> <span class="nav-text">xacro文件描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xacro%E5%A4%B4%E9%83%A8%E5%A3%B0%E6%98%8E"><span class="nav-number">1.6.1.</span> <span class="nav-text">xacro头部声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%B8%B8%E9%87%8F"><span class="nav-number">1.6.2.</span> <span class="nav-text">定义常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.3.</span> <span class="nav-text">常量调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%AE%8F"><span class="nav-number">1.6.4.</span> <span class="nav-text">定义宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8F%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.5.</span> <span class="nav-text">宏调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#launch%E6%96%87%E4%BB%B6"><span class="nav-number">1.7.</span> <span class="nav-text">launch文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%A8%A1%E5%9E%8B%E5%BB%BA%E7%AB%8B"><span class="nav-number">1.8.</span> <span class="nav-text">机器人模型建立</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%BA%95%E5%BA%A7"><span class="nav-number">1.8.1.</span> <span class="nav-text">定义底座</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%AE%8F%E2%80%94%E9%A9%B1%E5%8A%A8%E8%BD%AE"><span class="nav-number">1.8.2.</span> <span class="nav-text">定义宏—驱动轮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%87%E5%90%91%E8%BD%AE"><span class="nav-number">1.8.3.</span> <span class="nav-text">定义万向轮</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

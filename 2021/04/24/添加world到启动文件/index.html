@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            添加world到启动文件 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">添加world到启动文件</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-24 10:23:20
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="添加world文件与model文件"><a href="#添加world文件与model文件" class="headerlink" title="添加world文件与model文件"></a>添加world文件与model文件</h1><p>打开robot_desciption文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_es&#x2F;src&#x2F;robot_description</span><br></pre></td></tr></table></figure>
+<p>新建两个文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir model</span><br><span class="line">mkdir world</span><br></pre></td></tr></table></figure>
+<p>在world文件夹里添加warehouse.world文件</p>
+<p>在model文件夹里添加small_warehouse文件夹</p>
+<h2 id="修改setup-py"><a href="#修改setup-py" class="headerlink" title="修改setup.py"></a>修改setup.py</h2><p>添加data_files中的内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data_files=[</span><br><span class="line">    (<span class="string">&#x27;share/ament_index/resource_index/packages&#x27;</span>,</span><br><span class="line">        [<span class="string">&#x27;resource/&#x27;</span> + package_name]),</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name, [<span class="string">&#x27;package.xml&#x27;</span>]),</span><br><span class="line">    ...</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name, glob(<span class="string">&#x27;world/*&#x27;</span>)),</span><br><span class="line">    (<span class="string">&#x27;share/&#x27;</span> + package_name + <span class="string">&quot;/model/small_warehouse&quot;</span>, glob(<span class="string">&#x27;model/small_warehouse/*&#x27;</span>)),</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>data_files为一个列表，每一个元素为一个元祖，元祖里的内容分别为</p>
+<ul>
+<li>编译后文件所在的位置，根目录为<code>~/dev_ws/install/robot_description</code></li>
+<li>编译文件的原位置，根目录为<code>~/dev_ws/src/robot_description</code></li>
+</ul>
+<p>在此，我们把整个model文件夹的内容（包括model文件夹）加入了编译后的share文件夹里面</p>
+<h2 id="配置world文件"><a href="#配置world文件" class="headerlink" title="配置world文件"></a>配置world文件</h2><p>打开包<code>robot_description</code>中launch文件夹中的launch文件复制粘贴为gazebo_lab_world.launch.py</p>
+<p>打开文件，在最后的LaunchDescription中添加world参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> DeclareLaunchArgument</span><br><span class="line"><span class="keyword">from</span> ament_index_python.packages <span class="keyword">import</span> get_package_share_directory</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">	...</span><br><span class="line">    pkg_dir = get_package_share_directory(<span class="string">&#x27;robot_description&#x27;</span>)</span><br><span class="line">    world = os.path.join(pkg_dir, <span class="string">&#x27;warehouse.world&#x27;</span>)</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line"></span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&quot;world&quot;</span>, default_value=world,</span><br><span class="line">            description=<span class="string">&quot;world description file name&quot;</span></span><br><span class="line">        ),</span><br><span class="line">        gazebo,</span><br><span class="line">        robot_pub,</span><br><span class="line">        spawn_entity,</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<p><code>DeclareLaunchArgument</code>所配置的参数可以跨文件传递，可以通过LaunchConfiguration(name)来获取在这里设置的值。</p>
+<h4 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h4><p>因为我们的world文件需要加载我们的model文件，但是gazebo却不知道model在哪，因此需要添加我们的model文件夹的路径，打开gazebo_lab_world.launch.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">   	...</span><br><span class="line">    pkg_dir = get_package_share_directory(<span class="string">&#x27;robot_description&#x27;</span>)</span><br><span class="line">    os.environ[<span class="string">&quot;GAZEBO_MODEL_PATH&quot;</span>] = os.path.join(pkg_dir, <span class="string">&quot;model&quot;</span>)</span><br><span class="line">    ...</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build --packages-select robot_description --symlink-install</span><br></pre></td></tr></table></figure>
+<p>记得source一下bash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_lab_world.launch.py</span><br></pre></td></tr></table></figure>
+<p><img src="world.png" alt=""></p>
+<h1 id="launch文件分析（gazebo）"><a href="#launch文件分析（gazebo）" class="headerlink" title="launch文件分析（gazebo）"></a>launch文件分析（gazebo）</h1><h3 id="generate-launch-description"><a href="#generate-launch-description" class="headerlink" title="generate_launch_description"></a>generate_launch_description</h3><p> launch文件启动会从这个函数开始运行</p>
+<p>返回一个<code>LaunchDescription</code>，整个函数可以接收一个列表，列表内的元素可以为</p>
+<ul>
+<li>DeclareLaunchArgument(name, default_value=””,description=””)</li>
+<li>OpaqueFunction</li>
+<li>一个Node</li>
+</ul>
+<p>只要是这里定义过的, 再一次调用此函数，就需要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LaunchConfiguration(&#39;name&#39;)</span><br></pre></td></tr></table></figure>
+<p>才能获得一个<code>launch.launch_context.LaunchContext object</code></p>
+<p>通过</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">context, *args, **kwargs</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(LaunchConfiguration(<span class="string">&#x27;test&#x27;</span>).perform(context))</span><br><span class="line">    </span><br><span class="line">LaunchDescription([</span><br><span class="line">	DeclareLaunchArgument(</span><br><span class="line">        <span class="string">&quot;test1&quot;</span>, default_value=<span class="string">&quot;it&#x27;s a test&quot;</span>,</span><br><span class="line">        description=<span class="string">&quot;test value&quot;</span></span><br><span class="line">    )</span><br><span class="line">    OpaqueFunction(function=test),</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>可以获得值</p>
+<h2 id="gazebo-launch分析"><a href="#gazebo-launch分析" class="headerlink" title="gazebo launch分析"></a>gazebo launch分析</h2><p>在安装的<code>gazebo_ros</code>包中，有三个重要的<code>launch</code>文件，可以通过如下命令查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls ~&#x2F;dev_ws&#x2F;src&#x2F;gazebo_ros_pkgs&#x2F;gazebo_ros&#x2F;launch</span><br></pre></td></tr></table></figure>
+<p>分别是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo.launch.py  gzclient.launch.py  gzserver.launch.py spawn_entity_demo.launch.py</span><br></pre></td></tr></table></figure>
+<h3 id="gazebo-launch-py查看"><a href="#gazebo-launch-py查看" class="headerlink" title="gazebo.launch.py查看"></a>gazebo.launch.py查看</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> DeclareLaunchArgument</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> IncludeLaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.conditions <span class="keyword">import</span> IfCondition</span><br><span class="line"><span class="keyword">from</span> launch.launch_description_sources <span class="keyword">import</span> PythonLaunchDescriptionSource</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> LaunchConfiguration</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> ThisLaunchFileDir</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">        DeclareLaunchArgument(<span class="string">&#x27;gui&#x27;</span>, default_value=<span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">                              description=<span class="string">&#x27;Set to &quot;false&quot; to run headless.&#x27;</span>),</span><br><span class="line"></span><br><span class="line">        DeclareLaunchArgument(<span class="string">&#x27;server&#x27;</span>, default_value=<span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">                              description=<span class="string">&#x27;Set to &quot;false&quot; not to run gzserver.&#x27;</span>),</span><br><span class="line"></span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource([ThisLaunchFileDir(), <span class="string">&#x27;/gzserver.launch.py&#x27;</span>]),</span><br><span class="line">            condition=IfCondition(LaunchConfiguration(<span class="string">&#x27;server&#x27;</span>))</span><br><span class="line">        ),  </span><br><span class="line"></span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource([ThisLaunchFileDir(), <span class="string">&#x27;/gzclient.launch.py&#x27;</span>]),</span><br><span class="line">            condition=IfCondition(LaunchConfiguration(<span class="string">&#x27;gui&#x27;</span>))</span><br><span class="line">        ),  </span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<h4 id="gzserver"><a href="#gzserver" class="headerlink" title="gzserver"></a>gzserver</h4><p>函数直接返回了其他launch文件，一个是gzserver</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource([ThisLaunchFileDir(), <span class="string">&#x27;/gzserver.launch.py&#x27;</span>]),</span><br><span class="line">            condition=IfCondition(LaunchConfiguration(<span class="string">&#x27;server&#x27;</span>))</span><br><span class="line">        ),</span><br></pre></td></tr></table></figure>
+<p><code>IncludeLaunchDescription</code>用于包含另外一个launch文件，当我们再一次访问它的时候，就可以获得launch文件里面的内容。<code>PythonLaunchDescriptionSource</code>指明用于启动Python的launch文件。它的构造函数为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PythonLaunchDescriptionSource</span>(<span class="params">LaunchDescriptionSource</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Encapsulation of a Python launch file, which can be loaded during launch.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">        self,</span></span></span><br><span class="line"><span class="function"><span class="params">        launch_file_path: SomeSubstitutionsType,</span></span></span><br><span class="line"><span class="function"><span class="params">    </span>) -&gt; <span class="literal">None</span>:</span></span><br></pre></td></tr></table></figure>
+<p><code>launch_file_path</code>的类型为<code>SomeSubstitutionsType</code>，下面给出<code>SomeSubstitutionsType</code>的定义</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SomeSubstitutionsType = <span class="type">Union</span>[</span><br><span class="line">    Text,</span><br><span class="line">    Substitution,</span><br><span class="line">    Iterable[<span class="type">Union</span>[Text, Substitution]],</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>其中<code>Union</code>类型：<code>Union[X, Y]</code>意味着要么是X要么是Y</p>
+<p>因此，<code>SomeSubstitutionsType</code>的类型可以为下面三者其一</p>
+<ul>
+<li>一个Text（就是str）</li>
+<li>一个Substitution的实例</li>
+<li>可迭代的一个对象，其中对象必须是一个Text或者Substitution</li>
+</ul>
+<p>在这里是第三种，传入的是一个列表，第一个ThisLaunchFileDir()，此类继承于Substitution，第二个是一个Text.</p>
+<p>下面的语句表示，如果有配置了参数server，则启动此launch文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">condition&#x3D;IfCondition(LaunchConfiguration(&#39;server&#39;))</span><br></pre></td></tr></table></figure>
+<h4 id="gzclient"><a href="#gzclient" class="headerlink" title="gzclient"></a>gzclient</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource([ThisLaunchFileDir(), &#39;&#x2F;gzclient.launch.py&#39;]),</span><br><span class="line">            condition&#x3D;IfCondition(LaunchConfiguration(&#39;gui&#39;))</span><br><span class="line">        ),  </span><br></pre></td></tr></table></figure>
+<p>这一段的内容和启动gzclient的内容一模一样</p>
+<p>下面打开gzserver.launch.py一看究竟</p>
+<h3 id="gzserver-launch-py查看"><a href="#gzserver-launch-py查看" class="headerlink" title="gzserver.launch.py查看"></a>gzserver.launch.py查看</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> ExecuteProcess</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> Shutdown</span><br><span class="line"><span class="keyword">from</span> launch.conditions <span class="keyword">import</span> IfCondition, UnlessCondition</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> LaunchConfiguration</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> PythonExpression</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scripts <span class="keyword">import</span> GazeboRosPaths</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">    cmd = [ </span><br><span class="line">        <span class="string">&#x27;gzserver&#x27;</span>,</span><br><span class="line">        <span class="comment"># Pass through arguments to gzserver</span></span><br><span class="line">        LaunchConfiguration(<span class="string">&#x27;world&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;version&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;verbose&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;lockstep&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;help&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;pause&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;physics&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;physics&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;play&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;play&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;record&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;record_encoding&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;record_encoding&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;record_path&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;record_path&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;record_period&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;record_period&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;record_filter&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;record_filter&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;seed&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;seed&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _arg_command(<span class="string">&#x27;iters&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;iters&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _boolean_command(<span class="string">&#x27;minimal_comms&#x27;</span>),</span><br><span class="line">        _plugin_command(<span class="string">&#x27;init&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _plugin_command(<span class="string">&#x27;factory&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        _plugin_command(<span class="string">&#x27;force_system&#x27;</span>), <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">        <span class="comment"># Wait for (https://github.com/ros-simulation/gazebo_ros_pkgs/pull/941)</span></span><br><span class="line">        <span class="comment"># _plugin_command(&#x27;force_system&#x27;), &#x27; &#x27;,</span></span><br><span class="line">        _arg_command(<span class="string">&#x27;profile&#x27;</span>), <span class="string">&#x27; &#x27;</span>, LaunchConfiguration(<span class="string">&#x27;profile&#x27;</span>),</span><br><span class="line">        LaunchConfiguration(<span class="string">&#x27;extra_gazebo_args&#x27;</span>),</span><br><span class="line">    ]   </span><br><span class="line">                                                                                                                                                    </span><br><span class="line">    model, plugin, media = GazeboRosPaths.get_paths()</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;GAZEBO_MODEL_PATH&#x27;</span> <span class="keyword">in</span> environ:</span><br><span class="line">        model += pathsep+environ[<span class="string">&#x27;GAZEBO_MODEL_PATH&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;GAZEBO_PLUGIN_PATH&#x27;</span> <span class="keyword">in</span> environ:</span><br><span class="line">        plugin += pathsep+environ[<span class="string">&#x27;GAZEBO_PLUGIN_PATH&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;GAZEBO_RESOURCE_PATH&#x27;</span> <span class="keyword">in</span> environ:</span><br><span class="line">        media += pathsep+environ[<span class="string">&#x27;GAZEBO_RESOURCE_PATH&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    env = &#123;</span><br><span class="line">        <span class="string">&#x27;GAZEBO_MODEL_PATH&#x27;</span>: model,</span><br><span class="line">        <span class="string">&#x27;GAZEBO_PLUGIN_PATH&#x27;</span>: plugin,</span><br><span class="line">        <span class="string">&#x27;GAZEBO_RESOURCE_PATH&#x27;</span>: media</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    prefix = PythonExpression([</span><br><span class="line">        <span class="string">&#x27;&quot;gdb -ex run --args&quot; if &quot;true&quot; == &quot;&#x27;</span>,</span><br><span class="line">        LaunchConfiguration(<span class="string">&#x27;gdb&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;&quot; else &quot;valgrind&quot; if &quot;true&quot; == &quot;&#x27;</span>,</span><br><span class="line">        LaunchConfiguration(<span class="string">&#x27;valgrind&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;&quot; else &quot;&quot;&#x27;</span></span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;world&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Specify world file name&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;version&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to output version information.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;verbose&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to increase messages written to terminal.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;lockstep&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to respect update rates&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;help&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to produce gzserver help message.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;pause&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to start the server in a paused state.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;physics&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Specify a physics engine (ode|bullet|dart|simbody).&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;play&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Play the specified log file.&#x27;</span></span><br><span class="line">        ),                                                                                                                                          </span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;record&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to record state data.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;record_encoding&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Specify compression encoding format for log data (zlib|bz2|txt).&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;record_path&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Absolute path in which to store state data.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;record_period&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Specify recording period (seconds).&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;record_filter&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Specify recording filter (supports wildcard and regular expression).&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;seed&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>, description=<span class="string">&#x27;Start with a given a random number seed.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;iters&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>, description=<span class="string">&#x27;Specify number of iterations to simulate.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;minimal_comms&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to reduce TCP/IP traffic output.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;profile&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Specify physics preset profile name from the options in the world file.&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;extra_gazebo_args&#x27;</span>, default_value=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Extra arguments to be passed to Gazebo&#x27;</span></span><br><span class="line">        ),</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Specific to gazebo_ros</span></span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;gdb&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to run gzserver with gdb&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;valgrind&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to run gzserver with valgrind&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;init&#x27;</span>, default_value=<span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;false&quot; not to load &quot;libgazebo_ros_init.so&quot;&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;factory&#x27;</span>, default_value=<span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;false&quot; not to load &quot;libgazebo_ros_factory.so&quot;&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;force_system&#x27;</span>, default_value=<span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;false&quot; not to load &quot;libgazebo_ros_force_system.so&quot;&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        DeclareLaunchArgument(</span><br><span class="line">            <span class="string">&#x27;server_required&#x27;</span>, default_value=<span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">            description=<span class="string">&#x27;Set &quot;true&quot; to shut down launch script when server is terminated&#x27;</span></span><br><span class="line">        ),</span><br><span class="line">        ExecuteProcess(</span><br><span class="line">            cmd=cmd,</span><br><span class="line">            output=<span class="string">&#x27;screen&#x27;</span>,</span><br><span class="line">            additional_env=env,</span><br><span class="line">            shell=<span class="literal">True</span>,</span><br><span class="line">            prefix=prefix,</span><br><span class="line">            on_exit=Shutdown(),</span><br><span class="line">            condition=IfCondition(LaunchConfiguration(<span class="string">&#x27;server_required&#x27;</span>)),</span><br><span class="line">        ),</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Execute node with default on_exit if the node is not required</span></span><br><span class="line">        ExecuteProcess(</span><br><span class="line">            cmd=cmd,</span><br><span class="line">            output=<span class="string">&#x27;screen&#x27;</span>,</span><br><span class="line">            additional_env=env,</span><br><span class="line">            shell=<span class="literal">True</span>,</span><br><span class="line">            prefix=prefix,</span><br><span class="line">            condition=UnlessCondition(LaunchConfiguration(<span class="string">&#x27;server_required&#x27;</span>)),</span><br><span class="line">        ),</span><br><span class="line">    ])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_boolean_command</span>(<span class="params">arg</span>):</span></span><br><span class="line">    cmd = [<span class="string">&#x27;&quot;--&#x27;</span>, arg, <span class="string">&#x27;&quot; if &quot;true&quot; == &quot;&#x27;</span>, LaunchConfiguration(arg), <span class="string">&#x27;&quot; else &quot;&quot;&#x27;</span>]</span><br><span class="line">    py_cmd = PythonExpression(cmd)</span><br><span class="line">    <span class="keyword">return</span> py_cmd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Add string commands if not empty</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_arg_command</span>(<span class="params">arg</span>):</span></span><br><span class="line">    cmd = [<span class="string">&#x27;&quot;--&#x27;</span>, arg, <span class="string">&#x27;&quot; if &quot;&quot; != &quot;&#x27;</span>, LaunchConfiguration(arg), <span class="string">&#x27;&quot; else &quot;&quot;&#x27;</span>]</span><br><span class="line">    py_cmd = PythonExpression(cmd)</span><br><span class="line">    <span class="keyword">return</span> py_cmd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Add gazebo_ros plugins if true</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_plugin_command</span>(<span class="params">arg</span>):</span></span><br><span class="line">    cmd = [<span class="string">&#x27;&quot;-s libgazebo_ros_&#x27;</span>, arg, <span class="string">&#x27;.so&quot; if &quot;true&quot; == &quot;&#x27;</span>, LaunchConfiguration(arg), <span class="string">&#x27;&quot; else &quot;&quot;&#x27;</span>]</span><br><span class="line">    py_cmd = PythonExpression(cmd)</span><br><span class="line">    <span class="keyword">return</span> py_cmd</span><br></pre></td></tr></table></figure>
+<p>此文件较长</p>
+<p>在<code>generate_launch_description</code>函数的开头，定义了cmd命令，即模拟终端的命令。它等价于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzserver xxx.world --version ...</span><br></pre></td></tr></table></figure>
+<p><code>LaunchConfiguration(&quot;world&quot;)</code>表示获取相关变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">model, plugin, media = GazeboRosPaths.get_paths()</span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;GAZEBO_MODEL_PATH&#x27;</span> <span class="keyword">in</span> environ:</span><br><span class="line">    model += pathsep+environ[<span class="string">&#x27;GAZEBO_MODEL_PATH&#x27;</span>]</span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;GAZEBO_PLUGIN_PATH&#x27;</span> <span class="keyword">in</span> environ:</span><br><span class="line">    plugin += pathsep+environ[<span class="string">&#x27;GAZEBO_PLUGIN_PATH&#x27;</span>]</span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;GAZEBO_RESOURCE_PATH&#x27;</span> <span class="keyword">in</span> environ:</span><br><span class="line">    media += pathsep+environ[<span class="string">&#x27;GAZEBO_RESOURCE_PATH&#x27;</span>]</span><br><span class="line"></span><br><span class="line">env = &#123;</span><br><span class="line">    <span class="string">&#x27;GAZEBO_MODEL_PATH&#x27;</span>: model,</span><br><span class="line">    <span class="string">&#x27;GAZEBO_PLUGIN_PATH&#x27;</span>: plugin,</span><br><span class="line">    <span class="string">&#x27;GAZEBO_RESOURCE_PATH&#x27;</span>: media</span><br><span class="line">&#125;</span><br><span class="line">prefix = PythonExpression([</span><br><span class="line">    <span class="string">&#x27;&quot;gdb -ex run --args&quot; if &quot;true&quot; == &quot;&#x27;</span>,</span><br><span class="line">    LaunchConfiguration(<span class="string">&#x27;gdb&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;&quot; else &quot;valgrind&quot; if &quot;true&quot; == &quot;&#x27;</span>,</span><br><span class="line">    LaunchConfiguration(<span class="string">&#x27;valgrind&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;&quot; else &quot;&quot;&#x27;</span></span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>这一段表示设置<code>GAZEBO</code>的相关文件路径的环境变量，以及定义prefix</p>
+<p>最后是设置相关的变量，我们看到第一个就是world参数，默认值为空。我们也可以通过其他文件调用此文件来设置world参数</p>
+<p>最后执行了之前所定义的cmd语句</p>
+<h3 id="gzclient-launch-py查看"><a href="#gzclient-launch-py查看" class="headerlink" title="gzclient.launch.py查看"></a>gzclient.launch.py查看</h3><p>内容结构和gzclient.launch.py一模一样</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/25/%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B-%E8%AE%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%87%AA%E5%B7%B1%E7%A7%BB%E5%8A%A8/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">简单案例-让机器人自己移动</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/20/%E4%BF%AE%E6%94%B9%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%96%E8%A7%82/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">修改机器人外观</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0world%E6%96%87%E4%BB%B6%E4%B8%8Emodel%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">添加world文件与model文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9setup-py"><span class="nav-number">1.1.</span> <span class="nav-text">修改setup.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEworld%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">配置world文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">添加环境变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">1.3.</span> <span class="nav-text">编译运行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#launch%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%EF%BC%88gazebo%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">launch文件分析（gazebo）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#generate-launch-description"><span class="nav-number">2.0.1.</span> <span class="nav-text">generate_launch_description</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gazebo-launch%E5%88%86%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">gazebo launch分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gazebo-launch-py%E6%9F%A5%E7%9C%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">gazebo.launch.py查看</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gzserver"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">gzserver</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gzclient"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">gzclient</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gzserver-launch-py%E6%9F%A5%E7%9C%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">gzserver.launch.py查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gzclient-launch-py%E6%9F%A5%E7%9C%8B"><span class="nav-number">2.1.3.</span> <span class="nav-text">gzclient.launch.py查看</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

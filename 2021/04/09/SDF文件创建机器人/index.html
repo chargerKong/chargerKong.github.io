@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            SDF文件创建机器人 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">SDF文件创建机器人</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-09 10:08:06
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>经过上一节我们通过Gazebo的界面创建了机器人保存之后，在<code>~/model_editor_models</code>中会有一个<code>my_robot_gui</code>的文件夹，里面有两个文件，一个是<code>model.sdf</code>是用于描述机器人的SDF文件，可以打开看到是一个XML文件。另外一个是<code>model.config</code>是用于描述此model的元数据</p>
+<h2 id="SDF模型介绍"><a href="#SDF模型介绍" class="headerlink" title="SDF模型介绍"></a>SDF模型介绍</h2><p>SDF文档的写法在<a target="_blank" rel="noopener" href="http://sdformat.org/spec?ver=1.8&amp;elem=sdf">官网</a>写的比较详尽，对于任何一个元素都有相应的结构和写法</p>
+<p>譬如一个world文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span>                                                                                                                                                           </span><br><span class="line"><span class="tag">&lt;<span class="name">sdf</span> <span class="attr">version</span>=<span class="string">&quot;1.4&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">world</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 加载地面 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://ground_plane<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 加载阳光 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://sun<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  	<span class="comment">&lt;!-- 加载自己的机器人一号 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>robot1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://my_robot_sdf<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line"> 	<span class="comment">&lt;!-- 加载自己的机器人二号 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>robot2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://my_robot_sdf<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">  <span class="tag">&lt;/<span class="name">world</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">sdf</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在整个world中，我们加载了非机器人的模型文件以及两个机器人，注意，在model文件里也可以嵌套加载一个model，可以查看<a target="_blank" rel="noopener" href="http://sdformat.org/spec?ver=1.8&amp;elem=model">官网</a>。</p>
+<p>在gazebo中， 也有很多已经存在的模型供我们使用。找到左侧的insert栏目，点击相应的名称即可插入模型。常用的模型有室内环境、楼房、各种材质地形、围墙等，甚至还有整个城市的粗模型，用于搭建机器人的工作环境；一些水瓶、桌椅等小物品可以与机器人交互。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-b712006f5ab9efc571c2212d520579f7_1440w.jpg" alt="img"></p>
+<p>下面我们介绍如何通过SDF文件来创建一个和model 编辑器一样的机器人来学习一下基本标签内容</p>
+<h2 id="模型建立"><a href="#模型建立" class="headerlink" title="模型建立"></a>模型建立</h2><ol>
+<li><p>首先是建立一个文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~&#x2F;model_editor_models&#x2F;my_robot_sdf</span><br><span class="line">cd ~&#x2F;model_editor_models&#x2F;my_robot_sdf</span><br></pre></td></tr></table></figure>
+<p>一样的，我们建立两个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch model.config</span><br><span class="line">touch model.sdf</span><br></pre></td></tr></table></figure>
+<p>首先是对model的内容进行配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>                                                                                                       </span><br><span class="line"><span class="tag">&lt;<span class="name">model</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>my_robot_sdf<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sdf</span> <span class="attr">version</span>=<span class="string">&quot;1.7&quot;</span>&gt;</span>model.sdf<span class="tag">&lt;/<span class="name">sdf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">author</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>your name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">email</span>&gt;</span>your email<span class="tag">&lt;/<span class="name">email</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">author</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Some description here<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">model</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开model.sdf，添加xml文件标签，以及SDF标签：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27;?&gt;</span>                                                                                                         <span class="tag">&lt;<span class="name">sdf</span> <span class="attr">version</span>=<span class="string">&#x27;1.7&#x27;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">model</span> <span class="attr">name</span>=<span class="string">&quot;my_robot_sdf&quot;</span>&gt;</span></span><br><span class="line">		...</span><br><span class="line">	<span class="tag">&lt;/<span class="name">model</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">sdf</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在model标签中的内容就是我们在GUI中所涉及的元素内容的编写，例如link，visual，collision等等。下面我们先编写底盘部分</p>
+</li>
+<li><p>在gazebo中任何物体就是一个link，比如机器人的底盘，任何一个驱动轮，万向轮等等。每一个link都至少需要三个属性</p>
+<ul>
+<li>visual：视觉外观看起来的属性</li>
+<li>collision：内容和visual一样，但是表示的是实际判定碰撞时候用到的大小</li>
+<li>inertial：惯性，物理引擎使用惯性信息来计算模型在受力时的行为</li>
+</ul>
+<p>我们首先给出visual，将下面的代码直接粘贴到<code>&lt;model&gt;</code>标签里面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这里表示xyz rpy --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">pose</span>&gt;</span>0 0 0.09 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;base_visual&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.20<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">length</span>&gt;</span>0.16<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;base_collision&quot;</span>&gt;</span></span><br><span class="line"> 		<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">         		<span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.20<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">length</span>&gt;</span>0.16<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">         	<span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">mass</span>&gt;</span>20<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.24<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.24<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.4<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>pose</code>代表的属性为$x, y, z,r, p, y$, 代表整个link中心点的位置和旋转，我们通过<code>visual</code>标签使<code>base_link</code>的外形看起来是一个圆柱体，其中半径为0.20，高度为<code>0.16</code>，并设置相同的实际碰撞的大小。</p>
+<p>保存退出，此时我们再一次打开Gazebo，在仿真模式下左侧栏选择<code>Insert</code>选项卡，在<code>model_editor_models</code>文件夹下会有我们上面所创建的机器人<code>my_robot_sdf</code>, 鼠标单击将其拉到场景中，可以看到</p>
+<p><img src="select_sdf.png" alt=""></p>
+</li>
+<li><p>接下来我们添加左轮，和添加底盘的操作是一样的，也包括三部分，visual，collision和inertial</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>0 0.19 0.06 1.5707 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.0036<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们设置高度为0.06，和半径一样，使得左轮刚好停在地表面上。注意现在只是一个单独的link. 我们还需要为<code>&quot;left_wheel_link&quot;</code>和<code>base_link</code>添加一个joint。在这joint的中，我们需要定义parent、child以及旋转轴。注：joint和其他的link是同级的。类型type和我们使用Gazebo时创建左轮的类型一致</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;left_wheel_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>left_wheel_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">xyz</span>&gt;</span>0 0 1<span class="tag">&lt;/<span class="name">xyz</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">axis</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再一次从Gazebo里面将<code>my_model_sdf</code>拽入场景中，右键点击物体，选择<code>view</code>-&gt;<code>transparent</code>可以使物体透明</p>
+<p><img src="left_wheel.png" alt=""></p>
+</li>
+</ol>
+<ol>
+<li><p>接下我们添加右轮，也为其添加和base_link的joint</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>0 -0.19 0.06 1.5707 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">cylinder</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.06<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">length</span>&gt;</span>0.025<span class="tag">&lt;/<span class="name">length</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">cylinder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.0019<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.0036<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;right_wheel_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>right_wheel_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">xyz</span>&gt;</span>0 0 1<span class="tag">&lt;/<span class="name">xyz</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">axis</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意这里</p>
+<p><img src="right_wheel.png" alt=""></p>
+</li>
+<li><p>添加万向轮前轮，注意link的类型为ball</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>0.18 0 0.015 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>0.5<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;caster_front_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;ball&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>caster_front_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以及万向轮后轮</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">pose</span>&gt;</span>-0.18 0 0.015 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_visual&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_collision&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">radius</span>&gt;</span>0.015<span class="tag">&lt;/<span class="name">radius</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">sphere</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span>&gt;</span>0.5<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">ixx</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">ixx</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixy</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ixz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">ixz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyy</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">iyy</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">iyz</span>&gt;</span>0<span class="tag">&lt;/<span class="name">iyz</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">izz</span>&gt;</span>0.000045<span class="tag">&lt;/<span class="name">izz</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">inertia</span>&gt;</span></span><br><span class="line">            </span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;caster_back_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;ball&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span>base_link<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span>&gt;</span>caster_back_link<span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里也一样，设置了<code>pose</code>中的z和半径一样大，是为了让球刚好在地表上。</p>
+<p>最后的机器人应该看起来长这个样子</p>
+<p><img src="robot_complete.png" alt=""></p>
+</li>
+</ol>
+<h2 id="加入sdf到world文件"><a href="#加入sdf到world文件" class="headerlink" title="加入sdf到world文件"></a>加入sdf到world文件</h2><p>除了在指定的目录下可以直接拖拽我们的sdf模型文件，还可以把他嵌入到一个世界文件中，例如新建一个名为<code>my_robot_world.world</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span>                                                                                                                                                           </span><br><span class="line"><span class="tag">&lt;<span class="name">sdf</span> <span class="attr">version</span>=<span class="string">&quot;1.4&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">world</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 加载地面 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://ground_plane<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 加载阳光 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://sun<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  	<span class="comment">&lt;!-- 加载自己的机器人 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>robot1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://my_robot_sdf<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>robot2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">uri</span>&gt;</span>model://my_robot_sdf<span class="tag">&lt;/<span class="name">uri</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">pose</span> <span class="attr">relative_to</span>=<span class="string">&quot;robot1&quot;</span>&gt;</span>1 0 0 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">world</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">sdf</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>为了防止两个机器人初始位置重叠，我们添加语句</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">pose</span> <span class="attr">relative_to</span>=<span class="string">&quot;robot1&quot;</span>&gt;</span>1 0 0 0 0 0<span class="tag">&lt;/<span class="name">pose</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>使得第二个机器人距离第一个机器人x轴上的位置为1.</p>
+<h3 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export GAZEBO_MODEL_PATH&#x3D;~&#x2F;model_editor_models</span><br></pre></td></tr></table></figure>
+<p>到相应的world所在的文件夹下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo my_robot_world.world -u</span><br></pre></td></tr></table></figure>
+<p>就可以看到机器人加载到场景之中</p>
+<p><img src="two_robot.png" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/12/xacro%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">xacro文件创建机器人</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/08/model%E7%BC%96%E8%BE%91%E5%99%A8/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">model编辑器</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SDF%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">SDF模型介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%BB%BA%E7%AB%8B"><span class="nav-number">2.</span> <span class="nav-text">模型建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5sdf%E5%88%B0world%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">加入sdf到world文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">3.1.</span> <span class="nav-text">添加环境变量</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

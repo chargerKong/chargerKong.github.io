@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ros学习三 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ros学习三</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-03-28 09:59:22
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Using-rqt-console"><a href="#Using-rqt-console" class="headerlink" title="Using rqt_console"></a>Using rqt_console</h1><p>了解rqt_console，这是一个用于审查日志消息的工具。</p>
+<h2 id="1-启动"><a href="#1-启动" class="headerlink" title="1.启动"></a>1.启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run rqt_console rqt_console </span><br></pre></td></tr></table></figure>
+<p><img src="https://docs.ros.org/en/dashing/_images/console.png" alt="../../_images/console.png"></p>
+<p>控制台的第一部分将显示系统日志消息。</p>
+<p>在中间，您可以选择通过排除严重性级别来过滤消息。您也可以使用右侧的加号按钮添加更多排除过滤器。</p>
+<p>底部用于突出显示包含您输入的字符串的消息。您也可以在此部分添加更多过滤器。</p>
+<p>现在用以下命令在新的终端中启动turtlesim:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run turtlesim turtlesim_node</span><br></pre></td></tr></table></figure>
+<h2 id="2-Messages-on-rqt-console"><a href="#2-Messages-on-rqt-console" class="headerlink" title="2 Messages on rqt_console"></a>2 Messages on rqt_console</h2><p>为了在rqt_console中输出一些log的信息，我们让小乌龟撞墙。打开一个新的终端，输入以下信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic pub -r 1 &#x2F;turtle1&#x2F;cmd_vel geometry_msgs&#x2F;msg&#x2F;Twist &quot;&#123;linear: &#123; 2.0, y: 0.0, z: 0.0&#125;, angular: &#123;x: 0.0,y: 0.0,z: 0.0&#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+<p>。。但是我的rqt_console这里不会出现错误， 可能是连接失败了</p>
+<h2 id="3-logger-等级"><a href="#3-logger-等级" class="headerlink" title="3. logger 等级"></a>3. logger 等级</h2><p>ROS 2的logger级别按严重性排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Fatal</span><br><span class="line">Error</span><br><span class="line">Warn</span><br><span class="line">Info</span><br><span class="line">Debug</span><br></pre></td></tr></table></figure>
+<p>对于每个级别所代表的内容并没有确切的标准，但可以放心地假设:</p>
+<ul>
+<li>fatal 指示系统将终止，用于保护自身免受损害。</li>
+<li>error 表示重大问题，不一定会损坏系统，但会阻止系统正常运行。</li>
+<li>message 表明意外的活动或非理想的结果，这些结果可能代表更深层次的问题，但不会完全损害功能。</li>
+<li>info 指示事件和状态更新，可作为视觉验证系统是否按预期运行。</li>
+<li>debug 详细介绍系统执行的整个分步过程。</li>
+</ul>
+<p>默认级别为“info”。您将仅看到默认严重级别和更高级别的消息。</p>
+<p>通常，只有调试消息是隐藏的，因为它们是唯一比Info级别轻的级别。例如，如果将默认级别设置为Warn，则只会看到严重级别为Warn、Error和Fatal的消息</p>
+<h3 id="3-1Set-the-default-logger-level"><a href="#3-1Set-the-default-logger-level" class="headerlink" title="3.1Set the default logger level"></a>3.1Set the default logger level</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run turtlesim turtlesim_node __log_level:&#x3D;warn</span><br></pre></td></tr></table></figure>
+<p>这样就看不见info的消息了。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p><code>rqt_console</code>对于检查log message来说十分有用</p>
+<h1 id="创建一个启动文件"><a href="#创建一个启动文件" class="headerlink" title="创建一个启动文件"></a>创建一个启动文件</h1><p><strong>Goal:</strong> Create a launch file to run a complex ROS 2 system.</p>
+<p>之前的学习需要不停的打开终端还要初始化，很无聊。</p>
+<p>启动文件使您可以同时启动和配置许多包含ROS 2节点的可执行文件。</p>
+<p>使用ros2 launch命令运行单个启动文件将立即启动整个系统——所有节点及其配置。</p>
+<h2 id="1-启动-1"><a href="#1-启动-1" class="headerlink" title="1. 启动"></a>1. 启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir launch</span><br><span class="line">vi launch&#x2F;turtlesim_mimic_launch.py</span><br></pre></td></tr></table></figure>
+<h2 id="2-创立启动文件"><a href="#2-创立启动文件" class="headerlink" title="2. 创立启动文件"></a>2. 创立启动文件</h2><p>复制内容到文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">    return LaunchDescription([</span><br><span class="line">        Node(</span><br><span class="line">            package&#x3D;&#39;turtlesim&#39;,</span><br><span class="line">            node_namespace&#x3D;&#39;turtlesim1&#39;,</span><br><span class="line">            node_executable&#x3D;&#39;turtlesim_node&#39;,</span><br><span class="line">            node_name&#x3D;&#39;sim&#39;</span><br><span class="line">        ),</span><br><span class="line">        Node(</span><br><span class="line">            package&#x3D;&#39;turtlesim&#39;,</span><br><span class="line">            node_namespace&#x3D;&#39;turtlesim2&#39;,</span><br><span class="line">            node_executable&#x3D;&#39;turtlesim_node&#39;,</span><br><span class="line">            node_name&#x3D;&#39;sim&#39;</span><br><span class="line">        ),</span><br><span class="line">        Node(</span><br><span class="line">            package&#x3D;&#39;turtlesim&#39;,</span><br><span class="line">            node_executable&#x3D;&#39;mimic&#39;,</span><br><span class="line">            node_name&#x3D;&#39;mimic&#39;,</span><br><span class="line">            remappings&#x3D;[</span><br><span class="line">                (&#39;&#x2F;input&#x2F;pose&#39;, &#39;&#x2F;turtlesim1&#x2F;turtle1&#x2F;pose&#39;),</span><br><span class="line">                (&#39;&#x2F;output&#x2F;cmd_vel&#39;, &#39;&#x2F;turtlesim2&#x2F;turtle1&#x2F;cmd_vel&#39;),</span><br><span class="line">            ]</span><br><span class="line">        )</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<h3 id="2-1检查启动文件"><a href="#2-1检查启动文件" class="headerlink" title="2.1检查启动文件"></a>2.1检查启动文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def generate_launch_description():</span><br><span class="line">   return LaunchDescription([</span><br><span class="line"></span><br><span class="line">   ])</span><br></pre></td></tr></table></figure>
+<p>在LaunchDescription中有一个包含三个节点的系统，所有节点都来自turtlesim包。该系统的目标是启动两个海龟窗口，并让一只海龟模仿另一只海龟的移动</p>
+<p>启动两个turtlesim窗口:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Node(</span><br><span class="line">    package&#x3D;&#39;turtlesim&#39;,</span><br><span class="line">    node_namespace&#x3D;&#39;turtlesim1&#39;,</span><br><span class="line">    node_executable&#x3D;&#39;turtlesim_node&#39;,</span><br><span class="line">    node_name&#x3D;&#39;sim&#39;</span><br><span class="line">),</span><br><span class="line">Node(</span><br><span class="line">    package&#x3D;&#39;turtlesim&#39;,</span><br><span class="line">    node_namespace&#x3D;&#39;turtlesim2&#39;,</span><br><span class="line">    node_executable&#x3D;&#39;turtlesim_node&#39;,</span><br><span class="line">    node_name&#x3D;&#39;sim&#39;</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+<p>唯一不同的是他们的<code>node_namespace</code></p>
+<p>在这个系统中，这两只乌龟都接收同一个主题的命令，并在同一个主题上发布它们的姿势</p>
+<p>如果没有不同的名称空间，就没有办法区分不同海龟的消息。</p>
+<p>最后一个节点也来自turtlesim包，但是有一个不同的可执行文件：mimic</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Node(</span><br><span class="line">    package&#x3D;&#39;turtlesim&#39;,</span><br><span class="line">    node_executable&#x3D;&#39;mimic&#39;,</span><br><span class="line">    node_name&#x3D;&#39;mimic&#39;,</span><br><span class="line">    remappings&#x3D;[</span><br><span class="line">      (&#39;&#x2F;input&#x2F;pose&#39;, &#39;&#x2F;turtlesim1&#x2F;turtle1&#x2F;pose&#39;),</span><br><span class="line">      (&#39;&#x2F;output&#x2F;cmd_vel&#39;, &#39;&#x2F;turtlesim2&#x2F;turtle1&#x2F;cmd_vel&#39;),</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该节点以重新映射的形式添加了配置详细信息。</p>
+<p><code>mimic</code>的<code>/input/pose</code>topic重新映射到<code>/turtlesim1/turtle1/pose</code>，<code>/output/cmd_vel</code>topic重新映射到<code>/turtlesim2/turtle1/cmd_vel</code>。这意味着<code>mimic</code>将订阅<code>/turtlesim1/sim</code>的pose主题，并将其重新发布给订阅的<code>/turtlesim2/sim</code>的velocity命令主题。换句话说，turtlesim2会模仿turtlesim1的动作。</p>
+<h2 id="3-ros2-launch"><a href="#3-ros2-launch" class="headerlink" title="3.ros2 launch"></a>3.ros2 launch</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd launch</span><br><span class="line">ros2 launch turtlesim_mimic_launch.py</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>启动方式有两种，一种如上。第二种通过package的方式启动</p>
+<p>两个turtlesim窗口将打开，您将看到以下[INFO]消息，告诉您的启动文件已启动的节点:</p>
+<p>打开一个新的终端，让第一个小海龟进行移动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic pub -r 1 &#x2F;turtlesim1&#x2F;turtle1&#x2F;cmd_vel geometry_msgs&#x2F;msg&#x2F;Twist &quot;&#123;linear: &#123;x: 2.0, y: 0.0, z: 0.0&#125;, angular: &#123;x: 0.0, y: 0.0, z: -1.8&#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="4-利用rqt-graph查看系统状态"><a href="#4-利用rqt-graph查看系统状态" class="headerlink" title="4.利用rqt_graph查看系统状态"></a>4.利用rqt_graph查看系统状态</h2><p><img src="https://chargerkong.github.io/2021/03/16/ros2%E5%AD%A6%E4%B9%A0%E4%B8%89/fig1.jpg" alt="img"></p>
+<p>每一个小乌龟都是订阅自己相应的cmd_vel topic</p>
+<p>我们从命令行发布topic给<code>turtle1/com_vel</code> topic，小乌龟1号移动然后发布自己的pose.</p>
+<p>通过mimic订阅了这个pose的topic然后发布给<code>turtle2/com_vel</code>，这样就可以一起动了</p>
+<h2 id="Summary-1"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary</h2><p>启动文件简化了具有许多节点和特定配置详细信息的复杂系统的运行。您可以使用Python创建启动文件，然后使用ros2 launch命令运行它们。</p>
+<h1 id="记录和回放数据"><a href="#记录和回放数据" class="headerlink" title="记录和回放数据"></a>记录和回放数据</h1><p>目标：记录有关某个主题的发布数据，以便您可以随时重播和检查它。</p>
+<p><code>ros2 bag</code>可以记录发布再某一个topic上的数据，可以再回放一遍</p>
+<h2 id="1-启动-2"><a href="#1-启动-2" class="headerlink" title="1.启动"></a>1.启动</h2><p>打开俩终端，一个是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ros2 run turtlesim turtlesim</span><br><span class="line">ros2 run turtlesim turtle_teleop_key</span><br></pre></td></tr></table></figure>
+<p>让我们新建一个文件夹来存放我们的ros_bag文件</p>
+<h2 id="2-选择一个topic"><a href="#2-选择一个topic" class="headerlink" title="2.选择一个topic"></a>2.选择一个topic</h2><p>ros2 bag只能记录发布主题的数据。</p>
+<p>查看一下当前有哪些topic</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic list </span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;parameter_events</span><br><span class="line">&#x2F;rosout</span><br><span class="line">&#x2F;turtle1&#x2F;cmd_vel</span><br><span class="line">&#x2F;turtle1&#x2F;color_sensor</span><br><span class="line">&#x2F;turtle1&#x2F;pose</span><br></pre></td></tr></table></figure>
+<p>我们知道，节点<code>/turtle_teleop</code>发布数据到<code>/turtle1/cmd_vel</code>的topic上，然后turtlesim接受此topic上的数据，进行移动。</p>
+<p>查看此主题上的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic echo &#x2F;turtle1&#x2F;cmd_vel</span><br></pre></td></tr></table></figure>
+<p>当我们按下键盘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">linear:</span><br><span class="line">  x: 2.0</span><br><span class="line">  y: 0.0</span><br><span class="line">  z: 0.0</span><br><span class="line">angular:</span><br><span class="line">  x: 0.0</span><br><span class="line">  y: 0.0</span><br><span class="line">  z: 0.0</span><br><span class="line">  ---</span><br></pre></td></tr></table></figure>
+<h2 id="3-ros2-bag-record"><a href="#3-ros2-bag-record" class="headerlink" title="3.ros2 bag record"></a>3.ros2 bag record</h2><p>首先进入rosbag,要存储数据的文件夹，输入以下语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 bag record &lt;topic_name&gt;</span><br></pre></td></tr></table></figure>
+<p>再这里我们选择的是<code>/turtle1/cmd_vel</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 bag record &#x2F;turtle1&#x2F;cmd_vel</span><br></pre></td></tr></table></figure>
+<p>在终端可以看见</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [rosbag2_storage]: Opened database &#39;rosbag2_2019_10_11-05_18_45&#39;.</span><br><span class="line">[INFO] [rosbag2_transport]: Listening for topics...</span><br><span class="line">[INFO] [rosbag2_transport]: Subscribed to topic &#39;&#x2F;turtle1&#x2F;cmd_vel&#39;</span><br><span class="line">[INFO] [rosbag2_transport]: All requested topics are subscribed. Stopping discovery...</span><br></pre></td></tr></table></figure>
+<p>现在ros2 bag正在记录发布在/ turtle1 / cmd_vel主题上的数据</p>
+<p>按下Ctrl+C</p>
+<p>数据将以rosbag2_year_month_day-hour_minute_second的格式存储在bag文件中</p>
+<h2 id="4-记录多个topic"><a href="#4-记录多个topic" class="headerlink" title="4. 记录多个topic"></a>4. 记录多个topic</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 bag record -o subset &#x2F;turtle1&#x2F;cmd_vel &#x2F;turtle1&#x2F;pose</span><br></pre></td></tr></table></figure>
+<p><code>-o</code>代表要存储文件的名字，为subset。</p>
+<p>这里记录了两个topic</p>
+<h2 id="5-ros2-bag-info"><a href="#5-ros2-bag-info" class="headerlink" title="5. ros2 bag info"></a>5. ros2 bag info</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 bag info &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+<p>例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 bag info subset</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Files:             subset.db3</span><br><span class="line">Bag size:          84.5 KiB</span><br><span class="line">Storage id:        sqlite3</span><br><span class="line">Duration:          17.183s</span><br><span class="line">Start:             Mar 17 2021 11:25:52.449 (1615951552.449)</span><br><span class="line">End                Mar 17 2021 11:26:09.632 (1615951569.632)</span><br><span class="line">Messages:          1085</span><br><span class="line">Topic information: Topic: &#x2F;turtle1&#x2F;cmd_vel | Type: geometry_msgs&#x2F;msg&#x2F;Twist | Count: 10 | Serialization Format: cdr</span><br><span class="line">                   Topic: &#x2F;turtle1&#x2F;pose | Type: turtlesim&#x2F;msg&#x2F;Pose | Count: 1075 | Serialization Format: cdr</span><br></pre></td></tr></table></figure>
+<p>如果要去查看单个的消息，则需要打开数据库来查看，这里是sqlite3</p>
+<h2 id="6-ros2-bag-play"><a href="#6-ros2-bag-play" class="headerlink" title="6. ros2 bag play"></a>6. ros2 bag play</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 bag play subset</span><br></pre></td></tr></table></figure>
+<p>小乌龟会按照之前记录好的进行运动。</p>
+<h1 id="Summary-2"><a href="#Summary-2" class="headerlink" title="Summary"></a>Summary</h1><p>可以使用ros2 bag命令记录在ROS 2系统中主题上传递的数据。无论你是与他人分享你的工作还是反省你自己的实验，这都是一个很好的工具</p>
+<h1 id="建立一个工作区"><a href="#建立一个工作区" class="headerlink" title="建立一个工作区"></a>建立一个工作区</h1><p>目标：创建工作区并学习如何为开发和测试设置覆盖。</p>
+<p>工作空间是包含ROS 2软件包的目录。</p>
+<p>还可以选择性的source一个overlay。—— 一个次要的工作空间，在这里你可以添加新的包，而不会干扰你正在扩展的现有ross2工作空间，或者“underlay”。您的underlay必须包含覆盖层中所有包的依赖项。</p>
+<h2 id="1-source-ros2-环境"><a href="#1-source-ros2-环境" class="headerlink" title="1. source ros2 环境"></a>1. source ros2 环境</h2><h2 id="2-创建一个新的目录"><a href="#2-创建一个新的目录" class="headerlink" title="2.创建一个新的目录"></a>2.创建一个新的目录</h2><p>建立一个新文件夹<code>dev_ws/src</code>, 就是development workspace。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~&#x2F;dev_ws&#x2F;src</span><br><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br></pre></td></tr></table></figure>
+<h2 id="3-clone-一个样例库"><a href="#3-clone-一个样例库" class="headerlink" title="3.clone 一个样例库"></a>3.clone 一个样例库</h2><p>接下来，你会创建自己的包。现在还是需要组合现有的包来进行练习</p>
+<p>You can see the repo <a target="_blank" rel="noopener" href="https://github.com/ros/ros_tutorials/">on GitHub</a>. 如何使用的这个GitHub？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;ros&#x2F;ros_tutorials.git -b dashing-devel&#96;</span><br></pre></td></tr></table></figure>
+<p><code>-b</code>表示选择一个分支。进入repo</p>
+<p>前三个软件包可以忽略； 只有turtlesim是ROS2的包。现在您已经使用示例包填充了工作区，但它还不是一个功能完整的工作区。您需要首先解决依赖关系并构建工作区。</p>
+<h2 id="4-解决依赖关系"><a href="#4-解决依赖关系" class="headerlink" title="4.解决依赖关系"></a>4.解决依赖关系</h2><p>构建之前需要解决依赖的问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install -i --from-path src --rosdistro dashing -y</span><br></pre></td></tr></table></figure>
+<p>rosdep 之后会说</p>
+<h2 id="5-用colcon进行build-workspace"><a href="#5-用colcon进行build-workspace" class="headerlink" title="5. 用colcon进行build workspace"></a>5. 用colcon进行build workspace</h2><p>再src 目录同级目录下，进行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build</span><br></pre></td></tr></table></figure>
+<p>返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Starting &gt;&gt;&gt; turtlesim</span><br><span class="line">Finished &lt;&lt;&lt; turtlesim [5.49s]</span><br><span class="line"></span><br><span class="line">Summary: 1 package finished [5.58s]</span><br></pre></td></tr></table></figure>
+<p>现在文件夹里有<code>build</code>,<code>install</code>,<code>log</code>,<code>src</code>四个文件夹</p>
+<p>install文件夹是你工作区启动文件所在的地方，可以source你的overlay</p>
+<h2 id="6-source-the-overlay"><a href="#6-source-the-overlay" class="headerlink" title="6.source the overlay"></a>6.source the overlay</h2><p>记住，source之前必须要重新开一个终端，不能和build是一个终端，否则会出现一定的问题</p>
+<p>打开一个新终端后，先source一下主ros2环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;ros2_dashing&#x2F;install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+<p>然后去工作区的根目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br></pre></td></tr></table></figure>
+<p>source 一下自己的overlaysetup.cfg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source install&#x2F;local_setup.bash</span><br></pre></td></tr></table></figure>
+<p>注意，这两部操作和直接进行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+<p>是一样的.</p>
+<p>接下来就可以打开小乌龟了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run turtlesim turtlesim_node</span><br></pre></td></tr></table></figure>
+<p>但是怎么知道这个是主ros2的环境启动的还是自己的overlay启动的呢</p>
+<h2 id="7-修改overlay"><a href="#7-修改overlay" class="headerlink" title="7. 修改overlay"></a>7. 修改overlay</h2><p>我们可以修改小乌龟窗口的名字。打开<code>~/dev_ws/src/ros_tutorials/turtlesim/src/turtle_frame.cpp</code>。修改<code>setWindowTitle(&quot;TurtleSim&quot;);</code>里面的这个名字。</p>
+<p>然后重新build，打开一个新终端运行这个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run turtlesim turtlesim_node</span><br></pre></td></tr></table></figure>
+<h2 id="Summary-3"><a href="#Summary-3" class="headerlink" title="Summary"></a>Summary</h2><p>在本教程中，您将主要的ROS 2发行版作为underlay(支撑物)，并通过在新工作区中克隆和构建软件包来创建了一个overlay（覆盖物）。overlay的优先级会大于underlay。</p>
+<p>建议使用overlay来处理少量的包，因此您不必将所有内容都放在同一工作区中，而在每次迭代时都可以重建一个巨大的工作区。</p>
+<h1 id="创建一个属于自己的package"><a href="#创建一个属于自己的package" class="headerlink" title="创建一个属于自己的package"></a>创建一个属于自己的package</h1><h2 id="1-什么是ROS2-package"><a href="#1-什么是ROS2-package" class="headerlink" title="1. 什么是ROS2 package"></a>1. 什么是ROS2 package</h2><p>一个包可以看做是ROS2代码的容器，当我们需要分享自己的代码给别人或者安装自己的代码时，就需要把代码整理成一个包。使用软件包，您可以发布ROS 2的工作，并允许其他人轻松构建和使用它。</p>
+<p>ROS 2中的软件包创建使用ament作为其构建系统，并使用colcon作为其构建工具。您可以使用官方支持的CMake或Python创建软件包，尽管确实存在其他构建类型。</p>
+<h2 id="2-ROS2封装是由什么组成的"><a href="#2-ROS2封装是由什么组成的" class="headerlink" title="2 ROS2封装是由什么组成的"></a>2 ROS2封装是由什么组成的</h2><ul>
+<li><code>package.xml</code>文件，其中包含有关程序包的元信息</li>
+<li><code>setup.py</code>包含有关如何安装软件包的说明</li>
+<li><code>setup.cfg</code>:软件包包含可执行文件时，需要setup.cfg，因此<code>ros2 run</code>可以找到它们</li>
+<li><code>/ &lt;package_name&gt;</code>-与您的软件包同名的目录，由ROS 2工具用来查找您的软件包，包含<code>__init__.py</code></li>
+</ul>
+<p>最简单的程序包可能具有如下所示的文件结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">my_package&#x2F;</span><br><span class="line">      setup.py</span><br><span class="line">      package.xml</span><br><span class="line">      resource&#x2F;my_package</span><br></pre></td></tr></table></figure>
+<h2 id="3-工作区中的软件包"><a href="#3-工作区中的软件包" class="headerlink" title="3. 工作区中的软件包"></a>3. 工作区中的软件包</h2><p>一个工作区可以有多个软件包，即可以有c++的也可以有python的，但是不可以有嵌套的软件包</p>
+<p>最好是把所有的软件包放在<code>src</code>下面，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">workspace_folder&#x2F;</span><br><span class="line">    src&#x2F;</span><br><span class="line">      package_1&#x2F;</span><br><span class="line">          CMakeLists.txt</span><br><span class="line">          package.xml</span><br><span class="line"></span><br><span class="line">      package_2&#x2F;</span><br><span class="line">          setup.py</span><br><span class="line">          package.xml</span><br><span class="line">          resource&#x2F;package_2</span><br><span class="line">      ...</span><br><span class="line">      package_n&#x2F;</span><br><span class="line">          CMakeLists.txt</span><br><span class="line">          package.xml</span><br></pre></td></tr></table></figure>
+<h2 id="4-create一个package"><a href="#4-create一个package" class="headerlink" title="4.create一个package"></a>4.create一个package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;ros2_dashing&#x2F;install&#x2F;setup.bashsource</span><br><span class="line">cd ~&#x2F;dev_ws&#x2F;src</span><br></pre></td></tr></table></figure>
+<p>下面是建立一个新的package的语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+<p>我们将使用一个可选参数<code>--node-name</code>，可以建立一个helloWord</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python --node-name my_node my_package</span><br></pre></td></tr></table></figure>
+<p>这样再src文件夹里就有会有一个<code>my_package</code>的包。这里my_node就是可执行文件</p>
+<h2 id="5-build-一个-package"><a href="#5-build-一个-package" class="headerlink" title="5. build 一个 package"></a>5. build 一个 package</h2><p>把所有的package放在一个工作区中，这样<code>colcon build</code>就可以一次性进行build，就不需要为每一个单独的包进行build</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build</span><br></pre></td></tr></table></figure>
+<p>也可以只选择一个build一个package</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select my_package</span><br></pre></td></tr></table></figure>
+<h2 id="6-source"><a href="#6-source" class="headerlink" title="6.source"></a>6.source</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+<h2 id="7-use-the-package"><a href="#7-use-the-package" class="headerlink" title="7. use the package"></a>7. use the package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run my_package my_node</span><br></pre></td></tr></table></figure>
+<h2 id="8-查看包文件"><a href="#8-查看包文件" class="headerlink" title="8.查看包文件"></a>8.查看包文件</h2><p>打开<code>~/dev_ws/src/my_package</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my_package  package.xml  resource  setup.cfg  setup.py  test</span><br></pre></td></tr></table></figure>
+<p><code>my_node.py</code>位于my_package目录中。这是未来所有定制Python节点的位置。</p>
+<h2 id="9-自定义package-xml"><a href="#9-自定义package-xml" class="headerlink" title="9.自定义package.xml"></a>9.自定义package.xml</h2><p>再建立一个包的时候其实会有俩TODO，一个是<code>licence</code>，另一个是<code>description</code>。 这俩东西再发布一个包的时候是必须的。<code>maintainer</code>字段也可能需要填写。</p>
+<p>打开<code>dev_ws/src/my_package/package.xml</code>。添加修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> 1 &lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line"> 2 &lt;?xml-model href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot; schema</span><br><span class="line"> 3 &lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line"> 4   &lt;name&gt;mypackage&lt;&#x2F;name&gt;</span><br><span class="line"> 5   &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line"> 6   &lt;description&gt;klqdes&lt;&#x2F;description&gt;</span><br><span class="line"> 7   &lt;maintainer email&#x3D;&quot;chargerKong@126.com&quot;&gt;kong&lt;&#x2F;maintainer&gt;</span><br><span class="line"> 8   &lt;license&gt;Apache2.0&lt;&#x2F;license&gt;                                              </span><br><span class="line"> 9 </span><br><span class="line">10   &lt;test_depend&gt;ament_copyright&lt;&#x2F;test_depend&gt;</span><br><span class="line">11   &lt;test_depend&gt;ament_flake8&lt;&#x2F;test_depend&gt;</span><br><span class="line">12   &lt;test_depend&gt;ament_pep257&lt;&#x2F;test_depend&gt;</span><br><span class="line">13   &lt;test_depend&gt;python3-pytest&lt;&#x2F;test_depend&gt;</span><br><span class="line">14 </span><br><span class="line">15   &lt;export&gt;</span><br><span class="line">16     &lt;build_type&gt;ament_python&lt;&#x2F;build_type&gt;</span><br><span class="line">17   &lt;&#x2F;export&gt;</span><br><span class="line">18 &lt;&#x2F;package&gt;</span><br></pre></td></tr></table></figure>
+<p>setup.py文件里面也有description，licence，和maintainer的信息，因此也要同时修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> 1 from setuptools import setup</span><br><span class="line"> 2 </span><br><span class="line"> 3 package_name &#x3D; &#39;mypackage&#39;</span><br><span class="line"> 4 </span><br><span class="line"> 5 setup(</span><br><span class="line"> 6     name&#x3D;package_name,</span><br><span class="line"> 7     version&#x3D;&#39;0.0.0&#39;,</span><br><span class="line"> 8     packages&#x3D;[package_name],</span><br><span class="line"> 9     data_files&#x3D;[</span><br><span class="line">10         (&#39;share&#x2F;ament_index&#x2F;resource_index&#x2F;packages&#39;,</span><br><span class="line">11             [&#39;resource&#x2F;&#39; + package_name]),</span><br><span class="line">12         (&#39;share&#x2F;&#39; + package_name, [&#39;package.xml&#39;]),</span><br><span class="line">13     ],</span><br><span class="line">14     install_requires&#x3D;[&#39;setuptools&#39;],</span><br><span class="line">15     zip_safe&#x3D;True,</span><br><span class="line">16     maintainer&#x3D;&#39;kong&#39;,</span><br><span class="line">17     maintainer_email&#x3D;&#39;chargerKong@126.com&#39;,</span><br><span class="line">18     description&#x3D;&#39;klqdes&#39;,</span><br><span class="line">19     license&#x3D;&#39;Apache2.0&#39;,                                                                                                                                   </span><br><span class="line">20     tests_require&#x3D;[&#39;pytest&#39;],</span><br><span class="line">21     entry_points&#x3D;&#123;</span><br><span class="line">22         &#39;console_scripts&#39;: [</span><br><span class="line">23             &#39;my_node &#x3D; mypackage.my_node:main&#39;</span><br><span class="line">24         ],</span><br><span class="line">25     &#125;,</span><br><span class="line">26 )</span><br></pre></td></tr></table></figure>
+<h2 id="Summary-4"><a href="#Summary-4" class="headerlink" title="Summary"></a>Summary</h2><p>您已经创建了一个用于组织代码并易于他人使用的程序包。</p>
+<p>您的软件包将自动填充必要的文件，然后使用colcon进行构建，以便可以在本地环境中使用其可执行文件。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/03/28/SLAM%20ToolBox/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros学习三</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/03/27/ros%E5%AD%A6%E4%B9%A0%E4%BA%8C/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros学习二</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Using-rqt-console"><span class="nav-number">1.</span> <span class="nav-text">Using rqt_console</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8"><span class="nav-number">1.1.</span> <span class="nav-text">1.启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Messages-on-rqt-console"><span class="nav-number">1.2.</span> <span class="nav-text">2 Messages on rqt_console</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-logger-%E7%AD%89%E7%BA%A7"><span class="nav-number">1.3.</span> <span class="nav-text">3. logger 等级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1Set-the-default-logger-level"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1Set the default logger level</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">1.4.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">创建一个启动文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8-1"><span class="nav-number">2.1.</span> <span class="nav-text">1. 启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%9B%E7%AB%8B%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">2. 创立启动文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E6%A3%80%E6%9F%A5%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1检查启动文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ros2-launch"><span class="nav-number">2.3.</span> <span class="nav-text">3.ros2 launch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%88%A9%E7%94%A8rqt-graph%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81"><span class="nav-number">2.4.</span> <span class="nav-text">4.利用rqt_graph查看系统状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-1"><span class="nav-number">2.5.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E5%92%8C%E5%9B%9E%E6%94%BE%E6%95%B0%E6%8D%AE"><span class="nav-number">3.</span> <span class="nav-text">记录和回放数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8-2"><span class="nav-number">3.1.</span> <span class="nav-text">1.启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AAtopic"><span class="nav-number">3.2.</span> <span class="nav-text">2.选择一个topic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-ros2-bag-record"><span class="nav-number">3.3.</span> <span class="nav-text">3.ros2 bag record</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%AE%B0%E5%BD%95%E5%A4%9A%E4%B8%AAtopic"><span class="nav-number">3.4.</span> <span class="nav-text">4. 记录多个topic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-ros2-bag-info"><span class="nav-number">3.5.</span> <span class="nav-text">5. ros2 bag info</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-ros2-bag-play"><span class="nav-number">3.6.</span> <span class="nav-text">6. ros2 bag play</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Summary-2"><span class="nav-number">4.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B7%A5%E4%BD%9C%E5%8C%BA"><span class="nav-number">5.</span> <span class="nav-text">建立一个工作区</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-source-ros2-%E7%8E%AF%E5%A2%83"><span class="nav-number">5.1.</span> <span class="nav-text">1. source ros2 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E7%9B%AE%E5%BD%95"><span class="nav-number">5.2.</span> <span class="nav-text">2.创建一个新的目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-clone-%E4%B8%80%E4%B8%AA%E6%A0%B7%E4%BE%8B%E5%BA%93"><span class="nav-number">5.3.</span> <span class="nav-text">3.clone 一个样例库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="nav-number">5.4.</span> <span class="nav-text">4.解决依赖关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%94%A8colcon%E8%BF%9B%E8%A1%8Cbuild-workspace"><span class="nav-number">5.5.</span> <span class="nav-text">5. 用colcon进行build workspace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-source-the-overlay"><span class="nav-number">5.6.</span> <span class="nav-text">6.source the overlay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%BF%AE%E6%94%B9overlay"><span class="nav-number">5.7.</span> <span class="nav-text">7. 修改overlay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-3"><span class="nav-number">5.8.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84package"><span class="nav-number">6.</span> <span class="nav-text">创建一个属于自己的package</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFROS2-package"><span class="nav-number">6.1.</span> <span class="nav-text">1. 什么是ROS2 package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-ROS2%E5%B0%81%E8%A3%85%E6%98%AF%E7%94%B1%E4%BB%80%E4%B9%88%E7%BB%84%E6%88%90%E7%9A%84"><span class="nav-number">6.2.</span> <span class="nav-text">2 ROS2封装是由什么组成的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B7%A5%E4%BD%9C%E5%8C%BA%E4%B8%AD%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">6.3.</span> <span class="nav-text">3. 工作区中的软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-create%E4%B8%80%E4%B8%AApackage"><span class="nav-number">6.4.</span> <span class="nav-text">4.create一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-build-%E4%B8%80%E4%B8%AA-package"><span class="nav-number">6.5.</span> <span class="nav-text">5. build 一个 package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-source"><span class="nav-number">6.6.</span> <span class="nav-text">6.source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-use-the-package"><span class="nav-number">6.7.</span> <span class="nav-text">7. use the package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%9F%A5%E7%9C%8B%E5%8C%85%E6%96%87%E4%BB%B6"><span class="nav-number">6.8.</span> <span class="nav-text">8.查看包文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E8%87%AA%E5%AE%9A%E4%B9%89package-xml"><span class="nav-number">6.9.</span> <span class="nav-text">9.自定义package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-4"><span class="nav-number">6.10.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

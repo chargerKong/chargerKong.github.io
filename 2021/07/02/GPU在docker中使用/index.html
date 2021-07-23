@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            GPU在docker中使用 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">GPU在docker中使用</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-07-02 16:24:35
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/GPU-docker/">GPU, docker</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>首先自己的机器上需要有GPU，在附加驱动中可以查看</p>
+<h2 id="安装显卡驱动"><a href="#安装显卡驱动" class="headerlink" title="安装显卡驱动"></a>安装显卡驱动</h2><h3 id="附加驱动安装NAVIDIA驱动"><a href="#附加驱动安装NAVIDIA驱动" class="headerlink" title="附加驱动安装NAVIDIA驱动"></a>附加驱动安装NAVIDIA驱动</h3><p>点开Ubuntu中自带的Software &amp; update （软件和更新），选择下面的additional Drivers（附加驱动），即可查看自己的显卡型号</p>
+<p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 11-34-52屏幕截图.png" alt=""></p>
+<p>这里可以看见，我的电脑上有一块GeForce MX250的显卡。现在默认使用的是系统自带的，我可以选择上面其他几个NVIDIA驱动。我这里选择的是nvidia-driver-460，两个460都可以，具体对应自己的GPU是多少可以去<a target="_blank" rel="noopener" href="https://www.nvidia.com/Download/index.aspx#">NVIDIA官网</a>查看最合适的驱动。</p>
+<p>首先选好对应自己的显卡和操作系统，我这里是GeForce MX250和Linux，点击确定会有推荐的驱动</p>
+<p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 14-26-11屏幕截图.png" alt=""></p>
+<p>相应上面推荐的是460.84</p>
+<p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 14-28-42屏幕截图.png" alt=""></p>
+<h3 id="使用命令安装NAVIDIA驱动"><a href="#使用命令安装NAVIDIA驱动" class="headerlink" title="使用命令安装NAVIDIA驱动"></a>使用命令安装NAVIDIA驱动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nvidia-driver-460</span><br></pre></td></tr></table></figure>
+<p>安装完成后需要重新启动系统才能生效，重启系统后通过 <strong><code>nvidia-smi</code></strong> 命令可以查看有没有应用在使用NAVIDIA显卡驱动，如果存在这样的应用则表示安装成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">kong@kong-KLV-WX9:~&#x2F;Templates$ nvidia-smi </span><br><span class="line">Fri Jul  2 14:31:35 2021       </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 460.84       Driver Version: 460.84       CUDA Version: 11.2     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage&#x2F;Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|                               |                      |               MIG M. |</span><br><span class="line">|&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;+&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;+&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;|</span><br><span class="line">|   0  GeForce MX250       Off  | 00000000:01:00.0 Off |                  N&#x2F;A |</span><br><span class="line">| N&#x2F;A   59C    P0    N&#x2F;A &#x2F;  N&#x2F;A |   1355MiB &#x2F;  2002MiB |      6%      Default |</span><br><span class="line">|                               |                      |                  N&#x2F;A |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line">                                                                               </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                                  |</span><br><span class="line">|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |</span><br><span class="line">|        ID   ID                                                   Usage      |</span><br><span class="line">|&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;|</span><br><span class="line">|    0   N&#x2F;A  N&#x2F;A       961      G   &#x2F;usr&#x2F;lib&#x2F;xorg&#x2F;Xorg                714MiB |</span><br><span class="line">|    0   N&#x2F;A  N&#x2F;A      1919      G   &#x2F;usr&#x2F;bin&#x2F;gnome-shell               93MiB |</span><br><span class="line">|    0   N&#x2F;A  N&#x2F;A      7925      G   ...AAAAAAAAA&#x3D; --shared-files       82MiB |</span><br><span class="line">|    0   N&#x2F;A  N&#x2F;A     29518      G   gzclient                          252MiB |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<h2 id="docker使用GPU总结"><a href="#docker使用GPU总结" class="headerlink" title="docker使用GPU总结"></a>docker使用GPU总结</h2><p>（注：下面只讨论docker19使用gpu，低于19的请移步其他博客，或更新19后再参考本文）</p>
+<h3 id="背景及基本介绍"><a href="#背景及基本介绍" class="headerlink" title="背景及基本介绍"></a>背景及基本介绍</h3><p>  现由于项目要使用GPU，所以需要docker支持GPU，在docker19以前都需要单独下载nvidia-docker1或nvidia-docker2来启动容器，自从升级了docker19后跑需要gpu的docker只需要加个参数–gpus all 即可(表示使用所有的gpu，如果要使用2个gpu：–gpus 2，也可直接指定哪几个卡：–gpus ‘“device=1,2”’，后面有详细介绍)。<br>  接着需要安装nvidia驱动，这需要根据自己显卡安装相应的驱动，网上有很多类似教程，此处不再介绍，推荐一个链接：讲的很详细<br>  不要以为这样就可以安心的使用gpu了，你的镜像还必须要有cuda才行，这也很简单，去dockerhub上找到和自己tensorflow相对应的cuda版本的镜像，再基于该镜像生成自己的镜像就可以轻松使用gpu了。这里需要额外多说一句，如果你的docker 本身就基于了某个镜像（例如基于本公司仓库的镜像），docker是不允许from两个镜像的，要想实现基于两个或多个，只能基于其中一个，其他的镜像通过各镜像的Dockerfile拼到新的Dockerfile上，但更多的镜像是没有Dockerfile的，可以通过docker history查看某镜像的生成过程，其实就是Dockerfile，nvidia/cuda官网本身就有Dockerfile，也可直接参考。</p>
+<h3 id="安装toolkit"><a href="#安装toolkit" class="headerlink" title="安装toolkit"></a>安装toolkit</h3><p>关于配置docker19使用gpu，其实只用装官方提供的toolkit即可，把github上的搬下来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Add the package repositories</span><br><span class="line">$ distribution&#x3D;$(. &#x2F;etc&#x2F;os-release;echo $ID$VERSION_ID)</span><br><span class="line">$ curl -s -L https:&#x2F;&#x2F;nvidia.github.io&#x2F;nvidia-docker&#x2F;gpgkey | sudo apt-key add -</span><br><span class="line">$ curl -s -L https:&#x2F;&#x2F;nvidia.github.io&#x2F;nvidia-docker&#x2F;$distribution&#x2F;nvidia-docker.list | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;nvidia-docker.list</span><br><span class="line"></span><br><span class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install -y nvidia-container-toolkit</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>重启！！！！！！！！</p>
+<h3 id="测试安装是否成功"><a href="#测试安装是否成功" class="headerlink" title="测试安装是否成功 "></a>测试安装是否成功 </h3><p> 经过以上大部分linux系统的docker toolkit应该都能安装成功，如不能安装成功，可参考github<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker">官网</a>，查看是否安装成功：<br>(1) 查看–gpus 参数是否安装成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --help | grep -i gpus</span><br><span class="line">      --gpus gpu-request               GPU devices to add to the container (&#39;all&#39; to pass all GPUs)</span><br></pre></td></tr></table></figure>
+<p>(2) 运行nvidia官网提供的镜像，并输入nvidia-smi命令，查看nvidia界面是否能够启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all nvidia&#x2F;cuda:9.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
+<p><strong>运行gpu的容器</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 使用所有GPU</span><br><span class="line">$ docker run --gpus all nvidia&#x2F;cuda:9.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line"># 使用两个GPU</span><br><span class="line">$ docker run --gpus 2 nvidia&#x2F;cuda:9.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line"># 指定GPU运行</span><br><span class="line">$ docker run --gpus &#39;&quot;device&#x3D;1,2&quot;&#39; nvidia&#x2F;cuda:9.0-base nvidia-smi</span><br><span class="line">$ docker run --gpus &#39;&quot;device&#x3D;UUID-ABCDEF,1&quot;&#39; nvidia&#x2F;cuda:9.0-base nvidia-smi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="下载docker-镜像"><a href="#下载docker-镜像" class="headerlink" title="下载docker 镜像"></a>下载docker 镜像</h2><h3 id="镜像介绍"><a href="#镜像介绍" class="headerlink" title="镜像介绍"></a>镜像介绍</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">figoowen2003&#x2F;ros1-gazebo-desktop-vnc:noetic</span><br></pre></td></tr></table></figure>
+<p>此镜像为一个包含了vnc可视化的镜像，里面基础包含了ROS1，以及Gazebo。</p>
+<h3 id="镜像使用"><a href="#镜像使用" class="headerlink" title="镜像使用"></a>镜像使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run  -p 6080:80  -v &#x2F;dev&#x2F;shm:&#x2F;dev&#x2F;shm --gpus all figoowen2003&#x2F;ros1-gazebo-desktop-vnc:noetic</span><br></pre></td></tr></table></figure>
+<p>然后打开浏览器输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6080</span><br></pre></td></tr></table></figure>
+<p>即可利用vnc进入docker。</p>
+<h3 id="测试GPU是否能使用"><a href="#测试GPU是否能使用" class="headerlink" title="测试GPU是否能使用"></a>测试GPU是否能使用</h3><p>打开内置的火狐浏览器，然后打开终端，输入<code>nvidia-smi</code>，可以看见，火狐浏览器已经运行在GPU里面</p>
+<p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 15-15-24屏幕截图.png" alt=""></p>
+<p>参考：</p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43975924/article/details/104046790">https://blog.csdn.net/weixin_43975924/article/details/104046790</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Thanlon/article/details/106125738">https://blog.csdn.net/Thanlon/article/details/106125738</a></p>
+</li>
+</ol>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/07/08/78%E5%85%89%E6%B5%81%E6%B3%95%E5%8C%B9%E9%85%8D/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">光流法匹配</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/07/01/IMLS%E8%AF%A6%E8%A7%A3%E7%A4%BA%E4%BE%8B/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">IMLS-ICP</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">安装显卡驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E5%8A%A0%E9%A9%B1%E5%8A%A8%E5%AE%89%E8%A3%85NAVIDIA%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.1.</span> <span class="nav-text">附加驱动安装NAVIDIA驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85NAVIDIA%E9%A9%B1%E5%8A%A8"><span class="nav-number">1.2.</span> <span class="nav-text">使用命令安装NAVIDIA驱动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E4%BD%BF%E7%94%A8GPU%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">docker使用GPU总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">背景及基本介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85toolkit"><span class="nav-number">2.2.</span> <span class="nav-text">安装toolkit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%AE%89%E8%A3%85%E6%98%AF%E5%90%A6%E6%88%90%E5%8A%9F"><span class="nav-number">2.3.</span> <span class="nav-text">测试安装是否成功 </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDdocker-%E9%95%9C%E5%83%8F"><span class="nav-number">3.</span> <span class="nav-text">下载docker 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.1.</span> <span class="nav-text">镜像介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">镜像使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95GPU%E6%98%AF%E5%90%A6%E8%83%BD%E4%BD%BF%E7%94%A8"><span class="nav-number">3.3.</span> <span class="nav-text">测试GPU是否能使用</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            IMLS -ICP |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">IMLS -ICP</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-05-23 18:38:29
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="推荐书"><a href="#推荐书" class="headerlink" title="推荐书"></a>推荐书</h2><p>多视图几何（multiple view geometer），状态估计(state estimate for robotic)</p>
+<p>内容非常全，对初学者不是很友好。</p>
+<p>视觉里程计：给出两张图来判断相机是如何运动的</p>
+<p>后端：让总体的轨迹和地图更精确</p>
+<h2 id="ICP"><a href="#ICP" class="headerlink" title="ICP"></a>ICP</h2><p>当已知两个点集的对应的点对的时候，可以直接使用ICP方法直接一步到位！计算两个点集的R和t，很快</p>
+<p>当位置对应点的时候，需要进行迭代金酸</p>
+<h2 id="IMLS-ICP（效果不错）"><a href="#IMLS-ICP（效果不错）" class="headerlink" title="IMLS-ICP（效果不错）"></a>IMLS-ICP（效果不错）</h2><ol>
+<li>点云中隐藏这真实的曲面，最好的做法就是把参考帧点云中把曲面重建出来</li>
+<li>选择具有代表性的激光点来进行匹配，若两个主法向量是差不多的话，就是差不多的面</li>
+</ol>
+<p>激光点有一个可观性的问题，</p>
+<h3 id="代表点的选取"><a href="#代表点的选取" class="headerlink" title="代表点的选取"></a>代表点的选取</h3><p>曲率小比较好</p>
+<h3 id="重建曲面"><a href="#重建曲面" class="headerlink" title="重建曲面"></a>重建曲面</h3><p>定义了一个函数，由一个点云的集合来表示一个曲面的函数 </p>
+<p>通过给定一个距离公式$I^p$，隐藏了一个曲面</p>
+<h2 id="IMLS-ICP匹配方法代码思想："><a href="#IMLS-ICP匹配方法代码思想：" class="headerlink" title="IMLS -ICP匹配方法代码思想："></a>IMLS -ICP匹配方法代码思想：</h2><p>MATCH过程：结果需要返回一个当前帧和上一帧的一个增量</p>
+<p>目标（上一帧）是targetCloud，本帧是sourceTarget</p>
+<ol>
+<li><p>计算上一帧target每一个点的法向量。</p>
+<ul>
+<li>寻找每一个点附近的20个点作为平面</li>
+<li>计算SVD，特征值最小的特征向量就是法向量</li>
+<li>检查数据合法性</li>
+</ul>
+</li>
+<li><p>把当前的位姿，转换到上一帧的坐标系中。然后和上一帧转换到原点的数据（target）进行投影匹配，得到和本帧一一匹配的点</p>
+<ul>
+<li><p>循环每一个本帧的点$x_i$，利用knn找到上一帧中与$x_i$最近的点$\hat{x}_i$, 以及$\hat{x}_i$的法向量</p>
+</li>
+<li><p>判断此$\hat{x}_i$是否有法向量，若没有则取消$x_i$的匹配</p>
+</li>
+<li><p>判断$\hat{x}_i$和$x_i$的距离，若太远则取消$x_i$的匹配</p>
+</li>
+<li><p>计算点到上一帧中隐藏曲面的距离</p>
+<ul>
+<li><p>建立上一帧数据的KD Tree</p>
+</li>
+<li><p>寻找$x_i$最近的在上一帧中的最近的20个点，判断这些是否为inf, 是否有法向量，没有的话都不要，最后将点及他们的法向量存好</p>
+</li>
+<li><p>如果筛完后的点小于3个，则认为没有匹配点，return False</p>
+</li>
+<li><p>利用公式计算此点$x_i$到曲面的距离</p>
+<script type="math/tex; mode=display">
+I^{P_k}(x)=\Sigma_{p_i\in P_k}W_i(x)((x-p_i) \cdot \bold{n_i})/ \Sigma_{p_j\in P_k}W_i(j)</script><p>这里，</p>
+<p>$P_k$：前n帧激光数据组成的子图</p>
+<p>$\bold{n_i}$：点云集$P_k$中的点$p_i$的法向量</p>
+<p>$I^{P_k}(x)$：表示点$x$到点云集合$P_k$隐藏曲面的距离</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>判断距离是否为nan，inf等，如果是，取消此点的匹配</p>
+</li>
+<li><p>计算$x_i$（这个$x_i$是已经先转换到了上一帧坐标系中了）在曲面上的投影</p>
+<script type="math/tex; mode=display">
+y_i=x_i-I^{P_k}(x_i)\bold{n_i}</script><p>此$y_i$就是曲面上的投影点，并同时记录$\hat{x}_i$的法向量</p>
+</li>
+</ul>
+<ol>
+<li>若匹配后的点云数量太少，判断匹配失败</li>
+<li>计算两帧之间的位移，从当前的source到target，返回一个位姿增量matrix3d.可以参考point-to-line ICP论文</li>
+<li>更新result位姿，判断位姿增量是否过小，过小可以提前结束，否则继续迭代。从2开始</li>
+<li>返回总的位姿变化</li>
+</ol>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">图优化（Graph-based）</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros1代码学习</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B9%A6"><span class="nav-number">1.</span> <span class="nav-text">推荐书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ICP"><span class="nav-number">2.</span> <span class="nav-text">ICP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMLS-ICP%EF%BC%88%E6%95%88%E6%9E%9C%E4%B8%8D%E9%94%99%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">IMLS-ICP（效果不错）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E7%82%B9%E7%9A%84%E9%80%89%E5%8F%96"><span class="nav-number">3.1.</span> <span class="nav-text">代表点的选取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%BB%BA%E6%9B%B2%E9%9D%A2"><span class="nav-number">3.2.</span> <span class="nav-text">重建曲面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMLS-ICP%E5%8C%B9%E9%85%8D%E6%96%B9%E6%B3%95%E4%BB%A3%E7%A0%81%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">IMLS -ICP匹配方法代码思想：</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

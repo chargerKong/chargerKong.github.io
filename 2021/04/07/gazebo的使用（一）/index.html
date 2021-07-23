@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            gazebo的使用 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">gazebo的使用</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-04-07 16:24:35
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/gazebo/">gazebo</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>系统：<code>Ubuntu 20.04</code></p>
+<p><code>Gazebo</code>是一款动态的3D仿真软件，它可以快速测试算法，设计机器人，执行回归测试，使用现实场景训练人工智能系统，并且可以在复杂的室内和室外环境中，精确和有效地模拟大量的机器人。<code>Gazebo</code>有一个强大的物理引擎，高质量的图形界面，有着高保真度的视觉模拟，免费使用！</p>
+<h2 id="系统的要求"><a href="#系统的要求" class="headerlink" title="系统的要求"></a>系统的要求</h2><p><code>Gazebo</code>目前在<code>Ubuntu</code>上使用得最好，<code>Ubuntu</code>是Linux的一个版本。电脑最好需要有如下配置</p>
+<ul>
+<li><p>一个可以工作的GPU</p>
+</li>
+<li><p>等价于i5及以上的CPU</p>
+</li>
+<li><p>至少500MB的磁盘存储</p>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装<code>Gazebo</code>可以通过源码的方式进行安装也可以通过命令行的方式进行安装，若是需要对<code>Gazebo</code>展开开发的工作，建议源码安装<code>Gazebo</code>，下面我们简单介绍以命令行的形式安装<code>Gazebo</code></p>
+<ol>
+<li><p>设置计算机以接受来自<code>packes.osrfoundation.org</code>的软件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &#x27;echo &quot;deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main&quot; &gt; /etc/apt/sources.list.d/gazebo-stable.list&#x27;</span><br></pre></td></tr></table></figure>
+<p>查看上述命令是否执行成功，可以通过如下方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/apt/sources.list.d/gazebo-stable.list</span><br></pre></td></tr></table></figure>
+<p>终端应该会返回</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://packages.osrfoundation.org/gazebo/ubuntu-stable focal main</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;packages.osrfoundation.org&#x2F;gazebo.key -O - | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Gazebo</p>
+<p>首先更新debian数据库:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<p>提示: 确保apt-get更新过程在没有任何错误的情况下结束，控制台输出以Done结束，如下所示:</p>
+<p>接下来安装Gazebo-11：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libgazebo11-dev</span><br></pre></td></tr></table></figure>
+<p>如果发生报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E: Unable to locate package gazebo11</span><br></pre></td></tr></table></figure>
+<p>可能是由于系统不支持<code>Gazebo</code>，在Ubuntu 16.04上就会报上述错误</p>
+</li>
+<li><p>检查是否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h2><p>通过点击<code>Gazebo</code>图标或者在终端输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gazebo</span><br></pre></td></tr></table></figure>
+<p>将会看到如下界面</p>
+<p><img src="ftu3-boot-screen.png" alt=""></p>
+<p>接下来介绍Gazebo的界面</p>
+<h3 id="The-Scene"><a href="#The-Scene" class="headerlink" title="The Scene"></a>The Scene</h3><p>场景(Scene)是模拟器的主要部分。这是模拟对象动画和你与环境交互的地方。</p>
+<p><img src="ftu3-scene.png" alt="img"></p>
+<h3 id="The-Panels"><a href="#The-Panels" class="headerlink" title="The Panels"></a>The Panels</h3><p>左右两边的面板都可以通过拖动分隔条（五个点）来显示、隐藏或调整他们的大小。</p>
+<p><img src="ftu3-panels.png" alt=""></p>
+<h4 id="左侧面板"><a href="#左侧面板" class="headerlink" title="左侧面板"></a>左侧面板</h4><p>左侧的面板默认是打开的，这里有三个选项卡</p>
+<ul>
+<li><strong>WORLD</strong>：world选项卡会显示出当前场景中的模型，并允许您查看和修改模型参数，比如它们的位姿。你也可以通过扩展“GUI”选项和调整相机姿势来改变相机视角。</li>
+<li><strong>INSERT</strong>：INSERT选项卡是您向模拟器添加新模型的地方。要查看模型列表，您可能需要单击箭头来展开文件夹。点击(并释放)你想要插入的模型，然后在场景中再次点击添加它</li>
+<li><strong>Layer</strong>:  Layers选项卡组织并显示模拟过程中可用的不同可视化组(如果有的话)。一个层可以包含一个或多个模型。打开或关闭一个层将显示或隐藏该层中的模型。</li>
+</ul>
+<h4 id="右侧面板（默认隐藏）"><a href="#右侧面板（默认隐藏）" class="headerlink" title="右侧面板（默认隐藏）"></a>右侧面板（默认隐藏）</h4><p>默认情况下，右面板是隐藏的。单击并拖动分隔条以打开它。右边的面板可以用来与选定模型的可移动部件(关节)进行交互。如果场景中没有选择模型，面板不会显示任何信息。</p>
+<h3 id="工具栏"><a href="#工具栏" class="headerlink" title="工具栏"></a>工具栏</h3><p>主工具栏包括一些最常用的与模拟器交互的选项，例如:选择、移动、旋转和缩放对象的按钮; 创建简单的形状(如立方体，球体，圆柱体)和复制/粘贴。接下来点击每一个按钮可以查看他们是如何工作的</p>
+<p><img src="ftu3-top-toolbar.png" alt=""></p>
+<ul>
+<li><p>选择模式：在场景中导航</p>
+</li>
+<li><p>平移模式：选择模型，可以进行移动</p>
+</li>
+<li>旋转模式：选择模型，可以进行旋转</li>
+<li>缩放模式：选择模型，可以进行缩放</li>
+<li>Undo/Redo: Undo/Redo在场景中的动作</li>
+<li>简单模型：插入一些简单的模型到场景中</li>
+<li>灯光：可以向场景中添加灯光</li>
+<li>Copy/Paste: 复制/粘贴场景中的模型</li>
+<li>对齐：把一个模型对齐到另外一个模型</li>
+<li>snap: snap one model to another</li>
+<li>视角转变：可以选择各个角度观察场景</li>
+</ul>
+<h3 id="底部工具栏"><a href="#底部工具栏" class="headerlink" title="底部工具栏"></a>底部工具栏</h3><p>底部的工具栏显示模拟的数据，如模拟时间及其与现实时间的关系。“模拟时间”指的是模拟使用的时间，他可能比真实世界的时间（现实时间）慢或快，这取决于运行模拟所需的计算量。</p>
+<p>Gazebo中的世界状态在每次迭代中都会计算一次。您可以在底部工具栏的右侧看到迭代次数。每次迭代都将模拟推进固定的秒数，称为步长。默认步长为1毫秒。您可以按下pause按钮暂停模拟，并使用step按钮一次执行几个步骤。</p>
+<p><img src="ftu3-bottom-toolbar.png" alt="img"></p>
+<h3 id="菜单"><a href="#菜单" class="headerlink" title="菜单"></a>菜单</h3><p>和大多数应用程序一样，Gazebo的顶部也有一个应用程序菜单。有些菜单选项重复出现在工具栏或场景中的右键菜单选项中。</p>
+<p><img src="ftu3-menu-options.png" alt=""></p>
+<h3 id="鼠标控制"><a href="#鼠标控制" class="headerlink" title="鼠标控制"></a>鼠标控制</h3><p>在场景中导航时，鼠标非常有用。我们强烈建议使用鼠标与滚轮，右键单击模型也打开一个带有各种选项的上下文菜单。以下是用于在场景中导航并更改视角的基本鼠标操作。</p>
+<p><img src="ftu3-mouse-controls.png" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/08/model%E7%BC%96%E8%BE%91%E5%99%A8/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">model编辑器</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/04/07/python%E5%AD%A6%E4%B9%A0-typing/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">python学习-typing</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">系统的要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2"><span class="nav-number">3.</span> <span class="nav-text">用户界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Scene"><span class="nav-number">3.1.</span> <span class="nav-text">The Scene</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Panels"><span class="nav-number">3.2.</span> <span class="nav-text">The Panels</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A6%E4%BE%A7%E9%9D%A2%E6%9D%BF"><span class="nav-number">3.2.1.</span> <span class="nav-text">左侧面板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%B3%E4%BE%A7%E9%9D%A2%E6%9D%BF%EF%BC%88%E9%BB%98%E8%AE%A4%E9%9A%90%E8%97%8F%EF%BC%89"><span class="nav-number">3.2.2.</span> <span class="nav-text">右侧面板（默认隐藏）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E6%A0%8F"><span class="nav-number">3.3.</span> <span class="nav-text">工具栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E9%83%A8%E5%B7%A5%E5%85%B7%E6%A0%8F"><span class="nav-number">3.4.</span> <span class="nav-text">底部工具栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8F%9C%E5%8D%95"><span class="nav-number">3.5.</span> <span class="nav-text">菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E6%8E%A7%E5%88%B6"><span class="nav-number">3.6.</span> <span class="nav-text">鼠标控制</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
