@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ICP匹配原理实践 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ICP匹配原理实践</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-07-27 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%BF%80%E5%85%89SLAM%EF%BC%8CICP/">激光SLAM，ICP</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="激光雷达点的存储格式"><a href="#激光雷达点的存储格式" class="headerlink" title="激光雷达点的存储格式"></a>激光雷达点的存储格式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data= array([[-<span class="number">0.32829776</span>,  <span class="number">1.77534997</span>],</span><br><span class="line">       [-<span class="number">0.31087252</span>,  <span class="number">1.79521136</span>],</span><br><span class="line">       [-<span class="number">0.27960942</span>,  <span class="number">1.79588288</span>],</span><br><span class="line">       [-<span class="number">0.25491268</span>,  <span class="number">1.80528362</span>],</span><br><span class="line">       [-<span class="number">0.22668769</span>,  <span class="number">1.8092163</span> ],</span><br><span class="line">       [-<span class="number">0.21100112</span>,  <span class="number">1.83158204</span>],</span><br><span class="line">       [-<span class="number">0.19026372</span>,  <span class="number">1.84654157</span>],</span><br><span class="line">       [-<span class="number">0.16153892</span>,  <span class="number">1.84884591</span>],</span><br><span class="line">       [-<span class="number">0.14361304</span>,  <span class="number">1.86819745</span>],</span><br><span class="line">       [-<span class="number">0.11789602</span>,  <span class="number">1.8748071</span> ],</span><br><span class="line">       ...</span><br><span class="line">       ])</span><br></pre></td></tr></table></figure>
+<p>为一个<code>shape=(n, 2)</code>的雷达数据</p>
+<h2 id="雷达点的坐标转换"><a href="#雷达点的坐标转换" class="headerlink" title="雷达点的坐标转换"></a>雷达点的坐标转换</h2><p>坐标点变换矩阵，绕着原点逆时针旋转</p>
+<script type="math/tex; mode=display">
+R =\begin{bmatrix}
+\cos\theta&-\sin\theta\\
+\sin\theta&\cos\theta
+\end{bmatrix}</script><p>若有一个点$x=(x_0,y_0)$，逆时针旋转$\theta$度，则应该计算为</p>
+<script type="math/tex; mode=display">
+x=x_0\cos\theta-y_0\sin\theta\\
+y=x_0\sin\theta+y_0\cos\theta\tag{1}</script><p>转换为矩阵为<code>R@x.T</code>即可</p>
+<p>因此，坐标变换应该为<code>R@data.T</code>即可，注意结果为<code>shape=(2,n)</code>。</p>
+<h3 id="齐次坐标系变换"><a href="#齐次坐标系变换" class="headerlink" title="齐次坐标系变换"></a>齐次坐标系变换</h3><p>倘若在旋转的基础之上还需要平移$t=(t_x,t_y)$，则</p>
+<script type="math/tex; mode=display">
+x=x_0\cos\theta-y_0\sin\theta+t_x\\
+y=x_0\sin\theta+y_0\cos\theta+t_y\tag{2}</script><p>写为矩阵的形式应该为</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+\cos\theta&-\sin\theta&t_x\\
+\sin\theta&\cos\theta&t_y\\
+0&0&1
+\end{bmatrix}
+\begin{bmatrix}
+x_0\\
+y_0\\
+1
+\end{bmatrix}\tag{3}</script><p>因此应该矩阵的乘法，首先需要对数据加一个列的1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = np.hstack((data, np.ones((test_point.shape[<span class="number">0</span>], <span class="number">1</span>))))</span><br></pre></td></tr></table></figure>
+<p>坐标变换应该为<code>T_1@data.T</code>，其中$T_1$为（3）左边的矩阵，注意结果为<code>shape=(3, n)</code></p>
+<p>如果需要计算多次平移和旋转</p>
+<p>则只需要继续左乘即可<code>T_2@T_1@data.T</code></p>
+<h2 id="已知对应点关系的ICP"><a href="#已知对应点关系的ICP" class="headerlink" title="已知对应点关系的ICP"></a>已知对应点关系的ICP</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">icp</span>(<span class="params">y_data_pre, y_data_now</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    y_data_pre: shape=(n, 2)</span></span><br><span class="line"><span class="string">    y_data_now: the same snow_tmhape of y_data_pre = (n, 2)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    return: R and t. The transformation from pre to now</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    total_R = np.eye(<span class="number">3</span>)</span><br><span class="line">    </span><br><span class="line">    pre_tm, now_tm = y_data_pre, y_data_now</span><br><span class="line"></span><br><span class="line">    pre_t, now_t = pre_tm - np.mean(pre_tm, axis=<span class="number">0</span>), now_tm - np.mean(now_tm, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    W = np.zeros((<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(pre_t.shape[<span class="number">0</span>]):</span><br><span class="line">        W += pre_t[i:i+<span class="number">1</span>].T @ now_t[i:i+<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    U, sigma, V = np.linalg.svd(W)</span><br><span class="line">    R = V @ U.T</span><br><span class="line">    t = np.mean(now_tm, axis=<span class="number">0</span>) - R@np.mean(pre_tm, axis=<span class="number">0</span>).T</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> trans_to_isometry2d(R, t)</span><br></pre></td></tr></table></figure>
+<p>上面这个函数输入是两个点云，并且<code>shape=(n, 2)</code></p>
+<p>返回的是一个3x3的欧式变换矩阵</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+R & t\\
+0&1
+\end{bmatrix}
+\tag{4}</script><p>$R$是一个二维的旋转矩阵，$t$表示的是平移向量。</p>
+<h3 id="下面介绍ICP的具体步骤"><a href="#下面介绍ICP的具体步骤" class="headerlink" title="下面介绍ICP的具体步骤"></a>下面介绍ICP的具体步骤</h3><p><strong>步骤一：去中心化</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pre_t, now_t &#x3D; pre_tm - np.mean(pre_tm, axis&#x3D;0), now_tm - np.mean(now_tm, axis&#x3D;0)</span><br></pre></td></tr></table></figure>
+<p><strong>步骤二：计算矩阵W</strong></p>
+<script type="math/tex; mode=display">
+W=\sum_{i=1}^Nx_i'p_i</script><p>其中，$x_i,p_i$分别代表两块点云中的点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(pre_t.shape[<span class="number">0</span>]):</span><br><span class="line">    W += pre_t[i:i+<span class="number">1</span>].T @ now_t[i:i+<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>步骤三：SVD分解，求解R</strong></p>
+<p>假设对W的SVD分解结果为</p>
+<script type="math/tex; mode=display">
+W=U\begin{bmatrix}
+\sigma_1 & 0&0\\
+0&\sigma_2&0\\
+0&0&\sigma_3
+\end{bmatrix}V^T</script><p>则ICP的解为</p>
+<script type="math/tex; mode=display">
+R = VU^T</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">U, sigma, V = np.linalg.svd(W)</span><br><span class="line">R = V @ U.T</span><br></pre></td></tr></table></figure>
+<p><strong>步骤四：求解t</strong></p>
+<script type="math/tex; mode=display">
+t=u_x-Ru_p</script><p>其中$u_x$和$u_p$分别表示两块点云的几何中心点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t = np.mean(now_tm, axis=<span class="number">0</span>) - R@np.mean(pre_tm, axis=<span class="number">0</span>).T</span><br></pre></td></tr></table></figure>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><h4 id="数据生成"><a href="#数据生成" class="headerlink" title="数据生成"></a>数据生成</h4><p>下面这段代码，我们生成了已知对应点的两个点云<code>y_data_now</code>以及<code>y_data_pre</code></p>
+<p><code>y_data_now</code>是通过<code>y_data_pre</code>逆时针旋转45度，并且平移了<code>[0.5, 0.5]</code>得到</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">pre = np.array([<span class="number">2.2172601222991943</span>, <span class="number">2.222874402999878</span>, <span class="number">2.205129384994507</span>, <span class="number">2.1986029148101807</span>, <span class="number">2.1858696937561035</span>, <span class="number">2.1957268714904785</span>, <span class="number">2.1969168186187744</span>, <span class="number">2.183438539505005</span>, <span class="number">2.190436601638794</span>, <span class="number">2.1827948093414307</span>, <span class="number">2.1837754249572754</span>, <span class="number">2.2076597213745117</span>, <span class="number">2.177976131439209</span>, <span class="number">2.1731295585632324</span>, <span class="number">2.185473918914795</span>, <span class="number">2.1618497371673584</span>, <span class="number">2.1733145713806152</span>, <span class="number">2.181365728378296</span>, <span class="number">2.1715705394744873</span>, <span class="number">2.1802971363067627</span>, <span class="number">2.1772191524505615</span>, <span class="number">2.1959474086761475</span>, <span class="number">2.1840665340423584</span>, <span class="number">0.5597301125526428</span>, <span class="number">0.5485700964927673</span>, <span class="number">0.5352249145507812</span>, <span class="number">0.5243845582008362</span>, <span class="number">0.5171780586242676</span>, <span class="number">0.49347609281539917</span>, <span class="number">0.500745415687561</span>, <span class="number">0.5121733546257019</span>, <span class="number">0.5016278624534607</span>, <span class="number">0.5036090016365051</span>, <span class="number">0.5045422911643982</span>, <span class="number">0.5057468414306641</span>, <span class="number">0.48604974150657654</span>, <span class="number">0.4834277033805847</span>, <span class="number">0.49271881580352783</span>, <span class="number">0.4894062876701355</span>, <span class="number">0.47749894857406616</span>, <span class="number">0.47225064039230347</span>, <span class="number">0.47715726494789124</span>, <span class="number">0.48048126697540283</span>, <span class="number">0.4855308532714844</span>, <span class="number">0.4973067045211792</span>, <span class="number">0.4793863892555237</span>, <span class="number">0.4819462299346924</span>, <span class="number">0.4518357813358307</span>, <span class="number">0.48269888758659363</span>, <span class="number">0.4819696545600891</span>, <span class="number">0.4706280529499054</span>, <span class="number">0.4844808280467987</span>, <span class="number">0.4945412874221802</span>, <span class="number">0.5085427761077881</span>, <span class="number">0.49312782287597656</span>, <span class="number">0.500328540802002</span>, <span class="number">0.49513912200927734</span>, <span class="number">0.4999622404575348</span>, <span class="number">0.5043498277664185</span>, <span class="number">0.5245479345321655</span>, <span class="number">0.541199266910553</span>, <span class="number">0.5258843302726746</span>, <span class="number">0.5450403690338135</span>, <span class="number">0.5684719681739807</span>, <span class="number">1.9805926084518433</span>, <span class="number">1.992526888847351</span>, <span class="number">1.988566279411316</span>, <span class="number">2.026911735534668</span>, <span class="number">2.0081746578216553</span>, <span class="number">2.046605110168457</span>, <span class="number">2.0853240489959717</span>, <span class="number">2.075857162475586</span>, <span class="number">2.0827317237854004</span>, <span class="number">2.1258904933929443</span>, <span class="number">2.14408540725708</span>, <span class="number">2.169947624206543</span>, <span class="number">2.1946492195129395</span>, <span class="number">2.1616666316986084</span>, <span class="number">2.172661781311035</span>, <span class="number">2.154602289199829</span>, <span class="number">2.1330761909484863</span>, <span class="number">2.13897442817688</span>, <span class="number">2.137460470199585</span>, <span class="number">2.13767671585083</span>, <span class="number">2.098261594772339</span>, <span class="number">2.0943005084991455</span>, <span class="number">2.0957398414611816</span>, <span class="number">2.0956742763519287</span>, <span class="number">2.087766170501709</span>, <span class="number">2.091048002243042</span>, <span class="number">2.1002793312072754</span>, <span class="number">2.0828135013580322</span>, <span class="number">2.063037872314453</span>, <span class="number">2.0801477432250977</span>, <span class="number">2.062371015548706</span>, <span class="number">2.0871875286102295</span>, <span class="number">2.083261013031006</span>, <span class="number">2.0732927322387695</span>, <span class="number">2.08502197265625</span>, <span class="number">2.0588319301605225</span>, <span class="number">2.0332274436950684</span>, <span class="number">2.0723254680633545</span>, <span class="number">2.0552995204925537</span>, <span class="number">2.057854413986206</span>, <span class="number">2.069274663925171</span>, <span class="number">2.032874822616577</span>, <span class="number">2.0648837089538574</span>, <span class="number">2.072674512863159</span>, <span class="number">2.062706470489502</span>, <span class="number">2.045621633529663</span>, <span class="number">2.0590219497680664</span>, <span class="number">2.059302568435669</span>, <span class="number">2.0588607788085938</span>, <span class="number">2.0754079818725586</span>, <span class="number">2.0734634399414062</span>, <span class="number">2.0726094245910645</span>, <span class="number">2.0943069458007812</span>, <span class="number">2.0891125202178955</span>, <span class="number">2.0705318450927734</span>, <span class="number">2.0788536071777344</span>, <span class="number">2.10817289352417</span>, <span class="number">2.1069400310516357</span>, <span class="number">2.109229326248169</span>, <span class="number">2.101857900619507</span>, <span class="number">2.1055896282196045</span>, <span class="number">2.115345001220703</span>, <span class="number">2.119300127029419</span>, <span class="number">2.1327497959136963</span>, <span class="number">2.1400115489959717</span>, <span class="number">2.1617844104766846</span>, <span class="number">2.134272575378418</span>, <span class="number">2.146404266357422</span>, <span class="number">2.1694626808166504</span>, <span class="number">2.1619796752929688</span>, <span class="number">2.190279006958008</span>, <span class="number">2.1727895736694336</span>, <span class="number">1.1113004684448242</span>, <span class="number">1.100041389465332</span>, <span class="number">1.0575999021530151</span>, <span class="number">1.0355123281478882</span>, <span class="number">1.0419548749923706</span>, <span class="number">1.037386417388916</span>, <span class="number">1.0438101291656494</span>, <span class="number">0.994590163230896</span>, <span class="number">1.027056336402893</span>, <span class="number">1.0087417364120483</span>, <span class="number">1.0027227401733398</span>, <span class="number">1.0239629745483398</span>, <span class="number">1.0005853176116943</span>, <span class="number">1.017919659614563</span>, <span class="number">1.0248370170593262</span>, <span class="number">1.0239020586013794</span>, <span class="number">1.0181171894073486</span>, <span class="number">1.0272765159606934</span>, <span class="number">1.0323562622070312</span>, <span class="number">1.0463443994522095</span>, <span class="number">1.0655380487442017</span>, <span class="number">1.0990997552871704</span>, <span class="number">2.132075071334839</span>, <span class="number">2.1586179733276367</span>, <span class="number">2.149562358856201</span>, <span class="number">2.172996759414673</span>, <span class="number">2.202742576599121</span>, <span class="number">2.2174174785614014</span>, <span class="number">2.2322938442230225</span>, <span class="number">2.2515151500701904</span>, <span class="number">2.286550283432007</span>, <span class="number">2.2972664833068848</span>, <span class="number">2.330606698989868</span>, <span class="number">2.3576974868774414</span>, <span class="number">2.3825862407684326</span>, <span class="number">2.4172351360321045</span>, <span class="number">2.4361069202423096</span>, <span class="number">2.461888313293457</span>, <span class="number">2.5018298625946045</span>, <span class="number">2.4925389289855957</span>, <span class="number">2.4813530445098877</span>, <span class="number">2.452197313308716</span>, <span class="number">2.4803617000579834</span>, <span class="number">2.4636669158935547</span>, <span class="number">2.4398932456970215</span>])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert_scan_to_pointcloud</span>(<span class="params">scan</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    把激光消息转换为激光坐标系下的二维点云</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    angle_min=-<span class="number">1.0466699600219727</span></span><br><span class="line">    angle_max=<span class="number">1.0466699600219727</span></span><br><span class="line">    angle_increment=<span class="number">0.011629666201770306</span></span><br><span class="line">    n = <span class="built_in">len</span>(scan)</span><br><span class="line">    pcs = np.zeros((n, <span class="number">2</span>))</span><br><span class="line">    angle = angle_min</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">if</span> scan[i] &lt; <span class="number">0.07999999821186066</span> <span class="keyword">or</span> scan[i] &gt; <span class="number">6.0</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        angle += angle_increment</span><br><span class="line">        <span class="comment"># 计算单个值的三角函数，math比numpy的快</span></span><br><span class="line">        lx = scan[i] * math.sin(angle)</span><br><span class="line">        ly = scan[i] * math.cos(angle)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> lx <span class="keyword">or</span> <span class="keyword">not</span> ly:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        pcs[i][<span class="number">0</span>] = lx</span><br><span class="line">        pcs[i][<span class="number">1</span>] = ly</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pcs</span><br><span class="line"></span><br><span class="line">y_data_pre = convert_scan_to_pointcloud(pre)</span><br><span class="line"><span class="comment"># 为已知的点云进行变换，假设为旋转pi/8,平移距离为（1，1）</span></span><br><span class="line">theta = <span class="number">3.1415926</span>/<span class="number">4</span></span><br><span class="line">t = np.array([<span class="number">0.5</span>, <span class="number">0.5</span>])</span><br><span class="line">R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])</span><br><span class="line">y_data_now = (R @ y_data_pre.T).T + t</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;the rotation matrix should be:\n &#123;&#125;&quot;</span>.<span class="built_in">format</span>(R))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the rotation matrix should be:</span><br><span class="line"> [[ 0.70710679 -0.70710677]</span><br><span class="line"> [ 0.70710677  0.70710679]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 画出两点云</span></span><br><span class="line">plt.scatter(y_data_pre[:,<span class="number">0</span>], y_data_pre[:,<span class="number">1</span>], marker=<span class="string">&#x27;o&#x27;</span>, s=<span class="number">10</span>)</span><br><span class="line">plt.scatter(y_data_now[:,<span class="number">0</span>], y_data_now[:,<span class="number">1</span>], marker=<span class="string">&#x27;o&#x27;</span>, s=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="output_8_1.png" alt="png"></p>
+<h4 id="通过ICP进行相对位姿计算"><a href="#通过ICP进行相对位姿计算" class="headerlink" title="通过ICP进行相对位姿计算"></a>通过ICP进行相对位姿计算</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icp(y_data_pre, y_data_now)</span><br></pre></td></tr></table></figure>
+<p>计算结果为：</p>
+<pre><code>array([[ 0.70710679, -0.70710677,  0.5       ],
+       [ 0.70710677,  0.70710679,  0.5       ],
+       [ 0.        ,  0.        ,  1.        ]])
+</code></pre><p>这和我们所预期的结果完全一致。</p>
+<p>下面我们画出旋转后的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">y_data_from_icp &#x3D; (icp(y_data_pre, y_data_now) @ np.hstack((y_data_pre, np.ones((y_data_pre.shape[0], 1)))).T).T</span><br><span class="line">plt.scatter(y_data_from_icp[:,0], y_data_from_icp[:,1], marker&#x3D;&#39;o&#39;, s&#x3D;15)</span><br><span class="line">plt.scatter(y_data_now[:,0], y_data_now[:,1], marker&#x3D;&#39;o&#39;, s&#x3D;5)</span><br></pre></td></tr></table></figure>
+<p><img src="output_15_1.png" alt="png"></p>
+<h2 id="未知对应点关系的ICP"><a href="#未知对应点关系的ICP" class="headerlink" title="未知对应点关系的ICP"></a>未知对应点关系的ICP</h2><p>对于未知对应点关系的ICP，需要多做一步<strong>寻找对应点</strong>，由于不知道对应点，我们可以通过迭代的方式逐步去寻找对应点。</p>
+<p>我们可以通过KD树来寻找和当前点最近的在其他点云上的点，来作为对应点</p>
+<p>具体代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">icpp</span>(<span class="params">y_data_pre, y_data_now</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    y_data_pre: shape=(n, 2)</span></span><br><span class="line"><span class="string">    y_data_now: the same snow_tmhape of y_data_pre = (n, 2)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    return: R and t. The transformation from pre to now</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    total_R = np.eye(<span class="number">3</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">9</span>):</span><br><span class="line">        pre_tm, now_tm = find_correspend_point(y_data_pre, y_data_now)</span><br><span class="line">        </span><br><span class="line">        pre_t, now_t = pre_tm - np.mean(pre_tm, axis=<span class="number">0</span>), now_tm - np.mean(now_tm, axis=<span class="number">0</span>)</span><br><span class="line">        </span><br><span class="line">        W = np.zeros((<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(pre_t.shape[<span class="number">0</span>]):</span><br><span class="line">            W += pre_t[i:i+<span class="number">1</span>].T @ now_t[i:i+<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        U, sigma, V = np.linalg.svd(W)</span><br><span class="line">        R = V @ U.T</span><br><span class="line">        t = np.mean(now_tm, axis=<span class="number">0</span>) - R@np.mean(pre_tm, axis=<span class="number">0</span>).T</span><br><span class="line">        </span><br><span class="line">        y_data_pre = (R @ pre_tm.T).T + t</span><br><span class="line">        <span class="comment"># 计算总的位姿</span></span><br><span class="line">        total_R = trans_to_isometry2d(R, t) @ total_R</span><br><span class="line">        </span><br><span class="line">        plt.subplot(<span class="number">3</span>,<span class="number">3</span>,j+<span class="number">1</span>)</span><br><span class="line"><span class="comment">#         y_data_from_icp = (total_R @ np.hstack((y_data_pre, np.ones((y_data_pre.shape[0], 1)))).T).T</span></span><br><span class="line">        plt.scatter(y_data_pre[:,<span class="number">0</span>], y_data_pre[:,<span class="number">1</span>], marker=<span class="string">&#x27;o&#x27;</span>, s=<span class="number">5</span>)</span><br><span class="line">        plt.scatter(y_data_now[:,<span class="number">0</span>], y_data_now[:,<span class="number">1</span>], marker=<span class="string">&#x27;o&#x27;</span>, s=<span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> total_R</span><br></pre></td></tr></table></figure>
+<p>使用的方法和上述已知对应点的方法一样。其中我们添加了寻找对应点的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_correspend_point</span>(<span class="params">y_data_pre, y_data_now</span>):</span></span><br><span class="line">    <span class="comment"># 寻找对应点, 建立上一帧数据的KD树，循环下一帧的点</span></span><br><span class="line">    <span class="comment"># 寻找距离此点最近的在上一帧中的数据，保存到data_from_pre</span></span><br><span class="line">    kdt = KDTree(y_data_now)</span><br><span class="line">    data_from_now = []</span><br><span class="line">    <span class="keyword">for</span> point_idx <span class="keyword">in</span> <span class="built_in">range</span>(y_data_pre.shape[<span class="number">0</span>]):</span><br><span class="line">        point = y_data_pre[point_idx:point_idx+<span class="number">1</span>]</span><br><span class="line">        dist, idx = kdt.query(point, k=<span class="number">1</span>)</span><br><span class="line">        data_from_now.append(y_data_now[idx.squeeze()])</span><br><span class="line">    <span class="keyword">return</span> y_data_pre, data_from_now</span><br></pre></td></tr></table></figure>
+<p><img src="output_16_1.png" style="zoom:200%;" /></p>
+<p>我们将每一次匹配之后的结果都画出来，可见ICP矫正匹配的速度还是非常快的</p>
+<h1 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h1><p>在实际应用ICP算法的过程中，我们需要求的是当前帧到上一帧的位姿变换</p>
+<p>举个栗子：</p>
+<p>一辆正在缓缓前进的小车，前方有一堵墙。假设小车向前移动了0.5m的距离</p>
+<p>那么收集到的前一帧的点云会比较远，后一帧的点云会相对比较近，我们需要求的是距离近的点云到远的点云的位移</p>
+<p><strong>因此是我们需要求的是从当前点云到上一帧点云的位姿变换</strong></p>
+<p>ROS2 + GAZEBO <a class="link"   target="_blank" rel="noopener" href="https://github.com/chargerKong/robot_simulation/tree/main/my_slam/my_slam/main_icp.py" >仿真代码实例<i class="fas fa-external-link-alt"></i></a></p>
+<p>实例运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_lab_world.launch.py</span><br><span class="line">ros2 run teleop_key_control teleop_key_control</span><br><span class="line">ros2 run my_slam icp</span><br></pre></td></tr></table></figure>
+<h1 id="ICP-理论推导"><a href="#ICP-理论推导" class="headerlink" title="ICP 理论推导"></a>ICP 理论推导</h1><p><img src="./Screenshot from 2021-07-29 16-24-21.png" alt=""></p>
+<p><img src="Screenshot from 2021-07-29 16-26-01.png" alt=""></p>
+<p><img src="Screenshot from 2021-07-29 16-26-37.png" alt=""></p>
+<p><img src="Screenshot from 2021-07-29 16-26-59.png" alt=""></p>
+<p><img src="Screenshot from 2021-07-29 16-27-19.png" alt=""></p>
+<p><img src="Screenshot from 2021-07-29 16-27-40.png" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%82%B9%E7%9A%84%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">激光雷达点的存储格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B7%E8%BE%BE%E7%82%B9%E7%9A%84%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">雷达点的坐标转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87%E7%B3%BB%E5%8F%98%E6%8D%A2"><span class="nav-number">2.1.</span> <span class="nav-text">齐次坐标系变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5%E5%AF%B9%E5%BA%94%E7%82%B9%E5%85%B3%E7%B3%BB%E7%9A%84ICP"><span class="nav-number">3.</span> <span class="nav-text">已知对应点关系的ICP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E9%9D%A2%E4%BB%8B%E7%BB%8DICP%E7%9A%84%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.1.</span> <span class="nav-text">下面介绍ICP的具体步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">3.2.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90"><span class="nav-number">3.2.1.</span> <span class="nav-text">数据生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87ICP%E8%BF%9B%E8%A1%8C%E7%9B%B8%E5%AF%B9%E4%BD%8D%E5%A7%BF%E8%AE%A1%E7%AE%97"><span class="nav-number">3.2.2.</span> <span class="nav-text">通过ICP进行相对位姿计算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E7%9F%A5%E5%AF%B9%E5%BA%94%E7%82%B9%E5%85%B3%E7%B3%BB%E7%9A%84ICP"><span class="nav-number">4.</span> <span class="nav-text">未知对应点关系的ICP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="nav-number"></span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ICP-%E7%90%86%E8%AE%BA%E6%8E%A8%E5%AF%BC"><span class="nav-number"></span> <span class="nav-text">ICP 理论推导</span></a>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
