@@ -132,6 +132,141 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/05/30/orbslam2%E7%BC%96%E8%AF%91/">
+                        修改orbslam2 OpenCV版本
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        修改CMakeLists修改主工程下的CMakeLists.txt以及Thirdparty/g2o/CMakeLists.txt
+131 find_package(OpenCV)
+把后面的3.0.0和QUIET去掉
+修改cv.h 头文件打开文件inc...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 30 2021 16:24:35 GMT+0800">2021-05-30</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/30/orbslam2%E7%BC%96%E8%AF%91/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/05/28/%E5%BB%BA%E5%9B%BE/">
+                        建图
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        当我们已知了机器人的正确的位姿了之后，就可以进行建图了。
+地图分类
+尺度地图：栅格地图就是一个尺度地图。如果场景太大的话不太合适
+
+拓扑地图：机器人领域用的多，
+​    若两点之间有连续，就链接一条边，在超大环境里面路径规划的效果
+
+语义地图：赋予...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 28 2021 18:38:29 GMT+0800">2021-05-28</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/28/%E5%BB%BA%E5%9B%BE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">
+                        前段配准
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        配准算法（二）爬山法（拟梯度法）总是朝着数值增大的方向移动
+缺陷：会陷入局部最高点
+名字来由，因为方向是固定的，不需要计算，所以是拟梯度法
+搜索时，如果所有的方向得分都小，则搜索步长减半，当减半次数大于五次，则认为收敛
+高斯牛顿优化方法爬山法的进阶！...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 28 2021 18:38:29 GMT+0800">2021-05-28</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">
+                        图优化（Graph-based）
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        Pose Graph的构建图构建好，就需要进行优化
+
+用一个图来表示SLAM问题
+每一个节点都是位姿（x,y,theta）
+两个节点之间的边，表示两个节点之间的空间约束
+帧间边：表示时间连续的两个点
+回环边：两个时间是不连续的两个点
+
+
+一旦出现了回...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed May 26 2021 10:23:20 GMT+0800">2021-05-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/05/23/IMLS%20-ICP/">
                         IMLS -ICP
                     </a>
@@ -310,128 +445,6 @@ add_subdi...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/28/Nav2-%E5%9C%A8tb3%E4%B8%8A%E5%AF%BC%E8%88%AA/">
-                        Navigation2设置指南
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1ros2 launch turtlebot3_bringup robot.launch.py  use_sim_time:&#x3D;False
-错误信息
-1[turtlebot3_ros-3] [ERROR] [1619682081.976217...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 28 2021 16:24:35 GMT+0800">2021-04-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/28/Nav2-%E5%9C%A8tb3%E4%B8%8A%E5%AF%BC%E8%88%AA/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/28/Nav2-%E8%AE%BE%E5%AE%9A%E6%8C%87%E5%8D%97/">
-                        Navigation2设置指南
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        首次机器人设置指南本节内容是一系列的指引：内容有：
-
-帮助新用户利用Navigation2设置一个新的机器人
-使用自定义机器人帮助人们正确地设置他们的机器人以用于ROS/Navigation2
-为更有经验的读者提供清单、模板或样板参考.
-提供可以在模...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 28 2021 16:24:35 GMT+0800">2021-04-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/28/Nav2-%E8%AE%BE%E5%AE%9A%E6%8C%87%E5%8D%97/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/27/Navigation%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
-                        Navigation基本概念
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Ros2Ros2是Nav2的核心中间件，不熟悉Ros2可以先看Ros2的官方文档
-Action Server就像在ROS中一样，action server是控制像导航等长期运行任务的常用方式。
-Action servers和规范化的service十分...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 27 2021 16:24:35 GMT+0800">2021-04-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/27/Navigation%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/26/Nav2%E5%AD%A6%E4%B9%A0%E4%B8%80/">
-                        Navigation2总览
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Navigation2总览这是一个致力于做出一个可以让移动机器人从点A安全的移动到点B的库。它也可以被应用在其他牵扯到机器人导航的应用中，比如跟随动态物体。在此过程中，他会完成动态路径规划，计算电机速度，避障以及结构恢复性行为。
-Nav2使用行为树调...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Apr 26 2021 16:24:35 GMT+0800">2021-04-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/26/Nav2%E5%AD%A6%E4%B9%A0%E4%B8%80/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -562,5 +575,20 @@ Nav2使用行为树调...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

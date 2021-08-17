@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            cartographer运行实例 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">cartographer运行实例</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-08-12 12:59:22
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="bag包处理"><a href="#bag包处理" class="headerlink" title="bag包处理"></a>bag包处理</h1><h2 id="bag包进行分析"><a href="#bag包进行分析" class="headerlink" title="bag包进行分析"></a>bag包进行分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosbag info rslidar-outdoor-gps.bag</span><br></pre></td></tr></table></figure>
+<p>可以看见包的基本信息，主要是看topic的消息类型和名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">path:        rslidar-outdoor-gps.bag</span><br><span class="line">version:     2.0</span><br><span class="line">duration:    3:33s (213s)</span><br><span class="line">start:       Dec 01 2020 15:44:09.49 (1606808649.49)</span><br><span class="line">end:         Dec 01 2020 15:47:43.48 (1606808863.48)</span><br><span class="line">size:        2.1 GB</span><br><span class="line">messages:    41623</span><br><span class="line">compression: none [2064&#x2F;2064 chunks]</span><br><span class="line">types:       geometry_msgs&#x2F;QuaternionStamped [e57f1e547e0e1fd13504588ffc8334e2]</span><br><span class="line">             nav_msgs&#x2F;Odometry               [cd5e73d190d741a2f92e81eda573aca7]</span><br><span class="line">             sensor_msgs&#x2F;Imu                 [6a62c6daae103f4ff57a132d6f95cec2]</span><br><span class="line">             sensor_msgs&#x2F;LaserScan           [90c7ef2dc6895d81024acba2ac42f369]</span><br><span class="line">             sensor_msgs&#x2F;NavSatFix           [2d3a8cd499b9b4a0249fb98fd05cfa48]</span><br><span class="line">             sensor_msgs&#x2F;PointCloud2         [1158d486dd51d683ce2f1be655c3c181]</span><br><span class="line">             tf2_msgs&#x2F;TFMessage              [94810edda583a504dfda3829e70d7eec]</span><br><span class="line">topics:      &#x2F;fix               1070 msgs    : sensor_msgs&#x2F;NavSatFix          </span><br><span class="line">             &#x2F;front_scan        4127 msgs    : sensor_msgs&#x2F;LaserScan          </span><br><span class="line">             &#x2F;heading            214 msgs    : geometry_msgs&#x2F;QuaternionStamped</span><br><span class="line">             &#x2F;imu              21400 msgs    : sensor_msgs&#x2F;Imu                </span><br><span class="line">             &#x2F;odom_scout        4279 msgs    : nav_msgs&#x2F;Odometry              </span><br><span class="line">             &#x2F;rslidar_points    4126 msgs    : sensor_msgs&#x2F;PointCloud2        </span><br><span class="line">             &#x2F;tf                6406 msgs    : tf2_msgs&#x2F;TFMessage              (2 connections)</span><br></pre></td></tr></table></figure>
+<h2 id="重新记录部分信息"><a href="#重新记录部分信息" class="headerlink" title="重新记录部分信息"></a>重新记录部分信息</h2><p>首先设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosparam set use_sim_time true</span><br></pre></td></tr></table></figure>
+<p>此时表示，ros使用的时间是bag包里面的时间，而不是现在的时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosbag record &#x2F;imu &#x2F;fix </span><br></pre></td></tr></table></figure>
+<p>表示，记录这两个topic的内容。</p>
+<p>重新开一个终端，开始播放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosbag play --clock rslidar-outdoor-gps.bag</span><br></pre></td></tr></table></figure>
+<p>即可开始录制</p>
+<h1 id="cartographer运行实例"><a href="#cartographer运行实例" class="headerlink" title="cartographer运行实例"></a>cartographer运行实例</h1><h2 id="模拟一个2d的建图过程"><a href="#模拟一个2d的建图过程" class="headerlink" title="模拟一个2d的建图过程"></a>模拟一个2d的建图过程</h2><p>打开文件<code>cartographer_ros/launch/lx_rs1_2d_outdoor.launch</code>，修改一下bag的地址。编译后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch catographer_ros lx_rs1_2d_outdoor.launch</span><br></pre></td></tr></table></figure>
+<p>即可。</p>
+<p>在此launch文件中</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">launch</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- bag的地址与名称 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;bag_filename&quot;</span> <span class="attr">default</span>=<span class="string">&quot;/home/kong/lixiang_carto/bagfiles/rslidar-outdoor-gps-notf.bag&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 使用bag的时间戳 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">&quot;/use_sim_time&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 启动cartographer --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">&quot;cartographer_node&quot;</span> <span class="attr">pkg</span>=<span class="string">&quot;cartographer_ros&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">&quot;cartographer_node&quot;</span> <span class="attr">args</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">          -configuration_directory $(find cartographer_ros)/configuration_files</span></span></span><br><span class="line"><span class="tag"><span class="string">          -configuration_basename lx_rs16_2d_outdoor.lua&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">output</span>=<span class="string">&quot;screen&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">remap</span> <span class="attr">from</span>=<span class="string">&quot;points2&quot;</span> <span class="attr">to</span>=<span class="string">&quot;rslidar_points&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">remap</span> <span class="attr">from</span>=<span class="string">&quot;scan&quot;</span> <span class="attr">to</span>=<span class="string">&quot;front_scan&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">remap</span> <span class="attr">from</span>=<span class="string">&quot;odom&quot;</span> <span class="attr">to</span>=<span class="string">&quot;odom_scout&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">remap</span> <span class="attr">from</span>=<span class="string">&quot;imu&quot;</span> <span class="attr">to</span>=<span class="string">&quot;imu&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 生成ros格式的地图 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">&quot;cartographer_occupancy_grid_node&quot;</span> <span class="attr">pkg</span>=<span class="string">&quot;cartographer_ros&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">type</span>=<span class="string">&quot;cartographer_occupancy_grid_node&quot;</span> <span class="attr">args</span>=<span class="string">&quot;-resolution 0.05&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 启动rviz --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">&quot;rviz&quot;</span> <span class="attr">pkg</span>=<span class="string">&quot;rviz&quot;</span> <span class="attr">type</span>=<span class="string">&quot;rviz&quot;</span> <span class="attr">required</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">args</span>=<span class="string">&quot;-d $(find cartographer_ros)/configuration_files/lx_2d.rviz&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 启动rosbag --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">&quot;playbag&quot;</span> <span class="attr">pkg</span>=<span class="string">&quot;rosbag&quot;</span> <span class="attr">type</span>=<span class="string">&quot;play&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">args</span>=<span class="string">&quot;--clock $(arg bag_filename)&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">launch</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>还启动了rviz. <code>required=&quot;true&quot;</code>代表一旦rviz关闭，整个launch也要关闭</p>
+<h2 id="保存地图"><a href="#保存地图" class="headerlink" title="保存地图"></a>保存地图</h2><p>执行脚本文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./finish_slam_2d.sh</span><br></pre></td></tr></table></figure>
+<p>其内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">source install_isolated&#x2F;setup.bash</span><br><span class="line"></span><br><span class="line">map_dir&#x3D;&quot;$&#123;HOME&#125;&#x2F;lixiang_carto&#x2F;map&quot;</span><br><span class="line">map_name&#x3D;&quot;2d-1&quot;</span><br><span class="line"></span><br><span class="line"># 检查文件夹是否存在, 如果不存在就创建文件夹</span><br><span class="line">if [ ! -d &quot;$map_dir&quot; ];then</span><br><span class="line">  echo &quot;文件夹不存在, 正在创建文件夹&quot;</span><br><span class="line">  mkdir -p $map_dir</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># finish slam</span><br><span class="line">rosservice call &#x2F;finish_trajectory 0</span><br><span class="line"></span><br><span class="line"># make pbstream</span><br><span class="line">rosservice call &#x2F;write_state &quot;&#123;filename: &#39;$map_dir&#x2F;$map_name.pbstream&#39;&#125;&quot;</span><br><span class="line"></span><br><span class="line"># pbstream to map</span><br><span class="line">rosrun cartographer_ros cartographer_pbstream_to_ros_map \</span><br><span class="line">-pbstream_filename&#x3D;$map_dir&#x2F;$map_name.pbstream \</span><br><span class="line">-map_filestem&#x3D;$map_dir&#x2F;$map_name</span><br></pre></td></tr></table></figure>
+<p>主要修改一下<code>map_dir</code>，后面的目录，如果要修改为自己的指定目录。会在指定目录生成pbstream，pgm以及yaml文件</p>
+<h2 id="纯定位模式"><a href="#纯定位模式" class="headerlink" title="纯定位模式"></a>纯定位模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch cartographer_ros lx_rs16_2d_outdoor_localization.launch</span><br></pre></td></tr></table></figure>
+<p>修改文件内容<code>lx_rs16_2d_outdoor_localization.launch</code>，的bag文件名字和pbstream的文件名字。即可</p>
+<p>此过程和SLAM是一样的，虽然暂时不知道他在干嘛。知道是需要提前加载地图的，是不保存地图的</p>
+<p>读取所有的submap来生成ros的map</p>
+<h2 id="3d地图"><a href="#3d地图" class="headerlink" title="3d地图"></a>3d地图</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch cartographer_ros lx_rs16_3d.launch </span><br></pre></td></tr></table></figure>
+<p>轨迹保存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;finish_slam_3d.sh</span><br></pre></td></tr></table></figure>
+<h3 id="使用asset生成3d点云地图"><a href="#使用asset生成3d点云地图" class="headerlink" title="使用asset生成3d点云地图"></a>使用asset生成3d点云地图</h3><p>使用如下的命令可以生成pcd文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch cartographer_ros assets_writer_3d.launch</span><br></pre></td></tr></table></figure>
+<p>展示点云</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pcl-tools</span><br><span class="line">pcl xxx.pcd</span><br></pre></td></tr></table></figure>
+<p><img src="Screenshot from 2021-08-17 14-57-18.png" alt=""></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/08/12/0812cartographer%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer编译安装</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/08/12/0827/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer运行实例</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bag%E5%8C%85%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">bag包处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bag%E5%8C%85%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">bag包进行分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%B0%E5%BD%95%E9%83%A8%E5%88%86%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">重新记录部分信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cartographer%E8%BF%90%E8%A1%8C%E5%AE%9E%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">cartographer运行实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E4%B8%80%E4%B8%AA2d%E7%9A%84%E5%BB%BA%E5%9B%BE%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">模拟一个2d的建图过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E5%9C%B0%E5%9B%BE"><span class="nav-number">2.2.</span> <span class="nav-text">保存地图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%AF%E5%AE%9A%E4%BD%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">纯定位模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3d%E5%9C%B0%E5%9B%BE"><span class="nav-number">2.4.</span> <span class="nav-text">3d地图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8asset%E7%94%9F%E6%88%903d%E7%82%B9%E4%BA%91%E5%9C%B0%E5%9B%BE"><span class="nav-number">2.4.1.</span> <span class="nav-text">使用asset生成3d点云地图</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
