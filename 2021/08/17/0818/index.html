@@ -9,7 +9,7 @@
     
     <title>
         
-            cartographer运行实例 |
+            vscode的配置 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">cartographer运行实例</span>
+            <span class="title-hover-animation">vscode的配置</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-08-12 12:59:22
+        <i class="fas fa-edit"></i>&nbsp;2021-08-17 18:38:29
     </span>
     
     
@@ -165,70 +165,11 @@
         
 
         <div class="article-content markdown-body">
-            <p>在launch文件中，通过配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch xxxpkg xxx.launch name:&#x3D;value</span><br></pre></td></tr></table></figure>
-<p>这个name是通过launch文件中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;arg name&#x3D;&quot;bag_filename&quot; default&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>来配置</p>
-<p>使用map_server就可以直接发布map，发布出来</p>
-<p>rosrun map_server</p>
-<p>args = “yaml”文件</p>
-<p>定位是来自于map-&gt;odom的变换</p>
-<h1 id="lua文件的配置"><a href="#lua文件的配置" class="headerlink" title="lua文件的配置"></a>lua文件的配置</h1><p>三个部分：</p>
-<ul>
-<li>options:必须要有的，所有的变量参数都要存在，要是有一个不存在就会报错</li>
-<li>需要引入map_build.lua</li>
-<li>需要引入trajectory_builder</li>
-</ul>
-<h2 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h2><p>tracking_frame：需要选一个频率最高的frame，</p>
-<p>published_frame: 设置到机器人最顶上的frame，可以保证map和他的连接</p>
-<p>privide_odom_frame: 是否需要提供odom坐标系</p>
-<p>一般有问题的就是</p>
-<p>use_laser_num:如果用了topic的名字是不是remap了</p>
-<ul>
-<li>若use_laser_num的值为0，则不用laser_scan</li>
-<li>=1。订阅scan topic</li>
-<li>=2。订阅scan_1,scan_2两种topic</li>
-</ul>
-<p>num_point_clouds 表示使用点云数据:</p>
-<ul>
-<li><p>=0。不使用点云来建图</p>
-</li>
-<li><p>=1。订阅points2</p>
-</li>
-<li>=2。订阅points2_1，points2_2</li>
-</ul>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><h3 id="无odom的bag"><a href="#无odom的bag" class="headerlink" title="无odom的bag"></a>无odom的bag</h3><p>假设现在有一个bag，他的TF tree为</p>
-<p><img src="Screenshot from 2021-08-17 16-23-28.png" alt=""></p>
-<p>他最顶上的frame为footprint，在设置cartographer的时候，lua文件可以设置为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map_frame &#x3D; &quot;map&quot;,</span><br><span class="line">tracking_frame &#x3D; &quot;imu_link&quot;,</span><br><span class="line">published_frame &#x3D; &quot;footprint&quot;,</span><br><span class="line">odom_frame &#x3D; &quot;odom&quot;,</span><br><span class="line">provide_odom_frame &#x3D; false,</span><br><span class="line">publish_frame_projected_to_2d &#x3D; false,</span><br></pre></td></tr></table></figure>
-<p>这里设置了published_frame为footprint，表示cartographer发布的指向的最后一个frame为footprint，这样可以让cartographer到机器人的tf可以连接到一起</p>
-<p>现在其他参数不动，设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">provide_odom_frame &#x3D; true,</span><br></pre></td></tr></table></figure>
-<p><img src="Screenshot from 2021-08-17 16-38-26.png" alt=""></p>
-<p>TF_tree增加了一个map-&gt;odom的坐标变换</p>
-<h3 id="有odom的bag"><a href="#有odom的bag" class="headerlink" title="有odom的bag"></a>有odom的bag</h3><p>现在有一个bag的tf树为</p>
-<p><img src="Screenshot from 2021-08-17 16-41-31.png" alt=""></p>
-<p>相比与之前的bag多了一个odom，此时需要调整lua文件的published_frame</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">map_frame &#x3D; &quot;map&quot;,                        -- 地图坐标系的名字</span><br><span class="line">tracking_frame &#x3D; &quot;imu_link&quot;,              -- 将所有传感器数据转换到这个坐标系下</span><br><span class="line">published_frame &#x3D; &quot;odom&quot;,          	    -- tf: map -&gt; odom</span><br><span class="line">odom_frame &#x3D; &quot;odom&quot;,                      -- 里程计的坐标系名字</span><br><span class="line">provide_odom_frame &#x3D; false,  </span><br></pre></td></tr></table></figure>
-<p>启动cartographer，可以看见，map直接指向了原有的odom坐标系</p>
-<p><img src="Screenshot from 2021-08-17 16-44-21.png" alt=""></p>
-<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>如果published_frame定义错误，tf树连接不起来，通常情况下就会有类似如下错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;odom&quot; passed to lookupTransform argument source_frame does not exist.</span><br></pre></td></tr></table></figure>
-<h2 id="trajectory-build-参数"><a href="#trajectory-build-参数" class="headerlink" title="trajectory_build 参数"></a>trajectory_build 参数</h2><p>文件：trajectory_builder_2d.lua</p>
-<p>min_z</p>
-<p>max_z： 保留了【min_z,max_z】中的所有点云</p>
-<p>missing_data_ray_length: 对于超出了最大距离的点，就改为这个变量指定的值。就是用于更新空白的区域，因为距离远，一般近的地方也都可以用，设1就行</p>
-<p>位姿预测器</p>
-<p>扫描匹配器</p>
-<p>motion_filter: 为了 防止雷达数据向子图插入太多的数据，若两帧的数据太近，就不插入了</p>
-<p>支持两种地图：</p>
-<ul>
-<li>tsdf</li>
-<li>占用栅格地图</li>
-</ul>
-<p>文件：trajectory_builder_3d.lua</p>
-<p>两种体素滤波，根据远近，建立高低分辨率的地图。高分辨率匹配高分辨率的地图，低分辨率匹配低分辨率的地图</p>
+            <h2 id="VScode简单配置"><a href="#VScode简单配置" class="headerlink" title="VScode简单配置"></a>VScode简单配置</h2><p>快捷键编译：Ctrl+shift+b</p>
+<p>编译配置: tasks.json</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; See https:&#x2F;&#x2F;go.microsoft.com&#x2F;fwlink&#x2F;?LinkId&#x3D;733558 </span><br><span class="line">    &#x2F;&#x2F; for the documentation about the tasks.json format</span><br><span class="line">    &quot;version&quot;: &quot;2.0.0&quot;,</span><br><span class="line">    &quot;tasks&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;label&quot;: &quot;catkin_make&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;shell&quot;,</span><br><span class="line">            &quot;command&quot;: &quot;catkin_make_isolated --install --use-ninja&quot;, &#x2F;&#x2F; catkin_make</span><br><span class="line">            &quot;args&quot;: [],</span><br><span class="line">            &quot;group&quot;: &#123;</span><br><span class="line">                &quot;kind&quot;: &quot;build&quot;,</span><br><span class="line">                &quot;isDefault&quot;: true</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;presentation&quot;: &#123;</span><br><span class="line">                &quot;reveal&quot;: &quot;always&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;problemMatcher&quot;: &quot;$msCompile&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的command就是编译cartographer的命令</p>
+<h2 id="Cartographer之CMakeLIsts"><a href="#Cartographer之CMakeLIsts" class="headerlink" title="Cartographer之CMakeLIsts"></a>Cartographer之CMakeLIsts</h2><p>读代码，最好从CMakeLists.txt开始</p>
 
         </div>
 
@@ -240,13 +181,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/08/12/0813cartographer%E8%BF%90%E8%A1%8C/"
+                           href="/2021/08/17/0817/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">cartographer运行实例</span>
+                                <span class="post-nav-title-item">cartographer配置文件</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -256,10 +197,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/07/27/0727ICP%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/"
+                           href="/2021/08/17/Untitled/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ICP匹配原理实践</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -429,7 +370,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lua%E6%96%87%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">lua文件的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Options"><span class="nav-number">1.1.</span> <span class="nav-text">Options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">举例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0odom%E7%9A%84bag"><span class="nav-number">1.2.1.</span> <span class="nav-text">无odom的bag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89odom%E7%9A%84bag"><span class="nav-number">1.2.2.</span> <span class="nav-text">有odom的bag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF"><span class="nav-number">1.2.3.</span> <span class="nav-text">错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trajectory-build-%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">trajectory_build 参数</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#VScode%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">VScode简单配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cartographer%E4%B9%8BCMakeLIsts"><span class="nav-number">2.</span> <span class="nav-text">Cartographer之CMakeLIsts</span></a></li></ol>
     </div>
 </div>
         </aside>
@@ -478,20 +419,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

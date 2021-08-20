@@ -9,6 +9,8 @@
     
     <title>
         
+            G20 |
+        
         随笔记
     </title>
     
@@ -128,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation"></span>
+            <span class="title-hover-animation">G20</span>
         </div>
 
         
@@ -146,9 +148,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-07-19 14:41:45
+        <i class="fas fa-edit"></i>&nbsp;2021-07-19 15:59:22
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -163,7 +176,7 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="g2o"><a href="#g2o" class="headerlink" title="g2o"></a>g2o</h1><p>后端中有两个主流的优化方法</p>
+            <p>后端中有两个主流的优化方法</p>
 <ul>
 <li>滤波器方法：早期SLAM主流方法，是存储量和状态量是平方增长关系，因为存储的是协方差矩阵，因此不适合大型场景。而 现在基于视觉的SLAM方案，路标点（特征点）数据很大，滤波方法根本吃不消，所以此时滤波的方法效率非常 低。</li>
 <li>图优化方法：现在主流的优化方法，图优化里面BA是起到了核心的作用，BA是稀疏的，可以加速。</li>
@@ -192,13 +205,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/07/20/0720BAL/"
+                           href="/2021/07/19/0720BAL/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-title-item">BAL(bundle adjustment large)</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -381,7 +394,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#g2o"><span class="nav-number">1.</span> <span class="nav-text">g2o</span></a></li></ol>
+        
     </div>
 </div>
         </aside>
@@ -430,20 +443,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
