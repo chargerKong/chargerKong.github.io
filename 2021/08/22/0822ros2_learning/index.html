@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation"></span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-08-22 23:11:09
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>title: ros2_c++_pub_sub<br>date: 2021-08-22 18:38:29<br>tags: ros2</p>
+<h1 id="写一个publisher"><a href="#写一个publisher" class="headerlink" title="写一个publisher"></a>写一个publisher</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;chrono&gt;</span><br><span class="line">#include &lt;functional&gt;</span><br><span class="line">#include &lt;memory&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line"></span><br><span class="line">#include &quot;rclcpp&#x2F;rclcpp.hpp&quot;</span><br><span class="line">#include &quot;std_msgs&#x2F;msg&#x2F;string.hpp&quot;</span><br><span class="line"></span><br><span class="line">using namespace std::chrono_literals;</span><br><span class="line"></span><br><span class="line">&#x2F;* This example creates a subclass of Node and uses std::bind() to register a</span><br><span class="line">* member function as a callback from the timer. *&#x2F;</span><br><span class="line"></span><br><span class="line">class MinimalPublisher : public rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">  public:</span><br><span class="line">    MinimalPublisher()</span><br><span class="line">    : Node(&quot;minimal_publisher&quot;), count_(0)</span><br><span class="line">    &#123;</span><br><span class="line">      publisher_ &#x3D; this-&gt;create_publisher&lt;std_msgs::msg::String&gt;(&quot;topic&quot;, 10);</span><br><span class="line">      timer_ &#x3D; this-&gt;create_wall_timer(</span><br><span class="line">      500ms, std::bind(&amp;MinimalPublisher::timer_callback, this));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  private:</span><br><span class="line">    void timer_callback()</span><br><span class="line">    &#123;</span><br><span class="line">      auto message &#x3D; std_msgs::msg::String();</span><br><span class="line">      message.data &#x3D; &quot;Hello, world! &quot; + std::to_string(count_++);</span><br><span class="line">      RCLCPP_INFO(this-&gt;get_logger(), &quot;Publishing: &#39;%s&#39;&quot;, message.data.c_str());</span><br><span class="line">      publisher_-&gt;publish(message);</span><br><span class="line">    &#125;</span><br><span class="line">    rclcpp::TimerBase::SharedPtr timer_;</span><br><span class="line">    rclcpp::Publisher&lt;std_msgs::msg::String&gt;::SharedPtr publisher_;</span><br><span class="line">    size_t count_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">&#123;</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line">  rclcpp::spin(std::make_shared&lt;MinimalPublisher&gt;());</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码审查"><a href="#代码审查" class="headerlink" title="代码审查"></a>代码审查</h2><p><code>#include &quot;rclcpp/rclcpp.hpp&quot;</code>表示你可以使用ROS2系统中最常用的一些功能，<code>#include &quot;std_msgs/msg/string.hpp&quot;</code>则是用于发送消息所使用的ROS的String类型</p>
+<p>同时，前面的头文件include也表示自己引入过的依赖，这在package和CMakeList里面也一定要添加。</p>
+<p>下面一行表示创建了一个类MinimalPublisher，继承与Node。因此这里的每一个this都指代Node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class MinimalPublisher : public rclcpp::Node</span><br></pre></td></tr></table></figure>
+<p>public的构造函数，初始化count_为0，在构造函数里面，publisher的消息类型被初始化为String，topic的名字为“topic”，能接受的存储消息队列大小极限为10。下面timer被初始化，每一秒会调用timer_callback两次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public:</span><br><span class="line">  MinimalPublisher()</span><br><span class="line">  : Node(&quot;minimal_publisher&quot;), count_(0)</span><br><span class="line">  &#123;</span><br><span class="line">    publisher_ &#x3D; this-&gt;create_publisher&lt;std_msgs::msg::String&gt;(&quot;topic&quot;, 10);</span><br><span class="line">    timer_ &#x3D; this-&gt;create_wall_timer(</span><br><span class="line">    500ms, std::bind(&amp;MinimalPublisher::timer_callback, this));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>timer_callback函数是设置消息的地方，<code>RCLCPP_INFO</code>是可以确保消息会打印出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private:</span><br><span class="line">  void timer_callback()</span><br><span class="line">  &#123;</span><br><span class="line">    auto message &#x3D; std_msgs::msg::String();</span><br><span class="line">    message.data &#x3D; &quot;Hello, world! &quot; + std::to_string(count_++);</span><br><span class="line">    RCLCPP_INFO(this-&gt;get_logger(), &quot;Publishing: &#39;%s&#39;&quot;, message.data.c_str());</span><br><span class="line">    publisher_-&gt;publish(message);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>最后是main函数，是node实际执行的地方，rclcpp::init会初始化ROS2，rclcpp:spin是开始处理数据的地方，包括callbacks</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[])</span><br><span class="line">&#123;</span><br><span class="line">  rclcpp::init(argc, argv);</span><br><span class="line">  rclcpp::spin(std::make_shared&lt;MinimalPublisher&gt;());</span><br><span class="line">  rclcpp::shutdown();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加依赖至package-xml"><a href="#添加依赖至package-xml" class="headerlink" title="添加依赖至package.xml"></a>添加依赖至package.xml</h2><p>首先，确保<code>&lt;description&gt;</code>, <code>&lt;maintainer&gt;</code> and <code>&lt;license&gt;</code> 这三个标签的内容以及填写完毕，然后在<code>ament_cmake</code> buildtool_depend依赖项的后面添加以下依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;depend&gt;rclcpp&lt;&#x2F;depend&gt;</span><br><span class="line">&lt;depend&gt;std_msgs&lt;&#x2F;depend&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="CMakeLists-txt"><a href="#CMakeLists-txt" class="headerlink" title="CMakeLists.txt"></a>CMakeLists.txt</h2><p>现在打开CMakeLists.txt，在find_package(ament_cmake REQUIRED)的后面添加以下两句话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(std_msgs REQUIRED)</span><br></pre></td></tr></table></figure>
+<p>之后，需要添加executable，命名为talker，这样我们就可以使用ros2 run来跑结点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_executable(talker src&#x2F;publisher_member_function.cpp)</span><br><span class="line">ament_target_dependencies(talker rclcpp std_msgs)</span><br></pre></td></tr></table></figure>
+<p>最后添加以下install，这样才可以让ros2 run来找到可执行结点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install(TARGETS</span><br><span class="line">  talker</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br></pre></td></tr></table></figure>
+<p>现在可以清理以下CMakeLists，清理一些没有用的部分和注释，像下面所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.5)</span><br><span class="line">project(cpp_pubsub)</span><br><span class="line"></span><br><span class="line"># Default to C++14</span><br><span class="line">if(NOT CMAKE_CXX_STANDARD)</span><br><span class="line">  set(CMAKE_CXX_STANDARD 14)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)</span><br><span class="line">  add_compile_options(-Wall -Wextra -Wpedantic)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">find_package(ament_cmake REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(std_msgs REQUIRED)</span><br><span class="line"></span><br><span class="line">add_executable(talker src&#x2F;publisher_member_function.cpp)</span><br><span class="line">ament_target_dependencies(talker rclcpp std_msgs)</span><br><span class="line"></span><br><span class="line">install(TARGETS</span><br><span class="line">  talker</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br><span class="line"></span><br><span class="line">ament_package()</span><br></pre></td></tr></table></figure>
+<h1 id="写一个subscriber"><a href="#写一个subscriber" class="headerlink" title="写一个subscriber"></a>写一个subscriber</h1><h2 id="代码审查-1"><a href="#代码审查-1" class="headerlink" title="代码审查"></a>代码审查</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;rclcpp/rclcpp.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;std_msgs/msg/string.hpp&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> std::placeholders::_1;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinimalSubscriber</span> :</span> <span class="keyword">public</span> rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MinimalSubscriber</span>()</span><br><span class="line">    : <span class="built_in">Node</span>(<span class="string">&quot;minimal_subscriber&quot;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      subscription_ = <span class="keyword">this</span>-&gt;create_subscription&lt;std_msgs::msg::String&gt;(</span><br><span class="line">      <span class="string">&quot;topic&quot;</span>, <span class="number">10</span>, std::<span class="built_in">bind</span>(&amp;MinimalSubscriber::topic_callback, <span class="keyword">this</span>, _1));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topic_callback</span><span class="params">(<span class="keyword">const</span> std_msgs::msg::String::SharedPtr msg)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      <span class="built_in">RCLCPP_INFO</span>(<span class="keyword">this</span>-&gt;<span class="built_in">get_logger</span>(), <span class="string">&quot;I heard: &#x27;%s&#x27;&quot;</span>, msg-&gt;data.<span class="built_in">c_str</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    rclcpp::Subscription&lt;std_msgs::msg::String&gt;::SharedPtr subscription_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  rclcpp::<span class="built_in">init</span>(argc, argv);</span><br><span class="line">  rclcpp::<span class="built_in">spin</span>(std::make_shared&lt;MinimalSubscriber&gt;());</span><br><span class="line">  rclcpp::<span class="built_in">shutdown</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实，subscriber和publisher基本一样，现在他的名字是minimal_subscriber，注意这里没有timer，因为订阅者只是反馈订阅到消息之后的动作</p>
+<p>topic_callback接受消息，并且简单利用了RCLCPP_INFO打印了一下消息，在这里 main函数和package.xml和之前是一模一样的</p>
+<h2 id="CMakeList-txt"><a href="#CMakeList-txt" class="headerlink" title="CMakeList.txt"></a>CMakeList.txt</h2><p>重新打开CMakeLists, 添加一下订阅者的结点，并且安装到对应的目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">add_executable(listener src&#x2F;subscriber_member_function.cpp)</span><br><span class="line">ament_target_dependencies(listener rclcpp std_msgs)</span><br><span class="line"></span><br><span class="line">install(TARGETS</span><br><span class="line">  talker</span><br><span class="line">  listener</span><br><span class="line">  DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="build-and-run"><a href="#build-and-run" class="headerlink" title="build and run"></a>build and run</h1><p>首先我们要确保自己已经安装了依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install -i --from-path src --rosdistro foxy -y</span><br></pre></td></tr></table></figure>
+<p>然后开始编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run package_name node_name</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/08/23/0823tf2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tf2 static broadcaster</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/08/20/0820node_main/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer_ros之node_main.cc详解</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AApublisher"><span class="nav-number">1.</span> <span class="nav-text">写一个publisher</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">1.1.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96%E8%87%B3package-xml"><span class="nav-number">1.2.</span> <span class="nav-text">添加依赖至package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMakeLists-txt"><span class="nav-number">1.3.</span> <span class="nav-text">CMakeLists.txt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AAsubscriber"><span class="nav-number">2.</span> <span class="nav-text">写一个subscriber</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5-1"><span class="nav-number">2.1.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMakeList-txt"><span class="nav-number">2.2.</span> <span class="nav-text">CMakeList.txt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#build-and-run"><span class="nav-number">3.</span> <span class="nav-text">build and run</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

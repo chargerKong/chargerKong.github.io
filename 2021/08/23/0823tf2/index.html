@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            tf2 static broadcaster |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">tf2 static broadcaster</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-08-23 09:59:22
+    </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="功能包总览"><a href="#功能包总览" class="headerlink" title="功能包总览"></a>功能包总览</h1><p>tf2可以让用用户随时追溯多个坐标系，tf2会实时的把各个坐标系之间的关系保存在一个树结构中。我们可以随时获得任何时间任何坐标系的变换</p>
+<h1 id="创建static-broadcaster"><a href="#创建static-broadcaster" class="headerlink" title="创建static  broadcaster"></a>创建static  broadcaster</h1><p>首先，进入工程目录的src文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python learning_tf2_py</span><br></pre></td></tr></table></figure>
+<p>在<code>src/learning_tf2_py/learning_tf2_py</code>文件夹里面，我们加入以下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> TransformStamped</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tf2_ros.static_transform_broadcaster <span class="keyword">import</span> StaticTransformBroadcaster</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tf_transformations</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticFramePublisher</span>(<span class="params">Node</span>):</span></span><br><span class="line">   <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">   Broadcast transforms that never change.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">   This example publishes transforms from `world` to a static turtle frame.</span></span><br><span class="line"><span class="string">   The transforms are only published once at startup, and are constant for all</span></span><br><span class="line"><span class="string">   time.</span></span><br><span class="line"><span class="string">   &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, transformation</span>):</span></span><br><span class="line">      <span class="built_in">super</span>().__init__(<span class="string">&#x27;static_turtle_tf2_broadcaster&#x27;</span>)</span><br><span class="line"></span><br><span class="line">      self._tf_publisher = StaticTransformBroadcaster(self)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># Publish static transforms once at startup</span></span><br><span class="line">      self._tf_publisher.sendTransform(self.make_transforms(transformation))</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">make_transforms</span>(<span class="params">self, transformation</span>):</span></span><br><span class="line">      static_transformStamped = TransformStamped()</span><br><span class="line">      static_transformStamped.header.stamp = self.get_clock().now().to_msg()</span><br><span class="line">      static_transformStamped.header.frame_id = <span class="string">&#x27;world&#x27;</span></span><br><span class="line">      static_transformStamped.child_frame_id = sys.argv[<span class="number">1</span>]</span><br><span class="line">      static_transformStamped.transform.translation.x = <span class="built_in">float</span>(sys.argv[<span class="number">2</span>])</span><br><span class="line">      static_transformStamped.transform.translation.y = <span class="built_in">float</span>(sys.argv[<span class="number">3</span>])</span><br><span class="line">      static_transformStamped.transform.translation.z = <span class="built_in">float</span>(sys.argv[<span class="number">4</span>])</span><br><span class="line">      quat = tf_transformations.quaternion_from_euler(</span><br><span class="line">            <span class="built_in">float</span>(sys.argv[<span class="number">5</span>]), <span class="built_in">float</span>(sys.argv[<span class="number">6</span>]), <span class="built_in">float</span>(sys.argv[<span class="number">7</span>]))</span><br><span class="line">      static_transformStamped.transform.rotation.x = quat[<span class="number">0</span>]</span><br><span class="line">      static_transformStamped.transform.rotation.y = quat[<span class="number">1</span>]</span><br><span class="line">      static_transformStamped.transform.rotation.z = quat[<span class="number">2</span>]</span><br><span class="line">      static_transformStamped.transform.rotation.w = quat[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> (static_transformStamped)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">   logger = rclpy.logging.get_logger(<span class="string">&#x27;logger&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   <span class="comment"># obtain parameters from command line arguments</span></span><br><span class="line">   <span class="keyword">if</span> <span class="built_in">len</span>(sys.argv) &lt; <span class="number">8</span>:</span><br><span class="line">      logger.info(<span class="string">&#x27;Invalid number of parameters. Usage: \n&#x27;</span></span><br><span class="line">                  <span class="string">&#x27;$ ros2 run learning_tf2_py static_turtle_tf2_broadcaster&#x27;</span></span><br><span class="line">                  <span class="string">&#x27;child_frame_name x y z roll pitch yaw&#x27;</span>)</span><br><span class="line">      sys.exit(<span class="number">0</span>)</span><br><span class="line">   <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">if</span> sys.argv[<span class="number">1</span>] == <span class="string">&#x27;world&#x27;</span>:</span><br><span class="line">            logger.info(<span class="string">&#x27;Your static turtle name cannot be &quot;world&quot;&#x27;</span>)</span><br><span class="line">            sys.exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">   <span class="comment"># pass parameters and initialize node</span></span><br><span class="line">   rclpy.init()</span><br><span class="line">   node = StaticFramePublisher(sys.argv)</span><br><span class="line">   <span class="keyword">try</span>:</span><br><span class="line">      rclpy.spin(node)</span><br><span class="line">   <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">      <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">   rclpy.shutdown()</span><br></pre></td></tr></table></figure>
+<h2 id="代码审查"><a href="#代码审查" class="headerlink" title="代码审查"></a>代码审查</h2><p>现在让我们看看与将静态海龟姿势发布到 tf2 相关的代码。第一行，我们引入了TransformStamped，这为我们发布消息到tf树提供了模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from geometry_msgs.msg import TransformStamped</span><br></pre></td></tr></table></figure>
+<p>下面引入了Node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br></pre></td></tr></table></figure>
+<p>tf2_ros包提供了<code>StaticTransformBroadcaster</code>使得发布静态的变换变得容易，</p>
+<p><code>tf_transformations</code>提供了从欧拉角到四元数的转换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster</span><br><span class="line"></span><br><span class="line">import tf_transformations</span><br></pre></td></tr></table></figure>
+<p><code>StaticFramePublisher</code>定义了结点名字为<code>static_turtle_tf2_broadcaster</code>，StaticTransformBroadcaster被构建，一旦程序开始，他就开始发送变换</p>
+<pre><code>  super().__init__(&#39;static_turtle_tf2_broadcaster&#39;)
+
+  self._tf_publisher = StaticTransformBroadcaster(self)
+
+  # Publish static transforms once at startup
+  self._tf_publisher.sendTransform(self.make_transforms(transformation))
+</code></pre><p>在这里，我们创建了一个 TransformStamped 对象，它将是我们将在填充后发送的消息，在给他实际的转换内容之前，还需要基于一些元数据信息</p>
+<ol>
+<li>我们需要给正在发布的transform一个时间戳，我们只需用当前时间标记它，get_clock().now()</li>
+<li>我们需要设置他的parent frame, 在这里是world</li>
+<li>最后我们需要设置child frame的名字</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static_transformStamped &#x3D; TransformStamped()</span><br><span class="line">static_transformStamped.header.stamp &#x3D; self.get_clock().now().to_msg()</span><br><span class="line">static_transformStamped.header.frame_id &#x3D; &#39;world&#39;</span><br><span class="line">static_transformStamped.child_frame_id &#x3D; sys.argv[1]</span><br></pre></td></tr></table></figure>
+<p>在这里我们提出了小乌龟的6D姿态（平移，旋转）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static_transformStamped.transform.translation.x &#x3D; float(sys.argv[2])</span><br><span class="line">static_transformStamped.transform.translation.y &#x3D; float(sys.argv[3])</span><br><span class="line">static_transformStamped.transform.translation.z &#x3D; float(sys.argv[4])</span><br><span class="line">quat &#x3D; tf_transformations.quaternion_from_euler(</span><br><span class="line">   float(sys.argv[5]), float(sys.argv[6]), float(sys.argv[7]))</span><br><span class="line">static_transformStamped.transform.rotation.x &#x3D; quat[0]</span><br><span class="line">static_transformStamped.transform.rotation.y &#x3D; quat[1]</span><br><span class="line">static_transformStamped.transform.rotation.z &#x3D; quat[2]</span><br><span class="line">static_transformStamped.transform.rotation.w &#x3D; quat[3]</span><br></pre></td></tr></table></figure>
+<p>最后我们利用sendTransform发出静态变换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">broadcaster.sendTransform(static_transformStamped)</span><br></pre></td></tr></table></figure>
+<h2 id="package-xml"><a href="#package-xml" class="headerlink" title="package.xml"></a>package.xml</h2><p>添加执行依赖，打开package.xml，添加如下依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;exec_depend&gt;geometry_msgs&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;rclpy&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;tf_transformations&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;tf2_ros&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;turtlesim&lt;&#x2F;exec_depend&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="添加一个结点进入点"><a href="#添加一个结点进入点" class="headerlink" title="添加一个结点进入点"></a>添加一个结点进入点</h2><p>打开setup.py文件，在console_scripts下添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;static_turtle_tf2_broadcaster &#x3D; learning_tf2_py.static_turtle_tf2_broadcaster:main&#39;</span><br></pre></td></tr></table></figure>
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep install -i --from-path src --rosdistro foxy -y</span><br></pre></td></tr></table></figure>
+<p>build</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select learning_tf2_py</span><br></pre></td></tr></table></figure>
+<p>source，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 run learning_tf2_py static_turtle_tf2_broadcaster mystaticturtle 0 0 1 0 0 0</span><br></pre></td></tr></table></figure>
+<p>这里设置了一个距离地面1米的一个位姿</p>
+<p>我们现在可以通过打印出tf_static topic内容来检查这个发布出来的静态变换</p>
+<p>若是一切正常，应该可以看见如下信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">transforms:</span><br><span class="line">- header:</span><br><span class="line">   stamp:</span><br><span class="line">      sec: 1622908754</span><br><span class="line">      nanosec: 208515730</span><br><span class="line">   frame_id: world</span><br><span class="line">child_frame_id: mystaticturtle</span><br><span class="line">transform:</span><br><span class="line">   translation:</span><br><span class="line">      x: 0.0</span><br><span class="line">      y: 0.0</span><br><span class="line">      z: 1.0</span><br><span class="line">   rotation:</span><br><span class="line">      x: 0.0</span><br><span class="line">      y: 0.0</span><br><span class="line">      z: 0.0</span><br><span class="line">      w: 1.0</span><br></pre></td></tr></table></figure>
+<h1 id="合适的方式发布静态变换"><a href="#合适的方式发布静态变换" class="headerlink" title="合适的方式发布静态变换"></a>合适的方式发布静态变换</h1><h2 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h2><p>以上的内容应该在今后的开发过程中，使用tf2_ros来做静态的坐标变换，命令行可以使用欧拉角，平移的方式进行发布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run tf2_ros static_transform_publisher x y z yaw pitch roll frame_id child_frame_id</span><br></pre></td></tr></table></figure>
+<p>或者使用四元数、平移的方式进行发布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run tf2_ros static_transform_publisher x y z qx qy qz qw frame_id child_frame_id</span><br></pre></td></tr></table></figure>
+<h2 id="launch文件"><a href="#launch文件" class="headerlink" title="launch文件"></a>launch文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from launch import LaunchDescription</span><br><span class="line">from launch_ros.actions import Node</span><br><span class="line"></span><br><span class="line">def generate_launch_description():</span><br><span class="line">   return LaunchDescription([</span><br><span class="line">      Node(</span><br><span class="line">            package&#x3D;&#39;tf2_ros&#39;,</span><br><span class="line">            executable&#x3D;&#39;static_transform_publisher&#39;,</span><br><span class="line">            arguments &#x3D; [&#39;0&#39;, &#39;0&#39;, &#39;1&#39;, &#39;0&#39;, &#39;0&#39;, &#39;0&#39;, &#39;world&#39;, &#39;mystaticturtle&#39;]</span><br><span class="line">      ),</span><br><span class="line">   ])</span><br></pre></td></tr></table></figure>
+<h1 id="c-版本"><a href="#c-版本" class="headerlink" title="c++ 版本"></a>c++ 版本</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;geometry_msgs/msg/transform_stamped.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;rclcpp/rclcpp.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tf2/LinearMath/Quaternion.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tf2_ros/static_transform_broadcaster.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::placeholders::_1;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticFramePublisher</span> :</span> <span class="keyword">public</span> rclcpp::Node</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">StaticFramePublisher</span><span class="params">(<span class="keyword">char</span> * transformation[])</span></span></span><br><span class="line"><span class="function">  : Node(<span class="string">&quot;static_turtle_tf2_broadcaster&quot;</span>)</span></span><br><span class="line"><span class="function">  &#123;</span></span><br><span class="line">    tf_publisher_ = std::make_shared&lt;tf2_ros::StaticTransformBroadcaster&gt;(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Publish static transforms once at startup</span></span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">make_transforms</span>(transformation);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">make_transforms</span><span class="params">(<span class="keyword">char</span> * transformation[])</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    rclcpp::Time now;</span><br><span class="line">    geometry_msgs::msg::TransformStamped t;</span><br><span class="line"></span><br><span class="line">    t.header.stamp = now;</span><br><span class="line">    t.header.frame_id = <span class="string">&quot;world&quot;</span>;</span><br><span class="line">    t.child_frame_id = transformation[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    t.transform.translation.x = <span class="built_in">atof</span>(transformation[<span class="number">2</span>]);</span><br><span class="line">    t.transform.translation.y = <span class="built_in">atof</span>(transformation[<span class="number">3</span>]);</span><br><span class="line">    t.transform.translation.z = <span class="built_in">atof</span>(transformation[<span class="number">4</span>]);</span><br><span class="line">    tf2::Quaternion q;</span><br><span class="line">    q.<span class="built_in">setRPY</span>(</span><br><span class="line">      <span class="built_in">atof</span>(transformation[<span class="number">5</span>]),</span><br><span class="line">      <span class="built_in">atof</span>(transformation[<span class="number">6</span>]),</span><br><span class="line">      <span class="built_in">atof</span>(transformation[<span class="number">7</span>]));</span><br><span class="line">    t.transform.rotation.x = q.<span class="built_in">x</span>();</span><br><span class="line">    t.transform.rotation.y = q.<span class="built_in">y</span>();</span><br><span class="line">    t.transform.rotation.z = q.<span class="built_in">z</span>();</span><br><span class="line">    t.transform.rotation.w = q.<span class="built_in">w</span>();</span><br><span class="line"></span><br><span class="line">    tf_publisher_-&gt;<span class="built_in">sendTransform</span>(t);</span><br><span class="line">  &#125;</span><br><span class="line">  std::shared_ptr&lt;tf2_ros::StaticTransformBroadcaster&gt; tf_publisher_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> logger = rclcpp::<span class="built_in">get_logger</span>(<span class="string">&quot;logger&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Obtain parameters from command line arguments</span></span><br><span class="line">  <span class="keyword">if</span> (argc != <span class="number">8</span>) &#123;</span><br><span class="line">    <span class="built_in">RCLCPP_INFO</span>(</span><br><span class="line">      logger, <span class="string">&quot;Invalid number of parameters\nusage: &quot;</span></span><br><span class="line">      <span class="string">&quot;ros2 run learning_tf2_cpp static_turtle_tf2_broadcaster &quot;</span></span><br><span class="line">      <span class="string">&quot;child_frame_name x y z roll pitch yaw&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// As the parent frame of the transform is `world`, it is</span></span><br><span class="line">  <span class="comment">// necessary to check that the frame name passed is different</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">strcmp</span>(argv[<span class="number">1</span>], <span class="string">&quot;world&quot;</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">RCLCPP_INFO</span>(logger, <span class="string">&quot;Your static turtle name cannot be &#x27;world&#x27;&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Pass parameters and initialize node</span></span><br><span class="line">  rclcpp::<span class="built_in">init</span>(argc, argv);</span><br><span class="line">  rclcpp::<span class="built_in">spin</span>(std::make_shared&lt;StaticFramePublisher&gt;(argv));</span><br><span class="line">  rclcpp::<span class="built_in">shutdown</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们include了 <code>geometry_msgs/msg/transform_stamped.hpp</code> 来使用发布到tf树的 <code>TransformStamped</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;geometry_msgs&#x2F;msg&#x2F;transform_stamped.hpp&gt;</span><br></pre></td></tr></table></figure>
+<p>rclcpp已经包含了Node类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;rclcpp&#x2F;rclcpp.hpp&gt;</span><br></pre></td></tr></table></figure>
+<p>​    <code>tf2::Quaternion</code> 可以方便的进行欧拉角和四元数的相互转换。引入 <code>tf2_ros/static_transform_broadcaster.h</code> 可以使用 <code>StaticTransformBroadcaster</code> ，这使得静态的变换变得容易</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;tf2&#x2F;LinearMath&#x2F;Quaternion.h&gt;</span><br><span class="line">#include &lt;tf2_ros&#x2F;static_transform_broadcaster.h&gt;</span><br></pre></td></tr></table></figure>
+<p>其余的逻辑和Python一样。</p>
+<h2 id="package-xml-1"><a href="#package-xml-1" class="headerlink" title="package.xml"></a>package.xml</h2><p>完善<code>&lt;description&gt;</code>, <code>&lt;maintainer&gt;</code> and <code>&lt;license&gt;</code> 标签后:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;depend&gt;geometry_msgs&lt;&#x2F;depend&gt;</span><br><span class="line">&lt;depend&gt;rclcpp&lt;&#x2F;depend&gt;</span><br><span class="line">&lt;depend&gt;tf2&lt;&#x2F;depend&gt;</span><br><span class="line">&lt;depend&gt;tf2_ros&lt;&#x2F;depend&gt;</span><br><span class="line">&lt;depend&gt;turtlesim&lt;&#x2F;depend&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="CMakeLists-txt"><a href="#CMakeLists-txt" class="headerlink" title="CMakeLists.txt"></a>CMakeLists.txt</h2><p>在find_package(ament_cmake REQUIRED)的后面，添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">find_package(geometry_msgs REQUIRED)</span><br><span class="line">find_package(rclcpp REQUIRED)</span><br><span class="line">find_package(tf2 REQUIRED)</span><br><span class="line">find_package(tf2_ros REQUIRED)</span><br><span class="line">find_package(turtlesim REQUIRED)</span><br></pre></td></tr></table></figure>
+<p>添加结点，这样才可以ros2 run，并且进行安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">add_executable(static_turtle_tf2_broadcaster src&#x2F;static_turtle_tf2_broadcaster.cpp)</span><br><span class="line">ament_target_dependencies(</span><br><span class="line">   static_turtle_tf2_broadcaster</span><br><span class="line">   geometry_msgs</span><br><span class="line">   rclcpp</span><br><span class="line">   tf2</span><br><span class="line">   tf2_ros</span><br><span class="line">   turtlesim</span><br><span class="line">)</span><br><span class="line">install(TARGETS</span><br><span class="line">   static_turtle_tf2_broadcaster</span><br><span class="line">   DESTINATION lib&#x2F;$&#123;PROJECT_NAME&#125;)</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/08/23/0823tf2broadcaster/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tf2 broadcaster listener</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/08/22/0822ros2_learning/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%8C%85%E6%80%BB%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">功能包总览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAstatic-broadcaster"><span class="nav-number">2.</span> <span class="nav-text">创建static  broadcaster</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">2.1.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#package-xml"><span class="nav-number">2.2.</span> <span class="nav-text">package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9%E8%BF%9B%E5%85%A5%E7%82%B9"><span class="nav-number">2.3.</span> <span class="nav-text">添加一个结点进入点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">2.4.</span> <span class="nav-text">编译运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">2.4.1.</span> <span class="nav-text">安装依赖</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%88%E9%80%82%E7%9A%84%E6%96%B9%E5%BC%8F%E5%8F%91%E5%B8%83%E9%9D%99%E6%80%81%E5%8F%98%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">合适的方式发布静态变换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="nav-number">3.1.</span> <span class="nav-text">命令行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#launch%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">launch文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c-%E7%89%88%E6%9C%AC"><span class="nav-number">4.</span> <span class="nav-text">c++ 版本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#package-xml-1"><span class="nav-number">4.1.</span> <span class="nav-text">package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMakeLists-txt"><span class="nav-number">4.2.</span> <span class="nav-text">CMakeLists.txt</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

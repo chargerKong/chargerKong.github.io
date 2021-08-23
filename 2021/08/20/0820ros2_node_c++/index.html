@@ -9,8 +9,6 @@
     
     <title>
         
-            SLAM之李代数 |
-        
         随笔记
     </title>
     
@@ -130,7 +128,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">SLAM之李代数</span>
+            <span class="title-hover-animation"></span>
         </div>
 
         
@@ -148,7 +146,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-06-16 10:23:20
+        <i class="fas fa-edit"></i>&nbsp;2021-08-20 16:55:20
     </span>
     
     
@@ -165,46 +163,32 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="李代数是什么？"><a href="#李代数是什么？" class="headerlink" title="李代数是什么？"></a>李代数是什么？</h2><p>对应于每一个李群，都有对应的一个李代数。譬如，有一个旋转矩阵$R_0\in SO(3)，SO(3)$为所有旋转矩阵组成的群。都有一个李代数，一个<strong>三维向量</strong>$\phi$与之对应。<strong>李代数描述了李群在局部的性质</strong>，这是因为R(t)通过在$t=0$处的泰勒展开而得到的李代数。</p>
-<p>他们的关系为</p>
-<script type="math/tex; mode=display">
-R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什么要用李代数" class="headerlink" title="为什么要用李代数"></a>为什么要用李代数</h2><p>在SLAM中，我们要估计一个相机的位置和姿态，此位姿是有$SO(3)$上的旋转矩阵或者$SE(3)$的变换矩阵所描述的，在估计的过程中，避免不了需要对旋转矩阵求导。根据求导的定义，需要进行加法。但是$SO(3)$没有加法，可以把问题转换为对应的李代数进行计算</p>
-<h2 id="Sophus上的简单使用"><a href="#Sophus上的简单使用" class="headerlink" title="Sophus上的简单使用"></a>Sophus上的简单使用</h2><p>在使用Sophus的时候，已知$R$，求$\phi$的时候，只需要求一个$log$就可以了。出来的直接是三维的李代数，无需在vee（反对称矩阵-&gt;三维向量的操作）</p>
-<p>假设已经有了一个旋转矩阵，R </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 建立一个李群SO(3)</span></span><br><span class="line"><span class="comment">//可以通过一个旋转矩阵得到</span></span><br><span class="line">Sophus::SO3&lt;double&gt; SO3_R(R)；</span><br><span class="line"><span class="comment">//也可以通过一个四元数获得</span></span><br><span class="line"><span class="function">Quanterniond <span class="title">q</span><span class="params">(R)</span></span>;</span><br><span class="line">Sophus::SO3&lt;double&gt; SO3_q(q)；</span><br><span class="line"><span class="comment">// 从李群求李代数</span></span><br><span class="line">Vector3d so3 = SO3_R.<span class="built_in">log</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从李代数求李群</span></span><br><span class="line">Sophus::SO3&lt;<span class="keyword">double</span>&gt; SO3_R2 = Sophus::SO3d::<span class="built_in">exp</span>(so3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//李群可以直接参与坐标变换运算</span></span><br><span class="line">Vector3d after_rot = SO3_R * Vector3d&#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//位姿的更新，通过两个李群相乘可以得到</span></span><br><span class="line"><span class="comment">//dx 为更新量李代数</span></span><br><span class="line">Sophus::SO3d SO3_update = Sophus::SO3d::<span class="built_in">exp</span>(dx) * SO3_R;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回对应的矩阵</span></span><br><span class="line">cout &lt;&lt; SO3_update.<span class="built_in">matrix</span>() &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
-<h2 id="群"><a href="#群" class="headerlink" title="群"></a>群</h2><p>两个旋转相加就不再是旋转矩阵的，这样的话就不好使用导数。因此在估计的时候，我们需要借用李群，李代数</p>
-<ul>
-<li>三维旋转矩阵构成了特殊正交群</li>
+            <p>title: ros2建立c++包<br>date: 2021-08-20 18:38:29<br>tags: ros2</p>
+<h1 id="建立一个ROS2的包"><a href="#建立一个ROS2的包" class="headerlink" title="建立一个ROS2的包"></a>建立一个ROS2的包</h1><p>在ROS2中，我们使用amend来作为构建包的工具，并且使用colcon来作为编译包的工具。在创建包的时候我们可以使用CMake或者Python，本文主要</p>
+<h1 id="由什么组成一个包"><a href="#由什么组成一个包" class="headerlink" title="由什么组成一个包"></a>由什么组成一个包</h1><ul>
+<li>package.xml 主要描述着一个包的元数据</li>
+<li>CMakeLists.txt 主要描述如何去构建这个包</li>
 </ul>
-<p>一些例子</p>
-<ul>
-<li><p>一般线性群$GL$.矩阵乘法群</p>
-</li>
-<li><p>特殊矩阵群$SO$</p>
-</li>
-<li>特殊欧式群$SE$。n维欧式变换</li>
-</ul>
-<p>群结构保证了在群上的运算具有良好的性质</p>
-<h2 id="李群"><a href="#李群" class="headerlink" title="李群"></a>李群</h2><ul>
-<li>具有连续性质的群</li>
-<li>即是群也是流形（mainfold）:流行可以看做是高维空间低维的东西，就是高维度中的一小片</li>
-<li>虽然都是SO(3)和SE(3)都是李群，但是没有加法，不好求极限</li>
-</ul>
-<h2 id="李代数"><a href="#李代数" class="headerlink" title="李代数"></a>李代数</h2><p>李代数和李群是一一对应的。事实上它是李群在单位元处的正切空间</p>
-<p>假设R为随时间变化的函数。  </p>
-<p>指数映射：exp(李代数^) = 李群</p>
-<h2 id="指数对应和对数映射"><a href="#指数对应和对数映射" class="headerlink" title="指数对应和对数映射"></a>指数对应和对数映射</h2><script type="math/tex; mode=display">
-\begin{equation}
-\begin{split}
-\exp(\boldsymbol{A})&=\exp(\phi\hat{})\\
-&=\exp(\theta\boldsymbol{a}\hat{})\\
-&=\cos\theta\boldsymbol{I}+(1-\cos\theta)\boldsymbol{a}\boldsymbol{a}^T+\
-\sin\theta\boldsymbol{a}\hat{}
+<p>最简单的目录结构如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my_package&#x2F;</span><br><span class="line">     CMakeLists.txt</span><br><span class="line">     package.xml</span><br></pre></td></tr></table></figure>
+<h1 id="Workspace"><a href="#Workspace" class="headerlink" title="Workspace"></a>Workspace</h1><p>一个工作空间可以包含多个包，并且包可以人c++或者Python都可以，最好全部放在src文件夹下。让主目录干净一点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">workspace_folder&#x2F;</span><br><span class="line">    src&#x2F;</span><br><span class="line">      package_1&#x2F;</span><br><span class="line">          CMakeLists.txt</span><br><span class="line">          package.xml</span><br><span class="line"></span><br><span class="line">      package_2&#x2F;</span><br><span class="line">          setup.py</span><br><span class="line">          package.xml</span><br><span class="line">          resource&#x2F;package_2</span><br><span class="line">      ...</span><br><span class="line">      package_n&#x2F;</span><br><span class="line">          CMakeLists.txt</span><br><span class="line">          package.xml</span><br></pre></td></tr></table></figure>
+<h1 id="建立一个包"><a href="#建立一个包" class="headerlink" title="建立一个包"></a>建立一个包</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+<p>当然也可以加入一个节点的名字, 进入src文件夹，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake --node-name my_node my_package</span><br></pre></td></tr></table></figure>
+<h1 id="编译一个包"><a href="#编译一个包" class="headerlink" title="编译一个包"></a>编译一个包</h1><p>进入ws，即和src同一个目录下进行编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select my_package</span><br></pre></td></tr></table></figure>
+<h1 id="source"><a href="#source" class="headerlink" title="source"></a>source</h1><p>为了让新的包和节点可以被使用，需要激活一下Node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;dev_ws&#x2F;install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
+<h1 id="运行一个节点"><a href="#运行一个节点" class="headerlink" title="运行一个节点"></a>运行一个节点</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run my_package my_node </span><br></pre></td></tr></table></figure>
+<p>返回hello world my_package package</p>
+<h1 id="查看包的内容"><a href="#查看包的内容" class="headerlink" title="查看包的内容"></a>查看包的内容</h1><p>在<code>dev_ws/src/my_package</code>里面，可以看见有自动生成的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CMakeLists.txt  include  package.xml  src</span><br></pre></td></tr></table></figure>
+<p>my_node.cpp在src文件夹里面</p>
+<h1 id="自定义package-xml"><a href="#自定义package-xml" class="headerlink" title="自定义package.xml"></a>自定义package.xml</h1><p>在package.xml有很多的todo需要写，如果你需要发布自己的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> 1&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line"> 2&lt;?xml-model</span><br><span class="line"> 3   href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot;</span><br><span class="line"> 4   schematypens&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot;?&gt;</span><br><span class="line"> 5&lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line"> 6 &lt;name&gt;my_package&lt;&#x2F;name&gt;</span><br><span class="line"> 7 &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line"> 8 &lt;description&gt;TODO: Package description&lt;&#x2F;description&gt;</span><br><span class="line"> 9 &lt;maintainer email&#x3D;&quot;user@todo.todo&quot;&gt;user&lt;&#x2F;maintainer&gt;</span><br><span class="line">10 &lt;license&gt;TODO: License declaration&lt;&#x2F;license&gt;</span><br><span class="line">11</span><br><span class="line">12 &lt;buildtool_depend&gt;ament_cmake&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line">13</span><br><span class="line">14 &lt;test_depend&gt;ament_lint_auto&lt;&#x2F;test_depend&gt;</span><br><span class="line">15 &lt;test_depend&gt;ament_lint_common&lt;&#x2F;test_depend&gt;</span><br><span class="line">16</span><br><span class="line">17 &lt;export&gt;</span><br><span class="line">18   &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">19 &lt;&#x2F;export&gt;</span><br><span class="line">20&lt;&#x2F;package&gt;</span><br></pre></td></tr></table></figure>
+<p>需要在这里完善description和licence.</p>
 
-\end{split}
-\end{equation}</script><h2 id="李代数求导"><a href="#李代数求导" class="headerlink" title="李代数求导"></a>李代数求导</h2><p>一般使用扰动模型求导，</p>
-<script type="math/tex; mode=display">
-\frac{\partial(Rp)}{\partial\phi}=-(Rp)\hat{}</script>
         </div>
 
         
@@ -215,13 +199,13 @@ R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什�
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/06/25/%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86/"
+                           href="/2021/08/20/0820node_main/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">矩阵求导</span>
+                                <span class="post-nav-title-item">cartographer_ros之node_main.cc详解</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -231,10 +215,10 @@ R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什�
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/06/09/slam%E5%89%8D%E7%AB%AF/"
+                           href="/2021/08/17/0817/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">IMLS-ICP</span>
+                                <span class="post-nav-title-item">cartographer配置文件</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -404,7 +388,7 @@ R=\exp(\phi \hat{})</script><h2 id="为什么要用李代数"><a href="#为什�
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">李代数是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E6%9D%8E%E4%BB%A3%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">为什么要用李代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sophus%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">Sophus上的简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4"><span class="nav-number">4.</span> <span class="nav-text">群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E7%BE%A4"><span class="nav-number">5.</span> <span class="nav-text">李群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">李代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%AF%B9%E5%BA%94%E5%92%8C%E5%AF%B9%E6%95%B0%E6%98%A0%E5%B0%84"><span class="nav-number">7.</span> <span class="nav-text">指数对应和对数映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%8E%E4%BB%A3%E6%95%B0%E6%B1%82%E5%AF%BC"><span class="nav-number">8.</span> <span class="nav-text">李代数求导</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AAROS2%E7%9A%84%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">建立一个ROS2的包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B1%E4%BB%80%E4%B9%88%E7%BB%84%E6%88%90%E4%B8%80%E4%B8%AA%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">由什么组成一个包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Workspace"><span class="nav-number">3.</span> <span class="nav-text">Workspace</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%8C%85"><span class="nav-number">4.</span> <span class="nav-text">建立一个包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E4%B8%80%E4%B8%AA%E5%8C%85"><span class="nav-number">5.</span> <span class="nav-text">编译一个包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#source"><span class="nav-number">6.</span> <span class="nav-text">source</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">7.</span> <span class="nav-text">运行一个节点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8C%85%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">8.</span> <span class="nav-text">查看包的内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89package-xml"><span class="nav-number">9.</span> <span class="nav-text">自定义package.xml</span></a></li></ol>
     </div>
 </div>
         </aside>
