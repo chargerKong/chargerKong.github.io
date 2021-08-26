@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            cartographer参数配置上 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">cartographer参数配置上</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-08-24 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>配置参数对于用户来说是十分重要的，本文简单介绍lua参数在代码中的参数运行流程</p>
+<p>打开node_main.cc，在这里关于参数配置的内容有</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NodeOptions node_options;</span><br><span class="line">TrajectoryOptions trajectory_options;</span><br><span class="line"></span><br><span class="line"><span class="comment">// c++11: std::tie()函数可以将变量连接到一个给定的tuple上,生成一个元素类型全是引用的tuple</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据Lua配置文件中的内容, 为node_options, trajectory_options 赋值</span></span><br><span class="line">std::<span class="built_in">tie</span>(node_options, trajectory_options) =</span><br><span class="line">    <span class="built_in">LoadOptions</span>(FLAGS_configuration_directory, FLAGS_configuration_basename);</span><br></pre></td></tr></table></figure>
+<p>NodeOption和TrajectoryOptions都是两个定义了参数的结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">struct NodeOptions &#123;</span><br><span class="line">  ::cartographer::mapping::proto::MapBuilderOptions map_builder_options;</span><br><span class="line">  std::string map_frame;</span><br><span class="line">  double lookup_transform_timeout_sec;</span><br><span class="line">  double submap_publish_period_sec;</span><br><span class="line">  double pose_publish_period_sec;</span><br><span class="line">  double trajectory_publish_period_sec;</span><br><span class="line">  bool publish_to_tf &#x3D; true;</span><br><span class="line">  bool publish_tracked_pose &#x3D; false;</span><br><span class="line">  bool use_pose_extrapolator &#x3D; true; &#x2F;&#x2F;是否使用位姿推测器</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 一条轨迹的基础参数配置</span><br><span class="line">struct TrajectoryOptions &#123;</span><br><span class="line">  ::cartographer::mapping::proto::TrajectoryBuilderOptions</span><br><span class="line">      trajectory_builder_options;</span><br><span class="line">  std::string tracking_frame;</span><br><span class="line">  std::string published_frame;</span><br><span class="line">  std::string odom_frame;</span><br><span class="line">  bool provide_odom_frame;</span><br><span class="line">  bool use_odometry;</span><br><span class="line">  bool use_nav_sat;</span><br><span class="line">  bool use_landmarks;</span><br><span class="line">  bool publish_frame_projected_to_2d;</span><br><span class="line">  int num_laser_scans;</span><br><span class="line">  int num_multi_echo_laser_scans;</span><br><span class="line">  int num_subdivisions_per_laser_scan;</span><br><span class="line">  int num_point_clouds;</span><br><span class="line">  double rangefinder_sampling_ratio;</span><br><span class="line">  double odometry_sampling_ratio;</span><br><span class="line">  double fixed_frame_pose_sampling_ratio;</span><br><span class="line">  double imu_sampling_ratio;</span><br><span class="line">  double landmarks_sampling_ratio;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>通过std::tie来对<code>node_options, trajectory_options</code>两个 变量进行赋值，此时需要查看一下<code>LoadOptions</code>函数，他应该返回两个分别为<code>NodeOptions</code>和 <code>TrajectoryOptions</code>的一个tuple。因为tie只接受来自tuple的赋值</p>
+<p>在这里，点开LoadOptions，其返回值为std::tuple，注意return，是通过make_tuple生成的tuple</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">std::tuple&lt;NodeOptions, TrajectoryOptions&gt; LoadOptions(</span><br><span class="line">    <span class="keyword">const</span> std::string&amp; configuration_directory,</span><br><span class="line">    <span class="keyword">const</span> std::string&amp; configuration_basename)</span><br><span class="line">    &#123;</span><br><span class="line">  	<span class="comment">// 获取配置文件所在的目录</span></span><br><span class="line">    <span class="keyword">auto</span> file_resolver =</span><br><span class="line">        absl::make_unique&lt;cartographer::common::ConfigurationFileResolver&gt;(</span><br><span class="line">        std::vector&lt;std::string&gt;&#123;configuration_directory&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读取配置文件内容到code中</span></span><br><span class="line">    <span class="keyword">const</span> std::string code =</span><br><span class="line">        file_resolver-&gt;<span class="built_in">GetFileContentOrDie</span>(configuration_basename);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据给定的字符串, 生成一个lua字典</span></span><br><span class="line">    cartographer::<span class="function">common::LuaParameterDictionary <span class="title">lua_parameter_dictionary</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        code, std::move(file_resolver))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建元组tuple,元组定义了一个有固定数目元素的容器, 其中的每个元素类型都可以不相同</span></span><br><span class="line">    <span class="comment">// 将配置文件的内容填充进NodeOptions与TrajectoryOptions, 并返回</span></span><br><span class="line">    <span class="keyword">return</span> std::<span class="built_in">make_tuple</span>(<span class="built_in">CreateNodeOptions</span>(&amp;lua_parameter_dictionary),</span><br><span class="line">                         <span class="built_in">CreateTrajectoryOptions</span>(&amp;lua_parameter_dictionary));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>代码前面三段可以理解为生成一个lua参数的一个字典，然后把这个字典lua_parameter_dictionary转换为两个Options,</p>
+<p>通过CreateNodeOptions和CreateTrajectoryOptions创建出NodeOptions和TrajectoryOptions。</p>
+<p>CreateNodeOptions定义在node_options.h文件中，他返回一个NodeOptions，传入的是一个字典</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NodeOptions CreateNodeOptions(</span><br><span class="line">    ::cartographer::common::LuaParameterDictionary* lua_parameter_dictionary);</span><br></pre></td></tr></table></figure>
+<p>实现则在node_option.cpp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">NodeOptions CreateNodeOptions(</span><br><span class="line">    ::cartographer::common::LuaParameterDictionary* const</span><br><span class="line">        lua_parameter_dictionary) &#123;</span><br><span class="line">          </span><br><span class="line">  NodeOptions options;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 根据lua字典中的参数, 生成protobuf的序列化数据结构 proto::MapBuilderOptions</span><br><span class="line">  options.map_builder_options &#x3D;</span><br><span class="line">      ::cartographer::mapping::CreateMapBuilderOptions(</span><br><span class="line">          lua_parameter_dictionary-&gt;GetDictionary(&quot;map_builder&quot;).get());</span><br><span class="line"></span><br><span class="line">  options.map_frame &#x3D; lua_parameter_dictionary-&gt;GetString(&quot;map_frame&quot;);</span><br><span class="line">  options.lookup_transform_timeout_sec &#x3D;</span><br><span class="line">      lua_parameter_dictionary-&gt;GetDouble(&quot;lookup_transform_timeout_sec&quot;);</span><br><span class="line">  options.submap_publish_period_sec &#x3D;</span><br><span class="line">      lua_parameter_dictionary-&gt;GetDouble(&quot;submap_publish_period_sec&quot;);</span><br><span class="line">  options.pose_publish_period_sec &#x3D;</span><br><span class="line">      lua_parameter_dictionary-&gt;GetDouble(&quot;pose_publish_period_sec&quot;);</span><br><span class="line">  options.trajectory_publish_period_sec &#x3D;</span><br><span class="line">      lua_parameter_dictionary-&gt;GetDouble(&quot;trajectory_publish_period_sec&quot;);</span><br><span class="line">  if (lua_parameter_dictionary-&gt;HasKey(&quot;publish_to_tf&quot;)) &#123;</span><br><span class="line">    options.publish_to_tf &#x3D;</span><br><span class="line">        lua_parameter_dictionary-&gt;GetBool(&quot;publish_to_tf&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  if (lua_parameter_dictionary-&gt;HasKey(&quot;publish_tracked_pose&quot;)) &#123;</span><br><span class="line">    options.publish_tracked_pose &#x3D;</span><br><span class="line">        lua_parameter_dictionary-&gt;GetBool(&quot;publish_tracked_pose&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  if (lua_parameter_dictionary-&gt;HasKey(&quot;use_pose_extrapolator&quot;)) &#123;</span><br><span class="line">    options.use_pose_extrapolator &#x3D;</span><br><span class="line">        lua_parameter_dictionary-&gt;GetBool(&quot;use_pose_extrapolator&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  return options;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>内容即为对NodeOptions对象进行赋值，因为publish_to_tf等三个参数是有默认值的，所以lua配置文件里面，及时没有他们也没有关系。如果if语句false也没有关系。</p>
+<p>CreateTrajectoryOptions和CreateNodeOptions一样。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/08/24/0824node_main.cc/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer_ros之node_main.cc详解下</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/08/23/0823tf2broadcaster/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tf2 broadcaster listener</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

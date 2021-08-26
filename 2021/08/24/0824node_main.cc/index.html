@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            cartographer_ros之node_main.cc详解下 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">cartographer_ros之node_main.cc详解下</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-08-24 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>打开cartographer_ros下的node_main.cc</p>
+<h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h2><p>首先看一下main函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char** argv) &#123;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; note: 初始化glog库</span><br><span class="line">  google::InitGoogleLogging(argv[0]);</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; 使用gflags进行参数的初始化. 其中第三个参数为remove_flag</span><br><span class="line">  &#x2F;&#x2F; 如果为true, gflags会移除parse过的参数, 否则gflags就会保留这些参数, 但可能会对参数顺序进行调整.</span><br><span class="line">  &#x2F;&#x2F; 开始解析参数</span><br><span class="line">  google::ParseCommandLineFlags(&amp;argc, &amp;argv, true);</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * @brief glog里提供的CHECK系列的宏, 检测某个表达式是否为真</span><br><span class="line">   * 检测expression如果不为真, 则打印后面的description和栈上的信息</span><br><span class="line">   * 然后退出程序, 出错后的处理过程和FATAL比较像.</span><br><span class="line">   *&#x2F;</span><br><span class="line">  CHECK(!FLAGS_configuration_directory.empty())</span><br><span class="line">      &lt;&lt; &quot;-configuration_directory is missing.&quot;;</span><br><span class="line">  CHECK(!FLAGS_configuration_basename.empty())</span><br><span class="line">      &lt;&lt; &quot;-configuration_basename is missing.&quot;;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; ros节点的初始化</span><br><span class="line">  ::ros::init(argc, argv, &quot;cartographer_node&quot;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 一般不需要在自己的代码中显式调用</span><br><span class="line">  &#x2F;&#x2F; 但是若想在创建任何NodeHandle实例之前启动ROS相关的线程, 网络等, 可以显式调用该函数.</span><br><span class="line">  ::ros::start();</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 使用ROS_INFO进行glog消息的输出</span><br><span class="line">  cartographer_ros::ScopedRosLogSink ros_log_sink;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 开始运行cartographer_ros</span><br><span class="line">  cartographer_ros::Run();</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 结束ROS相关的线程, 网络等</span><br><span class="line">  ::ros::shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不进行初始化，那么就无法使用glog库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; note: 初始化glog库</span><br><span class="line">google::InitGoogleLogging(argv[0]);</span><br></pre></td></tr></table></figure>
+<p>这里开始解析参数，即就是DEFINE_bool这里的参数，前面加上FALGS的操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 使用gflags进行参数的初始化. 其中第三个参数为remove_flag</span><br><span class="line">&#x2F;&#x2F; 如果为true, gflags会移除parse过的参数, 否则gflags就会保留这些参数, 但可能会对参数顺序进行调整.</span><br><span class="line">&#x2F;&#x2F; 开始解析参数</span><br><span class="line">google::ParseCommandLineFlags(&amp;argc, &amp;argv, true);</span><br></pre></td></tr></table></figure>
+<p>对ros结点进行初始化，并且命名为cartographer_node，定义自己的log系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ros节点的初始化</span><br><span class="line">::ros::init(argc, argv, &quot;cartographer_node&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 一般不需要在自己的代码中显式调用</span><br><span class="line">&#x2F;&#x2F; 但是若想在创建任何NodeHandle实例之前启动ROS相关的线程, 网络等, 可以显式调用该函数.</span><br><span class="line">::ros::start();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用ROS_INFO进行glog消息的输出</span><br><span class="line">cartographer_ros::ScopedRosLogSink ros_log_sink;</span><br></pre></td></tr></table></figure>
+<p>最后开始运行cartographer_ros</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cartographer_ros::Run();</span><br></pre></td></tr></table></figure>
+<h2 id="Run函数"><a href="#Run函数" class="headerlink" title="Run函数"></a>Run函数</h2><p>开启监听tf的独立线程，开启监听tf独立的线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf2_ros::Buffer tf_buffer&#123;::ros::Duration(kTfBufferCacheTimeInSeconds)&#125;;</span><br><span class="line">&#x2F;&#x2F; 开启监听tf的独立线程，开启监听tf独立的线程</span><br><span class="line">tf2_ros::TransformListener tf(tf_buffer);</span><br></pre></td></tr></table></figure>
+<p>根据Lua配置文件中的内容, 为node_options, trajectory_options 赋值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::tie(node_options, trajectory_options) &#x3D;</span><br><span class="line">      LoadOptions(FLAGS_configuration_directory, FLAGS_configuration_basename);</span><br></pre></td></tr></table></figure>
+<p>建立 map_builder类，map_build类是一个完整的slam, 包括前端和后端.auto的变量必须要赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto map_builder &#x3D;</span><br><span class="line">    cartographer::mapping::CreateMapBuilder(node_options.map_builder_options);</span><br></pre></td></tr></table></figure>
+<p>对Node类进行初始化，将ROS的topic传入SLAM, 也就是MapBuilder</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Node node(node_options, std::move(map_builder), &amp;tf_buffer,</span><br><span class="line">          FLAGS_collect_metrics);</span><br></pre></td></tr></table></figure>
+<p>加载pbstream</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 如果加载了pbstream文件, 就执行这个函数</span><br><span class="line">if (!FLAGS_load_state_filename.empty()) &#123;</span><br><span class="line">  node.LoadState(FLAGS_load_state_filename, FLAGS_load_frozen_state);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后结束的时候还会有一次全局优化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当所有的轨迹结束时, 再执行一次全局优化</span><br><span class="line">node.RunFinalOptimization();</span><br></pre></td></tr></table></figure>
+<h2 id="std-tie"><a href="#std-tie" class="headerlink" title="std::tie"></a>std::tie</h2><p>这个函数的作用就和Python的多个变量赋值一样，但是他只接受元祖作为赋值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::tie(node_options, trajectory_options) &#x3D;</span><br><span class="line">      LoadOptions(FLAGS_configuration_directory, FLAGS_configuration_basename);</span><br></pre></td></tr></table></figure>
+<p>在这里，LoadOptions的返回值为std::tuple，注意return，是通过make_tuple生成的tuple</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">std::tuple&lt;NodeOptions, TrajectoryOptions&gt; LoadOptions(</span><br><span class="line">    const std::string&amp; configuration_directory,</span><br><span class="line">    const std::string&amp; configuration_basename)</span><br><span class="line">    &#123;</span><br><span class="line">    ...</span><br><span class="line">    return std::make_tuple(CreateNodeOptions(&amp;lua_parameter_dictionary),</span><br><span class="line">                         CreateTrajectoryOptions(&amp;lua_parameter_dictionary));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer参数配置下</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/08/24/0824%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer参数配置上</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Run函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#std-tie"><span class="nav-number">3.</span> <span class="nav-text">std::tie</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

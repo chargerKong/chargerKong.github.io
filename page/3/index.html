@@ -132,6 +132,98 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/07/02/GPU%E5%9C%A8docker%E4%B8%AD%E4%BD%BF%E7%94%A8/">
+                        GPU在docker中使用
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        首先自己的机器上需要有GPU，在附加驱动中可以查看
+安装显卡驱动附加驱动安装NAVIDIA驱动点开Ubuntu中自带的Software &amp; update （软件和更新），选择下面的additional Drivers（附加驱动），即可查看自己...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jul 02 2021 16:24:35 GMT+0800">2021-07-02</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/07/02/GPU%E5%9C%A8docker%E4%B8%AD%E4%BD%BF%E7%94%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/07/01/IMLS%E8%AF%A6%E8%A7%A3%E7%A4%BA%E4%BE%8B/">
+                        IMLS-ICP
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        IMLS-ICP用途IMLS-ICP用于SLAM的前端匹配，通过处理采集到的雷达数据来估计相机的移动位姿。
+示例下面我们用如下两帧的2D雷达数据做一个示例讲解，假设我们采集到的2D雷达数据内容如下所示
+
+完全卸载NAVIDIA驱动如果想卸载NAVID...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Jul 01 2021 18:38:29 GMT+0800">2021-07-01</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/07/01/IMLS%E8%AF%A6%E8%A7%A3%E7%A4%BA%E4%BE%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/06/29/%E5%89%8D%E7%AB%AF%E9%85%8D%E5%87%86icp%E7%B3%BB%E5%88%97/">
+                        前段匹配系列
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        ICP用于求解两个点云集合转换关系最通用的方法，
+去中心化，通过最小化
+
+\frac{1}{N}\sum_{i=1}^N||x_i-Rp_i-t||^2求得两个点云集合的位姿关系$R，T$。
+PL-ICP在匹配的过程中，重点不是点和点之间的匹配，而是...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Jun 29 2021 09:59:22 GMT+0800">2021-06-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/06/29/%E5%89%8D%E7%AB%AF%E9%85%8D%E5%87%86icp%E7%B3%BB%E5%88%97/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/06/25/%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86/">
                         矩阵求导
                     </a>
@@ -339,107 +431,6 @@ D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">
-                        前段配准
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        配准算法（二）爬山法（拟梯度法）总是朝着数值增大的方向移动
-缺陷：会陷入局部最高点
-名字来由，因为方向是固定的，不需要计算，所以是拟梯度法
-搜索时，如果所有的方向得分都小，则搜索步长减半，当减半次数大于五次，则认为收敛
-高斯牛顿优化方法爬山法的进阶！...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 28 2021 18:38:29 GMT+0800">2021-05-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">
-                        图优化（Graph-based）
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Pose Graph的构建图构建好，就需要进行优化
-
-用一个图来表示SLAM问题
-每一个节点都是位姿（x,y,theta）
-两个节点之间的边，表示两个节点之间的空间约束
-帧间边：表示时间连续的两个点
-回环边：两个时间是不连续的两个点
-
-
-一旦出现了回...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed May 26 2021 10:23:20 GMT+0800">2021-05-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/23/IMLS%20-ICP/">
-                        IMLS -ICP
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        推荐书多视图几何（multiple view geometer），状态估计(state estimate for robotic)
-内容非常全，对初学者不是很友好。
-视觉里程计：给出两张图来判断相机是如何运动的
-后端：让总体的轨迹和地图更精确
-ICP...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 23 2021 18:38:29 GMT+0800">2021-05-23</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/05/23/IMLS%20-ICP/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -570,5 +561,20 @@ ICP...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
