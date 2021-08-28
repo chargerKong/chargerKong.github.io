@@ -9,7 +9,7 @@
     
     <title>
         
-            后端优化笔记 |
+            cartographer-Node类 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">后端优化笔记</span>
+            <span class="title-hover-animation">cartographer-Node类</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-07-12 15:59:22
+        <i class="fas fa-edit"></i>&nbsp;2021-08-28 15:59:22
     </span>
     
     
@@ -157,7 +157,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/%E8%A7%86%E8%A7%89SLAM%EF%BC%8C%E5%90%8E%E7%AB%AF/">视觉SLAM，后端</a>&nbsp;
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
                     </li>
                 
             </ul>
@@ -176,29 +176,7 @@
         
 
         <div class="article-content markdown-body">
-            <p>前段匹配就是一个实时的不是很好的估计</p>
-<p>后端可以不实时，是一个可以比较慢的线程</p>
-<p>贝叶斯公式</p>
-<script type="math/tex; mode=display">
-P(A|B)=\frac{P(A)P(B|A)}{P(B)}</script><ul>
-<li><p>求的是在B已经发生的情况下，求A发生的概率。也称为A的后验概率</p>
-</li>
-<li><p>$P(A)$是先验概率，和B无关，即A发生的概率是多少</p>
-</li>
-</ul>
-<p>贝叶斯的意思是根据现在观察的到的现象来进行推测</p>
-<p>举个例子：</p>
-<p>A车被撞报警的事件为$P(A)=0.8$，B车被撞报警的事件为$P(B)=0.2$，假设因为A车报警的声音特别响，所以当A车报警的时候B车也会大概率跟着报警，$P(B|A)=0.8$</p>
-<p>A车响的概率乘以A车响的</p>
-<h2 id="马尔可夫性质"><a href="#马尔可夫性质" class="headerlink" title="马尔可夫性质"></a>马尔可夫性质</h2><p>当前时刻的状态之和上一时刻的状态有关</p>
-<h2 id="卡尔曼滤波器"><a href="#卡尔曼滤波器" class="headerlink" title="卡尔曼滤波器"></a>卡尔曼滤波器</h2><p>线性系统加高斯分布</p>
-<p>预备知识：高斯分布的线性变换</p>
-<ul>
-<li>假设x服从高斯分布$N(\mu,\sigma)$，那么y=Ax+b也是服从高斯分布</li>
-<li>$E(y)=E(Ax+b)=AE(x)+b=A\mu+b$</li>
-<li>$Cov(y)=E[(y-E(y))(y-E(y)^T]=E[A(x-\mu)(x-\mu)^TA^T]=A\sigma A^T$</li>
-</ul>
-
+            
         </div>
 
         
@@ -206,29 +184,14 @@ P(A|B)=\frac{P(A)P(B|A)}{P(B)}</script><ul>
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/07/19/0719g2o/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">G20</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/07/12/711%E7%9B%B4%E6%8E%A5%E6%B3%95/"
+                           href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">直接法匹配</span>
+                                <span class="post-nav-title-item">cartographer参数读取过程下</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -398,7 +361,7 @@ P(A|B)=\frac{P(A)P(B|A)}{P(B)}</script><ul>
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%80%A7%E8%B4%A8"><span class="nav-number">1.</span> <span class="nav-text">马尔可夫性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">卡尔曼滤波器</span></a></li></ol>
+        
     </div>
 </div>
         </aside>
