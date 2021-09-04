@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            话题订阅与注册回调-Node类-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">话题订阅与注册回调-Node类-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-08-31 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>上回说道添加轨迹函数<code>Node::AddTrajectory</code>中的订阅话题与注册回调函数，在此之前计算了一个由topicname和sensor类型组合成的一个集合expected_sensor_ids，轨迹IDtrajectory_id，新添加了一个位姿估计器，和一个传感器采样器<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 订阅话题与注册回调函数</span></span><br><span class="line">  <span class="built_in">LaunchSubscribers</span>(options, trajectory_id);</span><br></pre></td></tr></table></figure></p>
+<h1 id="订阅话题与注册回调函数"><a href="#订阅话题与注册回调函数" class="headerlink" title="订阅话题与注册回调函数"></a>订阅话题与注册回调函数</h1><p>在整个LaunchSubscribers函数里面，会根据配置信息对相应的topic进行订阅并且注册回调函数。对于有多个可能设备的topic，通过ComputeRepeatedTopicNames来获取topic名字。并且订阅并进行回调</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// laser_scan 的订阅与注册回调函数, 多个laser_scan 的topic 共用同一个回调函数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> std::string&amp; topic :</span><br><span class="line">     <span class="built_in">ComputeRepeatedTopicNames</span>(kLaserScanTopic, options.num_laser_scans)) &#123;</span><br><span class="line">  subscribers_[trajectory_id].<span class="built_in">push_back</span>(</span><br><span class="line">      &#123;SubscribeWithHandler&lt;sensor_msgs::LaserScan&gt;(</span><br><span class="line">           &amp;Node::HandleLaserScanMessage, trajectory_id, topic, &amp;node_handle_,</span><br><span class="line">           <span class="keyword">this</span>),</span><br><span class="line">       topic&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于只有单个设备的例如里程计，简单if判断即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// odometry 的订阅与注册回调函数,只有一个odometry的topic</span></span><br><span class="line"><span class="keyword">if</span> (options.use_odometry) &#123;</span><br><span class="line">  subscribers_[trajectory_id].<span class="built_in">push_back</span>(</span><br><span class="line">      &#123;SubscribeWithHandler&lt;nav_msgs::Odometry&gt;(&amp;Node::HandleOdometryMessage,</span><br><span class="line">                                                trajectory_id, kOdometryTopic,</span><br><span class="line">                                                &amp;node_handle_, <span class="keyword">this</span>),</span><br><span class="line">       kOdometryTopic&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="订阅者定义"><a href="#订阅者定义" class="headerlink" title="订阅者定义"></a>订阅者定义</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::unordered_map&lt;<span class="keyword">int</span>, std::vector&lt;Subscriber&gt;&gt; subscribers_;</span><br></pre></td></tr></table></figure>
+<p>订阅者为key为轨迹ID，value是一个Subscriber的一个vector。Subscriber由一个ros提供的订阅者和订阅的topic组合而成</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Subscriber</span> &#123;</span></span><br><span class="line">    ::ros::Subscriber subscriber;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ::ros::Subscriber::getTopic() does not necessarily return the same</span></span><br><span class="line">    <span class="comment">// std::string</span></span><br><span class="line">    <span class="comment">// it was given in its constructor. Since we rely on the topic name as the</span></span><br><span class="line">    <span class="comment">// unique identifier of a subscriber, we remember it ourselves.</span></span><br><span class="line">    std::string topic;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="SubscribeWithHandler"><a href="#SubscribeWithHandler" class="headerlink" title="SubscribeWithHandler"></a>SubscribeWithHandler</h1><p>SubscribeWithHandler返回ros的一个Subscriber</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> MessageType&gt;</span><br><span class="line">::<span class="function">ros::Subscriber <span class="title">SubscribeWithHandler</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span> (Node::*handler)(<span class="keyword">int</span>, <span class="keyword">const</span> std::string&amp;,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp;),</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, <span class="keyword">const</span> std::string&amp; topic,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::ros::NodeHandle* <span class="keyword">const</span> node_handle, Node* <span class="keyword">const</span> node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> node_handle-&gt;subscribe&lt;MessageType&gt;(</span><br><span class="line">      topic, kInfiniteSubscriberQueueSize,  <span class="comment">// kInfiniteSubscriberQueueSize = 0</span></span><br><span class="line">      <span class="comment">// 使用boost::function构造回调函数,被subscribe注册</span></span><br><span class="line">      boost::function&lt;<span class="built_in"><span class="keyword">void</span></span>(<span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp;)&gt;(</span><br><span class="line">          <span class="comment">// c++11: lambda表达式</span></span><br><span class="line">          [node, handler, trajectory_id, topic](<span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp; msg) &#123;</span><br><span class="line">            (node-&gt;*handler)(trajectory_id, topic, msg);</span><br><span class="line">          &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (options.use_odometry) &#123;</span><br><span class="line">  subscribers_[trajectory_id].<span class="built_in">push_back</span>(</span><br><span class="line">      &#123;SubscribeWithHandler&lt;nav_msgs::Odometry&gt;(&amp;Node::HandleOdometryMessage,</span><br><span class="line">                                                trajectory_id, kOdometryTopic,</span><br><span class="line">                                                &amp;node_handle_, <span class="keyword">this</span>),</span><br><span class="line">       kOdometryTopic&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里push_back的就是一个Subscriber的一个结构体</p>
+<p>即就是<code>std::unordered_map&lt;int, std::vector&lt;Subscriber&gt;&gt; subscribers_;</code>这里的Subscriber</p>
+<h2 id="参数列表"><a href="#参数列表" class="headerlink" title="参数列表"></a>参数列表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @brief 在node_handle中订阅topic,并与传入的回调函数进行注册</span><br><span class="line"> * </span><br><span class="line"> * @tparam MessageType 模板参数,消息的数据类型</span><br><span class="line"> * @param[in] handler 函数指针, 接受传入的函数的地址</span><br><span class="line"> * @param[in] trajectory_id 轨迹id</span><br><span class="line"> * @param[in] topic 订阅的topic名字</span><br><span class="line"> * @param[in] node_handle ros的node_handle</span><br><span class="line"> * @param[in] node node类的指针</span><br><span class="line"> * @return ::ros::Subscriber 订阅者</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+<p>注意，函数的形参中定义了一个函数指针</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in"><span class="keyword">void</span></span> (Node::*handler)(<span class="keyword">int</span>, <span class="keyword">const</span> std::string&amp;,</span><br><span class="line">                          <span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp;),</span><br></pre></td></tr></table></figure>
+<p>这个函数指针的返回值为void，指向Node类里面的一个函数，函数指针的名字为handler，接受三个参数。</p>
+<p>再看参数是如何传入进来的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (options.use_odometry) &#123;</span><br><span class="line">  subscribers_[trajectory_id].<span class="built_in">push_back</span>(</span><br><span class="line">      &#123;SubscribeWithHandler&lt;nav_msgs::Odometry&gt;(&amp;Node::HandleOdometryMessage,</span><br><span class="line">                                                trajectory_id, kOdometryTopic,</span><br><span class="line">                                                &amp;node_handle_, <span class="keyword">this</span>),</span><br><span class="line">       kOdometryTopic&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数Node::HandleOdometryMessage是一个Node的一个函数，并且他的参数和函数指针所定义的保持一致</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Node::HandleMultiEchoLaserScanMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor_msgs::MultiEchoLaserScan::ConstPtr&amp; msg)</span> </span></span><br></pre></td></tr></table></figure>
+<p>在这里的模板类型为<code>nav_msgs::Odometry</code></p>
+<h2 id="注册回调"><a href="#注册回调" class="headerlink" title="注册回调"></a>注册回调</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> MessageType&gt;</span><br><span class="line">::<span class="function">ros::Subscriber <span class="title">SubscribeWithHandler</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">void</span> (Node::*handler)(<span class="keyword">int</span>, <span class="keyword">const</span> std::string&amp;,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp;),</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, <span class="keyword">const</span> std::string&amp; topic,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::ros::NodeHandle* <span class="keyword">const</span> node_handle, Node* <span class="keyword">const</span> node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> node_handle-&gt;subscribe&lt;MessageType&gt;(</span><br><span class="line">      topic, kInfiniteSubscriberQueueSize,  <span class="comment">// kInfiniteSubscriberQueueSize = 0</span></span><br><span class="line">      <span class="comment">// 使用boost::function构造回调函数,被subscribe注册</span></span><br><span class="line">      boost::function&lt;<span class="built_in"><span class="keyword">void</span></span>(<span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp;)&gt;(</span><br><span class="line">          <span class="comment">// c++11: lambda表达式</span></span><br><span class="line">          [node, handler, trajectory_id, topic](<span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp; msg) &#123;</span><br><span class="line">            (node-&gt;*handler)(trajectory_id, topic, msg);</span><br><span class="line">          &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于topic的回调是通过<code>node_handle-&gt;subscribe&lt;MessageType&gt;</code>来实现的，topic为订阅的消息名字，缓冲区数据队列长度，回调函数。</p>
+<p>按正常的ros格式来说，这里需要一个函数的名字。这里函数的类型为boost:function ,&lt;&gt;里面的是函数的返回值void和参数，后面的括号是函数里面的内容，在这里通过lambda表达式来进行一个函数的传递</p>
+<h3 id="lambda-表达式"><a href="#lambda-表达式" class="headerlink" title="lambda 表达式"></a>lambda 表达式</h3><p>lambda表达式是匿名的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[函数对象的参数 &#x3D; &amp;]()(-&gt;返回值类型)&#123;函数体&#125;</span><br></pre></td></tr></table></figure>
+<p>[]是不可以少的，=表示这里的参数用值拷贝使用，&amp;表示这里的参数是通过引用的方式进行使用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[node, handler, trajectory_id, topic](<span class="keyword">const</span> <span class="keyword">typename</span> MessageType::ConstPtr&amp; msg) &#123;</span><br><span class="line">            (node-&gt;*handler)(trajectory_id, topic, msg);</span><br><span class="line">          &#125;</span><br></pre></td></tr></table></figure>
+<p>前面[]表示这里需要使用的参数，是以值拷贝的方式来使用，()表示此函数需要用的参数</p>
+<p>(node-&gt;*hander)表示函数指针的使用</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/03/0903topic%E5%90%8D%E5%AD%97check/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/08/28/0828Node/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer-Node类</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A2%E9%98%85%E8%AF%9D%E9%A2%98%E4%B8%8E%E6%B3%A8%E5%86%8C%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">订阅话题与注册回调函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A2%E9%98%85%E8%80%85%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">订阅者定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SubscribeWithHandler"><span class="nav-number">3.</span> <span class="nav-text">SubscribeWithHandler</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8"><span class="nav-number">3.1.</span> <span class="nav-text">参数列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%9B%9E%E8%B0%83"><span class="nav-number">3.2.</span> <span class="nav-text">注册回调</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.2.1.</span> <span class="nav-text">lambda 表达式</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
