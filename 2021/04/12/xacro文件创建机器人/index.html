@@ -221,7 +221,7 @@ ixy & iyy & iyz\\
 ixz & iyz & izz
 \end{bmatrix}</script><p>​            如果不知道如何获得转动惯量，可以从<a href="/https://en.wikipedia.org/wiki/List_of_moments_of_inertia#List_of_3D_inertia_tensors">维基百科</a>上做参考，复杂的物体可以从其他三维软件中获得，例如meshlab</p>
 <p>如若要仿真一个link，以上三者缺一不可。</p>
-<h3 id="joint"><a href="#joint" class="headerlink" title="joint"></a><a target="_blank" rel="noopener" href="http://wiki.ros.org/urdf/XML/joint">joint</a></h3><ul>
+<h3 id="joint"><a href="#joint" class="headerlink" title="joint"></a><a class="link"   target="_blank" rel="noopener" href="http://wiki.ros.org/urdf/XML/joint" >joint<i class="fas fa-external-link-alt"></i></a></h3><ul>
 <li>描述两个link之间的关系，分为六种类型<ul>
 <li>continuous：旋转关节，可以围绕单轴无限旋转</li>
 <li>revolute：旋转关节，类似于continuous，但是有旋转的角度极限</li>
@@ -286,7 +286,7 @@ ixz & iyz & izz
 <p><img src="xacro文件创建机器人/wheel_finish.png" alt=""></p>
 <h4 id="添加万向轮"><a href="#添加万向轮" class="headerlink" title="添加万向轮"></a>添加万向轮</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;front_caster_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;0.015&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;1.57 0 0&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;0.015&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;0.1&quot;</span> /&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;0.000009&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                 <span class="attr">iyy</span>=<span class="string">&quot;0.000009&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span> </span></span><br><span class="line"><span class="tag">                 <span class="attr">izz</span>=<span class="string">&quot;0.000009&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;front_right_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0.18 0 0.015&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;front_caster_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>操作和添加驱动轮的操作完全一样</p>
-<h4 id="添加颜色"><a href="#添加颜色" class="headerlink" title="添加颜色"></a><a target="_blank" rel="noopener" href="http://wiki.ros.org/simulator_gazebo/Tutorials/ListOfMaterials">添加颜色</a></h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Blue<span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;front_caster_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Blue<span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="添加颜色"><a href="#添加颜色" class="headerlink" title="添加颜色"></a><a class="link"   target="_blank" rel="noopener" href="http://wiki.ros.org/simulator_gazebo/Tutorials/ListOfMaterials" >添加颜色<i class="fas fa-external-link-alt"></i></a></h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Blue<span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">gazebo</span> <span class="attr">reference</span>=<span class="string">&quot;front_caster_link&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">material</span>&gt;</span>Gazebo/Blue<span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">gazebo</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="添加mesh"><a href="#添加mesh" class="headerlink" title="添加mesh"></a>添加mesh</h4><p>在visual -&gt; geometry中的几何形状修改为mesh</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- &lt;cylinder length=&quot;0.1&quot; radius=&quot;0.2&quot; /&gt; --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mesh</span> <span class="attr">filename</span>=<span class="string">&quot;model://create/meshes/create_body.dae&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>注意，此dae需要在model，即gazebo的model路径之下。</p>
@@ -370,13 +370,13 @@ ixz & iyz & izz
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/14/ros-control/"
+                           href="/2021/04/12/9999record/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros控制机器人</span>
+                                <span class="post-nav-title-item">错误记录</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -386,10 +386,10 @@ ixz & iyz & izz
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/12/9999record/"
+                           href="/2021/04/09/SDF%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E4%BA%BA/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">错误记录</span>
+                                <span class="post-nav-title-item">SDF文件创建机器人</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -608,5 +608,20 @@ ixz & iyz & izz
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

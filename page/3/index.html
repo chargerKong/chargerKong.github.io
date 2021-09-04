@@ -132,16 +132,14 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2021/07/19/0719g2o/">
-                        G20
+                    <a href="/2021/07/19/0720BAL/">
+                        BAL(bundle adjustment large)
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        后端中有两个主流的优化方法
-
-滤波器方法：早期SLAM主流方法，是存储量和状态量是平方增长关系，因为存储的是协方差矩阵，因此不适合大型场景。而 现在基于视觉的SLAM方案，路标点（特征点）数据很大，滤波方法根本吃不消，所以此时滤波的方法效率非常 低。...
+                        BAL数据集解释12345678910&lt;num_cameras&gt; &lt;num_points&gt; &lt;num_observations&gt;&lt;camera_index_1&gt; &lt;point_index_1&gt...
                     
                 </div>
 
@@ -152,7 +150,41 @@
         
     </div>
 
-    <a href="/2021/07/19/0719g2o/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/07/19/0720BAL/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/07/12/711%E7%9B%B4%E6%8E%A5%E6%B3%95/">
+                        直接法匹配
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        单层直接法假设有两个帧，运动位置，但是有初始的估计$R,t$
+
+假设左边这是第一帧，有了投影点$p_1$，按照初始的估计，得到第二帧上的投影为$p_2$。
+投影关系为
+
+已知的内容。注意在这里，第一幅图中的点不必是角点，随机的都可以
+1234567v...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 12 2021 15:59:22 GMT+0800">2021-07-12</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/07/12/711%E7%9B%B4%E6%8E%A5%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -188,40 +220,6 @@ $P(A)$是先验概率，和B无...
     </div>
 
     <a href="/2021/07/12/713%E5%90%8E%E7%AB%AF%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/07/12/711%E7%9B%B4%E6%8E%A5%E6%B3%95/">
-                        直接法匹配
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        单层直接法假设有两个帧，运动位置，但是有初始的估计$R,t$
-
-假设左边这是第一帧，有了投影点$p_1$，按照初始的估计，得到第二帧上的投影为$p_2$。
-投影关系为
-
-已知的内容。注意在这里，第一幅图中的点不必是角点，随机的都可以
-1234567v...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 12 2021 15:59:22 GMT+0800">2021-07-12</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/07/12/711%E7%9B%B4%E6%8E%A5%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -573,5 +571,20 @@ D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

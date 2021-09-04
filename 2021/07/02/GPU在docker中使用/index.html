@@ -179,7 +179,7 @@
             <p>首先自己的机器上需要有GPU，在附加驱动中可以查看</p>
 <h2 id="安装显卡驱动"><a href="#安装显卡驱动" class="headerlink" title="安装显卡驱动"></a>安装显卡驱动</h2><h3 id="附加驱动安装NAVIDIA驱动"><a href="#附加驱动安装NAVIDIA驱动" class="headerlink" title="附加驱动安装NAVIDIA驱动"></a>附加驱动安装NAVIDIA驱动</h3><p>点开Ubuntu中自带的Software &amp; update （软件和更新），选择下面的additional Drivers（附加驱动），即可查看自己的显卡型号</p>
 <p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 11-34-52屏幕截图.png" alt=""></p>
-<p>这里可以看见，我的电脑上有一块GeForce MX250的显卡。现在默认使用的是系统自带的，我可以选择上面其他几个NVIDIA驱动。我这里选择的是nvidia-driver-460，两个460都可以，具体对应自己的GPU是多少可以去<a target="_blank" rel="noopener" href="https://www.nvidia.com/Download/index.aspx#">NVIDIA官网</a>查看最合适的驱动。</p>
+<p>这里可以看见，我的电脑上有一块GeForce MX250的显卡。现在默认使用的是系统自带的，我可以选择上面其他几个NVIDIA驱动。我这里选择的是nvidia-driver-460，两个460都可以，具体对应自己的GPU是多少可以去<a class="link"   target="_blank" rel="noopener" href="https://www.nvidia.com/Download/index.aspx#" >NVIDIA官网<i class="fas fa-external-link-alt"></i></a>查看最合适的驱动。</p>
 <p>首先选好对应自己的显卡和操作系统，我这里是GeForce MX250和Linux，点击确定会有推荐的驱动</p>
 <p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 14-26-11屏幕截图.png" alt=""></p>
 <p>相应上面推荐的是460.84</p>
@@ -192,7 +192,7 @@
 <h3 id="安装toolkit"><a href="#安装toolkit" class="headerlink" title="安装toolkit"></a>安装toolkit</h3><p>关于配置docker19使用gpu，其实只用装官方提供的toolkit即可，把github上的搬下来：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Add the package repositories</span><br><span class="line">$ distribution&#x3D;$(. &#x2F;etc&#x2F;os-release;echo $ID$VERSION_ID)</span><br><span class="line">$ curl -s -L https:&#x2F;&#x2F;nvidia.github.io&#x2F;nvidia-docker&#x2F;gpgkey | sudo apt-key add -</span><br><span class="line">$ curl -s -L https:&#x2F;&#x2F;nvidia.github.io&#x2F;nvidia-docker&#x2F;$distribution&#x2F;nvidia-docker.list | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;nvidia-docker.list</span><br><span class="line"></span><br><span class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install -y nvidia-container-toolkit</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 <p>重启！！！！！！！！</p>
-<h3 id="测试安装是否成功"><a href="#测试安装是否成功" class="headerlink" title="测试安装是否成功 "></a>测试安装是否成功 </h3><p> 经过以上大部分linux系统的docker toolkit应该都能安装成功，如不能安装成功，可参考github<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker">官网</a>，查看是否安装成功：<br>(1) 查看–gpus 参数是否安装成功：</p>
+<h3 id="测试安装是否成功"><a href="#测试安装是否成功" class="headerlink" title="测试安装是否成功 "></a>测试安装是否成功 </h3><p> 经过以上大部分linux系统的docker toolkit应该都能安装成功，如不能安装成功，可参考github<a class="link"   target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker" >官网<i class="fas fa-external-link-alt"></i></a>，查看是否安装成功：<br>(1) 查看–gpus 参数是否安装成功：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --help | grep -i gpus</span><br><span class="line">      --gpus gpu-request               GPU devices to add to the container (&#39;all&#39; to pass all GPUs)</span><br></pre></td></tr></table></figure>
 <p>(2) 运行nvidia官网提供的镜像，并输入nvidia-smi命令，查看nvidia界面是否能够启动：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all nvidia&#x2F;cuda:9.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
@@ -208,9 +208,9 @@
 <p><img src="/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 15-15-24屏幕截图.png" alt=""></p>
 <p>参考：</p>
 <ol>
-<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43975924/article/details/104046790">https://blog.csdn.net/weixin_43975924/article/details/104046790</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43975924/article/details/104046790" >https://blog.csdn.net/weixin_43975924/article/details/104046790<i class="fas fa-external-link-alt"></i></a></p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Thanlon/article/details/106125738">https://blog.csdn.net/Thanlon/article/details/106125738</a></p>
+<li><p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/Thanlon/article/details/106125738" >https://blog.csdn.net/Thanlon/article/details/106125738<i class="fas fa-external-link-alt"></i></a></p>
 </li>
 </ol>
 
@@ -462,5 +462,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

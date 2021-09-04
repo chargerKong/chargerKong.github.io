@@ -165,7 +165,7 @@
         
 
         <div class="article-content markdown-body">
-            <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sru_alo/article/details/102893536?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&amp;spm=1001.2101.3001.4242">此处博客</a></p>
+            <p>参考：<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/sru_alo/article/details/102893536?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&amp;spm=1001.2101.3001.4242" >此处博客<i class="fas fa-external-link-alt"></i></a></p>
 <p>ROS Time表示的是ROS网络中的时间。</p>
 <p>ROS网络中的时间是指，如果当时在非仿真环境里运行，那它就是当前的时间。但是假设去回放当时的情况，那就需要把当时的时间录下来。以控制为例，很多的数据处理需要知道当时某一个时刻发生了什么。Wall Time可以理解为墙上时间，墙上挂着的时间没有人改变的了，永远在往前走；<strong>ROS Time可以被人为修改，你可以暂停它，可以加速，可以减速，但是Wall Time不可以。</strong></p>
 <p>在开启一个Node之前，当把use_sim_time设置为true时，这个节点会从clock Topic获得时间。所以操作这个clock的发布者，可以实现一个让Node中得到ROS Time暂停、加速、减速的效果。同时下面这些方面都是跟Node透明的，所以非常适合离线的调试方式。当把ROSbag记下来以后重新play出来时，加两个横杠，—clock，它就会发布出这个消息。</p>
@@ -418,5 +418,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

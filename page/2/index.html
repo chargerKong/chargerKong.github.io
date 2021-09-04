@@ -404,14 +404,16 @@ Loop Closing步骤
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2021/07/19/0720BAL/">
-                        BAL(bundle adjustment large)
+                    <a href="/2021/07/19/0719g2o/">
+                        G20
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        BAL数据集解释12345678910&lt;num_cameras&gt; &lt;num_points&gt; &lt;num_observations&gt;&lt;camera_index_1&gt; &lt;point_index_1&gt...
+                        后端中有两个主流的优化方法
+
+滤波器方法：早期SLAM主流方法，是存储量和状态量是平方增长关系，因为存储的是协方差矩阵，因此不适合大型场景。而 现在基于视觉的SLAM方案，路标点（特征点）数据很大，滤波方法根本吃不消，所以此时滤波的方法效率非常 低。...
                     
                 </div>
 
@@ -422,7 +424,7 @@ Loop Closing步骤
         
     </div>
 
-    <a href="/2021/07/19/0720BAL/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/07/19/0719g2o/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -557,5 +559,20 @@ Loop Closing步骤
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

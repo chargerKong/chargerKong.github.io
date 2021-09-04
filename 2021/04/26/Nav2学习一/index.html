@@ -203,7 +203,7 @@
 </li>
 </ul>
 <p><img src="https://navigation.ros.org/_images/architectural_diagram.png" alt=""></p>
-<p>我们提供了一套起始插件供大家使用。<code>NavFn</code>利用<code>A*</code>算法或者<code>Dijkstra&#39;s</code>算法来计算从一个地方到目标位置的最短路径。<code>DWB</code>会使用<code>DWA</code>算法来跟踪路径。一些恢复行为：waiting, spining, 清除costmaps。还有一些行为树插件来call这些服务和计算condition。最后，有一组RVIZ插件，用于与堆栈进行交互并控制生命周期，可以在导航插件上找到所有用户报告的<a target="_blank" rel="noopener" href="https://navigation.ros.org/plugins/index.html#plugins">插件列表</a>。</p>
+<p>我们提供了一套起始插件供大家使用。<code>NavFn</code>利用<code>A*</code>算法或者<code>Dijkstra&#39;s</code>算法来计算从一个地方到目标位置的最短路径。<code>DWB</code>会使用<code>DWA</code>算法来跟踪路径。一些恢复行为：waiting, spining, 清除costmaps。还有一些行为树插件来call这些服务和计算condition。最后，有一组RVIZ插件，用于与堆栈进行交互并控制生命周期，可以在导航插件上找到所有用户报告的<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugins/index.html#plugins" >插件列表<i class="fas fa-external-link-alt"></i></a>。</p>
 <p>下面是关于在Turtlebot 3 (TB3)如何安装和使用<code>Nav2</code>的文档，也包括和其他的机器人如何使用<code>Nav</code>，以及如何调整参数获得更好的性能，以及为更好的结果定制内部组件。</p>
 <h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><ol>
 <li><p>设置环境变量</p>
@@ -220,7 +220,7 @@
 <p>找到相关文件的报错，删除关于camera_rgb_frame的内容</p>
 </li>
 <li><p><strong>缺少相关dae文件</strong></p>
-<p>去<a target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2/tree/main/nav2_system_tests/models/turtlebot3_burger/meshes">这里</a>下载<code>left_tire.dae</code>和<code>right_tire.dae</code>到<code>/opt/ros/foxy/share/turtlebot3_gazebo/models/turtlebot3_waffle/meshes</code>下面</p>
+<p>去<a class="link"   target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2/tree/main/nav2_system_tests/models/turtlebot3_burger/meshes" >这里<i class="fas fa-external-link-alt"></i></a>下载<code>left_tire.dae</code>和<code>right_tire.dae</code>到<code>/opt/ros/foxy/share/turtlebot3_gazebo/models/turtlebot3_waffle/meshes</code>下面</p>
 </li>
 </ol>
 <h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>打开了之后需要机器人是不知道自己在哪的，需要根据在gazebo中的位置，在Rviz中选择<code>2D Pose Estimate</code>，点击地图位置然后选择方向</p>
@@ -476,5 +476,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
