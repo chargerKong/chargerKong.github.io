@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            结束轨迹-Node类-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">结束轨迹-Node类-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-04 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>在node_main.cc中，当::ros::spin()结束了之后（在运行node的时候，按下Ctrl+C即结束spin开始运行spin之后的语句），开始结束所有处于活动状态的轨迹，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  ::ros::<span class="built_in">spin</span>();</span><br><span class="line">  <span class="comment">// 结束所有处于活动状态的轨迹</span></span><br><span class="line">  node.<span class="built_in">FinishAllTrajectories</span>();</span><br><span class="line">  ...</span><br><span class="line">&#125;  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>下面是FinishAllTrajectories的详细代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 结束所有处于活动状态的轨迹</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Node::FinishAllTrajectories</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; entry : map_builder_bridge_.<span class="built_in">GetTrajectoryStates</span>()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (entry.second == TrajectoryState::ACTIVE) &#123;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id = entry.first;</span><br><span class="line">      <span class="built_in">CHECK_EQ</span>(<span class="built_in">FinishTrajectoryUnderLock</span>(trajectory_id).code,</span><br><span class="line">               cartographer_ros_msgs::StatusCode::OK);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此函数，调用map_builder_bridge来获取轨迹的状态，key为轨迹ID，value为轨迹状态，轨迹状态一共有四种</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">TrajectoryState</span> &#123;</span> ACTIVE, FINISHED, FROZEN, DELETED &#125;;</span><br></pre></td></tr></table></figure>
+<p>如果有轨迹的状态为ACTIVE，那么我们就通过FinishTrajectoryUnderLock, 将其进行结束操作</p>
+<h1 id="FinishTrajectoryUnderLock"><a href="#FinishTrajectoryUnderLock" class="headerlink" title="FinishTrajectoryUnderLock"></a>FinishTrajectoryUnderLock</h1><p>此函数用于结束一条指定id的轨迹，返回一个状态，用于判定是否结束成功</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 结束指定id的轨迹</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_id 要结束的轨迹的id</span></span><br><span class="line"><span class="comment"> * @return cartographer_ros_msgs::StatusResponse</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">cartographer_ros_msgs::StatusResponse <span class="title">Node::FinishTrajectoryUnderLock</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id)</span> </span>&#123;</span><br><span class="line">  cartographer_ros_msgs::StatusResponse status_response;</span><br><span class="line">  <span class="comment">// Step: 1 检查 trajectory_id 是否在 正在结束的轨迹集合中</span></span><br><span class="line">  <span class="keyword">if</span> (trajectories_scheduled_for_finish_.<span class="built_in">count</span>(trajectory_id)) &#123;</span><br><span class="line">    status_response.message = absl::<span class="built_in">StrCat</span>(<span class="string">&quot;Trajectory &quot;</span>, trajectory_id,</span><br><span class="line">                                           <span class="string">&quot; already pending to finish.&quot;</span>);</span><br><span class="line">    status_response.code = cartographer_ros_msgs::StatusCode::OK;</span><br><span class="line">    <span class="built_in">LOG</span>(INFO) &lt;&lt; status_response.message;</span><br><span class="line">    <span class="keyword">return</span> status_response;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// First, check if we can actually finish the trajectory.</span></span><br><span class="line">  <span class="comment">// Step: 2 检查这个轨迹是否存在, 如果存在则检查这个轨迹是否是ACTIVE状态</span></span><br><span class="line">  status_response = <span class="built_in">TrajectoryStateToStatus</span>(</span><br><span class="line">      trajectory_id, &#123;TrajectoryState::ACTIVE&#125; <span class="comment">/* valid states */</span>);</span><br><span class="line">  <span class="comment">// 如果不是OK状态就返回ERROR</span></span><br><span class="line">  <span class="keyword">if</span> (status_response.code != cartographer_ros_msgs::StatusCode::OK) &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(ERROR) &lt;&lt; <span class="string">&quot;Can&#x27;t finish trajectory: &quot;</span> &lt;&lt; status_response.message;</span><br><span class="line">    <span class="keyword">return</span> status_response;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Shutdown the subscribers of this trajectory.</span></span><br><span class="line">  <span class="comment">// A valid case with no subscribers is e.g. if we just visualize states.</span></span><br><span class="line">  <span class="comment">// Step: 3 如果这个轨迹存在subscribers, 则先关闭subscriber</span></span><br><span class="line">  <span class="keyword">if</span> (subscribers_.<span class="built_in">count</span>(trajectory_id)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; entry : subscribers_[trajectory_id]) &#123;</span><br><span class="line">      entry.subscriber.<span class="built_in">shutdown</span>();</span><br><span class="line">      subscribed_topics_.<span class="built_in">erase</span>(entry.topic);</span><br><span class="line">      <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Shutdown the subscriber of [&quot;</span> &lt;&lt; entry.topic &lt;&lt; <span class="string">&quot;]&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 在subscribers_中将这条轨迹的信息删除</span></span><br><span class="line">    <span class="built_in">CHECK_EQ</span>(subscribers_.<span class="built_in">erase</span>(trajectory_id), <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Step: 4 调用cartographer中的map_builder的FinishTrajectory()进行轨迹的结束</span></span><br><span class="line">  map_builder_bridge_.<span class="built_in">FinishTrajectory</span>(trajectory_id);</span><br><span class="line">  <span class="comment">// 将这个轨迹id放进正在结束的轨迹集合中</span></span><br><span class="line">  trajectories_scheduled_for_finish_.<span class="built_in">emplace</span>(trajectory_id);</span><br><span class="line">  status_response.message =</span><br><span class="line">      absl::<span class="built_in">StrCat</span>(<span class="string">&quot;Finished trajectory &quot;</span>, trajectory_id, <span class="string">&quot;.&quot;</span>);</span><br><span class="line">  status_response.code = cartographer_ros_msgs::StatusCode::OK;</span><br><span class="line">  <span class="keyword">return</span> status_response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="检查一：是否在trajectoriesscheduled-for-finish里面"><a href="#检查一：是否在trajectoriesscheduled-for-finish里面" class="headerlink" title="检查一：是否在trajectoriesscheduled_for_finish里面"></a>检查一：是否在trajectories<em>scheduled_for_finish</em>里面</h2><p>如果判定轨迹已经在将要结束的轨迹中，trajectories<em>scheduled_for_finish</em>，则直接给status_response一个OK状态</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 1 检查 trajectory_id 是否在 正在结束的轨迹集合中</span></span><br><span class="line"><span class="keyword">if</span> (trajectories_scheduled_for_finish_.<span class="built_in">count</span>(trajectory_id)) &#123;</span><br><span class="line">  status_response.message = absl::<span class="built_in">StrCat</span>(<span class="string">&quot;Trajectory &quot;</span>, trajectory_id,</span><br><span class="line">                                         <span class="string">&quot; already pending to finish.&quot;</span>);</span><br><span class="line">  status_response.code = cartographer_ros_msgs::StatusCode::OK;</span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; status_response.message;</span><br><span class="line">  <span class="keyword">return</span> status_response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="检查二：检查轨迹是否存在和状态"><a href="#检查二：检查轨迹是否存在和状态" class="headerlink" title="检查二：检查轨迹是否存在和状态"></a>检查二：检查轨迹是否存在和状态</h2><p>检查这个轨迹是否存在, 如果存在则检查这个轨迹是否是ACTIVE状态</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// First, check if we can actually finish the trajectory.</span></span><br><span class="line"><span class="comment">// Step: 2 检查这个轨迹是否存在, 如果存在则检查这个轨迹是否是ACTIVE状态</span></span><br><span class="line">status_response = <span class="built_in">TrajectoryStateToStatus</span>(</span><br><span class="line">    trajectory_id, &#123;TrajectoryState::ACTIVE&#125; <span class="comment">/* valid states */</span>);</span><br><span class="line"><span class="comment">// 如果不是OK状态就返回ERROR</span></span><br><span class="line"><span class="keyword">if</span> (status_response.code != cartographer_ros_msgs::StatusCode::OK) &#123;</span><br><span class="line">  <span class="built_in">LOG</span>(ERROR) &lt;&lt; <span class="string">&quot;Can&#x27;t finish trajectory: &quot;</span> &lt;&lt; status_response.message;</span><br><span class="line">  <span class="keyword">return</span> status_response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="检查三：若存在，检查subscriber是否关闭"><a href="#检查三：若存在，检查subscriber是否关闭" class="headerlink" title="检查三：若存在，检查subscriber是否关闭"></a>检查三：若存在，检查subscriber是否关闭</h2><p>如果通过了步骤二，说明轨迹存在并且状态是ACTIVE。那么开始检查对应的轨迹ID是否有订阅者，使用count可以查看map里面的对应key的value个数，使用shutdown来关闭对应的订阅者。并且移除记录subscribed<em>topics</em> 里面记录的已经有的topic名字。最后把subscribers_ 里面的轨迹ID给清除掉</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 3 如果这个轨迹存在subscribers, 则先关闭subscriber</span></span><br><span class="line"><span class="keyword">if</span> (subscribers_.<span class="built_in">count</span>(trajectory_id)) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; entry : subscribers_[trajectory_id]) &#123;</span><br><span class="line">    entry.subscriber.<span class="built_in">shutdown</span>();</span><br><span class="line">    subscribed_topics_.<span class="built_in">erase</span>(entry.topic);</span><br><span class="line">    <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Shutdown the subscriber of [&quot;</span> &lt;&lt; entry.topic &lt;&lt; <span class="string">&quot;]&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 在subscribers_中将这条轨迹的信息删除</span></span><br><span class="line">  <span class="built_in">CHECK_EQ</span>(subscribers_.<span class="built_in">erase</span>(trajectory_id), <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结束轨迹"><a href="#结束轨迹" class="headerlink" title="结束轨迹"></a>结束轨迹</h2><p>调用cartographer中的map<em>builder的FinishTrajectory()进行轨迹的结束，然后放入trajectories_scheduled_for_finish</em>，设置status_response的message和code即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map_builder_bridge_.<span class="built_in">FinishTrajectory</span>(trajectory_id);</span><br><span class="line"><span class="comment">// 将这个轨迹id放进正在结束的轨迹集合中</span></span><br><span class="line">trajectories_scheduled_for_finish_.<span class="built_in">emplace</span>(trajectory_id);</span><br><span class="line">status_response.message =</span><br><span class="line">absl::<span class="built_in">StrCat</span>(<span class="string">&quot;Finished trajectory &quot;</span>, trajectory_id, <span class="string">&quot;.&quot;</span>);</span><br><span class="line">status_response.code = cartographer_ros_msgs::StatusCode::OK;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/05/0905%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">数据处理-Node类-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/03/0903topic%E5%90%8D%E5%AD%97check/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FinishTrajectoryUnderLock"><span class="nav-number">1.</span> <span class="nav-text">FinishTrajectoryUnderLock</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E4%B8%80%EF%BC%9A%E6%98%AF%E5%90%A6%E5%9C%A8trajectoriesscheduled-for-finish%E9%87%8C%E9%9D%A2"><span class="nav-number">1.1.</span> <span class="nav-text">检查一：是否在trajectoriesscheduled_for_finish里面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E4%BA%8C%EF%BC%9A%E6%A3%80%E6%9F%A5%E8%BD%A8%E8%BF%B9%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%92%8C%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.</span> <span class="nav-text">检查二：检查轨迹是否存在和状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E4%B8%89%EF%BC%9A%E8%8B%A5%E5%AD%98%E5%9C%A8%EF%BC%8C%E6%A3%80%E6%9F%A5subscriber%E6%98%AF%E5%90%A6%E5%85%B3%E9%97%AD"><span class="nav-number">1.3.</span> <span class="nav-text">检查三：若存在，检查subscriber是否关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%BD%A8%E8%BF%B9"><span class="nav-number">1.4.</span> <span class="nav-text">结束轨迹</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

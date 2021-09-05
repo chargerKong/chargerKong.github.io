@@ -132,6 +132,103 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/07/27/0727ICP%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">
+                        ICP匹配原理实践
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        迭代最近点算法 Iterative Closest Point (ICP）可以是点云中经常用于匹配的配准算法，可以求解两组点之间的位姿关系。本文以2D激光雷达为例子，讲解如何使用ICP，并且加入ROS2的仿真中去。
+123456789101112da...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Jul 27 2021 15:59:22 GMT+0800">2021-07-27</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/07/27/0727ICP%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/">
+                        
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        回环检测与建图回环检测和词袋意义
+VO和后端都存在误差
+SLAM的建图和定位和耦合的，误差将会累计
+
+Loop Closing步骤
+检测回环的发生
+计算回环修选帧和当前帧的运动
+验证回环是否成立
+闭环
+
+如何检测回环的发生?比较空间上相近的帧：基于里...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jul 21 2021 23:34:24 GMT+0800">2021-07-21</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/07/19/0719g2o/">
+                        G20
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        后端中有两个主流的优化方法
+
+滤波器方法：早期SLAM主流方法，是存储量和状态量是平方增长关系，因为存储的是协方差矩阵，因此不适合大型场景。而 现在基于视觉的SLAM方案，路标点（特征点）数据很大，滤波方法根本吃不消，所以此时滤波的方法效率非常 低。...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 19 2021 15:59:22 GMT+0800">2021-07-19</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/07/19/0719g2o/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/07/19/0720BAL/">
                         BAL(bundle adjustment large)
                     </a>
@@ -349,94 +446,6 @@ PL-ICP在匹配的过程中，重点不是点和点之间的匹配，而是...
     </div>
 
     <a href="/2021/06/29/%E5%89%8D%E7%AB%AF%E9%85%8D%E5%87%86icp%E7%B3%BB%E5%88%97/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/06/25/%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86/">
-                        矩阵求导
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        行向量偏导若自变量是$1\times m$向量，行向量偏导算子
-
-D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_1},...,\frac...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jun 25 2021 10:23:20 GMT+0800">2021-06-25</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/06/25/%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/06/16/%E6%9D%8E%E4%BB%A3%E6%95%B0/">
-                        SLAM之李代数
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        李代数是什么？对应于每一个李群，都有对应的一个李代数。譬如，有一个旋转矩阵$R_0\in SO(3)，SO(3)$为所有旋转矩阵组成的群。都有一个李代数，一个三维向量$\phi$与之对应。李代数描述了李群在局部的性质，这是因为R(t)通过在$t=0$...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jun 16 2021 10:23:20 GMT+0800">2021-06-16</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/06/16/%E6%9D%8E%E4%BB%A3%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/06/09/slam%E5%89%8D%E7%AB%AF/">
-                        IMLS-ICP
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        查看Path数据1ros2 interface show nav_msgs&#x2F;msg&#x2F;Path
-返回
-1234567# An array of poses that represents a Path for a robot to ...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jun 09 2021 18:38:29 GMT+0800">2021-06-09</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/06/09/slam%E5%89%8D%E7%AB%AF/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

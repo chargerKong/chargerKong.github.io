@@ -132,6 +132,94 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/08/23/0824node_main.cc/">
+                        cartographer_ros之node_main.cc详解下
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        打开cartographer_ros下的node_main.cc
+main函数首先看一下main函数
+123456789101112131415161718192021222324252627282930313233343536int main(in...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 23 2021 15:59:22 GMT+0800">2021-08-23</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/08/23/0824node_main.cc/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/08/23/0822ros2_learning/">
+                        ros2_c++之pub_sub
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        写一个publisher1234567891011121314151617181920212223242526272829303132333435363738394041424344#include &lt;chrono&gt;#include &l...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 23 2021 09:59:22 GMT+0800">2021-08-23</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/08/23/0822ros2_learning/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/08/23/0823tf2/">
+                        tf2 static broadcaster
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        功能包总览tf2可以让用用户随时追溯多个坐标系，tf2会实时的把各个坐标系之间的关系保存在一个树结构中。我们可以随时获得任何时间任何坐标系的变换
+创建static  broadcaster首先，进入工程目录的src文件夹
+1ros2 pkg crea...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 23 2021 09:59:22 GMT+0800">2021-08-23</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/08/23/0823tf2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/08/20/0820node_main/">
                         cartographer_ros之node_main.cc详解上
                     </a>
@@ -328,103 +416,6 @@ gflag工具12345678910DEFINE_bool(collect_metrics, false,            &quot;Activ
     </div>
 
     <a href="/2021/08/12/0812cartographer%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/07/27/0727ICP%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">
-                        ICP匹配原理实践
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        迭代最近点算法 Iterative Closest Point (ICP）可以是点云中经常用于匹配的配准算法，可以求解两组点之间的位姿关系。本文以2D激光雷达为例子，讲解如何使用ICP，并且加入ROS2的仿真中去。
-123456789101112da...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Jul 27 2021 15:59:22 GMT+0800">2021-07-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/07/27/0727ICP%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86%E5%AE%9E%E8%B7%B5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/">
-                        
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        回环检测与建图回环检测和词袋意义
-VO和后端都存在误差
-SLAM的建图和定位和耦合的，误差将会累计
-
-Loop Closing步骤
-检测回环的发生
-计算回环修选帧和当前帧的运动
-验证回环是否成立
-闭环
-
-如何检测回环的发生?比较空间上相近的帧：基于里...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jul 21 2021 23:34:24 GMT+0800">2021-07-21</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/07/19/0719g2o/">
-                        G20
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        后端中有两个主流的优化方法
-
-滤波器方法：早期SLAM主流方法，是存储量和状态量是平方增长关系，因为存储的是协方差矩阵，因此不适合大型场景。而 现在基于视觉的SLAM方案，路标点（特征点）数据很大，滤波方法根本吃不消，所以此时滤波的方法效率非常 低。...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 19 2021 15:59:22 GMT+0800">2021-07-19</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/07/19/0719g2o/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

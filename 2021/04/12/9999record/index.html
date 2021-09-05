@@ -194,7 +194,13 @@
 <p>joint_state_publisher:</p>
 <p>监控各个关节的角度，实时位置，打包为自己的话题发布出去</p>
 <p>robot_state_publisher</p>
-<p>订阅joint_state_publisher的位置，封装，发布tf</p>
+<p>lambda 表达式<br>lambda表达式是匿名的</p>
+<p>￼<br><a href="">函数对象的参数 = &amp;</a>(-&gt;返回值类型){函数体}<br>[]是不可以少的，=表示这里的参数用值拷贝使用，&amp;表示这里的参数是通过引用的方式进行使用</p>
+<p>￼<br><a href="const typename MessageType::ConstPtr&amp; msg">node, handler, trajectory_id, topic</a> {<br>            (node-&gt;*handler)(trajectory_id, topic, msg);<br>          }<br>前面[]表示这里需要使用的参数，是以值拷贝的方式来使用，()表示此函数需要用的参数</p>
+<p>(node-&gt;*hander)表示函数指针的使用lambda 表达式<br>lambda表达式是匿名的</p>
+<p>￼<br><a href="">函数对象的参数 = &amp;</a>(-&gt;返回值类型){函数体}<br>[]是不可以少的，=表示这里的参数用值拷贝使用，&amp;表示这里的参数是通过引用的方式进行使用</p>
+<p>￼<br><a href="const typename MessageType::ConstPtr&amp; msg">node, handler, trajectory_id, topic</a> {<br>            (node-&gt;*handler)(trajectory_id, topic, msg);<br>          }<br>前面[]表示这里需要使用的参数，是以值拷贝的方式来使用，()表示此函数需要用的参数</p>
+<p>(node-&gt;*hander)表示函数指针的使用订阅joint_state_publisher的位置，封装，发布tf</p>
 <p>ICP方法是用于找到一个R和T来找到两个集合的位姿变换，怎么又可以用于运动畸变去除？</p>
 <h2 id="链接libnabo库-undefined-reference-to-Nabo-NearestNeighbourSearch…"><a href="#链接libnabo库-undefined-reference-to-Nabo-NearestNeighbourSearch…" class="headerlink" title="链接libnabo库  undefined reference to `Nabo::NearestNeighbourSearch…"></a>链接libnabo库  undefined reference to `Nabo::NearestNeighbourSearch…</h2><p>解决</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries(imlsMatcher_node</span><br><span class="line">   $&#123;catkin_LIBRARIES&#125;</span><br><span class="line">   $&#123;EXTERNAL_LIBS&#125;</span><br><span class="line">   &#x2F;opt&#x2F;ros&#x2F;noetic&#x2F;lib&#x2F;libcsm.so</span><br><span class="line">   $&#123;libnabo_LIBRARIES&#125; libnabo::nabo           -------------------这里没有添加</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
