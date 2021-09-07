@@ -132,6 +132,64 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/09/07/0907pbstream/">
+                        服务介绍-map_builder类-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        之前我们大致讲解了Node类的功能和使用，在Node类里面，有大量的map_builder_bridge的使用，今天开始记录一下，对map_builder_bridge的使用。
+两个坐标系：local map frame 与 global map f...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Sep 07 2021 15:59:22 GMT+0800">2021-09-07</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/07/0907pbstream/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">
+                        服务介绍-Node类-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在构造Node类的时候，cartographer也声明了一些服务。
+123456789101112131415// Step: 2 声明发布对应名字的ROS服务, 并将服务的发布器放入到vector容器中service_servers_.push_b...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 06 2021 15:59:22 GMT+0800">2021-09-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/">
                         定时发布数据-Node类-cartographer
                     </a>
@@ -139,7 +197,8 @@
 
                 <div class="home-article-content markdown-body">
                     
-                        
+                        定时器定义调用Node的构造函数的时候，顺便定义了发布者，可查看node.cc文件Node::Node。submaplist_publisher即为一个::ros::Publisher
+12345678910111213141516171819202...
                     
                 </div>
 
@@ -189,6 +248,66 @@ node_main.cc -&gt;Node::StartTrajectoryWithDefaultTopics -&gt; Node::Ad...
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/09/05/0818-vscode%E9%85%8D%E7%BD%AE/">
+                        vscode配置-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        VScode简单配置快捷键编译：Ctrl+shift+b
+编译配置: tasks.json
+123456789101112131415161718192021&#123;    &#x2F;&#x2F; See https:&#x2F;&#x2F;g...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 05 2021 15:59:22 GMT+0800">2021-09-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/05/0818-vscode%E9%85%8D%E7%BD%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/05/0817-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+                        配置文件-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在launch文件中，通过配置1roslaunch xxxpkg xxx.launch name:&#x3D;value
+这个name是通过launch文件中
+1&lt;arg name&#x3D;&quot;bag_filename&quot; d...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 05 2021 15:59:22 GMT+0800">2021-09-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/05/0817-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/09/04/0904%E7%BB%93%E6%9D%9F%E8%BD%A8%E8%BF%B9/">
                         结束轨迹-Node类-cartographer
                     </a>
@@ -218,7 +337,7 @@ node_main.cc -&gt;Node::StartTrajectoryWithDefaultTopics -&gt; Node::Ad...
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2021/09/03/0903topic%E5%90%8D%E5%AD%97check/">
+                    <a href="/2021/09/03/0903%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8Ctopic%E5%90%8D%E5%AD%97check/">
                         定时器和topic名字check-Node类-cartographer
                     </a>
                 </h3>
@@ -236,7 +355,7 @@ node_main.cc -&gt;Node::StartTrajectoryWithDefaultTopics -&gt; Node::Ad...
         
     </div>
 
-    <a href="/2021/09/03/0903topic%E5%90%8D%E5%AD%97check/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/09/03/0903%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8Ctopic%E5%90%8D%E5%AD%97check/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -294,131 +413,6 @@ C++ 的类有四类特殊成员函数，它们分别是：默认...
     </div>
 
     <a href="/2021/08/28/0828Node/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/">
-                        cartographer参数读取过程下
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在参数读取上中，我们说到了，lua的配置参数最后会通过std::tie传到两个变量中，分别是
-
-类为NodeOptions的变量 node_options
-类为TrajectoryOptions的变量trajectory_options
-
-下面我们具...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Aug 26 2021 15:59:22 GMT+0800">2021-08-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/24/0824%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">
-                        cartographer参数读取过程上
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        配置参数对于用户来说是十分重要的，本文简单介绍lua参数在代码中的参数运行流程
-打开node_main.cc，在这里关于参数配置的内容有
-12345678NodeOptions node_options;TrajectoryOptions traje...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Aug 24 2021 15:59:22 GMT+0800">2021-08-24</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/24/0824%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/24/0826PL-ICP/">
-                        PL-ICP
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        PL-ICP思想之前所介绍的ICP是两帧点云之间点和点之间的匹配，实际情况中，激光点是对实际环境中的曲面进行离散采样，因此，
-
-点和点之间的匹配是不合理的
-
-激光点不是最重要的，重要的是隐藏在激光点中的曲面
-
-最好的误差尺度为当前激光点到实际曲面的距...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Aug 24 2021 15:59:22 GMT+0800">2021-08-24</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/24/0826PL-ICP/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/23/0823tf2broadcaster/">
-                        tf2 broadcaster listener
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Python写一个broadcaster123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 23 2021 15:59:22 GMT+0800">2021-08-23</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/23/0823tf2broadcaster/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

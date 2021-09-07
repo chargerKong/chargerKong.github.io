@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            服务介绍-Node类-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">服务介绍-Node类-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-06 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>在构造Node类的时候，cartographer也声明了一些服务。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 2 声明发布对应名字的ROS服务, 并将服务的发布器放入到vector容器中</span></span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kSubmapQueryServiceName, &amp;Node::HandleSubmapQuery, <span class="keyword">this</span>));</span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kTrajectoryQueryServiceName, &amp;Node::HandleTrajectoryQuery, <span class="keyword">this</span>));</span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kStartTrajectoryServiceName, &amp;Node::HandleStartTrajectory, <span class="keyword">this</span>));</span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kFinishTrajectoryServiceName, &amp;Node::HandleFinishTrajectory, <span class="keyword">this</span>));</span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kWriteStateServiceName, &amp;Node::HandleWriteState, <span class="keyword">this</span>));</span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kGetTrajectoryStatesServiceName, &amp;Node::HandleGetTrajectoryStates, <span class="keyword">this</span>));</span><br><span class="line">service_servers_.<span class="built_in">push_back</span>(node_handle_.<span class="built_in">advertiseService</span>(</span><br><span class="line">    kReadMetricsServiceName, &amp;Node::HandleReadMetrics, <span class="keyword">this</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="获取submap"><a href="#获取submap" class="headerlink" title="获取submap"></a>获取submap</h2><p>服务内容包括，处理获取对应id轨迹的 索引为submap_index 的submap</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 获取对应id轨迹的 索引为submap_index 的submap</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param[in] request 获取submap的请求</span></span><br><span class="line"><span class="comment"> * @param[out] response 服务的回应</span></span><br><span class="line"><span class="comment"> * @return true: ROS的service只能返回true, 返回false程序会中断</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Node::HandleSubmapQuery</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::SubmapQuery::Request&amp; request,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::SubmapQuery::Response&amp; response)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  map_builder_bridge_.<span class="built_in">HandleSubmapQuery</span>(request, response);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息的数据结构SubmapQuery，可以从cartographer_ros/srv里面查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int32 trajectory_id</span><br><span class="line">int32 submap_index</span><br><span class="line">---</span><br><span class="line">cartographer_ros_msgs&#x2F;StatusResponse status</span><br><span class="line">int32 submap_version</span><br><span class="line">cartographer_ros_msgs&#x2F;SubmapTexture[] textures</span><br></pre></td></tr></table></figure>
+<h2 id="获取对应ID的轨迹"><a href="#获取对应ID的轨迹" class="headerlink" title="获取对应ID的轨迹"></a>获取对应ID的轨迹</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 获取对应id的轨迹</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param[in] request</span></span><br><span class="line"><span class="comment"> * @param[out] response</span></span><br><span class="line"><span class="comment"> * @return true: ROS的service只能返回true, 返回false程序会中断</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Node::HandleTrajectoryQuery</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::TrajectoryQuery::Request&amp; request,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::TrajectoryQuery::Response&amp; response)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 检查对应id的轨迹是否存在, 如果存在判断一下该id轨迹的状态</span></span><br><span class="line">  response.status = <span class="built_in">TrajectoryStateToStatus</span>(</span><br><span class="line">      request.trajectory_id,</span><br><span class="line">      &#123;TrajectoryState::ACTIVE, TrajectoryState::FINISHED,</span><br><span class="line">       TrajectoryState::FROZEN&#125; <span class="comment">/* valid states */</span>);</span><br><span class="line">  <span class="keyword">if</span> (response.status.code != cartographer_ros_msgs::StatusCode::OK) &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(ERROR) &lt;&lt; <span class="string">&quot;Can&#x27;t query trajectory from pose graph: &quot;</span></span><br><span class="line">               &lt;&lt; response.status.message;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 获取轨迹</span></span><br><span class="line">  map_builder_bridge_.<span class="built_in">HandleTrajectoryQuery</span>(request, response);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="开启一条新的轨迹"><a href="#开启一条新的轨迹" class="headerlink" title="开启一条新的轨迹"></a>开启一条新的轨迹</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 通过服务来开始一条新的轨迹</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param[in] request</span></span><br><span class="line"><span class="comment"> * 配置文件的目录与名字, 是否使用初始位姿, 初始位姿以及其是相对于哪条轨迹的id, </span></span><br><span class="line"><span class="comment"> * @param[out] response 返回轨迹的状态与id</span></span><br><span class="line"><span class="comment"> * @return true: ROS的service只能返回true, 返回false程序会中断</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Node::HandleStartTrajectory</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::StartTrajectory::Request&amp; request,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::StartTrajectory::Response&amp; response)</span> </span>&#123;</span><br><span class="line">  TrajectoryOptions trajectory_options;</span><br><span class="line">  <span class="comment">// 获取配置文件内容</span></span><br><span class="line">  std::<span class="built_in">tie</span>(std::ignore, trajectory_options) = <span class="built_in">LoadOptions</span>(</span><br><span class="line">      request.configuration_directory, request.configuration_basename);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果给定了一个初始位姿</span></span><br><span class="line">  <span class="keyword">if</span> (request.use_initial_pose) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> pose = <span class="built_in">ToRigid3d</span>(request.initial_pose);</span><br><span class="line">    <span class="keyword">if</span> (!pose.<span class="built_in">IsValid</span>()) &#123;</span><br><span class="line">      response.status.message =</span><br><span class="line">          <span class="string">&quot;Invalid pose argument. Orientation quaternion must be normalized.&quot;</span>;</span><br><span class="line">      <span class="built_in">LOG</span>(ERROR) &lt;&lt; response.status.message;</span><br><span class="line">      response.status.code =</span><br><span class="line">          cartographer_ros_msgs::StatusCode::INVALID_ARGUMENT;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check if the requested trajectory for the relative initial pose exists.</span></span><br><span class="line">    <span class="comment">// 检查 initial_pose 对应的轨迹id是否存在</span></span><br><span class="line">    response.status = <span class="built_in">TrajectoryStateToStatus</span>(</span><br><span class="line">        request.relative_to_trajectory_id,</span><br><span class="line">        &#123;TrajectoryState::ACTIVE, TrajectoryState::FROZEN,</span><br><span class="line">         TrajectoryState::FINISHED&#125; <span class="comment">/* valid states */</span>);</span><br><span class="line">    <span class="keyword">if</span> (response.status.code != cartographer_ros_msgs::StatusCode::OK) &#123;</span><br><span class="line">      <span class="built_in">LOG</span>(ERROR) &lt;&lt; <span class="string">&quot;Can&#x27;t start a trajectory with initial pose: &quot;</span></span><br><span class="line">                 &lt;&lt; response.status.message;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ::cartographer::mapping::proto::InitialTrajectoryPose</span><br><span class="line">        initial_trajectory_pose;</span><br><span class="line">    initial_trajectory_pose.<span class="built_in">set_to_trajectory_id</span>(</span><br><span class="line">        request.relative_to_trajectory_id);</span><br><span class="line">    <span class="comment">// 将pose转成proto格式,放进initial_trajectory_pose</span></span><br><span class="line">    *initial_trajectory_pose.<span class="built_in">mutable_relative_pose</span>() =</span><br><span class="line">        cartographer::transform::<span class="built_in">ToProto</span>(pose);</span><br><span class="line">    initial_trajectory_pose.<span class="built_in">set_timestamp</span>(cartographer::common::<span class="built_in">ToUniversal</span>(</span><br><span class="line">        ::cartographer_ros::<span class="built_in">FromRos</span>(ros::<span class="built_in">Time</span>(<span class="number">0</span>))));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将初始位姿信息加入到trajectory_options中</span></span><br><span class="line">    *trajectory_options.trajectory_builder_options</span><br><span class="line">         .<span class="built_in">mutable_initial_trajectory_pose</span>() = initial_trajectory_pose;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 检查TrajectoryOptions是否存在2d或者3d轨迹的配置信息</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">ValidateTrajectoryOptions</span>(trajectory_options)) &#123;</span><br><span class="line">    response.status.message = <span class="string">&quot;Invalid trajectory options.&quot;</span>;</span><br><span class="line">    <span class="built_in">LOG</span>(ERROR) &lt;&lt; response.status.message;</span><br><span class="line">    response.status.code = cartographer_ros_msgs::StatusCode::INVALID_ARGUMENT;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 检查topic名字是否被其他轨迹使用</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">ValidateTopicNames</span>(trajectory_options)) &#123;</span><br><span class="line">    response.status.message = <span class="string">&quot;Topics are already used by another trajectory.&quot;</span>;</span><br><span class="line">    <span class="built_in">LOG</span>(ERROR) &lt;&lt; response.status.message;</span><br><span class="line">    response.status.code = cartographer_ros_msgs::StatusCode::INVALID_ARGUMENT;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 检查通过, 添加一个新的轨迹</span></span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    response.status.message = <span class="string">&quot;Success.&quot;</span>;</span><br><span class="line">    response.trajectory_id = <span class="built_in">AddTrajectory</span>(trajectory_options);</span><br><span class="line">    response.status.code = cartographer_ros_msgs::StatusCode::OK;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用默认topic名字开始一条轨迹,也就是开始slam</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Node::StartTrajectoryWithDefaultTopics</span><span class="params">(<span class="keyword">const</span> TrajectoryOptions&amp; options)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="comment">// 检查TrajectoryOptions是否存在2d或者3d轨迹的配置信息</span></span><br><span class="line">  <span class="built_in">CHECK</span>(<span class="built_in">ValidateTrajectoryOptions</span>(options));</span><br><span class="line">  <span class="comment">// 添加一条轨迹</span></span><br><span class="line">  <span class="built_in">AddTrajectory</span>(options);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结束一条轨迹"><a href="#结束一条轨迹" class="headerlink" title="结束一条轨迹"></a>结束一条轨迹</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 结束一条轨迹</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param[in] request 轨迹的id</span></span><br><span class="line"><span class="comment"> * @param[out]] response 返回StatusResponse格式的处理状态</span></span><br><span class="line"><span class="comment"> * @return true</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Node::HandleFinishTrajectory</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::FinishTrajectory::Request&amp; request,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::FinishTrajectory::Response&amp; response)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  response.status = <span class="built_in">FinishTrajectoryUnderLock</span>(request.trajectory_id);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获得所有轨迹的状态"><a href="#获得所有轨迹的状态" class="headerlink" title="获得所有轨迹的状态"></a>获得所有轨迹的状态</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 获取所有轨迹的状态</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param[in] request 无</span></span><br><span class="line"><span class="comment"> * @param[out] response 返回所有轨迹的状态</span></span><br><span class="line"><span class="comment"> * @return true</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Node::HandleGetTrajectoryStates</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::GetTrajectoryStates::Request&amp; request,</span></span></span><br><span class="line"><span class="function"><span class="params">    ::cartographer_ros_msgs::GetTrajectoryStates::Response&amp; response)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// enum class TrajectoryState &#123; ACTIVE, FINISHED, FROZEN, DELETED &#125;;</span></span><br><span class="line">  <span class="keyword">using</span> TrajectoryState =</span><br><span class="line">      ::cartographer::mapping::PoseGraphInterface::TrajectoryState;</span><br><span class="line"></span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  response.status.code = ::cartographer_ros_msgs::StatusCode::OK;</span><br><span class="line">  response.trajectory_states.header.stamp = ros::Time::<span class="built_in">now</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; entry : map_builder_bridge_.<span class="built_in">GetTrajectoryStates</span>()) &#123;</span><br><span class="line">    <span class="comment">// 轨迹的id</span></span><br><span class="line">    response.trajectory_states.trajectory_id.<span class="built_in">push_back</span>(entry.first);</span><br><span class="line">    <span class="comment">// 每个轨迹对应一个TrajectoryStates</span></span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span> (entry.second) &#123;</span><br><span class="line">      <span class="keyword">case</span> TrajectoryState::ACTIVE:</span><br><span class="line">        response.trajectory_states.trajectory_state.<span class="built_in">push_back</span>(</span><br><span class="line">            ::cartographer_ros_msgs::TrajectoryStates::ACTIVE);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> TrajectoryState::FINISHED:</span><br><span class="line">        response.trajectory_states.trajectory_state.<span class="built_in">push_back</span>(</span><br><span class="line">            ::cartographer_ros_msgs::TrajectoryStates::FINISHED);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> TrajectoryState::FROZEN:</span><br><span class="line">        response.trajectory_states.trajectory_state.<span class="built_in">push_back</span>(</span><br><span class="line">            ::cartographer_ros_msgs::TrajectoryStates::FROZEN);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> TrajectoryState::DELETED:</span><br><span class="line">        response.trajectory_states.trajectory_state.<span class="built_in">push_back</span>(</span><br><span class="line">            ::cartographer_ros_msgs::TrajectoryStates::DELETED);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/07/0907pbstream/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">服务介绍-map_builder类-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">定时发布数据-Node类-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96submap"><span class="nav-number">1.</span> <span class="nav-text">获取submap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%AF%B9%E5%BA%94ID%E7%9A%84%E8%BD%A8%E8%BF%B9"><span class="nav-number">2.</span> <span class="nav-text">获取对应ID的轨迹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E4%B8%80%E6%9D%A1%E6%96%B0%E7%9A%84%E8%BD%A8%E8%BF%B9"><span class="nav-number">3.</span> <span class="nav-text">开启一条新的轨迹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E4%B8%80%E6%9D%A1%E8%BD%A8%E8%BF%B9"><span class="nav-number">4.</span> <span class="nav-text">结束一条轨迹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%BE%97%E6%89%80%E6%9C%89%E8%BD%A8%E8%BF%B9%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">5.</span> <span class="nav-text">获得所有轨迹的状态</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            配置文件-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">配置文件-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-05 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="在launch文件中，通过配置"><a href="#在launch文件中，通过配置" class="headerlink" title="在launch文件中，通过配置"></a>在launch文件中，通过配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch xxxpkg xxx.launch name:&#x3D;value</span><br></pre></td></tr></table></figure>
+<p>这个name是通过launch文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;arg name&#x3D;&quot;bag_filename&quot; default&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>来配置</p>
+<p>使用map_server就可以直接发布map，发布出来</p>
+<p>rosrun map_server</p>
+<p>args = “yaml”文件</p>
+<p>定位是来自于map-&gt;odom的变换</p>
+<h1 id="lua文件的配置"><a href="#lua文件的配置" class="headerlink" title="lua文件的配置"></a>lua文件的配置</h1><p>三个部分：</p>
+<ul>
+<li>options:必须要有的，所有的变量参数都要存在，要是有一个不存在就会报错</li>
+<li>需要引入map_build.lua</li>
+<li>需要引入trajectory_builder</li>
+</ul>
+<h2 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h2><p>tracking_frame：需要选一个频率最高的frame，</p>
+<p>published_frame: 设置到机器人最顶上的frame，可以保证map和他的连接</p>
+<p>privide_odom_frame: 是否需要提供odom坐标系</p>
+<p>一般有问题的就是</p>
+<p>use_laser_num:如果用了topic的名字是不是remap了</p>
+<ul>
+<li>若use_laser_num的值为0，则不用laser_scan</li>
+<li>=1。订阅scan topic</li>
+<li>=2。订阅scan_1,scan_2两种topic</li>
+</ul>
+<p>num_point_clouds 表示使用点云数据:</p>
+<ul>
+<li><p>=0。不使用点云来建图</p>
+</li>
+<li><p>=1。订阅points2</p>
+</li>
+<li>=2。订阅points2_1，points2_2</li>
+</ul>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><h3 id="无odom的bag"><a href="#无odom的bag" class="headerlink" title="无odom的bag"></a>无odom的bag</h3><p>假设现在有一个bag，他的TF tree为</p>
+<p><img src="Screenshot from 2021-08-17 16-23-28.png" alt=""></p>
+<p>他最顶上的frame为footprint，在设置cartographer的时候，lua文件可以设置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map_frame &#x3D; &quot;map&quot;,</span><br><span class="line">tracking_frame &#x3D; &quot;imu_link&quot;,</span><br><span class="line">published_frame &#x3D; &quot;footprint&quot;,</span><br><span class="line">odom_frame &#x3D; &quot;odom&quot;,</span><br><span class="line">provide_odom_frame &#x3D; false,</span><br><span class="line">publish_frame_projected_to_2d &#x3D; false,</span><br></pre></td></tr></table></figure>
+<p>这里设置了published_frame为footprint，表示cartographer发布的指向的最后一个frame为footprint，这样可以让cartographer到机器人的tf可以连接到一起</p>
+<p>现在其他参数不动，设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">provide_odom_frame &#x3D; true,</span><br></pre></td></tr></table></figure>
+<p><img src="Screenshot from 2021-08-17 16-38-26.png" alt=""></p>
+<p>TF_tree增加了一个map-&gt;odom的坐标变换</p>
+<h3 id="有odom的bag"><a href="#有odom的bag" class="headerlink" title="有odom的bag"></a>有odom的bag</h3><p>现在有一个bag的tf树为</p>
+<p><img src="Screenshot from 2021-08-17 16-41-31.png" alt=""></p>
+<p>相比与之前的bag多了一个odom，此时需要调整lua文件的published_frame</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">map_frame &#x3D; &quot;map&quot;,                        -- 地图坐标系的名字</span><br><span class="line">tracking_frame &#x3D; &quot;imu_link&quot;,              -- 将所有传感器数据转换到这个坐标系下</span><br><span class="line">published_frame &#x3D; &quot;odom&quot;,          	    -- tf: map -&gt; odom</span><br><span class="line">odom_frame &#x3D; &quot;odom&quot;,                      -- 里程计的坐标系名字</span><br><span class="line">provide_odom_frame &#x3D; false,  </span><br></pre></td></tr></table></figure>
+<p>启动cartographer，可以看见，map直接指向了原有的odom坐标系</p>
+<p><img src="Screenshot from 2021-08-17 16-44-21.png" alt=""></p>
+<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>如果published_frame定义错误，tf树连接不起来，通常情况下就会有类似如下错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;odom&quot; passed to lookupTransform argument source_frame does not exist.</span><br></pre></td></tr></table></figure>
+<h2 id="trajectory-build-参数"><a href="#trajectory-build-参数" class="headerlink" title="trajectory_build 参数"></a>trajectory_build 参数</h2><p>文件：trajectory_builder_2d.lua</p>
+<p>min_z</p>
+<p>max_z： 保留了【min_z,max_z】中的所有点云</p>
+<p>missing_data_ray_length: 对于超出了最大距离的点，就改为这个变量指定的值。就是用于更新空白的区域，因为距离远，一般近的地方也都可以用，设1就行</p>
+<p>位姿预测器</p>
+<p>扫描匹配器</p>
+<p>motion_filter: 为了 防止雷达数据向子图插入太多的数据，若两帧的数据太近，就不插入了</p>
+<p>支持两种地图：</p>
+<ul>
+<li>tsdf</li>
+<li>占用栅格地图</li>
+</ul>
+<p>文件：trajectory_builder_3d.lua</p>
+<p>两种体素滤波，根据远近，建立高低分辨率的地图。高分辨率匹配高分辨率的地图，低分辨率匹配低分辨率的地图</p>
+<h2 id="pose-graph-lua"><a href="#pose-graph-lua" class="headerlink" title="pose_graph.lua"></a>pose_graph.lua</h2><p>这个文件需要调整的参数其实比较少，就前面五个和分支定界算法的角度，和回环的频率</p>
+<p>  optimize_every_n_nodes = 90,— 每隔多少个节点执行一次后端优化</p>
+<p>如果设置称0，就是只跑前端，可以看看只跑前端是不是好的。</p>
+<p>sampling_ratio = 0.3,  设置的越大，计算量越大</p>
+<p>计算约束分为两个步骤</p>
+<ul>
+<li>分支定界：粗匹配器</li>
+<li>ceres的精匹配器</li>
+</ul>
+<p>当SLAM跑完了之后，就不需要实时性，因此最后还会再来一个迭代</p>
+<p>  global_sampling_ratio = 0.003,</p>
+<p>  log_residual_histograms = true,</p>
+<p>  global_constraint_search_after_n_seconds = 10.,</p>
+<p>这两个参数一起决定了我是否要进行回环检测</p>
+<h2 id="调参的方法"><a href="#调参的方法" class="headerlink" title="调参的方法"></a>调参的方法</h2><h3 id="Low-Latency，如果需要提升实时性"><a href="#Low-Latency，如果需要提升实时性" class="headerlink" title="Low Latency，如果需要提升实时性"></a><a class="link"   target="_blank" rel="noopener" href="https://google-cartographer-ros.readthedocs.io/en/latest/tuning.html#low-latency" >Low Latency<i class="fas fa-external-link-alt"></i></a>，如果需要提升实时性</h3><p>减小optimize_every_n_nodes</p>
+<p>减少子图的大小</p>
+<p>如果前端需要提升实时性</p>
+<ul>
+<li>increase <code>voxel_filter_size</code></li>
+<li>increase <code>submaps.resolution</code></li>
+<li>for the adaptive voxel filter(s), decrease <code>.min_num_points</code>, <code>.max_range</code>, increase <code>.max_length</code></li>
+<li>decrease <code>max_range</code> (especially if data is noisy)</li>
+<li>decrease <code>submaps.num_range_data</code></li>
+</ul>
+<h1 id="Exploiting-the-map-generated-by-Cartographer-ROS"><a href="#Exploiting-the-map-generated-by-Cartographer-ROS" class="headerlink" title="Exploiting the map generated by Cartographer ROS"></a>Exploiting the map generated by Cartographer ROS</h1><p>主要写的是asset这个工具进行描述</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/05/0818-vscode%E9%85%8D%E7%BD%AE/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">vscode配置-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/04/0904%E7%BB%93%E6%9D%9F%E8%BD%A8%E8%BF%B9/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">结束轨迹-Node类-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8launch%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E9%80%9A%E8%BF%87%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">在launch文件中，通过配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lua%E6%96%87%E4%BB%B6%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number"></span> <span class="nav-text">lua文件的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Options"><span class="nav-number">1.</span> <span class="nav-text">Options</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">举例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0odom%E7%9A%84bag"><span class="nav-number">2.1.</span> <span class="nav-text">无odom的bag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89odom%E7%9A%84bag"><span class="nav-number">2.2.</span> <span class="nav-text">有odom的bag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF"><span class="nav-number">2.3.</span> <span class="nav-text">错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trajectory-build-%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">trajectory_build 参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pose-graph-lua"><span class="nav-number">4.</span> <span class="nav-text">pose_graph.lua</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E5%8F%82%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">调参的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Low-Latency%EF%BC%8C%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%E6%8F%90%E5%8D%87%E5%AE%9E%E6%97%B6%E6%80%A7"><span class="nav-number">5.1.</span> <span class="nav-text">Low Latency，如果需要提升实时性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Exploiting-the-map-generated-by-Cartographer-ROS"><span class="nav-number"></span> <span class="nav-text">Exploiting the map generated by Cartographer ROS</span></a>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

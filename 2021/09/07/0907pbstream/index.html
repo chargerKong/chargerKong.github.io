@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            服务介绍-map_builder类-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">服务介绍-map_builder类-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-07 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>之前我们大致讲解了Node类的功能和使用，在Node类里面，有大量的map_builder_bridge的使用，今天开始记录一下，对map_builder_bridge的使用。</p>
+<h1 id="两个坐标系：local-map-frame-与-global-map-frame"><a href="#两个坐标系：local-map-frame-与-global-map-frame" class="headerlink" title="两个坐标系：local map frame 与 global map frame"></a>两个坐标系：local map frame 与 global map frame</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * note: local map frame 与 global map frame</span><br><span class="line"> * carographer中存在两个地图坐标系, 分别为global map frame与local map frame</span><br><span class="line"> * </span><br><span class="line"> * local map frame</span><br><span class="line"> * 是表达local slam结果的坐标系, 是固定的坐标系, 不会被回环检测与位姿图优化所更改, </span><br><span class="line"> * 其每一帧位姿间的坐标变换不会改变</span><br><span class="line"> * </span><br><span class="line"> * global map frame</span><br><span class="line"> * 是表达被回环检测与位姿图优化所更改后的坐标系, 当有新的优化结果可用时, 此坐标系与任何其他坐标系之间的转换都会跳变.</span><br><span class="line"> * 它的z轴指向上方, 即重力加速度矢量指向-z方向, 即由加速度计测得的重力分量沿+z方向.</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+<h1 id="结构体LocalTrajectoryData"><a href="#结构体LocalTrajectoryData" class="headerlink" title="结构体LocalTrajectoryData"></a>结构体LocalTrajectoryData</h1><p>这里包含着一些从局部SLAM接受到的轨迹数据，以及一些frame的变换</p>
+<h2 id="LocalSlamData"><a href="#LocalSlamData" class="headerlink" title="LocalSlamData"></a>LocalSlamData</h2><p>LocalSlamData中包含了local slam的一些数据, 包含当前时间, 当前估计的位姿, 以及累计的所有雷达数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LocalSlamData</span> &#123;</span></span><br><span class="line">  ::cartographer::common::Time time;</span><br><span class="line">  ::cartographer::transform::Rigid3d local_pose;</span><br><span class="line">  ::cartographer::sensor::RangeData range_data_in_local;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="local-slam-data"><a href="#local-slam-data" class="headerlink" title="local_slam_data"></a>local_slam_data</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::shared_ptr&lt;<span class="keyword">const</span> LocalSlamData&gt; local_slam_data;</span><br></pre></td></tr></table></figure>
+<p>指向前端局部SLAM数据的指针</p>
+<h2 id="local-to-map"><a href="#local-to-map" class="headerlink" title="local_to_map"></a>local_to_map</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cartographer::transform::Rigid3d local_to_map;</span><br></pre></td></tr></table></figure>
+<p>local frame 到 global frame间的坐标变换</p>
+<h2 id="published-to-tracking"><a href="#published-to-tracking" class="headerlink" title="published_to_tracking"></a>published_to_tracking</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::unique_ptr&lt;cartographer::transform::Rigid3d&gt; published_to_tracking;</span><br></pre></td></tr></table></figure>
+<p>published_frame 到 tracking_frame 间的坐标变换</p>
+<h1 id="加载pbstream文件内容"><a href="#加载pbstream文件内容" class="headerlink" title="加载pbstream文件内容"></a>加载pbstream文件内容</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载pbstream文件</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MapBuilderBridge::LoadState</span><span class="params">(<span class="keyword">const</span> std::string&amp; state_filename,</span></span></span><br><span class="line"><span class="function"><span class="params">                                 <span class="keyword">bool</span> load_frozen_state)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Check if suffix of the state file is &quot;.pbstream&quot;.</span></span><br><span class="line">  <span class="keyword">const</span> std::string suffix = <span class="string">&quot;.pbstream&quot;</span>;</span><br><span class="line">  <span class="comment">// 检查后缀是否是.pbstream</span></span><br><span class="line">  <span class="built_in">CHECK_EQ</span>(state_filename.<span class="built_in">substr</span>(</span><br><span class="line">               std::max&lt;<span class="keyword">int</span>&gt;(state_filename.<span class="built_in">size</span>() - suffix.<span class="built_in">size</span>(), <span class="number">0</span>)),</span><br><span class="line">           suffix)</span><br><span class="line">      &lt;&lt; <span class="string">&quot;The file containing the state to be loaded must be a &quot;</span></span><br><span class="line">         <span class="string">&quot;.pbstream file.&quot;</span>;</span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Loading saved state &#x27;&quot;</span> &lt;&lt; state_filename &lt;&lt; <span class="string">&quot;&#x27;...&quot;</span>;</span><br><span class="line">  <span class="comment">// 加载文件内容</span></span><br><span class="line">  cartographer::<span class="function">io::ProtoStreamReader <span class="title">stream</span><span class="params">(state_filename)</span></span>;</span><br><span class="line">  <span class="comment">// 解析数据</span></span><br><span class="line">  map_builder_-&gt;<span class="built_in">LoadState</span>(&amp;stream, load_frozen_state);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先检查传进来的filename是否是以pbstream结尾，通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state_filename.size() - suffix.size()</span><br></pre></td></tr></table></figure>
+<p>找到字符串前面一个字符的位置，比如filename=”a.pbstream”，则<code>a.size() - suffix.size()=1</code>，那么substr就会取从位置1到最后面的所有字符串，则为<code>.pbstream</code></p>
+<h2 id="文件加载类ProtoStreamReader"><a href="#文件加载类ProtoStreamReader" class="headerlink" title="文件加载类ProtoStreamReader"></a>文件加载类ProtoStreamReader</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A reader of the format produced by ProtoStreamWriter.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProtoStreamReader</span> :</span> <span class="keyword">public</span> ProtoStreamReaderInterface &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ProtoStreamReader</span><span class="params">(<span class="keyword">const</span> std::string&amp; filename)</span></span>;</span><br><span class="line">  ~<span class="built_in">ProtoStreamReader</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">ProtoStreamReader</span>(<span class="keyword">const</span> ProtoStreamReader&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">  ProtoStreamReader&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> ProtoStreamReader&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">ReadProto</span><span class="params">(google::protobuf::Message* proto)</span> <span class="keyword">override</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">eof</span><span class="params">()</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">Read</span><span class="params">(std::string* decompressed_data)</span></span>;</span><br><span class="line"></span><br><span class="line">  std::ifstream in_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>此处被调用的是构造函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">ProtoStreamReader</span><span class="params">(<span class="keyword">const</span> std::string&amp; filename)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>下面是构造函数的实现</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取pbstream文件, 并对前8个字节的数据进行校验</span></span><br><span class="line">ProtoStreamReader::<span class="built_in">ProtoStreamReader</span>(<span class="keyword">const</span> std::string&amp; filename)</span><br><span class="line">    : <span class="built_in">in_</span>(filename, std::ios::in | std::ios::binary) &#123;</span><br><span class="line">  uint64 magic;</span><br><span class="line">  <span class="comment">// 对前8个字节的数据进行校验</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">ReadSizeAsLittleEndian</span>(&amp;in_, &amp;magic) || magic != kMagic) &#123;</span><br><span class="line">    in_.<span class="built_in">setstate</span>(std::ios::failbit);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">CHECK</span>(in_.<span class="built_in">good</span>()) &lt;&lt; <span class="string">&quot;Failed to open proto stream &#x27;&quot;</span> &lt;&lt; filename &lt;&lt; <span class="string">&quot;&#x27;.&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>in<em> 即为std::ifstream，`in</em>(filename, std::ios::in | std::ios::binary)`表示要打开的文件名字以及打开的方式</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">mode</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ios::in</td>
+<td>为输入(读)而打开文件</td>
+</tr>
+<tr>
+<td style="text-align:left">ios::out</td>
+<td>为输出(写)而打开文件</td>
+</tr>
+<tr>
+<td style="text-align:left">ios::ate</td>
+<td>初始位置：文件尾</td>
+</tr>
+<tr>
+<td style="text-align:left">ios::app</td>
+<td>所有输出附加在文件末尾</td>
+</tr>
+<tr>
+<td style="text-align:left">ios::trunc</td>
+<td>如果文件已存在则先删除该文件</td>
+</tr>
+<tr>
+<td style="text-align:left">ios::binary</td>
+<td>二进制方式</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这些方式是能够进行组合使用的，以“或”运算（“|”）的方式：例如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::ios::in | std::ios::binary</span><br></pre></td></tr></table></figure>
+<h3 id="数据校验ReadSizeAsLittleEndian"><a href="#数据校验ReadSizeAsLittleEndian" class="headerlink" title="数据校验ReadSizeAsLittleEndian"></a>数据校验ReadSizeAsLittleEndian</h3><p>注意，所有的pbstream文件有一个八个字节的校验码，每一次读取的时候需要先校验一下这八个字节的校验码是否正确</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 读取前8个字节的值, 进行累加</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ReadSizeAsLittleEndian</span><span class="params">(std::istream* in, uint64* size)</span> </span>&#123;</span><br><span class="line">  *size = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i != <span class="number">8</span>; ++i) &#123;</span><br><span class="line">    *size &gt;&gt;= <span class="number">8</span>;</span><br><span class="line">    *size += <span class="keyword">static_cast</span>&lt;uint64&gt;(in-&gt;<span class="built_in">get</span>()) &lt;&lt; <span class="number">56</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> !in-&gt;<span class="built_in">fail</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的参数列表in的类型为<code>std::istream</code>，不同于<code>std::ifstream</code>是因为继承关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ios_base &lt;- ios &lt;- istream &lt;- ifstream</span><br></pre></td></tr></table></figure>
+<p>get()方法可以获得在文件中的第一个字节的值。这里假设传入的in的前面几个字节所对应的值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127 		10			24 			10   		1 			...</span><br><span class="line">01111111	00001010	00011000	00001010	00000001	...</span><br></pre></td></tr></table></figure>
+<p><strong>流程：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">size: 0</span><br><span class="line">size &gt;&gt;&#x3D; 8 : 即size向右边移动八位</span><br><span class="line">size: 0</span><br><span class="line"></span><br><span class="line">static_cast&lt;uint64&gt;(in-&gt;get()) &lt;&lt; 56;  即第一个数字向左边移动56位,即七个字节。下面的数字第第几个字节（每个字节八位）</span><br><span class="line">127 0	0	0	0	0	0	0</span><br><span class="line">0	1	2	3	4	5	6	7</span><br><span class="line"></span><br><span class="line">size +&#x3D; static_cast&lt;uint64&gt;(in-&gt;get()) &lt;&lt; 56; 依然是上面这个数字</span><br><span class="line"></span><br><span class="line">size &gt;&gt;&#x3D; 8 :即size向右边移动八位</span><br><span class="line">0	127 0	0	0	0	0	0</span><br><span class="line">0	1	2	3	4	5	6	7</span><br><span class="line"></span><br><span class="line">static_cast&lt;uint64&gt;(in-&gt;get()) &lt;&lt; 56;  即第一个数字向左边移动56位,即七个字节。下面的数字第第几个字节（每个字节八位）</span><br><span class="line">10	0	0	0	0	0	0	0</span><br><span class="line">0	1	2	3	4	5	6	7</span><br><span class="line"></span><br><span class="line">size +&#x3D; static_cast&lt;uint64&gt;(in-&gt;get()) &lt;&lt; 56; 依然是上面这个数字</span><br><span class="line">10	127 0	0	0	0	0	0</span><br><span class="line">0	1	2	3	4	5	6	7</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">服务介绍-Node类-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%9D%90%E6%A0%87%E7%B3%BB%EF%BC%9Alocal-map-frame-%E4%B8%8E-global-map-frame"><span class="nav-number">1.</span> <span class="nav-text">两个坐标系：local map frame 与 global map frame</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93LocalTrajectoryData"><span class="nav-number">2.</span> <span class="nav-text">结构体LocalTrajectoryData</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LocalSlamData"><span class="nav-number">2.1.</span> <span class="nav-text">LocalSlamData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#local-slam-data"><span class="nav-number">2.2.</span> <span class="nav-text">local_slam_data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#local-to-map"><span class="nav-number">2.3.</span> <span class="nav-text">local_to_map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#published-to-tracking"><span class="nav-number">2.4.</span> <span class="nav-text">published_to_tracking</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDpbstream%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">3.</span> <span class="nav-text">加载pbstream文件内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E7%B1%BBProtoStreamReader"><span class="nav-number">3.1.</span> <span class="nav-text">文件加载类ProtoStreamReader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8CReadSizeAsLittleEndian"><span class="nav-number">3.1.1.</span> <span class="nav-text">数据校验ReadSizeAsLittleEndian</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
