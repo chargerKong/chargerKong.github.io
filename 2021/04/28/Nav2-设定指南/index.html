@@ -9,7 +9,7 @@
     
     <title>
         
-            Navigation2设置指南 |
+            Transformation-Navigation2设置指南 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Navigation2设置指南</span>
+            <span class="title-hover-animation">Transformation-Navigation2设置指南</span>
         </div>
 
         
@@ -176,7 +176,8 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="首次机器人设置指南"><a href="#首次机器人设置指南" class="headerlink" title="首次机器人设置指南"></a>首次机器人设置指南</h1><p>本节内容是一系列的指引：内容有：</p>
+            <h1 id="首次机器人设置指南"><a href="#首次机器人设置指南" class="headerlink" title="首次机器人设置指南"></a>首次机器人设置指南</h1><p>翻译自<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/transformation/setup_transforms.html" >https://navigation.ros.org/setup_guides/transformation/setup_transforms.html<i class="fas fa-external-link-alt"></i></a></p>
+<p>本节内容是一系列的指引：内容有：</p>
 <ul>
 <li>帮助新用户利用Navigation2设置一个新的机器人</li>
 <li>使用自定义机器人帮助人们正确地设置他们的机器人以用于ROS/Navigation2</li>
@@ -200,7 +201,7 @@
 </li>
 </ul>
 <h2 id="设置transformation"><a href="#设置transformation" class="headerlink" title="设置transformation"></a>设置transformation</h2><p>在本指南中，我们将着眼于Nav2所需的必要转换。这些转换使Nav2能够通过将传感器和里程表等不同来源的信息转换为使用的坐标系来解释信息。下面是一个机器人的完整变换树，但我们将从一些更简单的东西开始。</p>
-<p><img src="tf_full_tree.png" alt="../../_images/tf_full_tree.png"></p>
+<p><img src="https://navigation.ros.org/_images/tf_full_tree.png" alt="../../_images/tf_full_tree.png"></p>
 <p>对于本教程，我们将首先简要介绍ROS中的转换。其次，我们将对TF2静态发布者进行简单的命令行演示，以使其实际运行。最后，我们将概述为使Nav2正常运行而需要发布的必要转换。</p>
 <h3 id="Transforms-介绍"><a href="#Transforms-介绍" class="headerlink" title="Transforms 介绍"></a>Transforms 介绍</h3><p>很多ROS包都要求使用TF2来发布机器人的变换树，变换树定义了不同坐标系之间的关系，这包括平移，旋转和相对运动，下面我们使用一个简单的机器人模型来具体说明。</p>
 <p>此机器人有两个定义好的坐标系，一个对应于机器人的移动底座的中心点，一个对应于安装在底座顶部的激光器的中心点。我们称连接到会移动的底座坐标系为<code>base_link</code>，连接到激光的坐标系为<code>base_laser</code>.</p>
@@ -230,7 +231,7 @@
 <li><code>odom</code> =&gt; <code>base_link</code></li>
 <li><code>base_link</code> =&gt; <code>base_laser</code> (sensor base frames)</li>
 </ol>
-<p>第一个变换<code>map</code>=&gt;<code>odom</code>通常由处理定位和建图的不同ROS包(如AMCL)提供。这个转换在使用中实时更新，所以我们不会在我们的机器人的TF树中为它设置静态值，更多的是细节建议去看你使用的ROS包的文档，所有SLAM和定位的包都会提供在launch的时候提供这个变换</p>
+<p>第一个变换<code>map</code>=&gt;<code>odom</code>通常由处理定位和建图的不同ROS包(如AMCL)提供。这个转换在使用中实时更新，所以我们不会在我们的机器人的TF树中为它设置静态值，更多的细节建议去看你使用的ROS包的文档，所有SLAM和定位的包都会在launch的时候提供这个变换</p>
 <p><code>odom</code> =&gt; <code>base_link</code>通常由我们的里程计系统使用车轮编码器之类的传感器发布。这通常是通过使用robot_localization包，通过传感器融合的里程表传感器(IMU，车轮编码器，VIO等)来计算的。</p>
 <p>所有其他静态定义的转换(例如base_link =&gt; base_laser, base_link =&gt; wheels, wheels =&gt; IMU等)是我们将在本指南的其余部分讨论的内容。Nav2利用这个变换树将传感器个机器人的其他部分进行适当的关联。这两个坐标系之间的转换通常通过Robot State Publisher和通用机器人描述符文件(URDF)提供给Nav2。如果你的平台上有更多的传感器坐标系，那么需要发布一个从base_link到每个传感器坐标系的转换树。</p>
 <h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在本教程中，我们讨论了变换的概念以及在Nav2中如何使用它们。</p>

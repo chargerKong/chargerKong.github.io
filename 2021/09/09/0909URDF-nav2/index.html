@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            配置URDF-navigation2 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">配置URDF-navigation2</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-09 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/nav2/">nav2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>翻译自<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/urdf/setup_urdf.html#urdf-and-the-robot-state-publisher" >https://navigation.ros.org/setup_guides/urdf/setup_urdf.html#urdf-and-the-robot-state-publisher<i class="fas fa-external-link-alt"></i></a></p>
+<p>在此教程中，我们会带着你用URDF手写一个双轮差速机器人，并且配置robot_state_publisher，最后将其显示在rviz里面。为了准备做仿真，我们还会为其添加动力学的一点性质，这些步骤对于表示用于导航的机器人的所有传感器、硬件和机器人转换是必要的。</p>
+<h1 id="URDF-and-the-Robot-State-Publisher"><a href="#URDF-and-the-Robot-State-Publisher" class="headerlink" title="URDF and the Robot State Publisher"></a>URDF and the Robot State Publisher</h1><p>对于Navigation2来说，一个必不可少的变换是从<code>base_link</code>到其他各种frame的变换。这个转换树可以是一个简单的树，只有一个从base_link到laser_link的连接，或者由位于不同位置的多个传感器组成的树，每个传感器都有自己的坐标系。建立多个publisher来处理所有的这些变换是非常麻烦的，所以我们使用一个功能包<code>Robot State Publisher</code>来对这些变换进行发布。</p>
+<p>Robot State Publisher是一个ROS 2包，它与tf2包交互，发布所有可以直接从机器人的几何和结构推断的必要转换。我们需要为它提供正确的通用机器人描述符文件(Universal Robot Descriptor File, URDF)，它将自动处理转换的发布。这对于复杂的转换非常有用，对于较简单的转换树仍然推荐使用。</p>
+<p>通用机器人描述符文件(Universal Robot Descriptor File, URDF)是一个表示机器人模型的XML文件。在本教程中，它将主要用于构建与机器人几何相关的转换树，但它也有其他用途。一个例子是它如何在RVIZ (ROS的3D可视化工具)中可视化你的机器人模型，通过定义可视化组件，如materials 和 meshes。另一个例子是如何使用URDF来定义机器人的物理属性。然后在物理模拟器(如Gazebo)中使用这些属性来模拟机器人在环境中如何交互。</p>
+<p>URDF的另一个主要特性是，它还支持Xacro (XML宏)，以帮助您创建更短、可读的XML，以帮助定义复杂的机器人。我们可以使用这些宏来消除URDF中重复XML块的需要。Xacro在定义可以在整个URDF中重用的配置常量方面也很有用。</p>
+<blockquote>
+<p>If you want to learn more about the URDF and the Robot State Publisher, we encourage you to have a look at the official <a class="link"   target="_blank" rel="noopener" href="http://wiki.ros.org/urdf" >URDF Documentation<i class="fas fa-external-link-alt"></i></a> and <a class="link"   target="_blank" rel="noopener" href="http://wiki.ros.org/robot_state_publisher" >Robot State Publisher Documentation<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<h1 id="Setting-Up-the-Environment"><a href="#Setting-Up-the-Environment" class="headerlink" title="Setting Up the Environment"></a>Setting Up the Environment</h1><p>在本指南中，我们假设您已经熟悉ROS 2以及如何设置开发环境，所以我们将轻松地完成本节中的步骤。</p>
+<p>我们需要先额外安装一些ROS2的功能包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ros-&lt;ros2-distro&gt;-joint-state-publisher-gui</span><br><span class="line">sudo apt install ros-&lt;ros2-distro&gt;-xacro</span><br></pre></td></tr></table></figure>
+<p>接下来，我们创建一个自己的ROS包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake sam_bot_description</span><br></pre></td></tr></table></figure>
+<h1 id="Writing-the-URDF"><a href="#Writing-the-URDF" class="headerlink" title="Writing the URDF"></a>Writing the URDF</h1><p>现在我们已经设置好了项目工作区，让我们直接开始编写URDF。下面是我们将尝试建造的机器人的图像。</p>
+<p><img src="https://navigation.ros.org/_images/base-bot_1.png" alt="../../_images/base-bot_1.png"></p>
+<p>首先，创建一个名为sam_bot_description.urdf的文件。Urdf下的src/description，并输入以下内容作为文件的初始内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;robot name&#x3D;&quot;sam_bot&quot; xmlns:xacro&#x3D;&quot;http:&#x2F;&#x2F;ros.org&#x2F;wiki&#x2F;xacro&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;&#x2F;robot&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>下面的代码片段应该放在标记中。我们建议按照本教程中介绍的顺序添加它们。我们还包含了一些行号，以便您大致了解在哪里输入代码。这可能与您正在编写的实际文件不同，这取决于空白的使用情况。还请注意，行号假定您正在输入本指南中显示的代码。</p>
+</blockquote>
+<p>下面我们利用XAcro来定义一些在URDF中会重复使用的常量<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Define robot constants --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_width&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.31&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_length&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.42&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;base_height&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.18&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_radius&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.10&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_width&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.04&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_ygap&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.025&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_zoff&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.05&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;wheel_xoff&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.12&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">&quot;caster_xoff&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0.14&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里是一个简短的讨论，上面这些属性将用于表示出我们的urdf。<code>base_*</code>属性定义了机器人主底盘的大小。wheel_radius和wheel_width定义机器人的两个后轮的形状。wheel_ygap沿着y轴调整车轮和底盘之间的间隙，而wheel_zoff和wheel_xoff沿着z轴和x轴适当地定位后轮。最后，caster_xoff沿着x轴定位前脚轮。</p>
+<p>然后让我们定义我们的base_link——这个link将是一个大盒子，并将作为我们的机器人的主要底盘。在URDF中，一个<code>link</code>标签描述了机器人的刚性部分或组件。然后，机器人状态发布者利用这些定义来确定每个<code>link</code>的坐标框架，并发布它们之间的转换。</p>
+<p>我们还将定义一些链接的视觉属性，这些属性可以被Gazebo和Rviz等工具使用，向我们展示机器人的3D模型。在这些属性中，描述了link的形状，描述了link的颜色。</p>
+<p>对于下面的代码块，我们使用${property}语法访问之前定义的机器人常量基本属性。另外，我们还将主底盘的材质颜色设置为青色。注意，我们在标签下设置了这些参数，所以它们只会作为视觉参数应用，不会影响任何碰撞或物理属性。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Robot Base --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_link&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">box</span> <span class="attr">size</span>=<span class="string">&quot;$&#123;base_length&#125; $&#123;base_width&#125; $&#123;base_height&#125;&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">material</span> <span class="attr">name</span>=<span class="string">&quot;Cyan&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">color</span> <span class="attr">rgba</span>=<span class="string">&quot;0 1.0 1.0 1.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接下来，让我们定义一个base_footprint。base_footprint是一个虚拟(非物理)链接，它没有维度或碰撞区域。它的主要目的是使各种功能包确定机器人投影到地面的中心。例如，Navigation2使用这个link来确定其避障算法中使用的圆形足迹的中心。同样，我们设置了这个没有尺寸的link，以及当机器人的中心投影到地平面时的位置。</p>
+<p>定义了base_link之后，再添加一个joint，将其连接到base_link。在URDF中，一个<code>joint</code>描述了坐标系之间的运动学和动力学特性。对于本例，我们将定义一个带有适当偏移量的固定关节<code>fixed</code>，以便根据上面的描述将base_footprint链接放置在适当的位置。记住，当从主底盘的中心投影时，我们希望将base_footprint设置为地平面，因此我们得到了wheel_radius和wheel_zoff的总和，以获得沿着z轴的适当位置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Robot Footprint --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;base_footprint&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;base_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;fixed&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;base_footprint&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0.0 0.0 $&#123;-(wheel_radius+wheel_zoff)&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>现在，我们要给机器人增加两个大的驱动轮。为了使代码更简洁并避免重复，我们将使用宏来定义一个代码块，该代码块将使用不同的参数重复。我们的宏将有3个参数:prefix，它只是为我们的joint和link名称添加一个前缀，x_reflect和y_reflect允许我们分别在x轴和y轴上翻转轮子的位置。在这个宏中，我们还可以定义单个轮子的视觉属性。最后，我们还将定义一个连续的关节，以允许我们的车轮围绕一个轴自由旋转。这个关节还将轮子连接到适当位置的base_link。</p>
+<p>在这个代码块的末尾，我们将使用刚刚通过xacro:wheel标记创建的宏实例化两个轮子。请注意，我们还定义了参数，使机器人后部的两侧都有一个轮子。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Wheels --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;wheel&quot;</span> <span class="attr">params</span>=<span class="string">&quot;prefix x_reflect y_reflect&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_link&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;$&#123;pi/2&#125; 0 0&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;wheel_radius&#125;&quot;</span> <span class="attr">length</span>=<span class="string">&quot;$&#123;wheel_width&#125;&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">material</span> <span class="attr">name</span>=<span class="string">&quot;Gray&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">color</span> <span class="attr">rgba</span>=<span class="string">&quot;0.5 0.5 0.5 1.0&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;$&#123;prefix&#125;_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;continuous&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;$&#123;prefix&#125;_link&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;$&#123;x_reflect*wheel_xoff&#125; $&#123;y_reflect*(base_width/2+wheel_ygap)&#125; $&#123;-wheel_zoff&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">&quot;0 1 0&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:wheel</span> <span class="attr">prefix</span>=<span class="string">&quot;drivewhl_l&quot;</span> <span class="attr">x_reflect</span>=<span class="string">&quot;-1&quot;</span> <span class="attr">y_reflect</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:wheel</span> <span class="attr">prefix</span>=<span class="string">&quot;drivewhl_r&quot;</span> <span class="attr">x_reflect</span>=<span class="string">&quot;-1&quot;</span> <span class="attr">y_reflect</span>=<span class="string">&quot;-1&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接下来，我们将在机器人的前面添加一个脚轮。我们将建模这个轮子作为一个球体。同样，我们定义了车轮的geometry，material和joint，以便在适当的位置将其连接到base_link。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Caster Wheel --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">&quot;front_caster&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">visual</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;(wheel_radius+wheel_zoff-(base_height/2))&#125;&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">material</span> <span class="attr">name</span>=<span class="string">&quot;Cyan&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">color</span> <span class="attr">rgba</span>=<span class="string">&quot;0 1.0 1.0 1.0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">material</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">visual</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;caster_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;fixed&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;front_caster&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;$&#123;caster_xoff&#125; 0.0 $&#123;-(base_height/2)&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们已经为一个简单的差动驱动机器人建造了一个URDF。在下一节中，我们将重点讨论构建包含URDF的ROS包，启动机器人状态发布者，并在RVIz中可视化机器人。</p>
+<h1 id="build-and-launch"><a href="#build-and-launch" class="headerlink" title="build and launch"></a>build and launch</h1><p>让我们通过添加一些在构建这个项目之后需要的依赖项来开始本节。打开项目目录的根目录，并将以下行添加到package.xml中(最好在 <code>&lt;buildtool_depend&gt;</code> 标记之后)</p>
+<p>接下来，让我们创建launch文件。ROS 2使用launch文件为我们的包启动必要的节点。从项目的根目录创建一个名为launch的目录，并在其中创建一个display.launch.py文件。下面的启动文件在ROS 2中启动一个机器人发布者节点，该节点使用我们的URDF为我们的机器人发布转换。此外，启动文件还会自动启动RVIZ，这样我们就可以按照URDF定义的方式可视化我们的机器人。将下面的代码片段复制并粘贴到display.launch.py文件中。</p>
+<p>为了简化可视化过程，我们提供了一个RVIz配置文件，该文件将在启动包时加载。这个配置文件用适当的设置初始化RVIz，因此一旦机器人启动，您就可以立即查看它。在项目的根目录下创建一个名为rviz的目录和一个名为urdf_config的文件。。将以下内容作为urdf_config.rviz的内容</p>
+<p>最后，让我们修改项目根目录中的CMakeLists.txt文件，以包含我们在安装包过程中创建的文件。将以下代码片段添加到CMakeLists.txt文件中，最好是在if(BUILD_TESTING)之上:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">install(</span><br><span class="line">  DIRECTORY src launch rviz</span><br><span class="line">  DESTINATION share&#x2F;$&#123;PROJECT_NAME&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>现在我们已经准备好使用colcon来构建我们的项目了。导航到项目根目录并执行以下命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch sam_bot_description display.launch.py</span><br></pre></td></tr></table></figure>
+<p>ROS 2现在应该启动一个机器人发布者节点，并使用URDF启动RVIZ。在下一节中，我们将使用RVIZ查看我们的机器人。</p>
+<h1 id="Visualization-using-RVIZ"><a href="#Visualization-using-RVIZ" class="headerlink" title="Visualization using RVIZ"></a>Visualization using RVIZ</h1><p>RVIZ是一个机器人可视化工具，可以让我们使用它的URDF看到机器人的3D模型。在使用前一节中的命令成功启动后，RVIZ现在应该会显示在屏幕上，如图所示。您可能需要四处移动和操作视图，以便更好地查看您的机器人。</p>
+<p><img src="https://navigation.ros.org/_images/base-bot_3.png" alt="../../_images/base-bot_3.png"></p>
+<p>如你所见，我们已经成功地创建了一个简单的差动驱动机器人，并在RVIz中将其可视化。没有必要在RVIz中可视化您的机器人，但是为了查看您是否正确定义了URDF，这是一个很好的步骤。这有助于确保机器人状态发布者发布了正确的转换。</p>
+<p>你可能已经注意到另一个窗口被启动了——这是一个发布jointz状态的GUI。 joint state publisher是另一个ROS 2包，它为我们的非固定joint发布状态。您可以通过小型GUI操作这个publisher，并且关节的新姿态将反映在RVIz中。滑动两个轮子中的任何一个都可以转动这些关节。您可以在浏览Joint State Publisher GUI中的滑块时通过查看RVIZ来查看这一点。</p>
+<p><img src="https://navigation.ros.org/_images/base-bot_4.png" alt="../../_images/base-bot_4.png"></p>
+<p>robot state publisher 现在正在发布通过解析URDF得到的转换。其他包(如Nav2)可以使用这些转换来获取关于机器人形状和结构的信息。然而，为了在模拟中正确使用这个URDF，我们需要物理属性，以便机器人能像真实机器人一样对物理环境做出反应。可视化场只用于可视化，而不是碰撞，所以你的机器人会直接穿过障碍物。在下一节中，我们将介绍如何在URDF中添加这些属性。</p>
+<h1 id="Adding-Physical-Properties"><a href="#Adding-Physical-Properties" class="headerlink" title="Adding Physical Properties"></a>Adding Physical Properties</h1><p>作为本指南的附加部分，我们将修改我们当前的URDF，以包含机器人的一些运动学属性。这些信息可能被物理模拟器(如Gazebo)用来建模和模拟我们的机器人将如何在虚拟环境中行动。</p>
+<p>让我们首先定义一些宏。将下面的代码片段放在URDF中常量部分的后面:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Define intertial property macros  --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;box_inertia&quot;</span> <span class="attr">params</span>=<span class="string">&quot;m w h d&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;$&#123;pi/2&#125; 0 $&#123;pi/2&#125;&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;m&#125;&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;$&#123;(m/12) * (h*h + d*d)&#125;&quot;</span> <span class="attr">ixy</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">ixz</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">iyy</span>=<span class="string">&quot;$&#123;(m/12) * (w*w + d*d)&#125;&quot;</span> <span class="attr">iyz</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">izz</span>=<span class="string">&quot;$&#123;(m/12) * (w*w + h*h)&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;cylinder_inertia&quot;</span> <span class="attr">params</span>=<span class="string">&quot;m r h&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;$&#123;pi/2&#125; 0 0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;m&#125;&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;$&#123;(m/12) * (3*r*r + h*h)&#125;&quot;</span> <span class="attr">ixy</span> = <span class="string">&quot;0&quot;</span> <span class="attr">ixz</span> = <span class="string">&quot;0&quot;</span> <span class="attr">iyy</span>=<span class="string">&quot;$&#123;(m/12) * (3*r*r + h*h)&#125;&quot;</span> <span class="attr">iyz</span> = <span class="string">&quot;0&quot;</span> <span class="attr">izz</span>=<span class="string">&quot;$&#123;(m/2) * (r*r)&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">&quot;sphere_inertia&quot;</span> <span class="attr">params</span>=<span class="string">&quot;m r&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;m&#125;&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">&quot;$&#123;(2/5) * m * (r*r)&#125;&quot;</span> <span class="attr">ixy</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">ixz</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">iyy</span>=<span class="string">&quot;$&#123;(2/5) * m * (r*r)&#125;&quot;</span> <span class="attr">iyz</span>=<span class="string">&quot;0.0&quot;</span> <span class="attr">izz</span>=<span class="string">&quot;$&#123;(2/5) * m * (r*r)&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>让我们从使用标签将collision区域添加到base_link开始。我们还将使用之前定义的box_inertia宏给base_link添加一些惯性属性。在URDF的 <code>&lt;link name=&quot;base_link&quot;&gt;</code> 放入以下代码片段。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">box</span> <span class="attr">size</span>=<span class="string">&quot;$&#123;base_length&#125; $&#123;base_width&#125; $&#123;base_height&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:box_inertia</span> <span class="attr">m</span>=<span class="string">&quot;15&quot;</span> <span class="attr">w</span>=<span class="string">&quot;$&#123;base_width&#125;&quot;</span> <span class="attr">d</span>=<span class="string">&quot;$&#123;base_length&#125;&quot;</span> <span class="attr">h</span>=<span class="string">&quot;$&#123;base_height&#125;&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接下来，让我们对wheel宏执行同样的操作。在URDF中wheel宏的标记中包含以下代码片段。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;$&#123;pi/2&#125; 0 0&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">cylinder</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;wheel_radius&#125;&quot;</span> <span class="attr">length</span>=<span class="string">&quot;$&#123;wheel_width&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:cylinder_inertia</span> <span class="attr">m</span>=<span class="string">&quot;0.5&quot;</span> <span class="attr">r</span>=<span class="string">&quot;$&#123;wheel_radius&#125;&quot;</span> <span class="attr">h</span>=<span class="string">&quot;$&#123;wheel_width&#125;&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后，让我们将类似的属性添加到球形脚轮。在URDF中我们的脚轮的标签中包含以下内容。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">collision</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;0 0 0&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">geometry</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sphere</span> <span class="attr">radius</span>=<span class="string">&quot;$&#123;(wheel_radius+wheel_zoff-(base_height/2))&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">geometry</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">collision</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:sphere_inertia</span> <span class="attr">m</span>=<span class="string">&quot;0.5&quot;</span> <span class="attr">r</span>=<span class="string">&quot;$&#123;(wheel_radius+wheel_zoff-(base_height/2))&#125;&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>We did not add any inertial or collision properties to our <code>base_footprint</code> link since this is a virtual and non-physical link.</p>
+</blockquote>
+<p>构建项目，然后使用上一节中的相同命令启动RViz。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">colcon build</span><br><span class="line">. install&#x2F;setup.bash</span><br><span class="line">ros2 launch sam_bot_description display.launch.py</span><br></pre></td></tr></table></figure>
+<p>你可以通过在左侧面板的RobotModel下启用collision Enabled来验证你是否正确设置了碰撞区域(如果你也关闭Visual Enabled可能会更容易看到)。在本教程中，我们定义了一个与视觉属性相似的碰撞区域。注意，这可能并不总是这样，因为您可以根据机器人的外观选择更简单的碰撞区域。</p>
+<p><img src="https://navigation.ros.org/_images/base-bot_5.png" alt="../../_images/base-bot_5.png"></p>
+<p>现在，我们将不得不在这里停止，因为我们将需要设置更多的组件来实际开始在Gazebo中模拟我们的机器人。我们将在这些设置指南的过程中回到这个项目，我们最终将看到我们的机器人在虚拟环境中移动，一旦我们进入模拟部分。在这项工作中缺少的主要组件是模拟机器人控制器所需的模拟插件。我们将在相应的章节中介绍它们并将它们添加到这个URDF中。</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>就是这样。在本教程中，您已经成功地为一个简单的差动驱动机器人创建了一个URDF。您还设置了一个启动机器人发布者节点的ROS 2项目，然后该节点使用URDF发布机器人的转换。我们还使用RViz可视化我们的机器人，以验证我们的URDF是否正确。最后，我们在URDF中添加了一些物理属性，以便为模拟做准备。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/09/0909%E9%85%8D%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">配置Odometry-navigation2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/08/0908%E6%96%B0%E8%BD%A8%E8%BF%B9/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">AddTrajectory-map_builder类-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#URDF-and-the-Robot-State-Publisher"><span class="nav-number">1.</span> <span class="nav-text">URDF and the Robot State Publisher</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Setting-Up-the-Environment"><span class="nav-number">2.</span> <span class="nav-text">Setting Up the Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Writing-the-URDF"><span class="nav-number">3.</span> <span class="nav-text">Writing the URDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#build-and-launch"><span class="nav-number">4.</span> <span class="nav-text">build and launch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Visualization-using-RVIZ"><span class="nav-number">5.</span> <span class="nav-text">Visualization using RVIZ</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Adding-Physical-Properties"><span class="nav-number">6.</span> <span class="nav-text">Adding Physical Properties</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

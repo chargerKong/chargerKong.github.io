@@ -9,6 +9,8 @@
     
     <title>
         
+            配置Odometry-navigation2 |
+        
         随笔记
     </title>
     
@@ -128,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation"></span>
+            <span class="title-hover-animation">配置Odometry-navigation2</span>
         </div>
 
         
@@ -146,9 +148,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-08-20 16:55:20
+        <i class="fas fa-edit"></i>&nbsp;2021-09-09 15:59:23
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/nav2/">nav2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -163,31 +176,12 @@
         
 
         <div class="article-content markdown-body">
-            <p>title: ros2建立c++包<br>date: 2021-08-20 18:38:29<br>tags: ros2</p>
-<h1 id="建立一个ROS2的包"><a href="#建立一个ROS2的包" class="headerlink" title="建立一个ROS2的包"></a>建立一个ROS2的包</h1><p>在ROS2中，我们使用amend来作为构建包的工具，并且使用colcon来作为编译包的工具。在创建包的时候我们可以使用CMake或者Python，本文主要</p>
-<h1 id="由什么组成一个包"><a href="#由什么组成一个包" class="headerlink" title="由什么组成一个包"></a>由什么组成一个包</h1><ul>
-<li>package.xml 主要描述着一个包的元数据</li>
-<li>CMakeLists.txt 主要描述如何去构建这个包</li>
-</ul>
-<p>最简单的目录结构如下所示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my_package&#x2F;</span><br><span class="line">     CMakeLists.txt</span><br><span class="line">     package.xml</span><br></pre></td></tr></table></figure>
-<h1 id="Workspace"><a href="#Workspace" class="headerlink" title="Workspace"></a>Workspace</h1><p>一个工作空间可以包含多个包，并且包可以人c++或者Python都可以，最好全部放在src文件夹下。让主目录干净一点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">workspace_folder&#x2F;</span><br><span class="line">    src&#x2F;</span><br><span class="line">      package_1&#x2F;</span><br><span class="line">          CMakeLists.txt</span><br><span class="line">          package.xml</span><br><span class="line"></span><br><span class="line">      package_2&#x2F;</span><br><span class="line">          setup.py</span><br><span class="line">          package.xml</span><br><span class="line">          resource&#x2F;package_2</span><br><span class="line">      ...</span><br><span class="line">      package_n&#x2F;</span><br><span class="line">          CMakeLists.txt</span><br><span class="line">          package.xml</span><br></pre></td></tr></table></figure>
-<h1 id="建立一个包"><a href="#建立一个包" class="headerlink" title="建立一个包"></a>建立一个包</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
-<p>当然也可以加入一个节点的名字, 进入src文件夹，输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_cmake --node-name my_node my_package</span><br></pre></td></tr></table></figure>
-<h1 id="编译一个包"><a href="#编译一个包" class="headerlink" title="编译一个包"></a>编译一个包</h1><p>进入ws，即和src同一个目录下进行编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colcon build --packages-select my_package</span><br></pre></td></tr></table></figure>
-<h1 id="source"><a href="#source" class="headerlink" title="source"></a>source</h1><p>为了让新的包和节点可以被使用，需要激活一下Node</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;dev_ws&#x2F;install&#x2F;setup.bash</span><br></pre></td></tr></table></figure>
-<h1 id="运行一个节点"><a href="#运行一个节点" class="headerlink" title="运行一个节点"></a>运行一个节点</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run my_package my_node </span><br></pre></td></tr></table></figure>
-<p>返回hello world my_package package</p>
-<h1 id="查看包的内容"><a href="#查看包的内容" class="headerlink" title="查看包的内容"></a>查看包的内容</h1><p>在<code>dev_ws/src/my_package</code>里面，可以看见有自动生成的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CMakeLists.txt  include  package.xml  src</span><br></pre></td></tr></table></figure>
-<p>my_node.cpp在src文件夹里面</p>
-<h1 id="自定义package-xml"><a href="#自定义package-xml" class="headerlink" title="自定义package.xml"></a>自定义package.xml</h1><p>在package.xml有很多的todo需要写，如果你需要发布自己的包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> 1&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line"> 2&lt;?xml-model</span><br><span class="line"> 3   href&#x3D;&quot;http:&#x2F;&#x2F;download.ros.org&#x2F;schema&#x2F;package_format3.xsd&quot;</span><br><span class="line"> 4   schematypens&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot;?&gt;</span><br><span class="line"> 5&lt;package format&#x3D;&quot;3&quot;&gt;</span><br><span class="line"> 6 &lt;name&gt;my_package&lt;&#x2F;name&gt;</span><br><span class="line"> 7 &lt;version&gt;0.0.0&lt;&#x2F;version&gt;</span><br><span class="line"> 8 &lt;description&gt;TODO: Package description&lt;&#x2F;description&gt;</span><br><span class="line"> 9 &lt;maintainer email&#x3D;&quot;user@todo.todo&quot;&gt;user&lt;&#x2F;maintainer&gt;</span><br><span class="line">10 &lt;license&gt;TODO: License declaration&lt;&#x2F;license&gt;</span><br><span class="line">11</span><br><span class="line">12 &lt;buildtool_depend&gt;ament_cmake&lt;&#x2F;buildtool_depend&gt;</span><br><span class="line">13</span><br><span class="line">14 &lt;test_depend&gt;ament_lint_auto&lt;&#x2F;test_depend&gt;</span><br><span class="line">15 &lt;test_depend&gt;ament_lint_common&lt;&#x2F;test_depend&gt;</span><br><span class="line">16</span><br><span class="line">17 &lt;export&gt;</span><br><span class="line">18   &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">19 &lt;&#x2F;export&gt;</span><br><span class="line">20&lt;&#x2F;package&gt;</span><br></pre></td></tr></table></figure>
-<p>需要在这里完善description和licence.</p>
+            <p>翻译至<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/odom/setup_odom.html" >https://navigation.ros.org/setup_guides/odom/setup_odom.html<i class="fas fa-external-link-alt"></i></a></p>
+<p>在本指南中，我们将研究如何将机器人的odometry系统与Nav2集成。首先，我们将简要介绍一下里程计，<strong>以及Nav2正确运行需要发布的必要消息和转换</strong>。接下来，我们将展示如何在两种不同的情况下设置里程计。</p>
+<p>在第一种情况下，我们将展示如何在一个有车轮编码器的机器人上配置里程计。</p>
+<p>在第二种情况下，我们将使用Gazebo构建一个演示，在sam_bot(我们在前一节中构建的机器人)上模拟一个运行的里程计系统。之后，我们将讨论如何使用robot_localization包融合各种里程计来源，以提供平滑的里程计。最后，我们还将展示如何使用robot_localization发布odom =&gt; base_link变换。</p>
+<h1 id="Odometry-Introduction"><a href="#Odometry-Introduction" class="headerlink" title="Odometry Introduction"></a>Odometry Introduction</h1><p>里程计系统根据机器人的运动提供了机器人的姿态和速度的局部精确估计。里程表信息可以从各种来源获得，如IMU、LIDAR、RADAR、VIO和轮编码器。需要注意的是，imu随时间漂移，而轮式编码器随移动距离漂移，因此它们经常被一起使用来抵消彼此的负面特性。</p>
+<p>odom坐标系和与之相关的变换使用机器人的里程计系统发布连续的定位信息，但随着时间或距离(取决于传感器的形态和漂移)变得不那么准确。尽管如此，机器人仍然可以利用这些信息在其附近导航(例如避免碰撞)。为了在一段时间内获得一致准确的里程数信息，地图框架提供了全球准确的信息，用于校正odom框架。</p>
 
         </div>
 
@@ -199,13 +193,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/08/20/0820node_main/"
+                           href="/2021/09/09/0909cartographer-ros2/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">cartographer_ros之node_main.cc详解上</span>
+                                <span class="post-nav-title-item">cartographer-ros2配置</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -215,10 +209,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/08/16/0813cartographer%E8%BF%90%E8%A1%8C/"
+                           href="/2021/09/09/0909URDF-nav2/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">bag包处理</span>
+                                <span class="post-nav-title-item">配置URDF-navigation2</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -388,7 +382,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AAROS2%E7%9A%84%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">建立一个ROS2的包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B1%E4%BB%80%E4%B9%88%E7%BB%84%E6%88%90%E4%B8%80%E4%B8%AA%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">由什么组成一个包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Workspace"><span class="nav-number">3.</span> <span class="nav-text">Workspace</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%8C%85"><span class="nav-number">4.</span> <span class="nav-text">建立一个包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E4%B8%80%E4%B8%AA%E5%8C%85"><span class="nav-number">5.</span> <span class="nav-text">编译一个包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#source"><span class="nav-number">6.</span> <span class="nav-text">source</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">7.</span> <span class="nav-text">运行一个节点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8C%85%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">8.</span> <span class="nav-text">查看包的内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89package-xml"><span class="nav-number">9.</span> <span class="nav-text">自定义package.xml</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Odometry-Introduction"><span class="nav-number">1.</span> <span class="nav-text">Odometry Introduction</span></a></li></ol>
     </div>
 </div>
         </aside>

@@ -9,6 +9,8 @@
     
     <title>
         
+            里程计介绍-navigation2 |
+        
         随笔记
     </title>
     
@@ -128,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation"></span>
+            <span class="title-hover-animation">里程计介绍-navigation2</span>
         </div>
 
         
@@ -146,9 +148,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-08-17 14:59:11
+        <i class="fas fa-edit"></i>&nbsp;2021-09-07 15:59:22
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/navigation2/">navigation2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -163,7 +176,12 @@
         
 
         <div class="article-content markdown-body">
-            
+            <h1 id="里程计-odometry-介绍"><a href="#里程计-odometry-介绍" class="headerlink" title="里程计(odometry)介绍"></a>里程计(odometry)介绍</h1><p>翻译内容为：<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/odom/setup_odom.html#odometry-introduction" >https://navigation.ros.org/setup_guides/odom/setup_odom.html#odometry-introduction<i class="fas fa-external-link-alt"></i></a></p>
+<p>里程计系统根据机器人的运动提供了机器人的姿态和速度的局部精确估计。里程计信息可以从各种来源获得，如IMU、LIDAR、RADAR、VIO和轮编码器。需要注意的是，imu随时间漂移，而轮式编码器随移动距离漂移，因此它们经常被一起使用来抵消彼此的负面特性。</p>
+<p>odom坐标系和与之相关的变换使用机器人的里程计系统发布连续的定位信息，但随着时间或距离(取决于传感器的形态和漂移)变得不那么准确。尽管如此，机器人仍然可以利用这些信息在其附近导航(例如避免碰撞)。为了在一段时间内获得一致准确的里程数信息，地图框架提供了全球准确的信息，用于校正odom frame。</p>
+<p>正如在前面的指南和REP 105中讨论的，odom frame连接到系统的其余部分,Nav2可以通过odom参与其中。这个转换由tf2_broadcaster或像robot_localization这样的框架发布，这些框架也提供了额外的功能。我们将在下一节中更多地讨论robot_localization。</p>
+<p>除了需要的odom =&gt; base_link变换，Nav2还需要发布nv_msgs/Odometry消息，因为该消息提供了机器人的速度信息。nav_msgs/Odometry消息包含以下信息:</p>
+
         </div>
 
         
@@ -174,13 +192,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/08/20/0820ros2_node_c++/"
+                           href="/2021/09/07/0907pbstream/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-title-item">ProtoStreamReader-map_builder类-cartographer</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -190,10 +208,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/08/16/0813cartographer%E8%BF%90%E8%A1%8C/"
+                           href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">bag包处理</span>
+                                <span class="post-nav-title-item">服务介绍-Node类-cartographer</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -363,7 +381,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8C%E7%A8%8B%E8%AE%A1-odometry-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">里程计(odometry)介绍</span></a></li></ol>
     </div>
 </div>
         </aside>
