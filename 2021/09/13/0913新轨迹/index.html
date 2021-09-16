@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            MapBuilderBridge类-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">MapBuilderBridge类-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-13 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>本文主要介绍map_builder类的大致实现逻辑</p>
+<h1 id="AddTrajectoy"><a href="#AddTrajectoy" class="headerlink" title="AddTrajectoy"></a>AddTrajectoy</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MapBuilderBridge::AddTrajectory</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::set&lt;cartographer::mapping::TrajectoryBuilderInterface::SensorId&gt;&amp;</span></span></span><br><span class="line"><span class="function"><span class="params">        expected_sensor_ids,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> TrajectoryOptions&amp; trajectory_options)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Step: 1 开始一条新的轨迹, 返回新轨迹的id,需要传入一个函数</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id = map_builder_-&gt;<span class="built_in">AddTrajectoryBuilder</span>(</span><br><span class="line">      expected_sensor_ids, trajectory_options.trajectory_builder_options,</span><br><span class="line">      <span class="comment">// lambda表达式 local_slam_result_callback_</span></span><br><span class="line">      [<span class="keyword">this</span>](<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, </span><br><span class="line">             <span class="keyword">const</span> ::cartographer::common::Time time,</span><br><span class="line">             <span class="keyword">const</span> Rigid3d local_pose,</span><br><span class="line">             ::cartographer::sensor::RangeData range_data_in_local,</span><br><span class="line">             <span class="keyword">const</span> std::unique_ptr&lt;</span><br><span class="line">                 <span class="keyword">const</span> ::cartographer::mapping::TrajectoryBuilderInterface::</span><br><span class="line">                     InsertionResult&gt;) &#123;</span><br><span class="line">        <span class="comment">// 保存local slam 的结果数据 5个参数实际只用了4个</span></span><br><span class="line">        <span class="built_in">OnLocalSlamResult</span>(trajectory_id, time, local_pose, range_data_in_local);</span><br><span class="line">      &#125;);</span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Added trajectory with ID &#x27;&quot;</span> &lt;&lt; trajectory_id &lt;&lt; <span class="string">&quot;&#x27;.&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Make sure there is no trajectory with &#x27;trajectory_id&#x27; yet.</span></span><br><span class="line">  <span class="built_in">CHECK_EQ</span>(sensor_bridges_.<span class="built_in">count</span>(trajectory_id), <span class="number">0</span>);</span><br><span class="line">  <span class="comment">// Step: 2 为这个新轨迹 添加一个SensorBridge</span></span><br><span class="line">  sensor_bridges_[trajectory_id] = absl::make_unique&lt;SensorBridge&gt;(</span><br><span class="line">      trajectory_options.num_subdivisions_per_laser_scan,</span><br><span class="line">      trajectory_options.tracking_frame,</span><br><span class="line">      node_options_.lookup_transform_timeout_sec, </span><br><span class="line">      tf_buffer_,</span><br><span class="line">      map_builder_-&gt;<span class="built_in">GetTrajectoryBuilder</span>(trajectory_id)); <span class="comment">// CollatedTrajectoryBuilder</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Step: 3 保存轨迹的参数配置</span></span><br><span class="line">  <span class="keyword">auto</span> emplace_result =</span><br><span class="line">      trajectory_options_.<span class="built_in">emplace</span>(trajectory_id, trajectory_options);</span><br><span class="line">  <span class="built_in">CHECK</span>(emplace_result.second == <span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">return</span> trajectory_id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第一步：开始一条新的轨迹-返回新轨迹的id"><a href="#第一步：开始一条新的轨迹-返回新轨迹的id" class="headerlink" title="第一步：开始一条新的轨迹, 返回新轨迹的id"></a>第一步：开始一条新的轨迹, 返回新轨迹的id</h2><p>通过调用map_builder来添加一条轨迹，调用函数AddTrajectoryBuilder，第三个参数为一个lambda表达式</p>
+<p>[this]: 以值的形式捕获this指针，传入了五个参数，在lambda表达式的函数体中调用了另外一个函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 1 开始一条新的轨迹, 返回新轨迹的id,需要传入一个函数</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> trajectory_id = map_builder_-&gt;<span class="built_in">AddTrajectoryBuilder</span>(</span><br><span class="line">    expected_sensor_ids, trajectory_options.trajectory_builder_options,</span><br><span class="line">    <span class="comment">// lambda表达式 local_slam_result_callback_</span></span><br><span class="line">    [<span class="keyword">this</span>](<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, </span><br><span class="line">           <span class="keyword">const</span> ::cartographer::common::Time time,</span><br><span class="line">           <span class="keyword">const</span> Rigid3d local_pose,</span><br><span class="line">           ::cartographer::sensor::RangeData range_data_in_local,</span><br><span class="line">           <span class="keyword">const</span> std::unique_ptr&lt;</span><br><span class="line">               <span class="keyword">const</span> ::cartographer::mapping::TrajectoryBuilderInterface::</span><br><span class="line">                   InsertionResult&gt;) &#123;</span><br><span class="line">      <span class="comment">// 保存local slam 的结果数据 5个参数实际只用了4个</span></span><br><span class="line">      <span class="built_in">OnLocalSlamResult</span>(trajectory_id, time, local_pose, range_data_in_local);</span><br><span class="line">    &#125;);</span><br><span class="line"><span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Added trajectory with ID &#x27;&quot;</span> &lt;&lt; trajectory_id &lt;&lt; <span class="string">&quot;&#x27;.&quot;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="第二步，为轨迹添加一个sensorBridge"><a href="#第二步，为轨迹添加一个sensorBridge" class="headerlink" title="第二步，为轨迹添加一个sensorBridge"></a>第二步，为轨迹添加一个sensorBridge</h2><p>每一个轨迹都会有一个sensorBridge, 保存在变量sensor<em>bridges</em>之中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::unordered_map&lt;int, std::unique_ptr&lt;SensorBridge&gt;&gt; sensor_bridges_;</span><br></pre></td></tr></table></figure>
+<p>因此，在新增了轨迹之后，需要把SensorBridge的信息也要添加进变量之中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Step: 2 为这个新轨迹 添加一个SensorBridge</span><br><span class="line">sensor_bridges_[trajectory_id] &#x3D; absl::make_unique&lt;SensorBridge&gt;(</span><br><span class="line">    trajectory_options.num_subdivisions_per_laser_scan,</span><br><span class="line">    trajectory_options.tracking_frame,</span><br><span class="line">    node_options_.lookup_transform_timeout_sec, </span><br><span class="line">    tf_buffer_,</span><br><span class="line">    map_builder_-&gt;GetTrajectoryBuilder(trajectory_id)); &#x2F;&#x2F; CollatedTrajectoryBuilder</span><br></pre></td></tr></table></figure>
+<h2 id="第三步，-保存轨迹的参数配置"><a href="#第三步，-保存轨迹的参数配置" class="headerlink" title="第三步，  保存轨迹的参数配置"></a>第三步，  保存轨迹的参数配置</h2><p>保存轨迹 的参数配置到trajectory<em>options</em> 中，返回的值的第二个参数可以判断是否插入元素成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Step: 3 保存轨迹的参数配置</span><br><span class="line">auto emplace_result &#x3D;</span><br><span class="line">    trajectory_options_.emplace(trajectory_id, trajectory_options);</span><br><span class="line">CHECK(emplace_result.second &#x3D;&#x3D; true);</span><br><span class="line">return trajectory_id;</span><br></pre></td></tr></table></figure>
+<h1 id="结束指定id的轨迹"><a href="#结束指定id的轨迹" class="headerlink" title="结束指定id的轨迹"></a>结束指定id的轨迹</h1><p>首先判断此ID的轨迹是否活跃，调用map<em>builder的FinishTrajectory方法结束指定轨迹。最后也需要在sensor_bridges</em> 里删除对应的ID</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MapBuilderBridge::FinishTrajectory</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Finishing trajectory with ID &#x27;&quot;</span> &lt;&lt; trajectory_id &lt;&lt; <span class="string">&quot;&#x27;...&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Make sure there is a trajectory with &#x27;trajectory_id&#x27;.</span></span><br><span class="line">  <span class="built_in">CHECK</span>(<span class="built_in">GetTrajectoryStates</span>().<span class="built_in">count</span>(trajectory_id));</span><br><span class="line">  map_builder_-&gt;<span class="built_in">FinishTrajectory</span>(trajectory_id);</span><br><span class="line">  sensor_bridges_.<span class="built_in">erase</span>(trajectory_id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="处理地图信息"><a href="#处理地图信息" class="headerlink" title="处理地图信息"></a>处理地图信息</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * @brief 获取对应id轨迹的 索引为 submap_index 的地图的栅格值及其他信息</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] request 轨迹id与submap的index</span></span><br><span class="line"><span class="comment"> * @param[in] response 是否成功</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MapBuilderBridge::HandleSubmapQuery</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    cartographer_ros_msgs::SubmapQuery::Request&amp; request,</span></span></span><br><span class="line"><span class="function"><span class="params">    cartographer_ros_msgs::SubmapQuery::Response&amp; response)</span> </span>&#123;</span><br><span class="line">  cartographer::mapping::proto::SubmapQuery::Response response_proto;</span><br><span class="line">  cartographer::mapping::SubmapId submap_id&#123;request.trajectory_id,</span><br><span class="line">                                            request.submap_index&#125;;</span><br><span class="line">  <span class="comment">// 获取压缩后的地图数据</span></span><br><span class="line">  <span class="keyword">const</span> std::string error =</span><br><span class="line">      map_builder_-&gt;<span class="built_in">SubmapToProto</span>(submap_id, &amp;response_proto);</span><br><span class="line">  <span class="keyword">if</span> (!error.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(ERROR) &lt;&lt; error;</span><br><span class="line">    response.status.code = cartographer_ros_msgs::StatusCode::NOT_FOUND;</span><br><span class="line">    response.status.message = error;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  response.submap_version = response_proto.<span class="built_in">submap_version</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将response_proto中的地图栅格值存入到response中</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; texture_proto : response_proto.<span class="built_in">textures</span>()) &#123;</span><br><span class="line">    response.textures.<span class="built_in">emplace_back</span>();</span><br><span class="line">    <span class="comment">// 获取response中存储地图变量的引用</span></span><br><span class="line">    <span class="keyword">auto</span>&amp; texture = response.textures.<span class="built_in">back</span>();</span><br><span class="line">    <span class="comment">// 对引用的变量进行赋值</span></span><br><span class="line">    texture.cells.<span class="built_in">insert</span>(texture.cells.<span class="built_in">begin</span>(), texture_proto.<span class="built_in">cells</span>().<span class="built_in">begin</span>(),</span><br><span class="line">                         texture_proto.<span class="built_in">cells</span>().<span class="built_in">end</span>());</span><br><span class="line">    texture.width = texture_proto.<span class="built_in">width</span>();</span><br><span class="line">    texture.height = texture_proto.<span class="built_in">height</span>();</span><br><span class="line">    texture.resolution = texture_proto.<span class="built_in">resolution</span>();</span><br><span class="line">    texture.slice_pose = <span class="built_in">ToGeometryMsgPose</span>(</span><br><span class="line">        cartographer::transform::<span class="built_in">ToRigid3</span>(texture_proto.<span class="built_in">slice_pose</span>()));</span><br><span class="line">  &#125;</span><br><span class="line">  response.status.message = <span class="string">&quot;Success.&quot;</span>;</span><br><span class="line">  response.status.code = cartographer_ros_msgs::StatusCode::OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>26</p>
+<p>3</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/09/0909cartographer-ros2/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer-ros2配置</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AddTrajectoy"><span class="nav-number">1.</span> <span class="nav-text">AddTrajectoy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%BC%80%E5%A7%8B%E4%B8%80%E6%9D%A1%E6%96%B0%E7%9A%84%E8%BD%A8%E8%BF%B9-%E8%BF%94%E5%9B%9E%E6%96%B0%E8%BD%A8%E8%BF%B9%E7%9A%84id"><span class="nav-number">1.1.</span> <span class="nav-text">第一步：开始一条新的轨迹, 返回新轨迹的id</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%8C%E4%B8%BA%E8%BD%A8%E8%BF%B9%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AAsensorBridge"><span class="nav-number">1.2.</span> <span class="nav-text">第二步，为轨迹添加一个sensorBridge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%8C-%E4%BF%9D%E5%AD%98%E8%BD%A8%E8%BF%B9%E7%9A%84%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">第三步，  保存轨迹的参数配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E6%8C%87%E5%AE%9Aid%E7%9A%84%E8%BD%A8%E8%BF%B9"><span class="nav-number">2.</span> <span class="nav-text">结束指定id的轨迹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%9C%B0%E5%9B%BE%E4%BF%A1%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">处理地图信息</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
