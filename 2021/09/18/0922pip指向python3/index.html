@@ -9,7 +9,7 @@
     
     <title>
         
-            Tag: ros2 |
+            pip指向Python3问题 |
         
         随笔记
     </title>
@@ -127,77 +127,166 @@
 
                 
                     <div class="fade-in-down-animation">
-    <div class="tag-container">
-        <div class="tag-name"><i class="fas fa-tag"></i>&nbsp;ros2
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">pip指向Python3问题</span>
         </div>
-        <div class="tag-post-list">
-            
-<div class="archive-list-container">
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-18 15:59:23
+    </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2021</span>
-                <span class="archive-year-post-count">[6]</span>
-            </div>
-            <ul class="article-list">
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
                 
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/09/26/0926sensor_bridge/"
-                        >sensor-bridge-cartographer</a>
-                        <span class="article-date">09-26</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/09/25/0925sensor_bridge/"
-                        >sensor-brifge-cartographer</a>
-                        <span class="article-date">09-25</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/09/24/0923TianBot%E7%9A%84%E7%96%91%E9%97%AE/"
-                        >tianbot ros2</a>
-                        <span class="article-date">09-24</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/04/02/ros2%E5%AD%A6%E4%B9%A0%E4%BA%94/"
-                        >ros2学习五</a>
-                        <span class="article-date">04-02</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/04/01/ros2%E5%AD%A6%E4%B9%A0%E5%9B%9B/"
-                        >ros2学习四</a>
-                        <span class="article-date">04-01</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/03/26/ros2%E5%AD%A6%E4%B9%A0%E4%B8%80/"
-                        >ros学习一</a>
-                        <span class="article-date">03-26</span>
+                    <li>
+                        <a href="/tags/Python/">Python</a>&nbsp;
                     </li>
                 
             </ul>
-        </section>
+        </span>
+    
+
+    
+    
+    
     
 </div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>当下载Python包的时候，无论是pip还是pip3，他的版本都是Python3的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip -V</span><br><span class="line">pip3 -V</span><br></pre></td></tr></table></figure>
+<p><strong>一，改一下软链接</strong></p>
+<p>改一下目录为<code>/usr/bin</code>下的pip，将其指向<code>/usr/local/bin</code>下的pip，如果<code>/usr/local/bin</code>下的pip正确的画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;bin&#x2F;pip &#x2F;usr&#x2F;bin&#x2F;pip</span><br></pre></td></tr></table></figure>
+<p><strong>二，解决方法: 重新下载pip</strong></p>
+<p>打开此网页<a class="link"   target="_blank" rel="noopener" href="https://bootstrap.pypa.io/pip/2.7/get-pip.py，复制下载到本地" >https://bootstrap.pypa.io/pip/2.7/get-pip.py，复制下载到本地<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo python get-pip.py  # 运行安装脚本</span><br><span class="line">sudo apt-get install python3-pip</span><br></pre></td></tr></table></figure>
+<p>此时发现使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip2 -V</span><br></pre></td></tr></table></figure>
+<p>则为Python2的pip</p>
 
         </div>
-    </div>
 
-    <div class="tag-paginator">
-        <div class="paginator">
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/18/0918ensor-nav2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">配置sensors-navigation2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/13/0922map_builder_bridge/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">MapBuilderBridge类-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
     
 
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
     
 </div>
 
+            </div>
+        
     </div>
 </div>
 
@@ -228,6 +317,27 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -274,6 +384,14 @@
     </div>
 
     
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        
+    </div>
+</div>
+        </aside>
+    
 
     <div class="image-viewer-container">
     <img src="">
@@ -305,6 +423,14 @@
 
 
 <div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
     
 </div>
 

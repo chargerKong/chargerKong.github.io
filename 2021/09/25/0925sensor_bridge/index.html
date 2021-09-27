@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            sensor-brifge-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">sensor-brifge-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-09-25 15:59:23
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>SensorBridge类将ROS的消息转换为在tracking frame上的传感器数据，为了方便建图</p>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>首先看一下构造函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SensorBridge</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">SensorBridge</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">int</span> num_subdivisions_per_laser_scan, <span class="keyword">const</span> std::string&amp; tracking_frame,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">double</span> lookup_transform_timeout_sec, tf2_ros::Buffer* tf_buffer,</span></span></span><br><span class="line"><span class="function"><span class="params">      ::cartographer::mapping::TrajectoryBuilderInterface* trajectory_builder)</span></span>;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> num_subdivisions_per_laser_scan_;</span><br><span class="line">  std::map&lt;std::string, cartographer::common::Time&gt;</span><br><span class="line">      sensor_to_previous_subdivision_time_;</span><br><span class="line">  <span class="keyword">const</span> TfBridge tf_bridge_;</span><br><span class="line">  ::cartographer::mapping::TrajectoryBuilderInterface* <span class="keyword">const</span></span><br><span class="line">      trajectory_builder_;</span><br><span class="line"></span><br><span class="line">  absl::optional&lt;::cartographer::transform::Rigid3d&gt; ecef_to_local_frame_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;  <span class="comment">// namespace cartographer_ros</span></span><br></pre></td></tr></table></figure>
+<p>成员变量有</p>
+<ul>
+<li>const int num<em>subdivisions_per_laser_scan</em>;</li>
+<li>std::map<std::string, cartographer::common::Time> sensor<em>to_previous_subdivision_time</em>;</li>
+<li>const TfBridge tf<em>bridge</em>;</li>
+<li>::cartographer::mapping::TrajectoryBuilderInterface* const trajectory<em>builder</em>;</li>
+<li>absl::optional\&lt;::cartographer::transform::Rigid3d> ecef<em>to_local_frame</em></li>
+</ul>
+<p>对应的实现为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 构造函数, 并且初始化TfBridge</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] num_subdivisions_per_laser_scan 一帧数据分成几次发送</span></span><br><span class="line"><span class="comment"> * @param[in] tracking_frame 数据都转换到tracking_frame</span></span><br><span class="line"><span class="comment"> * @param[in] lookup_transform_timeout_sec 查找tf的超时时间</span></span><br><span class="line"><span class="comment"> * @param[in] tf_buffer tf_buffer</span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_builder 轨迹构建器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">SensorBridge::<span class="built_in">SensorBridge</span>(</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> num_subdivisions_per_laser_scan,</span><br><span class="line">    <span class="keyword">const</span> std::string&amp; tracking_frame,</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> lookup_transform_timeout_sec, tf2_ros::Buffer* <span class="keyword">const</span> tf_buffer,</span><br><span class="line">    carto::mapping::TrajectoryBuilderInterface* <span class="keyword">const</span> trajectory_builder)</span><br><span class="line">    : <span class="built_in">num_subdivisions_per_laser_scan_</span>(num_subdivisions_per_laser_scan),</span><br><span class="line">      <span class="built_in">tf_bridge_</span>(tracking_frame, lookup_transform_timeout_sec, tf_buffer),</span><br><span class="line">      <span class="built_in">trajectory_builder_</span>(trajectory_builder) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>在构造函数中，主要对两个成员变量，进行了赋值</p>
+<h2 id="构造函数使用实例"><a href="#构造函数使用实例" class="headerlink" title="构造函数使用实例"></a>构造函数使用实例</h2><p>在我们新添一条轨迹的时候，需要为每一条轨迹添加一个对应的sensor_bridge，回顾一下添加的方式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sensor_bridges_[trajectory_id] = absl::make_unique&lt;SensorBridge&gt;(</span><br><span class="line">    trajectory_options.num_subdivisions_per_laser_scan,</span><br><span class="line">    trajectory_options.tracking_frame,</span><br><span class="line">    node_options_.lookup_transform_timeout_sec, </span><br><span class="line">    tf_buffer_,</span><br><span class="line">    map_builder_-&gt;<span class="built_in">GetTrajectoryBuilder</span>(trajectory_id));</span><br></pre></td></tr></table></figure>
+<h1 id="ToOdometryData"><a href="#ToOdometryData" class="headerlink" title="ToOdometryData"></a>ToOdometryData</h1><p>将ros格式的里程计数据 转成tracking frame的pose, 再转成carto的里程计数据类型<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将ros格式的里程计数据 转成tracking frame的pose, 再转成carto的里程计数据类型</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;carto::sensor::OdometryData&gt; <span class="title">SensorBridge::ToOdometryData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> nav_msgs::Odometry::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> carto::common::Time time = <span class="built_in">FromRos</span>(msg-&gt;header.stamp);</span><br><span class="line">  <span class="comment">// 找到 tracking坐标系 到 里程计的child_frame_id 的坐标变换, 所以下方要对sensor_to_tracking取逆</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> sensor_to_tracking = tf_bridge_.<span class="built_in">LookupToTracking</span>(</span><br><span class="line">      time, <span class="built_in">CheckNoLeadingSlash</span>(msg-&gt;child_frame_id));</span><br><span class="line">  <span class="keyword">if</span> (sensor_to_tracking == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将里程计的footprint的pose转成tracking_frame的pose, 再转成carto的里程计数据类型</span></span><br><span class="line">  <span class="keyword">return</span> absl::make_unique&lt;carto::sensor::OdometryData&gt;(</span><br><span class="line">      carto::sensor::OdometryData&#123;</span><br><span class="line">          time, <span class="built_in">ToRigid3d</span>(msg-&gt;pose.pose) * sensor_to_tracking-&gt;<span class="built_in">inverse</span>()&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先看一下返回的数据类型是carto::sensor::OdometryData</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> cartographer &#123;</span><br><span class="line"><span class="keyword">namespace</span> sensor &#123;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OdometryData</span> &#123;</span></span><br><span class="line">  common::Time time;</span><br><span class="line">  transform::Rigid3d pose;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>Rigid3D是由一个旋转和平移组成一个类。</p>
+<h2 id="寻找变换"><a href="#寻找变换" class="headerlink" title="寻找变换"></a>寻找变换</h2><p>note: LookupToTracking 查找从tracking<em>frame</em>到frame_id的坐标变换</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 找到 tracking坐标系 到 里程计的child_frame_id 的坐标变换, 所以下方要对sensor_to_tracking取逆</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> sensor_to_tracking = tf_bridge_.<span class="built_in">LookupToTracking</span>(</span><br><span class="line">      time, <span class="built_in">CheckNoLeadingSlash</span>(msg-&gt;child_frame_id));</span><br></pre></td></tr></table></figure>
+<p>tf<em>bridge</em>在构造函数的时候就已经做了赋值，通过tf_bridge 来查找从tracking_frame到child_frame_id的变换</p>
+<p>如果IMU为tracking frame，base_link为child_frame，并且IMU在base的上方0.1m，则返回的平移为-0.1。</p>
+<h2 id="LookupToTracking"><a href="#LookupToTracking" class="headerlink" title="LookupToTracking"></a>LookupToTracking</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::unique_ptr&lt;::cartographer::transform::Rigid3d&gt; <span class="title">TfBridge::LookupToTracking</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> ::cartographer::common::Time time,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; frame_id)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  ::<span class="function">ros::Duration <span class="title">timeout</span><span class="params">(lookup_transform_timeout_sec_)</span></span>;</span><br><span class="line">  std::unique_ptr&lt;::cartographer::transform::Rigid3d&gt; frame_id_to_tracking;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ::ros::Time latest_tf_time =</span><br><span class="line">        buffer_</span><br><span class="line">            -&gt;<span class="built_in">lookupTransform</span>(tracking_frame_, frame_id, ::ros::<span class="built_in">Time</span>(<span class="number">0.</span>),</span><br><span class="line">                              timeout)</span><br><span class="line">            .header.stamp;</span><br><span class="line">    <span class="keyword">const</span> ::ros::Time requested_time = <span class="built_in">ToRos</span>(time);</span><br><span class="line">    <span class="keyword">if</span> (latest_tf_time &gt;= requested_time) &#123;</span><br><span class="line">      <span class="comment">// We already have newer data, so we do not wait. Otherwise, we would wait</span></span><br><span class="line">      <span class="comment">// for the full &#x27;timeout&#x27; even if we ask for data that is too old.</span></span><br><span class="line">      timeout = ::ros::<span class="built_in">Duration</span>(<span class="number">0.</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> absl::make_unique&lt;::cartographer::transform::Rigid3d&gt;(</span><br><span class="line">        <span class="built_in">ToRigid3d</span>(buffer_-&gt;<span class="built_in">lookupTransform</span>(tracking_frame_, frame_id,</span><br><span class="line">                                           requested_time, timeout)));</span><br><span class="line">  &#125; <span class="built_in"><span class="keyword">catch</span></span> (<span class="keyword">const</span> tf2::TransformException&amp; ex) &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(WARNING) &lt;&lt; ex.<span class="built_in">what</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述函数主要是通过tf的lookupTransform来查找</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">buffer_</span><br><span class="line">          -&gt;<span class="built_in">lookupTransform</span>(tracking_frame_, frame_id, ::ros::<span class="built_in">Time</span>(<span class="number">0.</span>),</span><br><span class="line">                            timeout)</span><br><span class="line">          .header.stamp;</span><br></pre></td></tr></table></figure>
+<p>表示从当前时间开始查找，超时时间为timeout的变换，如果找到了，并且时间是在要求的时间之内的，那么就再一次查找这个时间的tf，最后返回</p>
+<h2 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h2><p>如果找到了对应的变换，则最后需要把在当前frame下的坐姿转变到tracking frame下的坐标，比如IMU。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将里程计的footprint的pose转成tracking_frame的pose, 再转成carto的里程计数据类型</span></span><br><span class="line"> <span class="keyword">return</span> absl::make_unique&lt;carto::sensor::OdometryData&gt;(</span><br><span class="line">     carto::sensor::OdometryData&#123;</span><br><span class="line">         time, <span class="built_in">ToRigid3d</span>(msg-&gt;pose.pose) * sensor_to_tracking-&gt;<span class="built_in">inverse</span>()&#125;);</span><br></pre></td></tr></table></figure>
+<p>在这里注意使用inverse()，因为现在要做的变换相当于是从base_link到imu，而我们得到的是从imu到base_link的。因此再求imu的位姿的时候，需要base_link_pose * imu_to_baselink.inverse()</p>
+<h1 id="GPS数据处理"><a href="#GPS数据处理" class="headerlink" title="GPS数据处理"></a>GPS数据处理</h1><p>在sensorBridge中，处理GPS数据的函数为HandleNavSatFixMessage。</p>
+<p>如果雷达的数据不是STATUS_NO_FIX，则就直接返回不处理</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将ros格式的gps数据转换成相对坐标系下的坐标,再调用trajectory_builder_的AddSensorData进行数据的处理</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SensorBridge::HandleNavSatFixMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id, <span class="keyword">const</span> sensor_msgs::NavSatFix::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> carto::common::Time time = <span class="built_in">FromRos</span>(msg-&gt;header.stamp);</span><br><span class="line">  <span class="comment">// 如果不是固定解,就加入一个固定的空位姿</span></span><br><span class="line">  <span class="keyword">if</span> (msg-&gt;status.status == sensor_msgs::NavSatStatus::STATUS_NO_FIX) &#123;</span><br><span class="line">    trajectory_builder_-&gt;<span class="built_in">AddSensorData</span>(</span><br><span class="line">        sensor_id,</span><br><span class="line">        carto::sensor::FixedFramePoseData&#123;time, absl::optional&lt;Rigid3d&gt;()&#125;);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 确定ecef原点到局部坐标系的坐标变换</span></span><br><span class="line">  <span class="keyword">if</span> (!ecef_to_local_frame_.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    ecef_to_local_frame_ =</span><br><span class="line">        <span class="built_in">ComputeLocalFrameFromLatLong</span>(msg-&gt;latitude, msg-&gt;longitude);</span><br><span class="line">    <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Using NavSatFix. Setting ecef_to_local_frame with lat = &quot;</span></span><br><span class="line">              &lt;&lt; msg-&gt;latitude &lt;&lt; <span class="string">&quot;, long = &quot;</span> &lt;&lt; msg-&gt;longitude &lt;&lt; <span class="string">&quot;.&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 通过这个坐标变换 乘以 之后的gps数据,就相当于减去了一个固定的坐标,从而得到了gps数据间的相对坐标变换</span></span><br><span class="line">  trajectory_builder_-&gt;<span class="built_in">AddSensorData</span>(</span><br><span class="line">      sensor_id, carto::sensor::FixedFramePoseData&#123;</span><br><span class="line">                     time, absl::optional&lt;Rigid3d&gt;(Rigid3d::<span class="built_in">Translation</span>(</span><br><span class="line">                               ecef_to_local_frame_.<span class="built_in">value</span>() *</span><br><span class="line">                               <span class="built_in">LatLongAltToEcef</span>(msg-&gt;latitude, msg-&gt;longitude,</span><br><span class="line">                                                msg-&gt;altitude)))&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/09/26/0926sensor_bridge/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">sensor-bridge-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/09/24/0923TianBot%E7%9A%84%E7%96%91%E9%97%AE/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tianbot ros2</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">构造函数使用实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ToOdometryData"><span class="nav-number">2.</span> <span class="nav-text">ToOdometryData</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E5%8F%98%E6%8D%A2"><span class="nav-number">2.1.</span> <span class="nav-text">寻找变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LookupToTracking"><span class="nav-number">2.2.</span> <span class="nav-text">LookupToTracking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">2.3.</span> <span class="nav-text">坐标变换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GPS%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">GPS数据处理</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
