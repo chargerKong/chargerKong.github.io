@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            HandleLaserScan-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">HandleLaserScan-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-08 09:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>上一次说道雷达如何转换为点云数据，无论是LaserScan还是多回声波雷达数据，都通过ToPointCloudWithIntensities函数进行转换，本节需要通过HandleLaserScan把点云数据进行处理。</p>
+<p>激光雷达首先从订阅的回调函数做过滤，然后到达下面的处理。转换为点云的部分在上一节已经介绍</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理LaserScan数据, 先转成点云,再传入trajectory_builder_</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SensorBridge::HandleLaserScanMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id, <span class="keyword">const</span> sensor_msgs::LaserScan::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  carto::sensor::PointCloudWithIntensities point_cloud;</span><br><span class="line">  carto::common::Time time;</span><br><span class="line">  std::<span class="built_in">tie</span>(point_cloud, time) = <span class="built_in">ToPointCloudWithIntensities</span>(*msg);</span><br><span class="line">  <span class="built_in">HandleLaserScan</span>(sensor_id, time, msg-&gt;header.frame_id, point_cloud);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理MultiEchoLaserScan数据, 先转成点云,再传入trajectory_builder_</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SensorBridge::HandleMultiEchoLaserScanMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor_msgs::MultiEchoLaserScan::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  carto::sensor::PointCloudWithIntensities point_cloud;</span><br><span class="line">  carto::common::Time time;</span><br><span class="line">  std::<span class="built_in">tie</span>(point_cloud, time) = <span class="built_in">ToPointCloudWithIframe_idntensities</span>(*msg);</span><br><span class="line">  <span class="built_in">HandleLaserScan</span>(sensor_id, time, msg-&gt;header.frame_id, point_cloud);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>HandleLaserScan的形参分别为</p>
+<ul>
+<li>传感器名字</li>
+<li>点云最后一个点的时间戳</li>
+<li>雷达传感器的frame_id</li>
+<li>点云数据</li>
+</ul>
+<p>下面介绍HandleLaserScan是如何处理点云数据的</p>
+<h1 id="HandleLaserScan"><a href="#HandleLaserScan" class="headerlink" title="HandleLaserScan"></a>HandleLaserScan</h1><p>HandleLaserScan 函数主要根据参数配置，将一帧雷达数据分成几段来处理</p>
+<p>函数完整的代码如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据参数配置,将一帧雷达数据分成几段, 再传入trajectory_builder_</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SensorBridge::HandleLaserScan</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id, <span class="keyword">const</span> carto::common::Time time,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; frame_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> carto::sensor::PointCloudWithIntensities&amp; points)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (points.points.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// CHECK_LE: 小于等于</span></span><br><span class="line">  <span class="built_in">CHECK_LE</span>(points.points.<span class="built_in">back</span>().time, <span class="number">0.f</span>);</span><br><span class="line">  <span class="comment">// TODO(gaschler): Use per-point time instead of subdivisions.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 意为一帧雷达数据被分成几次处理, 一般将这个参数设置为1</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i != num_subdivisions_per_laser_scan_; ++i) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">size_t</span> start_index =</span><br><span class="line">        points.points.<span class="built_in">size</span>() * i / num_subdivisions_per_laser_scan_;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">size_t</span> end_index =</span><br><span class="line">        points.points.<span class="built_in">size</span>() * (i + <span class="number">1</span>) / num_subdivisions_per_laser_scan_;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生成分段的点云</span></span><br><span class="line">    carto::<span class="function">sensor::TimedPointCloud <span class="title">subdivision</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        points.points.begin() + start_index, points.points.begin() + end_index)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (start_index == end_index) &#123;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> time_to_subdivision_end = subdivision.<span class="built_in">back</span>().time;</span><br><span class="line">    <span class="comment">// `subdivision_time` is the end of the measurement so sensor::Collator will</span></span><br><span class="line">    <span class="comment">// send all other sensor data first.</span></span><br><span class="line">    <span class="keyword">const</span> carto::common::Time subdivision_time =</span><br><span class="line">        time + carto::common::<span class="built_in">FromSeconds</span>(time_to_subdivision_end);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">auto</span> it = sensor_to_previous_subdivision_time_.<span class="built_in">find</span>(sensor_id);</span><br><span class="line">    <span class="keyword">if</span> (it != sensor_to_previous_subdivision_time_.<span class="built_in">end</span>() &amp;&amp;</span><br><span class="line">        <span class="comment">// 上一段点云的时间不应该大于等于这一段点云的时间</span></span><br><span class="line">        it-&gt;second &gt;= subdivision_time) &#123;</span><br><span class="line">      <span class="built_in">LOG</span>(WARNING) &lt;&lt; <span class="string">&quot;Ignored subdivision of a LaserScan message from sensor &quot;</span></span><br><span class="line">                   &lt;&lt; sensor_id &lt;&lt; <span class="string">&quot; because previous subdivision time &quot;</span></span><br><span class="line">                   &lt;&lt; it-&gt;second &lt;&lt; <span class="string">&quot; is not before current subdivision time &quot;</span></span><br><span class="line">                   &lt;&lt; subdivision_time;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 更新对应sensor_id的时间戳</span></span><br><span class="line">    sensor_to_previous_subdivision_time_[sensor_id] = subdivision_time;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 检查点云的时间</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; point : subdivision) &#123;</span><br><span class="line">      point.time -= time_to_subdivision_end;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">CHECK_EQ</span>(subdivision.<span class="built_in">back</span>().time, <span class="number">0.f</span>);</span><br><span class="line">    <span class="comment">// 将分段后的点云 subdivision 传入 trajectory_builder_</span></span><br><span class="line">    <span class="built_in">HandleRangefinder</span>(sensor_id, subdivision_time, frame_id, subdivision);</span><br><span class="line">  &#125; <span class="comment">// for </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h2><p>如果点云数据为空，直接返回</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (points.points.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检查点云最后一个点的时间是否是小于等于0，在之前我们就设置了最后一个点应该为0</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CHECK_LE: 小于等于</span></span><br><span class="line"><span class="built_in">CHECK_LE</span>(points.points.<span class="built_in">back</span>().time, <span class="number">0.f</span>);</span><br></pre></td></tr></table></figure>
+<p>假设一个点云一共有100个点，</p>
+<p>若num<em>subdivisions_per_laser_scan</em>=1，则start_index=0, end_inndex=100</p>
+<p>若num<em>subdivisions_per_laser_scan</em>=2，则start_index=0, end_inndex=50以及start_index=50, end_inndex=100</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 意为一帧雷达数据被分成几次处理, 一般将这个参数设置为1</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i != num_subdivisions_per_laser_scan_; ++i) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> start_index =</span><br><span class="line">      points.points.<span class="built_in">size</span>() * i / num_subdivisions_per_laser_scan_;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> end_index =</span><br><span class="line">      points.points.<span class="built_in">size</span>() * (i + <span class="number">1</span>) / num_subdivisions_per_laser_scan_;</span><br></pre></td></tr></table></figure>
+<p>反正一共就是这么100个点，就看要被 分为几批数据来处理</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/07/1007sensor_bridge_point_cloud/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">雷达转点云-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HandleLaserScan"><span class="nav-number">1.</span> <span class="nav-text">HandleLaserScan</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">代码解析</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
