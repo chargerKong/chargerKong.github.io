@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            添加轨迹-MapBuilder-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">添加轨迹-MapBuilder-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-14 11:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>在MapBuilder类中，AddTrajectoryBuilder函数会创建一个新的 TrajectoryBuilder 并返回它的 trajectory_id。</p>
+<p>建立轨迹的过程就需要用到前端和后端的数据</p>
+<p>下面首先给出该函数的全部内容</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 创建一个新的 TrajectoryBuilder 并返回它的 trajectory_id</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] expected_sensor_ids 所有需要的topic的名字的集合</span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_options 轨迹的参数配置</span></span><br><span class="line"><span class="comment"> * @param[in] local_slam_result_callback 需要传入的回调函数</span></span><br><span class="line"><span class="comment"> *        实际上是map_builder_bridge.cc 中的 OnLocalSlamResult() 函数</span></span><br><span class="line"><span class="comment"> * @return int 新生成的轨迹的id</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MapBuilder::AddTrajectoryBuilder</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::set&lt;SensorId&gt;&amp; expected_sensor_ids,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> proto::TrajectoryBuilderOptions&amp; trajectory_options,</span></span></span><br><span class="line"><span class="function"><span class="params">    LocalSlamResultCallback local_slam_result_callback)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// id是从零开始的, 所以新trajectory_id就是trajectory_builders_的size()</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id = trajectory_builders_.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 运动过滤器, 运动太小没必要进行更新</span></span><br><span class="line">  <span class="comment">// 配置文件中没有 pose_graph_odometry_motion_filte</span></span><br><span class="line">  absl::optional&lt;MotionFilter&gt; pose_graph_odometry_motion_filter;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// LOG(INFO) &lt;&lt; &quot;pose_graph odometry_motion_filter is &quot; &lt;&lt; trajectory_options.has_pose_graph_odometry_motion_filter();</span></span><br><span class="line">  <span class="comment">// 上面会打印出0, 所以没有使用后端的里程计的motion_filter</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (trajectory_options.<span class="built_in">has_pose_graph_odometry_motion_filter</span>()) &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Using a motion filter for adding odometry to the pose graph.&quot;</span>;</span><br><span class="line">    pose_graph_odometry_motion_filter.<span class="built_in">emplace</span>(</span><br><span class="line">        <span class="built_in">MotionFilter</span>(trajectory_options.<span class="built_in">pose_graph_odometry_motion_filter</span>()));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// LocalTrajectoryBuilder 就是前端, 不带 Loop Closure </span></span><br><span class="line">  <span class="comment">// 包含了 Pose Extrapolator, Scan Matching, 生成submap 等</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3d的轨迹</span></span><br><span class="line">  <span class="keyword">if</span> (options_.<span class="built_in">use_trajectory_builder_3d</span>()) &#123;</span><br><span class="line">    <span class="comment">// local_trajectory_builder(前端)的初始化</span></span><br><span class="line">    std::unique_ptr&lt;LocalTrajectoryBuilder3D&gt; local_trajectory_builder;</span><br><span class="line">    <span class="keyword">if</span> (trajectory_options.<span class="built_in">has_trajectory_builder_3d_options</span>()) &#123;</span><br><span class="line">      local_trajectory_builder = absl::make_unique&lt;LocalTrajectoryBuilder3D&gt;(</span><br><span class="line">          trajectory_options.<span class="built_in">trajectory_builder_3d_options</span>(),</span><br><span class="line">          <span class="built_in">SelectRangeSensorIds</span>(expected_sensor_ids));</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * c++11: static_cast关键字（编译时类型检查）: static_cast &lt; type-id &gt; ( expression )</span></span><br><span class="line"><span class="comment">     * 该运算符把expression转换为type-id类型, 但没有运行时类型检查来保证转换的安全性</span></span><br><span class="line"><span class="comment">      （1）用于基本数据类型之间的转换, 如把int转换为char, 把int转换成enum, </span></span><br><span class="line"><span class="comment">      （2）把空指针转换成目标类型的空指针</span></span><br><span class="line"><span class="comment">      （3）把任何类型的表达式类型转换成void类型</span></span><br><span class="line"><span class="comment">      （4）用于类层次结构中父类和子类之间指针和引用的转换.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     * c++11: dynamic_cast关键字（运行时类型检查）: dynamic_cast &lt; type-id &gt; ( expression )</span></span><br><span class="line"><span class="comment">        该运算符把 expression 转换成 type-id 类型的对象. Type-id必须是类的指针、类的引用或者void *</span></span><br><span class="line"><span class="comment">        如果type-id是类指针类型, 那么expression也必须是一个指针</span></span><br><span class="line"><span class="comment">        如果type-id是一个引用, 那么expression也必须是一个引用</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        dynamic_cast主要用于类层次间的上行转换（子类到父类）和下行转换（父类到子类）, 还可以用于类之间的交叉转换.</span></span><br><span class="line"><span class="comment">        在类层次间进行上行转换时, dynamic_cast和static_cast的效果是一样的；</span></span><br><span class="line"><span class="comment">        在进行下行转换时, dynamic_cast具有类型检查的功能, 比static_cast更安全.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="built_in">DCHECK</span>(<span class="keyword">dynamic_cast</span>&lt;PoseGraph3D*&gt;(pose_graph_.<span class="built_in">get</span>()));</span><br><span class="line"></span><br><span class="line">    trajectory_builders_.<span class="built_in">push_back</span>(absl::make_unique&lt;CollatedTrajectoryBuilder&gt;(</span><br><span class="line">        trajectory_options, sensor_collator_.<span class="built_in">get</span>(), trajectory_id,</span><br><span class="line">        expected_sensor_ids,</span><br><span class="line">        <span class="comment">// 将3D前端与3D位姿图打包在一起, 传入CollatedTrajectoryBuilder</span></span><br><span class="line">        <span class="built_in">CreateGlobalTrajectoryBuilder3D</span>(</span><br><span class="line">            std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id,</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;PoseGraph3D*&gt;(pose_graph_.<span class="built_in">get</span>()),</span><br><span class="line">            local_slam_result_callback, pose_graph_odometry_motion_filter)));</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="comment">// 2d的轨迹</span></span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    std::unique_ptr&lt;LocalTrajectoryBuilder2D&gt; local_trajectory_builder;</span><br><span class="line">    <span class="keyword">if</span> (trajectory_options.<span class="built_in">has_trajectory_builder_2d_options</span>()) &#123;</span><br><span class="line">      <span class="comment">// local_trajectory_builder(前端)的初始化</span></span><br><span class="line">      local_trajectory_builder = absl::make_unique&lt;LocalTrajectoryBuilder2D&gt;(</span><br><span class="line">          trajectory_options.<span class="built_in">trajectory_builder_2d_options</span>(),</span><br><span class="line">          <span class="built_in">SelectRangeSensorIds</span>(expected_sensor_ids));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">DCHECK</span>(<span class="keyword">dynamic_cast</span>&lt;PoseGraph2D*&gt;(pose_graph_.<span class="built_in">get</span>()));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// CollatedTrajectoryBuilder初始化</span></span><br><span class="line">    trajectory_builders_.<span class="built_in">push_back</span>(absl::make_unique&lt;CollatedTrajectoryBuilder&gt;(</span><br><span class="line">        trajectory_options, sensor_collator_.<span class="built_in">get</span>(), trajectory_id,</span><br><span class="line">        expected_sensor_ids,</span><br><span class="line">        <span class="comment">// 将2D前端与2D位姿图打包在一起, 传入CollatedTrajectoryBuilder</span></span><br><span class="line">        <span class="built_in">CreateGlobalTrajectoryBuilder2D</span>(</span><br><span class="line">            std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id,</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;PoseGraph2D*&gt;(pose_graph_.<span class="built_in">get</span>()),</span><br><span class="line">            local_slam_result_callback, pose_graph_odometry_motion_filter)));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 是否是纯定位模式, 如果是则只保存最近3个submap</span></span><br><span class="line">  <span class="built_in">MaybeAddPureLocalizationTrimmer</span>(trajectory_id, trajectory_options,</span><br><span class="line">                                  pose_graph_.<span class="built_in">get</span>());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果给了初始位姿</span></span><br><span class="line">  <span class="keyword">if</span> (trajectory_options.<span class="built_in">has_initial_trajectory_pose</span>()) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; initial_trajectory_pose =</span><br><span class="line">        trajectory_options.<span class="built_in">initial_trajectory_pose</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 在位姿图中设置初始位姿</span></span><br><span class="line">    pose_graph_-&gt;<span class="built_in">SetInitialTrajectoryPose</span>(</span><br><span class="line">        trajectory_id, initial_trajectory_pose.<span class="built_in">to_trajectory_id</span>(),</span><br><span class="line">        transform::<span class="built_in">ToRigid3</span>(initial_trajectory_pose.<span class="built_in">relative_pose</span>()),</span><br><span class="line">        common::<span class="built_in">FromUniversal</span>(initial_trajectory_pose.<span class="built_in">timestamp</span>()));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 保存轨迹的配置文件</span></span><br><span class="line">  proto::TrajectoryBuilderOptionsWithSensorIds options_with_sensor_ids_proto;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sensor_id : expected_sensor_ids) &#123;</span><br><span class="line">    *options_with_sensor_ids_proto.<span class="built_in">add_sensor_id</span>() = <span class="built_in">ToProto</span>(sensor_id);</span><br><span class="line">  &#125;</span><br><span class="line">  *options_with_sensor_ids_proto.<span class="built_in">mutable_trajectory_builder_options</span>() =</span><br><span class="line">      trajectory_options;</span><br><span class="line">  all_trajectory_builder_options_.<span class="built_in">push_back</span>(options_with_sensor_ids_proto);</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">CHECK_EQ</span>(trajectory_builders_.<span class="built_in">size</span>(), all_trajectory_builder_options_.<span class="built_in">size</span>());</span><br><span class="line">  <span class="keyword">return</span> trajectory_id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h1><p>trajectory<em>builders</em> 的声明如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::unique_ptr&lt;mapping::TrajectoryBuilderInterface&gt;&gt;</span><br><span class="line">      trajectory_builders_;</span><br></pre></td></tr></table></figure>
+<p>因此他的size刚好也可以作为轨迹ID的序号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; id是从零开始的, 所以新trajectory_id就是trajectory_builders_的size()</span><br><span class="line">const int trajectory_id &#x3D; trajectory_builders_.size();</span><br></pre></td></tr></table></figure>
+<p>下面这一段代码并没有 什么用。。。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 运动过滤器, 运动太小没必要进行更新</span></span><br><span class="line"><span class="comment">// 配置文件中没有 pose_graph_odometry_motion_filte</span></span><br><span class="line">absl::optional&lt;MotionFilter&gt; pose_graph_odometry_motion_filter;</span><br><span class="line"></span><br><span class="line"><span class="comment">// LOG(INFO) &lt;&lt; &quot;pose_graph odometry_motion_filter is &quot; &lt;&lt; trajectory_options.has_pose_graph_odometry_motion_filter();</span></span><br><span class="line"><span class="comment">// 上面会打印出0, 所以没有使用后端的里程计的motion_filter</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (trajectory_options.<span class="built_in">has_pose_graph_odometry_motion_filter</span>()) &#123;</span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Using a motion filter for adding odometry to the pose graph.&quot;</span>;</span><br><span class="line">  pose_graph_odometry_motion_filter.<span class="built_in">emplace</span>(</span><br><span class="line">      <span class="built_in">MotionFilter</span>(trajectory_options.<span class="built_in">pose_graph_odometry_motion_filter</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  LocalTrajectoryBuilder 为前端, 不带 Loop Closure ，包含了 Pose Extrapolator, Scan Matching, 生成submap 等</p>
+<p>下面根据使用的是3d还是2d，对前端进行初始化，建立一个指向LocalTrajectoryBuilder3D或者LocalTrajectoryBuilder2D的指针，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3d的轨迹</span></span><br><span class="line">  <span class="keyword">if</span> (options_.<span class="built_in">use_trajectory_builder_3d</span>()) &#123;</span><br><span class="line">    <span class="comment">// local_trajectory_builder(前端)的初始化</span></span><br><span class="line">    std::unique_ptr&lt;LocalTrajectoryBuilder3D&gt; local_trajectory_builder;</span><br><span class="line">    <span class="keyword">if</span> (trajectory_options.<span class="built_in">has_trajectory_builder_3d_options</span>()) &#123;</span><br><span class="line">      local_trajectory_builder = absl::make_unique&lt;LocalTrajectoryBuilder3D&gt;(</span><br><span class="line">          trajectory_options.<span class="built_in">trajectory_builder_3d_options</span>(),</span><br><span class="line">          <span class="built_in">SelectRangeSensorIds</span>(expected_sensor_ids));</span><br><span class="line">    &#125; </span><br></pre></td></tr></table></figure>
+<p>在运行时检查pose_graph的类型. get 方法可以获取unique指针的原指针</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DCHECK(dynamic_cast&lt;PoseGraph3D*&gt;(pose_graph_.get()));</span><br></pre></td></tr></table></figure>
+<p>将3D前端与3D位姿图打包在一起, 传入CollatedTrajectoryBuilder</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">trajectory_builders_.<span class="built_in">push_back</span>(absl::make_unique&lt;CollatedTrajectoryBuilder&gt;(</span><br><span class="line">        trajectory_options, sensor_collator_.<span class="built_in">get</span>(), trajectory_id,</span><br><span class="line">        expected_sensor_ids,</span><br><span class="line">        <span class="comment">// 将3D前端与3D位姿图打包在一起, 传入CollatedTrajectoryBuilder</span></span><br><span class="line">        <span class="built_in">CreateGlobalTrajectoryBuilder3D</span>(</span><br><span class="line">            std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id,</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;PoseGraph3D*&gt;(pose_graph_.<span class="built_in">get</span>()),</span><br><span class="line">            local_slam_result_callback, pose_graph_odometry_motion_filter)))</span><br></pre></td></tr></table></figure>
+<p>2D部分和3D部分是完全一模一样的</p>
+<p>检查是否是纯定位模式，如果是则只保存最近3个submap。可以通过trajectory_builder.lua的pure_localization_trimmer参数 进行设置</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MaybeAddPureLocalizationTrimmer</span>(trajectory_id, trajectory_options,</span><br><span class="line">                                  pose_graph_.<span class="built_in">get</span>());</span><br></pre></td></tr></table></figure>
+<p>最后设定初始位姿</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果给了初始位姿</span></span><br><span class="line"><span class="keyword">if</span> (trajectory_options.<span class="built_in">has_initial_trajectory_pose</span>()) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span>&amp; initial_trajectory_pose =</span><br><span class="line">      trajectory_options.<span class="built_in">initial_trajectory_pose</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 在位姿图中设置初始位姿</span></span><br><span class="line">  pose_graph_-&gt;<span class="built_in">SetInitialTrajectoryPose</span>(</span><br><span class="line">      trajectory_id, initial_trajectory_pose.<span class="built_in">to_trajectory_id</span>(),</span><br><span class="line">      transform::<span class="built_in">ToRigid3</span>(initial_trajectory_pose.<span class="built_in">relative_pose</span>()),</span><br><span class="line">      common::<span class="built_in">FromUniversal</span>(initial_trajectory_pose.<span class="built_in">timestamp</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存轨迹的配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proto::TrajectoryBuilderOptionsWithSensorIds options_with_sensor_ids_proto;</span><br><span class="line">  for (const auto&amp; sensor_id : expected_sensor_ids) &#123;</span><br><span class="line">    *options_with_sensor_ids_proto.add_sensor_id() &#x3D; ToProto(sensor_id);</span><br><span class="line">  &#125;</span><br><span class="line">  *options_with_sensor_ids_proto.mutable_trajectory_builder_options() &#x3D;</span><br><span class="line">      trajectory_options;</span><br><span class="line">  all_trajectory_builder_options_.push_back(options_with_sensor_ids_proto);</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/10/14/1014%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-ros2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">colcon环境变量设置-ros2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">MapBuilder构造函数-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">代码解析</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

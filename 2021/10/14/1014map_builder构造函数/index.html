@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            MapBuilder构造函数-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">MapBuilder构造函数-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-14 10:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>MapBuilder包含前端(TrajectoryBuilders,scan to submap) 与 后端(用于查找回环的PoseGraph) 的完整的SLAM，其位置位于<code>cartographer/mapping/map_builder.h</code></p>
+<p>本文将简要介绍一下他的构造函数，大致内容为</p>
+<ul>
+<li>保存配置参数,</li>
+<li>根据给定的参数初始化线程池,</li>
+<li>初始化pose<em>graph</em> 与sensor<em>collator</em> </li>
+</ul>
+<p>下面为构造函数的全部代码内容</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">MapBuilder::<span class="built_in">MapBuilder</span>(<span class="keyword">const</span> proto::MapBuilderOptions&amp; options)</span><br><span class="line">    : <span class="built_in">options_</span>(options), <span class="built_in">thread_pool_</span>(options.<span class="built_in">num_background_threads</span>()) &#123; </span><br><span class="line">      <span class="comment">// param: num_background_threads</span></span><br><span class="line">  <span class="built_in">CHECK</span>(options.<span class="built_in">use_trajectory_builder_2d</span>() ^</span><br><span class="line">        options.<span class="built_in">use_trajectory_builder_3d</span>());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2d位姿图(后端)的初始化</span></span><br><span class="line">  <span class="keyword">if</span> (options.<span class="built_in">use_trajectory_builder_2d</span>()) &#123;</span><br><span class="line">    pose_graph_ = absl::make_unique&lt;PoseGraph2D&gt;(</span><br><span class="line">        options_.<span class="built_in">pose_graph_options</span>(),</span><br><span class="line">        absl::make_unique&lt;optimization::OptimizationProblem2D&gt;(</span><br><span class="line">            options_.<span class="built_in">pose_graph_options</span>().<span class="built_in">optimization_problem_options</span>()),</span><br><span class="line">        &amp;thread_pool_);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 3d位姿图(后端)的初始化</span></span><br><span class="line">  <span class="keyword">if</span> (options.<span class="built_in">use_trajectory_builder_3d</span>()) &#123;</span><br><span class="line">    pose_graph_ = absl::make_unique&lt;PoseGraph3D&gt;(</span><br><span class="line">        options_.<span class="built_in">pose_graph_options</span>(),</span><br><span class="line">        absl::make_unique&lt;optimization::OptimizationProblem3D&gt;(</span><br><span class="line">            options_.<span class="built_in">pose_graph_options</span>().<span class="built_in">optimization_problem_options</span>()),</span><br><span class="line">        &amp;thread_pool_);</span><br><span class="line">  &#125; </span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在 cartographer/configuration_files/map_builder.lua 中设置</span></span><br><span class="line">  <span class="comment">// param: MAP_BUILDER.collate_by_trajectory 默认为false</span></span><br><span class="line">  <span class="keyword">if</span> (options.<span class="built_in">collate_by_trajectory</span>()) &#123;</span><br><span class="line">    sensor_collator_ = absl::make_unique&lt;sensor::TrajectoryCollator&gt;();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// sensor_collator_初始化, 实际使用这个</span></span><br><span class="line">    sensor_collator_ = absl::make_unique&lt;sensor::Collator&gt;();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h1><p><code>^</code>为异或操作，只有两个数不一样才会返回true。因此use_trajectory_builder_2d和use_trajectory_builder_3d中必须要有一个为true。并且也不可以同时为true或者为false。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CHECK(options.use_trajectory_builder_2d() ^</span><br><span class="line">      options.use_trajectory_builder_3d());</span><br></pre></td></tr></table></figure>
+<p>后续根据是2d还是3d建立不同的pose_graph。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2d位姿图(后端)的初始化</span></span><br><span class="line"><span class="keyword">if</span> (options.<span class="built_in">use_trajectory_builder_2d</span>()) &#123;</span><br><span class="line">  pose_graph_ = absl::make_unique&lt;PoseGraph2D&gt;(</span><br><span class="line">      options_.<span class="built_in">pose_graph_options</span>(),</span><br><span class="line">      absl::make_unique&lt;optimization::OptimizationProblem2D&gt;(</span><br><span class="line">          options_.<span class="built_in">pose_graph_options</span>().<span class="built_in">optimization_problem_options</span>()),</span><br><span class="line">      &amp;thread_pool_);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 3d位姿图(后端)的初始化</span></span><br><span class="line"><span class="keyword">if</span> (options.<span class="built_in">use_trajectory_builder_3d</span>()) &#123;</span><br><span class="line">  pose_graph_ = absl::make_unique&lt;PoseGraph3D&gt;(</span><br><span class="line">      options_.<span class="built_in">pose_graph_options</span>(),</span><br><span class="line">      absl::make_unique&lt;optimization::OptimizationProblem3D&gt;(</span><br><span class="line">          options_.<span class="built_in">pose_graph_options</span>().<span class="built_in">optimization_problem_options</span>()),</span><br><span class="line">      &amp;thread_pool_);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>可以看到map_builder在进行构造的时候，是在node_main.cc的时候，后端就可以构造了，还没有传感器数据输入的时候，后端已经初始化好了，四个线程也已经在执行了</p>
+<p>后续对sensor_collator进行设置, 而options.collate_by_trajectory()是定义在map_builder.lua文件中，一般不需要配置，因此他实际使用的是<code>absl::make_unique&lt;sensor::Collator&gt;()</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 cartographer/configuration_files/map_builder.lua 中设置</span></span><br><span class="line"><span class="comment">// param: MAP_BUILDER.collate_by_trajectory 默认为false</span></span><br><span class="line"><span class="keyword">if</span> (options.<span class="built_in">collate_by_trajectory</span>()) &#123;</span><br><span class="line">  sensor_collator_ = absl::make_unique&lt;sensor::TrajectoryCollator&gt;();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// sensor_collator_初始化, 实际使用这个</span></span><br><span class="line">  sensor_collator_ = absl::make_unique&lt;sensor::Collator&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">添加轨迹-MapBuilder-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/14/1014%E5%90%8E%E7%AB%AF%E7%BA%BF%E7%A8%8B%E6%B1%A0-cartographer/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">后端线程池-num_background_threads-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">代码解析</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
