@@ -187,8 +187,9 @@
 <p>下面这一段代码并没有 什么用。。。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 运动过滤器, 运动太小没必要进行更新</span></span><br><span class="line"><span class="comment">// 配置文件中没有 pose_graph_odometry_motion_filte</span></span><br><span class="line">absl::optional&lt;MotionFilter&gt; pose_graph_odometry_motion_filter;</span><br><span class="line"></span><br><span class="line"><span class="comment">// LOG(INFO) &lt;&lt; &quot;pose_graph odometry_motion_filter is &quot; &lt;&lt; trajectory_options.has_pose_graph_odometry_motion_filter();</span></span><br><span class="line"><span class="comment">// 上面会打印出0, 所以没有使用后端的里程计的motion_filter</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (trajectory_options.<span class="built_in">has_pose_graph_odometry_motion_filter</span>()) &#123;</span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Using a motion filter for adding odometry to the pose graph.&quot;</span>;</span><br><span class="line">  pose_graph_odometry_motion_filter.<span class="built_in">emplace</span>(</span><br><span class="line">      <span class="built_in">MotionFilter</span>(trajectory_options.<span class="built_in">pose_graph_odometry_motion_filter</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>  LocalTrajectoryBuilder 为前端, 不带 Loop Closure ，包含了 Pose Extrapolator, Scan Matching, 生成submap 等</p>
-<p>下面根据使用的是3d还是2d，对前端进行初始化，建立一个指向LocalTrajectoryBuilder3D或者LocalTrajectoryBuilder2D的指针，</p>
+<h2 id="前端指针建立"><a href="#前端指针建立" class="headerlink" title="前端指针建立"></a>前端指针建立</h2><p>下面根据使用的是3d还是2d，对前端进行初始化，建立一个指向LocalTrajectoryBuilder3D或者LocalTrajectoryBuilder2D的指针，</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3d的轨迹</span></span><br><span class="line">  <span class="keyword">if</span> (options_.<span class="built_in">use_trajectory_builder_3d</span>()) &#123;</span><br><span class="line">    <span class="comment">// local_trajectory_builder(前端)的初始化</span></span><br><span class="line">    std::unique_ptr&lt;LocalTrajectoryBuilder3D&gt; local_trajectory_builder;</span><br><span class="line">    <span class="keyword">if</span> (trajectory_options.<span class="built_in">has_trajectory_builder_3d_options</span>()) &#123;</span><br><span class="line">      local_trajectory_builder = absl::make_unique&lt;LocalTrajectoryBuilder3D&gt;(</span><br><span class="line">          trajectory_options.<span class="built_in">trajectory_builder_3d_options</span>(),</span><br><span class="line">          <span class="built_in">SelectRangeSensorIds</span>(expected_sensor_ids));</span><br><span class="line">    &#125; </span><br></pre></td></tr></table></figure>
+<p>local_trajectory_builder为一个指向LocalTrajectoryBuilder3D的智能指针，传入的参数是3d轨迹建立的参数，以及sensor type为RANGE的所有topic的集合</p>
 <p>在运行时检查pose_graph的类型. get 方法可以获取unique指针的原指针</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DCHECK(dynamic_cast&lt;PoseGraph3D*&gt;(pose_graph_.get()));</span><br></pre></td></tr></table></figure>
 <p>将3D前端与3D位姿图打包在一起, 传入CollatedTrajectoryBuilder</p>
@@ -196,7 +197,7 @@
 <p>2D部分和3D部分是完全一模一样的</p>
 <p>检查是否是纯定位模式，如果是则只保存最近3个submap。可以通过trajectory_builder.lua的pure_localization_trimmer参数 进行设置</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MaybeAddPureLocalizationTrimmer</span>(trajectory_id, trajectory_options,</span><br><span class="line">                                  pose_graph_.<span class="built_in">get</span>());</span><br></pre></td></tr></table></figure>
-<p>最后设定初始位姿</p>
+<h2 id="设定初始位姿保存轨迹"><a href="#设定初始位姿保存轨迹" class="headerlink" title="设定初始位姿保存轨迹"></a>设定初始位姿保存轨迹</h2><p>最后设定初始位姿</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果给了初始位姿</span></span><br><span class="line"><span class="keyword">if</span> (trajectory_options.<span class="built_in">has_initial_trajectory_pose</span>()) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span>&amp; initial_trajectory_pose =</span><br><span class="line">      trajectory_options.<span class="built_in">initial_trajectory_pose</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 在位姿图中设置初始位姿</span></span><br><span class="line">  pose_graph_-&gt;<span class="built_in">SetInitialTrajectoryPose</span>(</span><br><span class="line">      trajectory_id, initial_trajectory_pose.<span class="built_in">to_trajectory_id</span>(),</span><br><span class="line">      transform::<span class="built_in">ToRigid3</span>(initial_trajectory_pose.<span class="built_in">relative_pose</span>()),</span><br><span class="line">      common::<span class="built_in">FromUniversal</span>(initial_trajectory_pose.<span class="built_in">timestamp</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>保存轨迹的配置文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proto::TrajectoryBuilderOptionsWithSensorIds options_with_sensor_ids_proto;</span><br><span class="line">  for (const auto&amp; sensor_id : expected_sensor_ids) &#123;</span><br><span class="line">    *options_with_sensor_ids_proto.add_sensor_id() &#x3D; ToProto(sensor_id);</span><br><span class="line">  &#125;</span><br><span class="line">  *options_with_sensor_ids_proto.mutable_trajectory_builder_options() &#x3D;</span><br><span class="line">      trajectory_options;</span><br><span class="line">  all_trajectory_builder_options_.push_back(options_with_sensor_ids_proto);</span><br></pre></td></tr></table></figure>
@@ -400,7 +401,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">代码解析</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%8C%87%E9%92%88%E5%BB%BA%E7%AB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">前端指针建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E5%88%9D%E5%A7%8B%E4%BD%8D%E5%A7%BF%E4%BF%9D%E5%AD%98%E8%BD%A8%E8%BF%B9"><span class="nav-number">1.2.</span> <span class="nav-text">设定初始位姿保存轨迹</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
@@ -449,5 +450,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

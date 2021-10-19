@@ -132,6 +132,37 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/17/1017%E5%A4%9A%E6%80%81c++/">
+                        多态c++
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        多态顾名思义多种形态。
+即声明一个指向基类的指针，此类中的纯虚函数被其他类继承，指针可以调用继承于此类的于纯虚函数同名的方法
+看示例
+1234567891011121314151617181920212223242526272829303132333...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Oct 17 2021 09:59:22 GMT+0800">2021-10-17</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/17/1017%E5%A4%9A%E6%80%81c++/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/10/14/1014%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-ros2/">
                         colcon环境变量设置-ros2
                     </a>
@@ -212,6 +243,34 @@
     </div>
 
     <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/14/1016collate%20/">
+                        传感器数据走向-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        传感器数据走向Node类的HandleLaserScanMessage函数123456789101112// 调用SensorBridge的传感器处理函数进行数据处理void Node::HandleLaserScanMessage(const in...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/14/1016collate%20/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -365,67 +424,6 @@ node类筛选数据在N...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/29/0929%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">
-                        undefined reference to `vtable for Tianboard&#39;
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        系统：ros2-foxy
-编译发生错误  undefined reference to `vtable for Tianboard’
-vtable即虚函数表，即缺少一个析构函数
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Sep 29 2021 09:59:22 GMT+0800">2021-09-29</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/29/0929%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/26/0926sensor_bridge/">
-                        sensor-bridge-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        GPS数据处理在sensorBridge中，处理GPS数据的函数为HandleNavSatFixMessage。
-如果雷达的数据不是STATUS_NO_FIX，则就直接返回不处理
-12345678910111213141516171819202122...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 26 2021 15:59:23 GMT+0800">2021-09-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/26/0926sensor_bridge/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -552,5 +550,20 @@ vtable即虚函数表，即缺少一个析构函数
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -132,6 +132,68 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/08/28/0828Node/">
+                        cartographer-Node类
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        c++11 新特性c++11 类默认函数的控制：”=default” 和 “=delete”函数以下内容参考https://www.cnblogs.com/lsgxeva/p/7787438.html
+C++ 的类有四类特殊成员函数，它们分别是：默认...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Aug 28 2021 15:59:22 GMT+0800">2021-08-28</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/08/28/0828Node/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/">
+                        cartographer参数读取过程下
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在参数读取上中，我们说到了，lua的配置参数最后会通过std::tie传到两个变量中，分别是
+
+类为NodeOptions的变量 node_options
+类为TrajectoryOptions的变量trajectory_options
+
+下面我们具...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Aug 26 2021 15:59:22 GMT+0800">2021-08-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/08/24/0824%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">
                         cartographer参数读取过程上
                     </a>
@@ -365,65 +427,6 @@ gflag工具12345678910DEFINE_bool(collect_metrics, false,            &quot;Activ
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/16/0813cartographer%E8%BF%90%E8%A1%8C/">
-                        bag包处理
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        bag包处理bag包进行分析1rosbag info rslidar-outdoor-gps.bag
-可以看见包的基本信息，主要是看topic的消息类型和名字
-12345678910111213141516171819202122path:     ...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 16 2021 18:38:29 GMT+0800">2021-08-16</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/16/0813cartographer%E8%BF%90%E8%A1%8C/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/12/0812cartographer%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">
-                        编译Cartographer的几种方法
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        编译Cartographer的几种方法第一：可以先安装Cartographer到电脑上，先参考Cartographer的官方安装参考
-然后下载Cartographer_ros作为一个软件包catkin_make即可。这种安装方式可以直接修改源码无需再...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Aug 12 2021 18:38:29 GMT+0800">2021-08-12</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/12/0812cartographer%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -554,5 +557,20 @@ gflag工具12345678910DEFINE_bool(collect_metrics, false,            &quot;Activ
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

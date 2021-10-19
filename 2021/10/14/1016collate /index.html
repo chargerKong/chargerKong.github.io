@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            传感器数据走向-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">传感器数据走向-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-14 10:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="传感器数据走向"><a href="#传感器数据走向" class="headerlink" title="传感器数据走向"></a>传感器数据走向</h1><h2 id="Node类的HandleLaserScanMessage函数"><a href="#Node类的HandleLaserScanMessage函数" class="headerlink" title="Node类的HandleLaserScanMessage函数"></a>Node类的HandleLaserScanMessage函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用SensorBridge的传感器处理函数进行数据处理</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Node::HandleLaserScanMessage</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  <span class="keyword">const</span> sensor_msgs::LaserScan::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="comment">// 根据配置,是否将传感器数据跳过</span></span><br><span class="line">  <span class="keyword">if</span> (!sensor_samplers_.<span class="built_in">at</span>(trajectory_id).rangefinder_sampler.<span class="built_in">Pulse</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  map_builder_bridge_.<span class="built_in">sensor_bridge</span>(trajectory_id)</span><br><span class="line">      -&gt;<span class="built_in">HandleLaserScanMessage</span>(sensor_id, msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>map<em>builder_bridge</em> 在Node的构造函数赋值</p>
+<p>sensor_bridge于Node构造函数之后的StartTrajectoryWithDefaultTopics中赋值，在添加轨迹的过程中，需要建立对应轨迹的sensor_bridge方便处理传感器数据。</p>
+<h2 id="SensorBridge类的HandleLaserScanMessage函数"><a href="#SensorBridge类的HandleLaserScanMessage函数" class="headerlink" title="SensorBridge类的HandleLaserScanMessage函数"></a>SensorBridge类的HandleLaserScanMessage函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SensorBridge::HandleLaserScanMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">const</span> std::string&amp; sensor_id, <span class="keyword">const</span> sensor_msgs::LaserScan::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">    carto::sensor::PointCloudWithIntensities point_cloud;</span><br><span class="line">    carto::common::Time time;</span><br><span class="line">    std::<span class="built_in">tie</span>(point_cloud, time) = <span class="built_in">ToPointCloudWithIntensities</span>(*msg);</span><br><span class="line">    <span class="built_in">HandleLaserScan</span>(sensor_id, time, msg-&gt;header.frame_id, point_cloud);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>HandleLaserScan最后会调用HandleRangefinder</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SensorBridge::HandleRangefinder</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id, <span class="keyword">const</span> carto::common::Time time,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; frame_id, <span class="keyword">const</span> carto::sensor::TimedPointCloud&amp; ranges)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!ranges.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="built_in">CHECK_LE</span>(ranges.<span class="built_in">back</span>().time, <span class="number">0.f</span>);</span><br><span class="line">  &#125;<span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">const</span> sensor::TimedPointCloudData&amp; timed_point_cloud_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line"><span class="built_in">AddData</span>(sensor::<span class="built_in">MakeDispatchable</span>(sensor_id, timed_point_cloud_data));</span><br><span class="line">&#125;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> sensor_to_tracking =</span><br><span class="line">      tf_bridge_.<span class="built_in">LookupToTracking</span>(time, <span class="built_in">CheckNoLeadingSlash</span>(frame_id));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 以 tracking 到 sensor_frame 的坐标变换为TimedPointCloudData 的 origin</span></span><br><span class="line">  <span class="comment">// 将点云的坐标转成 tracking 坐标系下的坐标, 再传入trajectory_builder_</span></span><br><span class="line">  <span class="keyword">if</span> (sensor_to_tracking != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    trajectory_builder_-&gt;<span class="built_in">AddSensorData</span>(</span><br><span class="line">        sensor_id, carto::sensor::TimedPointCloudData&#123;</span><br><span class="line">                       time, </span><br><span class="line">                       sensor_to_tracking-&gt;<span class="built_in">translation</span>().cast&lt;<span class="keyword">float</span>&gt;(),</span><br><span class="line">                       <span class="comment">// 将点云从雷达坐标系下转到tracking_frame坐标系系下</span></span><br><span class="line">                       carto::sensor::<span class="built_in">TransformTimedPointCloud</span>(</span><br><span class="line">                           ranges, sensor_to_tracking-&gt;cast&lt;<span class="keyword">float</span>&gt;())&#125; ); <span class="comment">// 强度始终为空</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SensorBridge的trajectory<em>builder</em>是指向CollatedTrajectoryBuilder的指针。</p>
+<h3 id="trajectorybuilder-过程"><a href="#trajectorybuilder-过程" class="headerlink" title="trajectorybuilder 过程"></a>trajectory<em>builder</em> 过程</h3><p>trajectory<em>builder</em> 在建立SensorBridge的构造函数中赋在这里传入的trajectory<em>builder</em> 即从map<em>builder里获取的TrajectoryBuilder值，注意，map_builder</em> 于map<em>builder_bridge</em> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SensorBridge::<span class="built_in">SensorBridge</span>(</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> num_subdivisions_per_laser_scan,</span><br><span class="line">    <span class="keyword">const</span> std::string&amp; tracking_frame,</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">double</span> lookup_transform_timeout_sec, tf2_ros::Buffer* <span class="keyword">const</span> tf_buffer,</span><br><span class="line">    carto::mapping::TrajectoryBuilderInterface* <span class="keyword">const</span> trajectory_builder)</span><br><span class="line">    : <span class="built_in">num_subdivisions_per_laser_scan_</span>(num_subdivisions_per_laser_scan),</span><br><span class="line">      <span class="built_in">tf_bridge_</span>(tracking_frame, lookup_transform_timeout_sec, tf_buffer),</span><br><span class="line">      <span class="built_in">trajectory_builder_</span>(trajectory_builder) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>SensorBridge又是在添加轨迹的时候，为每一条轨迹添加SensorBridge的时候添加的</p>
+<p>在文件map_builder.bridge.cc文件的MapBuilderBridge::AddTrajectory 函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 2 为这个新轨迹 添加一个SensorBridge</span></span><br><span class="line">  sensor_bridges_[trajectory_id] = absl::make_unique&lt;SensorBridge&gt;(</span><br><span class="line">      trajectory_options.num_subdivisions_per_laser_scan,</span><br><span class="line">      trajectory_options.tracking_frame,</span><br><span class="line">      node_options_.lookup_transform_timeout_sec, </span><br><span class="line">      tf_buffer_,</span><br><span class="line">      map_builder_-&gt;<span class="built_in">GetTrajectoryBuilder</span>(trajectory_id)); <span class="comment">// CollatedTrajectoryBuilder</span></span><br></pre></td></tr></table></figure>
+<p>在这里传入的trajectory<em>builder</em> 即从map_builder里获取的TrajectoryBuilder。</p>
+<p>GetTrajectoryBuilder(trajectory_id))返回的类型为TrajectoryBuilderInterface, 他可以为任意以TrajectoryBuilderInterface为基类的子类。这里他的类型为CollatedTrajectoryBuilder。</p>
+<p>以后再去看trajectory_builder在赋值时候给的类型</p>
+<h2 id="CollatedTrajectoryBuilder类的AddSensorData函数"><a href="#CollatedTrajectoryBuilder类的AddSensorData函数" class="headerlink" title="CollatedTrajectoryBuilder类的AddSensorData函数"></a>CollatedTrajectoryBuilder类的AddSensorData函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">const</span> sensor::TimedPointCloudData&amp; timed_point_cloud_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line"><span class="built_in">AddData</span>(sensor::<span class="built_in">MakeDispatchable</span>(sensor_id, timed_point_cloud_data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来看CollatedTrajectoryBuilder的具体实现</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">MapBuilder构造函数-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/14/1014%E5%90%8E%E7%AB%AF%E7%BA%BF%E7%A8%8B%E6%B1%A0-cartographer/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">后端线程池-num_background_threads-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%E8%B5%B0%E5%90%91"><span class="nav-number">1.</span> <span class="nav-text">传感器数据走向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node%E7%B1%BB%E7%9A%84HandleLaserScanMessage%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">Node类的HandleLaserScanMessage函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SensorBridge%E7%B1%BB%E7%9A%84HandleLaserScanMessage%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">SensorBridge类的HandleLaserScanMessage函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#trajectorybuilder-%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">trajectorybuilder 过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CollatedTrajectoryBuilder%E7%B1%BB%E7%9A%84AddSensorData%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">CollatedTrajectoryBuilder类的AddSensorData函数</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
