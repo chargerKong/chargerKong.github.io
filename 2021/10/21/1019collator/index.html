@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            多态c++ |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">多态c++</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-21 09:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/c/">c++</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>此类的作用是整理传感器的数据，不区分2d和3d。先让数据按照时间排列，然后输入前端。只对传感器数据进行处理没有其他的操作</p>
+<h1 id="继承类TrajectoryBuilderInterface"><a href="#继承类TrajectoryBuilderInterface" class="headerlink" title="继承类TrajectoryBuilderInterface"></a>继承类TrajectoryBuilderInterface</h1><p>CollatedTrajectoryBuilder 类继承于 TrajectoryBuilderInterface，此接口里面定义了两个struct，以及一些接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">struct InsertionResult &#123;</span><br><span class="line">    NodeId node_id;</span><br><span class="line">    std::shared_ptr&lt;const TrajectoryNode::Data&gt; constant_data;</span><br><span class="line">    std::vector&lt;std::shared_ptr&lt;const Submap&gt;&gt; insertion_submaps;</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  struct SensorId &#123;</span><br><span class="line">      enum class SensorType &#123;</span><br><span class="line">          RANGE &#x3D; 0,</span><br><span class="line">          IMU,</span><br><span class="line">          ODOMETRY,</span><br><span class="line">          FIXED_FRAME_POSE,</span><br><span class="line">          LANDMARK,</span><br><span class="line">          LOCAL_SLAM_RESULT</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>下面查看一下CollatedTrajectoryBuilder的头文件</p>
+<h1 id="CollatedTrajectoryBuilder头文件"><a href="#CollatedTrajectoryBuilder头文件" class="headerlink" title="CollatedTrajectoryBuilder头文件"></a>CollatedTrajectoryBuilder头文件</h1><p>他有一些系列的AddSensorData函数，分别处理雷达点云数据，IMU数据，里程计数据，GPS，landmark</p>
+<p>譬如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理雷达点云数据</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::TimedPointCloudData&amp; timed_point_cloud_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="built_in">AddData</span>(sensor::<span class="built_in">MakeDispatchable</span>(sensor_id, timed_point_cloud_data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>都是通过一个sensor::MakeDispatchable然后再添加数据AddData </p>
+<p>处理GPS和landmark的时候有些许不同</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据参数决定gps数据是否需要排序</span></span><br><span class="line"><span class="comment">// AddData与wrapped_trajectory_builder_-&gt;AddSensorData只能选一种</span></span><br><span class="line"><span class="comment">// 因为AddData最终调用的就是wrapped_trajectory_builder_-&gt;AddSensorData</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::FixedFramePoseData&amp; fixed_frame_pose_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (collate_fixed_frame_) &#123;</span><br><span class="line">    <span class="built_in">AddData</span>(sensor::<span class="built_in">MakeDispatchable</span>(sensor_id, fixed_frame_pose_data));</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  wrapped_trajectory_builder_-&gt;<span class="built_in">AddSensorData</span>(sensor_id,</span><br><span class="line">                                             fixed_frame_pose_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>collate<em>fixed_frame</em> 参数是通过配置文件获取的，在trajectory_builder.lua中可以获取</p>
+<p>wrapped<em>trajectory_builder</em>为一个global trajectory builder。后续再说 </p>
+<p>最后还有定义了一些变量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>:</span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">AddData</span><span class="params">(std::unique_ptr&lt;sensor::Data&gt; data)</span></span>;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">HandleCollatedSensorData</span><span class="params">(<span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                               std::unique_ptr&lt;sensor::Data&gt; data)</span></span>;</span><br><span class="line"></span><br><span class="line"> sensor::CollatorInterface* <span class="keyword">const</span> sensor_collator_;</span><br><span class="line"> <span class="keyword">const</span> <span class="keyword">bool</span> collate_landmarks_;</span><br><span class="line"> <span class="keyword">const</span> <span class="keyword">bool</span> collate_fixed_frame_;</span><br><span class="line"> <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id_;</span><br><span class="line"> std::unique_ptr&lt;TrajectoryBuilderInterface&gt; wrapped_trajectory_builder_;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Time at which we last logged the rates of incoming sensor data.</span></span><br><span class="line"> std::chrono::steady_clock::time_point last_logging_time_;</span><br><span class="line"> std::map&lt;std::string, common::RateTimer&lt;&gt;&gt; rate_timers_;</span><br></pre></td></tr></table></figure>
+<h1 id="CollatedTrajectoryBuilder-cc文件"><a href="#CollatedTrajectoryBuilder-cc文件" class="headerlink" title="CollatedTrajectoryBuilder.cc文件"></a>CollatedTrajectoryBuilder.cc文件</h1><p>在构造函数中，分别对以下变量进行赋值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">CollatedTrajectoryBuilder::<span class="built_in">CollatedTrajectoryBuilder</span>(</span><br><span class="line">    <span class="keyword">const</span> proto::TrajectoryBuilderOptions&amp; trajectory_options,</span><br><span class="line">    sensor::CollatorInterface* <span class="keyword">const</span> sensor_collator, <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span><br><span class="line">    <span class="keyword">const</span> std::set&lt;SensorId&gt;&amp; expected_sensor_ids,</span><br><span class="line">    std::unique_ptr&lt;TrajectoryBuilderInterface&gt; wrapped_trajectory_builder)</span><br><span class="line">    : <span class="built_in">sensor_collator_</span>(sensor_collator),</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 以下两个参数在 configuration_files/trajectory_builder.lua 中</span></span><br><span class="line">      <span class="comment">// collate_landmarks 为 false, 不要将landmark数据放入到阻塞队列中</span></span><br><span class="line">      <span class="built_in">collate_landmarks_</span>(trajectory_options.<span class="built_in">collate_landmarks</span>()),</span><br><span class="line">      <span class="comment">// collate_fixed_frame 为 true, 将gps数据放入阻塞队列中</span></span><br><span class="line">      <span class="built_in">collate_fixed_frame_</span>(trajectory_options.<span class="built_in">collate_fixed_frame</span>()),</span><br><span class="line">      </span><br><span class="line">      <span class="built_in">trajectory_id_</span>(trajectory_id),</span><br><span class="line">      <span class="built_in">wrapped_trajectory_builder_</span>(std::<span class="built_in">move</span>(wrapped_trajectory_builder)),</span><br><span class="line">      <span class="built_in">last_logging_time_</span>(std::chrono::steady_clock::<span class="built_in">now</span>())</span><br><span class="line">      &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CollatedTrajectoryBuilder构造函数调用"><a href="#CollatedTrajectoryBuilder构造函数调用" class="headerlink" title="CollatedTrajectoryBuilder构造函数调用"></a>CollatedTrajectoryBuilder构造函数调用</h2><p>该构造函数的调用在map_bulder 中的AddTrajectBuilder里面</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MapBuilder::AddTrajectoryBuilder</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::set&lt;SensorId&gt;&amp; expected_sensor_ids,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> proto::TrajectoryBuilderOptions&amp; trajectory_options,</span></span></span><br><span class="line"><span class="function"><span class="params">    LocalSlamResultCallback local_slam_result_callback)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// CollatedTrajectoryBuilder初始化</span></span><br><span class="line">    trajectory_builders_.<span class="built_in">push_back</span>(absl::make_unique&lt;CollatedTrajectoryBuilder&gt;(</span><br><span class="line">        trajectory_options, sensor_collator_.<span class="built_in">get</span>(), trajectory_id,</span><br><span class="line">        expected_sensor_ids,</span><br><span class="line">        <span class="comment">// 将2D前端与2D位姿图打包在一起, 传入CollatedTrajectoryBuilder</span></span><br><span class="line">        <span class="built_in">CreateGlobalTrajectoryBuilder2D</span>(</span><br><span class="line">            std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id,</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;PoseGraph2D*&gt;(pose_graph_.<span class="built_in">get</span>()),</span><br><span class="line">            local_slam_result_callback, pose_graph_odometry_motion_filter)));</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意最后一个参数CreateGlobalTrajectoryBuilder2D，是被wrapped_trajectory_builder所接受的，</p>
+<h1 id="CollatedTrajectoryBuilder构造函数内容"><a href="#CollatedTrajectoryBuilder构造函数内容" class="headerlink" title="CollatedTrajectoryBuilder构造函数内容"></a>CollatedTrajectoryBuilder构造函数内容</h1><p>根据配置来决定是否把GPS和landmark的topic名字加到集合中去</p>
+<p>集合定义为expected_sensor_id_strings，保存的是topic 名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">absl::flat_hash_set&lt;std::string&gt; expected_sensor_id_strings;</span><br></pre></td></tr></table></figure>
+<p>循环遍历所有的topic，如果collate<em>landmarks</em> 为false或者collate<em>fixed_frame</em> 为false就不加入集合中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sensor_id : expected_sensor_ids) &#123;</span><br><span class="line">    <span class="comment">// collate_landmarks 为 false, sensor_collator_不处理LANDMARK数据</span></span><br><span class="line">    <span class="keyword">if</span> (sensor_id.type == SensorId::SensorType::LANDMARK &amp;&amp;</span><br><span class="line">        !collate_landmarks_) &#123;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// collate_fixed_frame 为 true, sensor_collator_处理gps数据</span></span><br><span class="line">    <span class="keyword">if</span> (sensor_id.type == SensorId::SensorType::FIXED_FRAME_POSE &amp;&amp;</span><br><span class="line">        !collate_fixed_frame_) &#123;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    expected_sensor_id_strings.<span class="built_in">insert</span>(sensor_id.id);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>调用sensor<em>collator</em> 的AddTrajectory </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// sensor::Collator的初始化</span></span><br><span class="line">sensor_collator_-&gt;<span class="built_in">AddTrajectory</span>(</span><br><span class="line">    trajectory_id, expected_sensor_id_strings,</span><br><span class="line">    [<span class="keyword">this</span>](<span class="keyword">const</span> std::string&amp; sensor_id, std::unique_ptr&lt;sensor::Data&gt; data) &#123;</span><br><span class="line">      <span class="built_in">HandleCollatedSensorData</span>(sensor_id, std::<span class="built_in">move</span>(data));</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>在这里，把HandleCollatedSensorData相当于作为一个回调函数传递进入.Data类是一个基类，可以处理多种函数</p>
+<h2 id="HandleCollatedSensorData"><a href="#HandleCollatedSensorData" class="headerlink" title="HandleCollatedSensorData"></a>HandleCollatedSensorData</h2><p>首先是寻找rate<em>timers</em> 中对应的topic名字，rate<em>timers</em> 定义为</p>
+<p>std::map<std::string, common::RateTimer<>&gt; rate<em>timers</em>;</p>
+<p>如果找不到则创建一个传递进去</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 处理 按照时间顺序分发出来的传感器数据</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] sensor_id 传感器的topic的名字</span></span><br><span class="line"><span class="comment"> * @param[in] data 需要处理的数据(Data是个类模板,可处理多种不同数据类型的数据)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CollatedTrajectoryBuilder::HandleCollatedSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id, std::unique_ptr&lt;sensor::Data&gt; data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> it = rate_timers_.<span class="built_in">find</span>(sensor_id);</span><br><span class="line">  <span class="comment">// 找不到就新建一个</span></span><br><span class="line">  <span class="keyword">if</span> (it == rate_timers_.<span class="built_in">end</span>()) &#123;</span><br><span class="line">    <span class="comment">// map::emplace()返回一个pair</span></span><br><span class="line">    <span class="comment">// emplace().first表示新插入元素或者原始位置的迭代器</span></span><br><span class="line">    <span class="comment">// emplace().second表示插入成功,只有在key在map中不存在时才插入成功</span></span><br><span class="line">    it = rate_timers_</span><br><span class="line">             .<span class="built_in">emplace</span>(</span><br><span class="line">                 std::piecewise_construct, </span><br><span class="line">                 std::forward_as_tuple(sensor_id),</span><br><span class="line">                 std::forward_as_tuple(</span><br><span class="line">                     common::<span class="built_in">FromSeconds</span>(kSensorDataRatesLoggingPeriodSeconds)))</span><br><span class="line">             .first;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>下面是对时间的一些处理</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// 对数据队列进行更新</span></span><br><span class="line">  it-&gt;second.<span class="built_in">Pulse</span>(data-&gt;<span class="built_in">GetTime</span>());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (std::chrono::steady_clock::<span class="built_in">now</span>() - last_logging_time_ &gt;</span><br><span class="line">      common::<span class="built_in">FromSeconds</span>(kSensorDataRatesLoggingPeriodSeconds)) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : rate_timers_) &#123;</span><br><span class="line">      <span class="built_in">LOG</span>(INFO) &lt;&lt; pair.first &lt;&lt; <span class="string">&quot; rate: &quot;</span> &lt;&lt; pair.second.<span class="built_in">DebugString</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    last_logging_time_ = std::chrono::steady_clock::<span class="built_in">now</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 也就是跑carto时候的消息：</span></span><br><span class="line">  <span class="comment">// [ INFO]: collated_trajectory_builder.cc:72] imu rate: 10.00 Hz 1.00e-01 s +/- 4.35e-05 s (pulsed at 100.44% real time)</span></span><br><span class="line">  <span class="comment">// [ INFO]: collated_trajectory_builder.cc:72] scan rate: 19.83 Hz 5.04e-02 s +/- 4.27e-05 s (pulsed at 99.82% real time)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将排序好的数据送入 GlobalTrajectoryBuilder中的AddSensorData()函数中进行使用</span></span><br><span class="line">  data-&gt;<span class="built_in">AddToTrajectoryBuilder</span>(wrapped_trajectory_builder_.<span class="built_in">get</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/10/21/1021%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A4%B4%E6%96%87%E4%BB%B6/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">colcon 安装之后仍然无法找不到头文件</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/17/1017%E5%A4%9A%E6%80%81c++/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">多态c++</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E7%B1%BBTrajectoryBuilderInterface"><span class="nav-number">1.</span> <span class="nav-text">继承类TrajectoryBuilderInterface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CollatedTrajectoryBuilder%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">CollatedTrajectoryBuilder头文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CollatedTrajectoryBuilder-cc%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">CollatedTrajectoryBuilder.cc文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CollatedTrajectoryBuilder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">CollatedTrajectoryBuilder构造函数调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CollatedTrajectoryBuilder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%86%85%E5%AE%B9"><span class="nav-number">4.</span> <span class="nav-text">CollatedTrajectoryBuilder构造函数内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HandleCollatedSensorData"><span class="nav-number">4.1.</span> <span class="nav-text">HandleCollatedSensorData</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
