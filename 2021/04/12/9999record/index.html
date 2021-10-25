@@ -168,7 +168,7 @@
             <p>可以通过robot_state_publisher来带一个world file</p>
 <p>有一个很好的项目，<a class="link"   target="_blank" rel="noopener" href="https://github.com/ROBOTIS-GIT" >ROBOTIS-GIT<i class="fas fa-external-link-alt"></i></a>/<strong><a class="link"   target="_blank" rel="noopener" href="https://github.com/ROBOTIS-GIT/turtlebot3_simulations" >turtlebot3_simulations<i class="fas fa-external-link-alt"></i></a></strong></p>
 <h2 id="Invalid-frame-ID-“front-caster-link”-passed-to-canTransform-argument-source-frame"><a href="#Invalid-frame-ID-“front-caster-link”-passed-to-canTransform-argument-source-frame" class="headerlink" title="Invalid frame ID “front_caster_link” passed to canTransform argument source_frame"></a>Invalid frame ID “front_caster_link” passed to canTransform argument source_frame</h2><p>利用可视化model的时候, 发现没有从base_link到前后万向轮的转换，同时通过<code>tf2</code>的工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os2 run tf2_tools view_frames </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run tf2_tools view_frames </span><br></pre></td></tr></table></figure>
 <p>生成的PDF文件为</p>
 <p><img src="wrong_tf2.png" alt=""></p>
 <p>的确是缺少了<code>base_link</code>和前后万向轮的一个连接。</p>
