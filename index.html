@@ -132,6 +132,63 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/27/1027sensor_collate/">
+                        sensor_collate-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        sensor_collator的创建map_builder.cc文件：MapBuilder的构造函数
+1234567891011121314MapBuilder::MapBuilder(const proto::MapBuilderOptions&a...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 27 2021 09:59:22 GMT+0800">2021-10-27</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/27/1027sensor_collate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">
+                        ros2 launch 使用记录说明
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        IncludeLaunchDescriptioncondition1234567891011121314151617181920212223242526from launch import LaunchDescriptionfrom launch.a...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">
                         AddSensorData与RateTimer-cartographer
                     </a>
@@ -139,8 +196,8 @@
 
                 <div class="home-article-content markdown-body">
                     
-                        AddSensorDataAddSensorData 函数为CollatedTrajectoryBuilder的方法
-此类继承于TrajectoryBuilderInterface接口，接口中的有多种AddSensorData函数，用于处理各个传感器...
+                        本节介绍的函数位于cartographer/mapping/internal/collated_trajectory_builder.cc文件中
+AddSensorDataAddSensorData 函数为CollatedTrajectoryBuil...
                     
                 </div>
 
@@ -360,66 +417,6 @@
     </div>
 
     <a href="/2021/10/14/1014%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-ros2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/">
-                        添加轨迹-MapBuilder-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在MapBuilder类中，AddTrajectoryBuilder函数会创建一个新的 TrajectoryBuilder 并返回它的 trajectory_id。
-建立轨迹的过程就需要用到前端和后端的数据
-下面首先给出该函数的全部内容
-123456...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 11:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
-                        MapBuilder构造函数-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        MapBuilder包含前端(TrajectoryBuilders,scan to submap) 与 后端(用于查找回环的PoseGraph) 的完整的SLAM，其位置位于cartographer/mapping/map_builder.h
-本文将...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

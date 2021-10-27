@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            sensor_collate-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">sensor_collate-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-27 09:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="sensor-collator的创建"><a href="#sensor-collator的创建" class="headerlink" title="sensor_collator的创建"></a>sensor_collator的创建</h1><p>map_builder.cc文件：MapBuilder的构造函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">MapBuilder::<span class="built_in">MapBuilder</span>(<span class="keyword">const</span> proto::MapBuilderOptions&amp; options)</span><br><span class="line">    : <span class="built_in">options_</span>(options), <span class="built_in">thread_pool_</span>(options.<span class="built_in">num_background_threads</span>()) &#123; </span><br><span class="line">      <span class="comment">// param: num_background_threads</span></span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 在 cartographer/configuration_files/map_builder.lua 中设置</span></span><br><span class="line">  <span class="comment">// param: MAP_BUILDER.collate_by_trajectory 默认为false</span></span><br><span class="line">  <span class="keyword">if</span> (options.<span class="built_in">collate_by_trajectory</span>()) &#123;</span><br><span class="line">    sensor_collator_ = absl::make_unique&lt;sensor::TrajectoryCollator&gt;();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// sensor_collator_初始化, 实际使用这个</span></span><br><span class="line">    sensor_collator_ = absl::make_unique&lt;sensor::Collator&gt;();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在AddTrajectoryBuilder函数中，CollatedTrajectoryBuilder初始化，trajectory<em>builders</em> 中的元素是指向CollatedTrajectoryBuilder的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">MapBuilder::AddTrajectoryBuilder</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::set&lt;SensorId&gt;&amp; expected_sensor_ids,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> proto::TrajectoryBuilderOptions&amp; trajectory_options,</span></span></span><br><span class="line"><span class="function"><span class="params">    LocalSlamResultCallback local_slam_result_callback)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    trajectory_builders_.<span class="built_in">push_back</span>(absl::make_unique&lt;CollatedTrajectoryBuilder&gt;(</span><br><span class="line">        trajectory_options, </span><br><span class="line">        sensor_collator_.<span class="built_in">get</span>(), </span><br><span class="line">        trajectory_id,</span><br><span class="line">        expected_sensor_ids,</span><br><span class="line">        <span class="comment">// 将2D前端与2D位姿图打包在一起, 传入CollatedTrajectoryBuilder</span></span><br><span class="line">        <span class="built_in">CreateGlobalTrajectoryBuilder2D</span>(</span><br><span class="line">            std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id,</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;PoseGraph2D*&gt;(pose_graph_.<span class="built_in">get</span>()),</span><br><span class="line">            local_slam_result_callback, pose_graph_odometry_motion_filter)));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="c-11"><a href="#c-11" class="headerlink" title="c++11"></a>c++11</h1><p><code>absl::flat_hash_set&lt;T&gt;</code> 是一个无序关联容器，在大多数常见用例中已经针对速度和内存占用进行了优化。 它的接口类似于<code>std::unordered_set&lt;T&gt;</code>，但有以下显着区别：</p>
+<ul>
+<li>要求键为需要可复制构造的键</li>
+<li>支持异构查找，通过 <code>find()</code>、<code>operator[]()</code> 和 <code>insert()</code>，前提是该集合提供了兼容的异构哈希函数和相等运算符。</li>
+<li>在“rehash()”之后使表中元素的任何引用和指针无效。</li>
+<li>包含一个<code>capacity()</code>成员函数，指示散列集中元素槽（打开、删除和空）的数量。 从 <code>erase(iterator)</code> 重载返回 <code>void</code>。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">absl::flat_hash_map&lt;<span class="keyword">int</span>, std::vector&lt;QueueKey&gt;&gt; queue_keys_;</span><br></pre></td></tr></table></figure>
+<p>key为int，value为一个vector</p>
+<h1 id="sensor-collator类：Collator"><a href="#sensor-collator类：Collator" class="headerlink" title="sensor_collator类：Collator"></a>sensor_collator类：Collator</h1><p>Collator继承于CollatorInterface，定义了一个Callback函数，和如下接口</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollatorInterface</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">using</span> Callback =</span><br><span class="line">      std::function&lt;<span class="built_in"><span class="keyword">void</span></span>(<span class="keyword">const</span> std::string&amp;, std::unique_ptr&lt;Data&gt;)&gt;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">CollatorInterface</span>() &#123;&#125;</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">CollatorInterface</span>() &#123;&#125;</span><br><span class="line">  <span class="built_in">CollatorInterface</span>(<span class="keyword">const</span> CollatorInterface&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">  CollatorInterface&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> CollatorInterface&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Adds a trajectory to produce sorted sensor output for. Calls &#x27;callback&#x27;</span></span><br><span class="line">  <span class="comment">// for each collated sensor data.</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">AddTrajectory</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> absl::flat_hash_set&lt;std::string&gt;&amp; expected_sensor_ids,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> Callback&amp; callback)</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Marks &#x27;trajectory_id&#x27; as finished.</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">FinishTrajectory</span><span class="params">(<span class="keyword">int</span> trajectory_id)</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Adds &#x27;data&#x27; for &#x27;trajectory_id&#x27; to be collated. &#x27;data&#x27; must contain valid</span></span><br><span class="line">  <span class="comment">// sensor data. Sensor packets with matching &#x27;data.sensor_id_&#x27; must be added</span></span><br><span class="line">  <span class="comment">// in time order.</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(<span class="keyword">int</span> trajectory_id, std::unique_ptr&lt;Data&gt; data)</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Dispatches all queued sensor packets. May only be called once.</span></span><br><span class="line">  <span class="comment">// AddSensorData may not be called after Flush.</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Flush</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Must only be called if at least one unfinished trajectory exists. Returns</span></span><br><span class="line">  <span class="comment">// the ID of the trajectory that needs more data before CollatorInterface is</span></span><br><span class="line">  <span class="comment">// unblocked. Returns &#x27;nullopt&#x27; for implementations that do not wait for a</span></span><br><span class="line">  <span class="comment">// particular trajectory.</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> absl::optional&lt;<span class="keyword">int</span>&gt; <span class="title">GetBlockingTrajectoryId</span><span class="params">()</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Collator类在除了继承的重写之外，还额外添加了一个<code>OrderedMultiQueue queue_</code>和<code>absl::flat_hash_map&lt;int, std::vector&lt;QueueKey&gt;&gt; queue_keys_</code></p>
+<h1 id="AddTrajectory"><a href="#AddTrajectory" class="headerlink" title="AddTrajectory"></a>AddTrajectory</h1><h2 id="调用位置"><a href="#调用位置" class="headerlink" title="调用位置"></a>调用位置</h2><p>在文件，<code>cartographer/mapping/internal/collated_trajectory_builder.cc</code>的类CollatedTrajectoryBuilder构造函数中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief Construct a new Collated Trajectory Builder:: Collated Trajectory Builder object</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_options 轨迹的参数配置</span></span><br><span class="line"><span class="comment"> * @param[in] sensor_collator 传入的整理传感器的类,有2种类型</span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_id 新生成的轨迹的id</span></span><br><span class="line"><span class="comment"> * @param[in] expected_sensor_ids 所有需要的topic的名字的集合</span></span><br><span class="line"><span class="comment"> * @param[in] wrapped_trajectory_builder 完整的slam GlobalTrajectoryBuilder</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">CollatedTrajectoryBuilder::<span class="built_in">CollatedTrajectoryBuilder</span>(</span><br><span class="line">    <span class="keyword">const</span> proto::TrajectoryBuilderOptions&amp; trajectory_options,</span><br><span class="line">    sensor::CollatorInterface* <span class="keyword">const</span> sensor_collator, <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span><br><span class="line">    <span class="keyword">const</span> std::set&lt;SensorId&gt;&amp; expected_sensor_ids,</span><br><span class="line">    std::unique_ptr&lt;TrajectoryBuilderInterface&gt; wrapped_trajectory_builder)</span><br><span class="line">    : <span class="built_in">sensor_collator_</span>(sensor_collator),</span><br><span class="line">      </span><br><span class="line">  <span class="comment">// sensor::Collator的初始化</span></span><br><span class="line">  sensor_collator_-&gt;<span class="built_in">AddTrajectory</span>(</span><br><span class="line">      trajectory_id, expected_sensor_id_strings,</span><br><span class="line">      [<span class="keyword">this</span>](<span class="keyword">const</span> std::string&amp; sensor_id, std::unique_ptr&lt;sensor::Data&gt; data) &#123;</span><br><span class="line">        <span class="built_in">HandleCollatedSensorData</span>(sensor_id, std::<span class="built_in">move</span>(data));</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传入的CallBack为一个lambda函数，lambda函数即为一个可调用容器，</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>循环遍历topic名字，通过和轨迹ID组合称为一个queue<em>key，并且加入queue</em>. 类型为OrderedMultiQueue，以后再说。</p>
+<p>最后把queue_key添加到队列</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">absl::flat_hash_map&lt;<span class="keyword">int</span>, std::vector&lt;QueueKey&gt;&gt; queue_keys_;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 添加轨迹以生成排序的传感器输出, 每个topic设置一个回调函数</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_id 新生成的轨迹的id</span></span><br><span class="line"><span class="comment"> * @param[in] expected_sensor_ids 需要排序的topic名字的集合</span></span><br><span class="line"><span class="comment"> * @param[in] callback 2个参数的回调函数, 实际是CollatedTrajectoryBuilder::HandleCollatedSensorData()函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Collator::AddTrajectory</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> absl::flat_hash_set&lt;std::string&gt;&amp; expected_sensor_ids,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> Callback&amp; callback)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sensor_id : expected_sensor_ids) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> queue_key = QueueKey&#123;trajectory_id, sensor_id&#125;;</span><br><span class="line">    queue_.<span class="built_in">AddQueue</span>(queue_key,</span><br><span class="line">                    <span class="comment">// void(std::unique_ptr&lt;Data&gt; data) 带了个默认参数sensor_id</span></span><br><span class="line">                    [callback, sensor_id](std::unique_ptr&lt;Data&gt; data) &#123;</span><br><span class="line">                      <span class="built_in">callback</span>(sensor_id, std::<span class="built_in">move</span>(data));</span><br><span class="line">                    &#125;);</span><br><span class="line">    queue_keys_[trajectory_id].<span class="built_in">push_back</span>(queue_key);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros2 launch 使用记录说明</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-collator%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">sensor_collator的创建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c-11"><span class="nav-number">2.</span> <span class="nav-text">c++11</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-collator%E7%B1%BB%EF%BC%9ACollator"><span class="nav-number">3.</span> <span class="nav-text">sensor_collator类：Collator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AddTrajectory"><span class="nav-number">4.</span> <span class="nav-text">AddTrajectory</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">调用位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">4.2.</span> <span class="nav-text">定义</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

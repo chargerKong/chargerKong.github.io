@@ -132,6 +132,66 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/">
+                        添加轨迹-MapBuilder-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在MapBuilder类中，AddTrajectoryBuilder函数会创建一个新的 TrajectoryBuilder 并返回它的 trajectory_id。
+建立轨迹的过程就需要用到前端和后端的数据
+下面首先给出该函数的全部内容
+123456...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 11:59:22 GMT+0800">2021-10-14</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
+                        MapBuilder构造函数-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        MapBuilder包含前端(TrajectoryBuilders,scan to submap) 与 后端(用于查找回环的PoseGraph) 的完整的SLAM，其位置位于cartographer/mapping/map_builder.h
+本文将...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/10/14/1016%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%20/">
                         传感器数据走向-cartographer
                     </a>
@@ -361,68 +421,6 @@ vtable即虚函数表，即缺少一个析构函数
     </div>
 
     <a href="/2021/09/26/0926sensor_bridge/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/25/0925sensor_bridge/">
-                        sensor-brifge-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        SensorBridge类将ROS的消息转换为在tracking frame上的传感器数据，为了方便建图
-构造函数首先看一下构造函数
-12345678910111213141516171819class SensorBridge &#123; pub...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Sep 25 2021 15:59:23 GMT+0800">2021-09-25</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/25/0925sensor_bridge/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/24/0923TianBot%E7%9A%84%E7%96%91%E9%97%AE/">
-                        tianbot ros2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        驱动相机驱动ROS1: usb_cam，V4L（video for linux）的相机驱动
-ROS2: ros2_v4l2_camera，
-单线雷达驱动ROS1: rplidar_ros， 思岚科技
-ROS2: rplidar_ros，思岚科技 
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Sep 24 2021 15:59:23 GMT+0800">2021-09-24</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/24/0923TianBot%E7%9A%84%E7%96%91%E9%97%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
