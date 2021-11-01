@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            C++11 std::chrono库详解 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">C++11 std::chrono库详解</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-01 09:59:23
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/c/">c++</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>本文源：<a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/jwk000/p/3560086.html" >https://www.cnblogs.com/jwk000/p/3560086.html<i class="fas fa-external-link-alt"></i></a></p>
+<h1 id="C-11-std-chrono库详解"><a href="#C-11-std-chrono库详解" class="headerlink" title="C++11 std::chrono库详解"></a><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/jwk000/p/3560086.html" >C++11 std::chrono库详解<i class="fas fa-external-link-alt"></i></a></h1><p>所谓的详解只不过是参考www.cplusplus.com的说明整理了一下，因为没发现别人有详细讲解。</p>
+<p>　　chrono是一个time library, 源于boost，现在已经是C++标准。话说今年似乎又要出新标准了，好期待啊！ </p>
+<p>　　要使用chrono库，需要#include<chrono>，其所有实现均在std::chrono namespace下。注意标准库里面的每个命名空间代表了一个独立的概念。所以下文中的概念均以命名空间的名字表示！ chrono是一个模版库，使用简单，功能强大，只需要理解三个概念：duration、time_point、clock</p>
+<h1 id="1-Durations"><a href="#1-Durations" class="headerlink" title="1.Durations"></a>1.Durations</h1><p>std::chrono::duration 表示一段时间，比如两个小时，12.88秒，半个时辰，一炷香的时间等等，只要能换算成秒即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 template &lt;class Rep, class Period &#x3D; ratio&lt;1&gt; &gt; class duration;</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<p>Rep表示一种数值类型，用来表示Period的数量，比如int float double</p>
+<p>Period是ratio类型，用来表示【用秒表示的时间单位】比如second milisecond</p>
+<p>常用的duration<Rep,Period>已经定义好了，在std::chrono::duration下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ratio&lt;3600, 1&gt;        hours</span><br><span class="line"></span><br><span class="line">ratio&lt;60, 1&gt;          minutes</span><br><span class="line"></span><br><span class="line">ratio&lt;1, 1&gt;           seconds</span><br><span class="line"></span><br><span class="line">ratio&lt;1, 1000&gt;        microseconds</span><br><span class="line"></span><br><span class="line">ratio&lt;1, 1000000&gt;     microseconds</span><br><span class="line"></span><br><span class="line">ratio&lt;1, 1000000000&gt;  nanosecons</span><br></pre></td></tr></table></figure>
+<p>这里需要说明一下ratio这个类模版的原型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 template &lt;intmax_t N, intmax_t D &#x3D; 1&gt; class ratio;</span><br></pre></td></tr></table></figure>
+<p>N代表分子，D代表分母，所以ratio表示一个分数值。</p>
+<p>注意，我们自己可以定义Period，比如ratio<1, -2>表示单位时间是-0.5秒。</p>
+<p>由于各种duration表示不同，chrono库提供了duration_cast类型转换函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 template &lt;class ToDuration, class Rep, class Period&gt;</span><br><span class="line">2   constexpr ToDuration duration_cast (const duration&lt;Rep,Period&gt;&amp; dtn);</span><br></pre></td></tr></table></figure>
+<p>典型的用法是表示一段时间：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="comment">// duration constructor</span></span><br><span class="line"> <span class="number">2</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"> <span class="number">3</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ratio&gt;</span></span></span><br><span class="line"> <span class="number">4</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;chrono&gt;</span></span></span><br><span class="line"> <span class="number">5</span>  </span><br><span class="line"> <span class="number">6</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"> 7 </span>&#123;</span><br><span class="line"> <span class="number">8</span>   <span class="keyword">typedef</span> std::chrono::duration&lt;<span class="keyword">int</span>&gt; seconds_type;</span><br><span class="line"> <span class="number">9</span>   <span class="keyword">typedef</span> std::chrono::duration&lt;<span class="keyword">int</span>,std::milli&gt; milliseconds_type;</span><br><span class="line"><span class="number">10</span>   <span class="keyword">typedef</span> std::chrono::duration&lt;<span class="keyword">int</span>,std::ratio&lt;<span class="number">60</span>*<span class="number">60</span>&gt;&gt; hours_type;</span><br><span class="line"><span class="number">11</span>  </span><br><span class="line"><span class="number">12</span>   <span class="function">hours_type <span class="title">h_oneday</span> <span class="params">(<span class="number">24</span>)</span></span>;                  <span class="comment">// 24h</span></span><br><span class="line"><span class="number">13</span>   <span class="function">seconds_type <span class="title">s_oneday</span> <span class="params">(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>)</span></span>;          <span class="comment">// 86400s</span></span><br><span class="line"><span class="number">14</span>   <span class="function">milliseconds_type <span class="title">ms_oneday</span> <span class="params">(s_oneday)</span></span>;    <span class="comment">// 86400000ms</span></span><br><span class="line"><span class="number">15</span>  </span><br><span class="line"><span class="number">16</span>   <span class="function">seconds_type <span class="title">s_onehour</span> <span class="params">(<span class="number">60</span>*<span class="number">60</span>)</span></span>;            <span class="comment">// 3600s</span></span><br><span class="line"><span class="number">17</span> <span class="comment">//hours_type h_onehour (s_onehour);          // NOT VALID (type truncates), use:</span></span><br><span class="line"><span class="number">18</span>   <span class="function">hours_type <span class="title">h_onehour</span> <span class="params">(std::chrono::duration_cast&lt;hours_type&gt;(s_onehour))</span></span>;</span><br><span class="line"><span class="number">19</span>   <span class="function">milliseconds_type <span class="title">ms_onehour</span> <span class="params">(s_onehour)</span></span>;  <span class="comment">// 3600000ms (ok, no type truncation)</span></span><br><span class="line"><span class="number">20</span>  </span><br><span class="line"><span class="number">21</span>   std::cout &lt;&lt; ms_onehour.<span class="built_in">count</span>() &lt;&lt; <span class="string">&quot;ms in 1h&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"><span class="number">22</span>  </span><br><span class="line"><span class="number">23</span>   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">24</span> &#125;</span><br><span class="line"><span class="number">25</span>  </span><br><span class="line"><span class="number">26</span> duration还有一个成员函数<span class="built_in">count</span>()返回Rep类型的Period数量，看代码：</span><br><span class="line"><span class="number">27</span> </span><br><span class="line"><span class="number">28</span> <span class="comment">// duration::count</span></span><br><span class="line"><span class="number">29</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span>     <span class="comment">// std::cout</span></span></span><br><span class="line"><span class="number">30</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;chrono&gt;</span>       <span class="comment">// std::chrono::seconds, std::chrono::milliseconds</span></span></span><br><span class="line"><span class="number">31</span>                         <span class="comment">// std::chrono::duration_cast</span></span><br><span class="line"><span class="number">32</span>  </span><br><span class="line"><span class="number">33</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function">34 </span>&#123;</span><br><span class="line"><span class="number">35</span>   <span class="keyword">using</span> <span class="keyword">namespace</span> std::chrono;</span><br><span class="line"><span class="number">36</span>   <span class="comment">// std::chrono::milliseconds is an instatiation of std::chrono::duration:</span></span><br><span class="line"><span class="number">37</span>   <span class="function">milliseconds <span class="title">foo</span> <span class="params">(<span class="number">1000</span>)</span></span>; <span class="comment">// 1 second</span></span><br><span class="line"><span class="number">38</span>   foo*=<span class="number">60</span>;</span><br><span class="line"><span class="number">39</span>  </span><br><span class="line"><span class="number">40</span>   std::cout &lt;&lt; <span class="string">&quot;duration (in periods): &quot;</span>;</span><br><span class="line"><span class="number">41</span>   std::cout &lt;&lt; foo.<span class="built_in">count</span>() &lt;&lt; <span class="string">&quot; milliseconds.\n&quot;</span>;</span><br><span class="line"><span class="number">42</span>  </span><br><span class="line"><span class="number">43</span>   std::cout &lt;&lt; <span class="string">&quot;duration (in seconds): &quot;</span>;</span><br><span class="line"><span class="number">44</span>   std::cout &lt;&lt; foo.<span class="built_in">count</span>() * milliseconds::period::num / milliseconds::period::den;</span><br><span class="line"><span class="number">45</span>   std::cout &lt;&lt; <span class="string">&quot; seconds.\n&quot;</span>;</span><br><span class="line"><span class="number">46</span>  </span><br><span class="line"><span class="number">47</span>   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">48</span> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="2-Time-points"><a href="#2-Time-points" class="headerlink" title="2.Time points"></a>2.Time points</h1><p>std::chrono::time_point 表示一个具体时间，如上个世纪80年代、你的生日、今天下午、火车出发时间等，只要它能用计算机时钟表示。鉴于我们使用时间的情景不同，这个time point具体到什么程度，由选用的单位决定。一个time point必须有一个clock计时。参见clock的说明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 template &lt;class Clock, class Duration &#x3D; typename Clock::duration&gt;  class time_point;</span><br></pre></td></tr></table></figure>
+<p>下面是构造使用time_point的例子：</p>
+<p><a href="javascript:void(0"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> 1 &#x2F;&#x2F; time_point constructors</span><br><span class="line"> 2 #include &lt;iostream&gt;</span><br><span class="line"> 3 #include &lt;chrono&gt;</span><br><span class="line"> 4 #include &lt;ctime&gt;</span><br><span class="line"> 5  </span><br><span class="line"> 6 int main ()</span><br><span class="line"> 7 &#123;</span><br><span class="line"> 8   using namespace std::chrono;</span><br><span class="line"> 9  </span><br><span class="line">10   system_clock::time_point tp_epoch;    &#x2F;&#x2F; epoch value</span><br><span class="line">11  </span><br><span class="line">12   time_point &lt;system_clock,duration&lt;int&gt;&gt; tp_seconds (duration&lt;int&gt;(1));</span><br><span class="line">13  </span><br><span class="line">14   system_clock::time_point tp (tp_seconds);</span><br><span class="line">15  </span><br><span class="line">16   std::cout &lt;&lt; &quot;1 second since system_clock epoch &#x3D; &quot;;</span><br><span class="line">17   std::cout &lt;&lt; tp.time_since_epoch().count();</span><br><span class="line">18   std::cout &lt;&lt; &quot; system_clock periods.&quot; &lt;&lt; std::endl;</span><br><span class="line">19  </span><br><span class="line">20   &#x2F;&#x2F; display time_point:</span><br><span class="line">21   std::time_t tt &#x3D; system_clock::to_time_t(tp);</span><br><span class="line">22   std::cout &lt;&lt; &quot;time_point tp is: &quot; &lt;&lt; ctime(&amp;tt);</span><br><span class="line">23  </span><br><span class="line">24   return 0;</span><br><span class="line">25 &#125;</span><br><span class="line">26  </span><br></pre></td></tr></table></figure>
+<p>time_point有一个函数time_from_eproch()用来获得1970年1月1日到time_point时间经过的duration。</p>
+<p>举个例子，如果timepoint以天为单位，函数返回的duration就以天为单位。</p>
+<p>由于各种time_point表示方式不同，chrono也提供了相应的转换函数 time_point_cast。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 template &lt;class ToDuration, class Clock, class Duration&gt;</span><br><span class="line">2   time_point&lt;Clock,ToDuration&gt; time_point_cast (const time_point&lt;Clock,Duration&gt;&amp; tp);</span><br></pre></td></tr></table></figure>
+<p>比如计算</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> 1 &#x2F; time_point_cast</span><br><span class="line"> 2 #include &lt;iostream&gt;</span><br><span class="line"> 3 #include &lt;ratio&gt;</span><br><span class="line"> 4 #include &lt;chrono&gt;</span><br><span class="line"> 5  </span><br><span class="line"> 6 int main ()</span><br><span class="line"> 7 &#123;</span><br><span class="line"> 8   using namespace std::chrono;</span><br><span class="line"> 9  </span><br><span class="line">10   typedef duration&lt;int,std::ratio&lt;60*60*24&gt;&gt; days_type;</span><br><span class="line">11  </span><br><span class="line">12   time_point&lt;system_clock,days_type&gt; today &#x3D; time_point_cast&lt;days_type&gt;(system_clock::now());</span><br><span class="line">13  </span><br><span class="line">14   std::cout &lt;&lt; today.time_since_epoch().count() &lt;&lt; &quot; days since epoch&quot; &lt;&lt; std::endl;</span><br><span class="line">15  </span><br><span class="line">16   return 0;</span><br><span class="line">17 &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="3-Clocks"><a href="#3-Clocks" class="headerlink" title="3.Clocks"></a>3.Clocks</h1><p>std::chrono::system_clock 它表示当前的系统时钟，系统中运行的所有进程使用now()得到的时间是一致的。</p>
+<p>每一个clock类中都有确定的time_point, duration, Rep, Period类型。</p>
+<p>操作有：</p>
+<p>now() 当前时间time_point</p>
+<p>to_time_t() time_point转换成time_t秒</p>
+<p>from_time_t() 从time_t转换成time_point</p>
+<p>典型的应用是计算时间日期：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="comment">// system_clock example</span></span><br><span class="line"> <span class="number">2</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"> <span class="number">3</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"> <span class="number">4</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ratio&gt;</span></span></span><br><span class="line"> <span class="number">5</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;chrono&gt;</span></span></span><br><span class="line"> <span class="number">6</span>  </span><br><span class="line"> <span class="number">7</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"> 8 </span>&#123;</span><br><span class="line"> <span class="number">9</span>   <span class="keyword">using</span> std::chrono::system_clock;</span><br><span class="line"><span class="number">10</span>  </span><br><span class="line"><span class="number">11</span>   std::chrono::duration&lt;<span class="keyword">int</span>,std::ratio&lt;<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>&gt; &gt; <span class="built_in">one_day</span> (<span class="number">1</span>);</span><br><span class="line"><span class="number">12</span>  </span><br><span class="line"><span class="number">13</span>   system_clock::time_point today = system_clock::<span class="built_in">now</span>();</span><br><span class="line"><span class="number">14</span>   system_clock::time_point tomorrow = today + one_day;</span><br><span class="line"><span class="number">15</span>  </span><br><span class="line"><span class="number">16</span>   std::<span class="keyword">time_t</span> tt;</span><br><span class="line"><span class="number">17</span>  </span><br><span class="line"><span class="number">18</span>   tt = system_clock::<span class="built_in">to_time_t</span> ( today );</span><br><span class="line"><span class="number">19</span>   std::cout &lt;&lt; <span class="string">&quot;today is: &quot;</span> &lt;&lt; <span class="built_in">ctime</span>(&amp;tt);</span><br><span class="line"><span class="number">20</span>  </span><br><span class="line"><span class="number">21</span>   tt = system_clock::<span class="built_in">to_time_t</span> ( tomorrow );</span><br><span class="line"><span class="number">22</span>   std::cout &lt;&lt; <span class="string">&quot;tomorrow will be: &quot;</span> &lt;&lt; <span class="built_in">ctime</span>(&amp;tt);</span><br><span class="line"><span class="number">23</span>  </span><br><span class="line"><span class="number">24</span>   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">25</span> &#125;</span><br><span class="line"><span class="number">26</span>   </span><br></pre></td></tr></table></figure>
+<p>std::chrono::steady_clock 为了表示稳定的时间间隔，后一次调用now()得到的时间总是比前一次的值大（这句话的意思其实是，如果中途修改了系统时间，也不影响now()的结果），每次tick都保证过了稳定的时间间隔。</p>
+<p>操作有：</p>
+<p>now() 获取当前时钟</p>
+<p>典型的应用是给算法计时：</p>
+<p><a href="javascript:void(0"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> 1 &#x2F;&#x2F; steady_clock example</span><br><span class="line"> 2 #include &lt;iostream&gt;</span><br><span class="line"> 3 #include &lt;ctime&gt;</span><br><span class="line"> 4 #include &lt;ratio&gt;</span><br><span class="line"> 5 #include &lt;chrono&gt;</span><br><span class="line"> 6  </span><br><span class="line"> 7 int main ()</span><br><span class="line"> 8 &#123;</span><br><span class="line"> 9   using namespace std::chrono;</span><br><span class="line">10  </span><br><span class="line">11   steady_clock::time_point t1 &#x3D; steady_clock::now();</span><br><span class="line">12  </span><br><span class="line">13   std::cout &lt;&lt; &quot;printing out 1000 stars...\n&quot;;</span><br><span class="line">14   for (int i&#x3D;0; i&lt;1000; ++i) std::cout &lt;&lt; &quot;*&quot;;</span><br><span class="line">15   std::cout &lt;&lt; std::endl;</span><br><span class="line">16  </span><br><span class="line">17   steady_clock::time_point t2 &#x3D; steady_clock::now();</span><br><span class="line">18  </span><br><span class="line">19   duration&lt;double&gt; time_span &#x3D; duration_cast&lt;duration&lt;double&gt;&gt;(t2 - t1);</span><br><span class="line">20  </span><br><span class="line">21   std::cout &lt;&lt; &quot;It took me &quot; &lt;&lt; time_span.count() &lt;&lt; &quot; seconds.&quot;;</span><br><span class="line">22   std::cout &lt;&lt; std::endl;</span><br><span class="line">23  </span><br><span class="line">24   return 0;</span><br><span class="line">25 &#125;</span><br><span class="line">26  </span><br></pre></td></tr></table></figure>
+<p><a href="javascript:void(0"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
+<p>最后一个时钟，std::chrono::high_resolution_clock 顾名思义，这是系统可用的最高精度的时钟。实际上high_resolution_clock只不过是system_clock或者steady_clock的typedef。</p>
+<p>操作有：</p>
+<p>now() 获取当前时钟。</p>
+<hr>
+<p>chrono库还有几个小特性，但是像这种工具库，本着够用则已的态度，就不求全责备了。</p>
+<p>（全文完）</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/29/1029OrderMutiQueue2/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">OrderedMultiQueue(二)-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-11-std-chrono%E5%BA%93%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">C++11 std::chrono库详解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Durations"><span class="nav-number">2.</span> <span class="nav-text">1.Durations</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Time-points"><span class="nav-number">3.</span> <span class="nav-text">2.Time points</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Clocks"><span class="nav-number">4.</span> <span class="nav-text">3.Clocks</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

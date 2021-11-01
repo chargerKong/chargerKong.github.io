@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            Blocking-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Blocking-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-10-29 09:59:23
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>一个阻塞队列，可以看成是一个缓冲区。</p>
+<p>生产者把数据放入队列，消费者把数据从队列里取出来进行消费</p>
+<h1 id="为什么要用生产，消费模式"><a href="#为什么要用生产，消费模式" class="headerlink" title="为什么要用生产，消费模式"></a>为什么要用生产，消费模式</h1><ul>
+<li>解耦：生产者和消费者之间不能直接依赖，从队列里取，</li>
+<li>并发：  生产者直接调用消费者, 两者是同步（阻塞）的, 如果消费者吞吐数据很慢, 这时候生产者白白浪费大好时光。 而使用这种模式之后, 生产者将数据丢到缓冲区, 继续生产, 完全不依赖消费者, 程序执行效率会大大提高。</li>
+<li>复用：独立开两个类，如果有一个被修改了，另外一个也不会受到影响</li>
+</ul>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlockingQueue</span> &#123;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  absl::Mutex mutex_;</span><br><span class="line">  <span class="function"><span class="keyword">const</span> <span class="keyword">size_t</span> queue_size_ <span class="title">GUARDED_BY</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">  <span class="function">std::deque&lt;T&gt; deque_ <span class="title">GUARDED_BY</span><span class="params">(mutex_)</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个类模板。他所拥有的类变量为</p>
+<ul>
+<li>mutex：一个互斥锁</li>
+<li>queue<em>size</em>： 表示队列大小</li>
+<li>deque_： 一个双端队列</li>
+</ul>
+<h2 id="类调用"><a href="#类调用" class="headerlink" title="类调用"></a>类调用</h2><p>在ordered_multi_queue.h文件中，private变量定义的结构体为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct Queue &#123;</span><br><span class="line">    common::BlockingQueue&lt;std::unique_ptr&lt;Data&gt;&gt; queue;   &#x2F;&#x2F; 存储数据的队列</span><br><span class="line">    Callback callback;                                    &#x2F;&#x2F; 本数据队列对应的回调函数</span><br><span class="line">    bool finished &#x3D; false;                                &#x2F;&#x2F; 这个queue是否finished</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>其中，模板则为指向Data的一个智能指针</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数调用了另外一个构造函数，并且赋值queue<em>size</em> 为0</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">size_t</span> kInfiniteQueueSize = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Constructs a blocking queue with infinite queue size.</span></span><br><span class="line"><span class="comment">// 构造一个具有无限队列大小的阻塞队列</span></span><br><span class="line"><span class="built_in">BlockingQueue</span>() : <span class="built_in">BlockingQueue</span>(kInfiniteQueueSize) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Constructs a blocking queue with a size of &#x27;queue_size&#x27;.</span></span><br><span class="line"><span class="comment">// 构造一个大小为 queue_size 的阻塞队列</span></span><br><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">BlockingQueue</span><span class="params">(<span class="keyword">const</span> <span class="keyword">size_t</span> queue_size)</span> : queue_size_(queue_size) &#123;</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="QueueNotFullCondition"><a href="#QueueNotFullCondition" class="headerlink" title="QueueNotFullCondition"></a>QueueNotFullCondition</h2><p>判断队列是不是没有满，没有满返回true。</p>
+<p>如果调用了 BlockingQueue() 而产生的对象，则他是一个永远都不会满的队列。因为<code>queue_size_ == kInfiniteQueueSize</code>，一直成立</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Returns true if the queue is not full.</span></span><br><span class="line">  <span class="comment">// 如果队列未满, 则返回true</span></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">QueueNotFullCondition</span><span class="params">()</span> <span class="title">EXCLUSIVE_LOCKS_REQUIRED</span><span class="params">(mutex_)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> queue_size_ == kInfiniteQueueSize || deque_.<span class="built_in">size</span>() &lt; queue_size_;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="push"><a href="#push" class="headerlink" title="push"></a>push</h2><p>mutex_.Await(absl::Condition(&amp;predicate)); </p>
+<p>只有当predicate为true的时候，才会继续往下走，false会继续等待。</p>
+<p>而这里QueueNotFullCondition会一直返回true，所以会一直加，此队列无限长</p>
+<p>加入数据的方式则为简单的push_back即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pushes a value onto the queue. Blocks if the queue is full.</span></span><br><span class="line"> <span class="comment">// 将值压入队列. 如果队列已满, 则阻塞</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">Push</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 首先定义判断函数</span></span><br><span class="line">   <span class="keyword">const</span> <span class="keyword">auto</span> predicate = [<span class="keyword">this</span>]() <span class="built_in">EXCLUSIVE_LOCKS_REQUIRED</span>(mutex_) &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="built_in">QueueNotFullCondition</span>();</span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// absl::Mutex的更多信息可看: https://www.jianshu.com/p/d2834abd6796</span></span><br><span class="line">   <span class="comment">// absl官网: https://abseil.io/about/</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// 如果数据满了, 就进行等待</span></span><br><span class="line">   <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">   mutex_.<span class="built_in">Await</span>(absl::<span class="built_in">Condition</span>(&amp;predicate));</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 将数据加入队列, 移动而非拷贝</span></span><br><span class="line">   deque_.<span class="built_in">push_back</span>(std::<span class="built_in">move</span>(t));</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>因此，他就是一个双端队列，加上一个条件判断是否要堵塞就完成了这个阻塞队列，缓冲区的功能</p>
+<h2 id="pop"><a href="#pop" class="headerlink" title="pop"></a>pop</h2><p>pop函数和push函数比较类似</p>
+<p>判断的是队列是否为空，如果是空，则等待，不能继续pop</p>
+<p>如果不空，则先取值，然后pop ，最后return取出来的值即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pops the next value from the queue. Blocks until a value is available.</span></span><br><span class="line"><span class="comment">// 取出数据, 如果数据队列为空则进行等待</span></span><br><span class="line"><span class="function">T <span class="title">Pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> predicate = [<span class="keyword">this</span>]() <span class="built_in">EXCLUSIVE_LOCKS_REQUIRED</span>(mutex_) &#123;</span><br><span class="line">    <span class="keyword">return</span> !<span class="built_in">QueueEmptyCondition</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 等待直到数据队列中至少有一个数据</span></span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  mutex_.<span class="built_in">Await</span>(absl::<span class="built_in">Condition</span>(&amp;predicate));</span><br><span class="line"></span><br><span class="line">  T t = std::<span class="built_in">move</span>(deque_.<span class="built_in">front</span>());</span><br><span class="line">  deque_.<span class="built_in">pop_front</span>();</span><br><span class="line">  <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="peek"><a href="#peek" class="headerlink" title="peek"></a>peek</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回第一个数据的指针, 如果队列为空则返回nullptr</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> R&gt;</span><br><span class="line"><span class="function"><span class="keyword">const</span> R* <span class="title">Peek</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (deque_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> deque_.<span class="built_in">front</span>().<span class="built_in">get</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/10/29/1029OrderMutiQueue2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">OrderedMultiQueue(二)-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/10/29/1029OrderedMultiQueue/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">OrderedMultiQueue(一)-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E7%94%9F%E4%BA%A7%EF%BC%8C%E6%B6%88%E8%B4%B9%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">为什么要用生产，消费模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">类定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E8%B0%83%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">类调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QueueNotFullCondition"><span class="nav-number">2.3.</span> <span class="nav-text">QueueNotFullCondition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#push"><span class="nav-number">2.4.</span> <span class="nav-text">push</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pop"><span class="nav-number">2.5.</span> <span class="nav-text">pop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#peek"><span class="nav-number">2.6.</span> <span class="nav-text">peek</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

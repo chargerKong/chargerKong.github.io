@@ -132,6 +132,93 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/09/05/0817-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+                        配置文件-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在launch文件中，通过配置1roslaunch xxxpkg xxx.launch name:&#x3D;value
+这个name是通过launch文件中
+1&lt;arg name&#x3D;&quot;bag_filename&quot; d...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 05 2021 15:59:22 GMT+0800">2021-09-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/05/0817-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/04/0904%E7%BB%93%E6%9D%9F%E8%BD%A8%E8%BF%B9/">
+                        结束轨迹-Node类-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在node_main.cc中，当::ros::spin()结束了之后（在运行node的时候，按下Ctrl+C即结束spin开始运行spin之后的语句），开始结束所有处于活动状态的轨迹，
+12345678void Run() &#123;  ...  ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Sep 04 2021 15:59:22 GMT+0800">2021-09-04</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/04/0904%E7%BB%93%E6%9D%9F%E8%BD%A8%E8%BF%B9/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/03/0903%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8Ctopic%E5%90%8D%E5%AD%97check/">
+                        定时器和topic名字check-Node类-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        上回说道添加轨迹函数Node::AddTrajectory中的订阅话题与注册回调函数，在此之前计算了一个由topicname和sensor类型组合成的一个集合expected_sensor_ids，轨迹IDtrajectory_id，新添加了一个位姿...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Sep 03 2021 15:59:22 GMT+0800">2021-09-03</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/03/0903%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8Ctopic%E5%90%8D%E5%AD%97check/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/08/31/0831%E5%9B%9E%E8%B0%83%E8%AE%A2%E9%98%85/">
                         话题订阅与注册回调-Node类-cartographer
                     </a>
@@ -339,93 +426,6 @@ main函数首先看一下main函数
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/23/0822ros2_learning/">
-                        ros2_c++之pub_sub
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        写一个publisher1234567891011121314151617181920212223242526272829303132333435363738394041424344#include &lt;chrono&gt;#include &l...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 23 2021 09:59:22 GMT+0800">2021-08-23</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/23/0822ros2_learning/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/23/0823tf2/">
-                        tf2 static broadcaster
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        功能包总览tf2可以让用用户随时追溯多个坐标系，tf2会实时的把各个坐标系之间的关系保存在一个树结构中。我们可以随时获得任何时间任何坐标系的变换
-创建static  broadcaster首先，进入工程目录的src文件夹
-1ros2 pkg crea...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Aug 23 2021 09:59:22 GMT+0800">2021-08-23</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/23/0823tf2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/20/0820node_main/">
-                        cartographer_ros之node_main.cc详解上
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        打开文件node_main.cc
-gflag工具12345678910DEFINE_bool(collect_metrics, false,            &quot;Activates the collection of runtime m...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Aug 20 2021 18:38:29 GMT+0800">2021-08-20</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/08/20/0820node_main/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -556,5 +556,20 @@ gflag工具12345678910DEFINE_bool(collect_metrics, false,            &quot;Activ
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
