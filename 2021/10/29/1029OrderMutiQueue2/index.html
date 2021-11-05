@@ -206,6 +206,33 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 数据的时间戳不是按顺序的, 就报错</span></span><br><span class="line">      <span class="built_in">CHECK_LE</span>(last_dispatched_time_, next_data-&gt;<span class="built_in">GetTime</span>())</span><br><span class="line">          &lt;&lt; <span class="string">&quot;Non-sorted data added to queue: &#x27;&quot;</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">      </span><br><span class="line">      ++it;</span><br><span class="line">&#125; <span class="comment">//end for</span></span><br></pre></td></tr></table></figure>
 <p>如果所有队列中最早的数据为空的话，说明所有数据全部分发完毕，结束</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (next_data == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(queues_.<span class="built_in">empty</span>());</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>// 如果我们还没有为这个轨迹分配任何数据, 快进这个轨迹的所有队列, 直到达到一个共同的开始时间    </p>
+<p>// Step: 2 获取对应轨迹id的所有数据队列中的最小共同时间戳, 作为轨迹开始的时间</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> common::Time common_start_time =</span><br><span class="line">    <span class="built_in">GetCommonStartTime</span>(next_queue_key.trajectory_id)</span><br></pre></td></tr></table></figure>
+<p>// Step: 3 将 next_queue 的时间最老的一个数据传入回调函数进行处理，开始分发数据</p>
+<ul>
+<li><p>next_data 的时间大于共同开始时间的：</p>
+<ul>
+<li><p>更新last<em>dispatched_time</em> ，发放数据（调用callback）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (next_data-&gt;<span class="built_in">GetTime</span>() &gt;= common_start_time) &#123;</span><br><span class="line">     <span class="comment">// Happy case, we are beyond the &#x27;common_start_time&#x27; already.</span></span><br><span class="line">     <span class="comment">// 更新分发数据的时间</span></span><br><span class="line">     last_dispatched_time_ = next_data-&gt;<span class="built_in">GetTime</span>();</span><br><span class="line">     <span class="comment">// 将数据传入 callback() 函数进行处理,并将这个数据从数据队列中删除</span></span><br><span class="line">     next_queue-&gt;<span class="built_in">callback</span>(next_queue-&gt;queue.<span class="built_in">Pop</span>());</span><br><span class="line">   &#125; </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>时间小于共同时间的，并且当前队列的数据少于2个的</p>
+<ul>
+<li>如果队列不是完成状态，调用CannotMakeProgress</li>
+<li>否则直接处理，更新last<em>dispatched_time</em> ，更新last<em>dispatched_time</em> ，发放数据（调用callback）</li>
+</ul>
+</li>
+<li><p>时间小于共同时间的，并且当前队列还长着，</p>
+<ul>
+<li><p>只处理比common_start_time 早一帧的数据，其他的数据不要</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::unique_ptr&lt;Data&gt; next_data_owner = next_queue-&gt;queue.<span class="built_in">Pop</span>();</span><br><span class="line"><span class="keyword">if</span> (next_queue-&gt;queue.Peek&lt;Data&gt;()-&gt;<span class="built_in">GetTime</span>() &gt; common_start_time) &#123;</span><br><span class="line">    <span class="comment">// 更新分发数据的时间,将数据传入 callback() 进行处理</span></span><br><span class="line">    last_dispatched_time_ = next_data-&gt;<span class="built_in">GetTime</span>();</span><br><span class="line">    next_queue-&gt;<span class="built_in">callback</span>(std::<span class="built_in">move</span>(next_data_owner));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>next_data_owner 就是这一帧的数据，Pop出来之后，直接看栈顶的数据，有没有大于common_start_time。如果大于的画，则处理Pop出来的数据</p>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="CannotMakeProgress"><a href="#CannotMakeProgress" class="headerlink" title="CannotMakeProgress"></a>CannotMakeProgress</h2><ol>
 <li>做好此为阻塞队列的标记</li>
 <li>发布log，若有其他队列长度大于kMaxQueueSize的topic数据，则发布log，等待这个队列为0的消息</li>
@@ -468,20 +495,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
