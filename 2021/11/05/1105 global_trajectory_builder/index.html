@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            global_trajectory_builder-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">global_trajectory_builder-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-05 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>处理排好序的数据，为什么是排好序？在数据分发dispatch的时候，通过寻找it-&gt;second.queue.Peek<Data>();来找到时间最老的一个数据，因此是排好序的。</p>
+<h1 id="global-trajectory-builder-h文件"><a href="#global-trajectory-builder-h文件" class="headerlink" title="global_trajectory_builder.h文件"></a>global_trajectory_builder.h文件</h1><p>在global_trajectory_builder.h中，只是声明了三个函数</p>
+<ul>
+<li>std::unique_ptr\<TrajectoryBuilderInterface> CreateGlobalTrajectoryBuilder2D</li>
+<li>std::unique_ptr\<TrajectoryBuilderInterface> CreateGlobalTrajectoryBuilder3D</li>
+<li>void GlobalTrajectoryBuilderRegisterMetrics</li>
+</ul>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>于global_trajectory_builder.cc文件中，直接返回一个GlobalTrajectoryBuilder2D/3D。直接把参数全部用上</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2d的完整的slam</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;TrajectoryBuilderInterface&gt; <span class="title">CreateGlobalTrajectoryBuilder2D</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    std::unique_ptr&lt;LocalTrajectoryBuilder2D&gt; local_trajectory_builder,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, mapping::PoseGraph2D* <span class="keyword">const</span> pose_graph,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> TrajectoryBuilderInterface::LocalSlamResultCallback&amp;</span></span></span><br><span class="line"><span class="function"><span class="params">        local_slam_result_callback,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> absl::optional&lt;MotionFilter&gt;&amp; pose_graph_odometry_motion_filter)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> absl::make_unique&lt;</span><br><span class="line">      GlobalTrajectoryBuilder&lt;LocalTrajectoryBuilder2D, mapping::PoseGraph2D&gt;&gt;(</span><br><span class="line">      std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id, pose_graph,</span><br><span class="line">      local_slam_result_callback, pose_graph_odometry_motion_filter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>调用的地方位于 map_builder.cc 的MapBuilder::AddTrajectoryBuilder</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CreateGlobalTrajectoryBuilder2D</span>(</span><br><span class="line">            std::<span class="built_in">move</span>(local_trajectory_builder), trajectory_id,</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;PoseGraph2D*&gt;(pose_graph_.<span class="built_in">get</span>()),</span><br><span class="line">            local_slam_result_callback, pose_graph_odometry_motion_filter)));</span><br></pre></td></tr></table></figure>
+<h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3><ul>
+<li><p>local_trajectory_builder：前端的轨迹</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">local_trajectory_builder = absl::make_unique&lt;LocalTrajectoryBuilder2D&gt;(</span><br><span class="line">          trajectory_options.<span class="built_in">trajectory_builder_2d_options</span>(),</span><br><span class="line">          <span class="built_in">SelectRangeSensorIds</span>(expected_sensor_ids));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>轨迹ID</p>
+</li>
+<li><p>pose<em>graph</em> ：SLAM后端，在node的构造函数中，会有map_builder的构造函数，给初始化了</p>
+</li>
+<li><p>LocalSlamResultCallback：实际是一个lambda 函数， 返回的是OnLocalSlamResult</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">this</span>](<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, </span><br><span class="line">             <span class="keyword">const</span> ::cartographer::common::Time time,</span><br><span class="line">             <span class="keyword">const</span> Rigid3d local_pose,</span><br><span class="line">             ::cartographer::sensor::RangeData range_data_in_local,</span><br><span class="line">             <span class="keyword">const</span> std::unique_ptr&lt;</span><br><span class="line">                 <span class="keyword">const</span> ::cartographer::mapping::TrajectoryBuilderInterface::</span><br><span class="line">                     InsertionResult&gt;) &#123;</span><br><span class="line">        <span class="comment">// 保存local slam 的结果数据 5个参数实际只用了4个</span></span><br><span class="line">        <span class="built_in">OnLocalSlamResult</span>(trajectory_id, time, local_pose, range_data_in_local);</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pose_graph_odometry_motion_filter：这个参数是没有被初始化的，没有使用到</p>
+</li>
+</ul>
+<h1 id="global-trajectory-builder-cc文件"><a href="#global-trajectory-builder-cc文件" class="headerlink" title="global_trajectory_builder.cc文件"></a>global_trajectory_builder.cc文件</h1><p>类GlobalTrajectoryBuilder直接定义在了类中，这个类是一个完整的slam, 连接起了前端与后端。下面是构造函数，对前端，轨迹ID，后端，前端的回调函数，以及里程计的滤波器分别进行赋值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> LocalTrajectoryBuilder, <span class="keyword">typename</span> PoseGraph&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GlobalTrajectoryBuilder</span> :</span> <span class="keyword">public</span> mapping::TrajectoryBuilderInterface &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">// Passing a &#x27;nullptr&#x27; for &#x27;local_trajectory_builder&#x27; is acceptable, but no</span></span><br><span class="line">  <span class="comment">// &#x27;TimedPointCloudData&#x27; may be added in that case.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * @brief 完整的slam, 连接起了前端与后端</span></span><br><span class="line"><span class="comment">   * </span></span><br><span class="line"><span class="comment">   * @param[in] local_trajectory_builder 2d or 3d local slam 前端</span></span><br><span class="line"><span class="comment">   * @param[in] trajectory_id 轨迹id</span></span><br><span class="line"><span class="comment">   * @param[in] pose_graph 2d or 3d pose_graph 后端</span></span><br><span class="line"><span class="comment">   * @param[in] local_slam_result_callback 前端的回调函数</span></span><br><span class="line"><span class="comment">   * @param[in] pose_graph_odometry_motion_filter 里程计的滤波器</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="built_in">GlobalTrajectoryBuilder</span>(</span><br><span class="line">      std::unique_ptr&lt;LocalTrajectoryBuilder&gt; local_trajectory_builder,</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, PoseGraph* <span class="keyword">const</span> pose_graph,</span><br><span class="line">      <span class="keyword">const</span> LocalSlamResultCallback&amp; local_slam_result_callback,</span><br><span class="line">      <span class="keyword">const</span> absl::optional&lt;MotionFilter&gt;&amp; pose_graph_odometry_motion_filter)</span><br><span class="line">      : <span class="built_in">trajectory_id_</span>(trajectory_id),</span><br><span class="line">        <span class="built_in">pose_graph_</span>(pose_graph),</span><br><span class="line">        <span class="built_in">local_trajectory_builder_</span>(std::<span class="built_in">move</span>(local_trajectory_builder)),</span><br><span class="line">        <span class="built_in">local_slam_result_callback_</span>(local_slam_result_callback),</span><br><span class="line">        <span class="built_in">pose_graph_odometry_motion_filter_</span>(pose_graph_odometry_motion_filter) &#123;&#125;</span><br><span class="line">  ~<span class="built_in">GlobalTrajectoryBuilder</span>() <span class="keyword">override</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>他的成员函数就是添加数据，除了点云的处理之外，其他的都是直接加入前端或者后端</p>
+<p>比如</p>
+<h2 id="IMU"><a href="#IMU" class="headerlink" title="IMU"></a>IMU</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// imu数据的处理, 数据走向有两个,一个是进入前端local_trajectory_builder_,一个是进入后端pose_graph_</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(<span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="keyword">const</span> sensor::ImuData&amp; imu_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (local_trajectory_builder_) &#123;</span><br><span class="line">    local_trajectory_builder_-&gt;<span class="built_in">AddImuData</span>(imu_data);</span><br><span class="line">  &#125;</span><br><span class="line">  pose_graph_-&gt;<span class="built_in">AddImuData</span>(trajectory_id_, imu_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="里程计"><a href="#里程计" class="headerlink" title="里程计"></a>里程计</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加入到后端之前, 先做一个距离的计算, 只有时间,移动距离,角度 变换量大于阈值才加入到后端中</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(<span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="keyword">const</span> sensor::OdometryData&amp; odometry_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(odometry_data.pose.<span class="built_in">IsValid</span>()) &lt;&lt; odometry_data.pose;</span><br><span class="line">  <span class="keyword">if</span> (local_trajectory_builder_) &#123;</span><br><span class="line">    local_trajectory_builder_-&gt;<span class="built_in">AddOdometryData</span>(odometry_data);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// TODO(MichaelGrupp): Instead of having an optional filter on this level,</span></span><br><span class="line">  <span class="comment">// odometry could be marginalized between nodes in the pose graph.</span></span><br><span class="line">  <span class="comment">// Related issue: cartographer-project/cartographer/#1768</span></span><br><span class="line">  <span class="keyword">if</span> (pose_graph_odometry_motion_filter_.<span class="built_in">has_value</span>() &amp;&amp;</span><br><span class="line">      pose_graph_odometry_motion_filter_.<span class="built_in">value</span>().<span class="built_in">IsSimilar</span>(</span><br><span class="line">          odometry_data.time, odometry_data.pose)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  pose_graph_-&gt;<span class="built_in">AddOdometryData</span>(trajectory_id_, odometry_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gps数据只在后端中使用</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::FixedFramePoseData&amp; fixed_frame_pose)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (fixed_frame_pose.pose.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    <span class="built_in">CHECK</span>(fixed_frame_pose.pose.<span class="built_in">value</span>().<span class="built_in">IsValid</span>())</span><br><span class="line">        &lt;&lt; fixed_frame_pose.pose.<span class="built_in">value</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  pose_graph_-&gt;<span class="built_in">AddFixedFramePoseData</span>(trajectory_id_, fixed_frame_pose);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="LandMark"><a href="#LandMark" class="headerlink" title="LandMark"></a>LandMark</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Landmark的数据只在后端中使用</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(<span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="keyword">const</span> sensor::LandmarkData&amp; landmark_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  pose_graph_-&gt;<span class="built_in">AddLandmarkData</span>(trajectory_id_, landmark_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="local-slam"><a href="#local-slam" class="headerlink" title="local slam"></a>local slam</h2><p>将local slam的结果加入到后端中, 作为位姿图的一个节点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将local slam的结果加入到后端中, 作为位姿图的一个节点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">AddLocalSlamResultData</span><span class="params">(std::unique_ptr&lt;mapping::LocalSlamResultData&gt;</span></span></span><br><span class="line"><span class="function"><span class="params">                                local_slam_result_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(!local_trajectory_builder_) &lt;&lt; <span class="string">&quot;Can&#x27;t add LocalSlamResultData with &quot;</span></span><br><span class="line">                                       <span class="string">&quot;local_trajectory_builder_ present.&quot;</span>;</span><br><span class="line">  local_slam_result_data-&gt;<span class="built_in">AddToPoseGraph</span>(trajectory_id_, pose_graph_);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="点云数据添加"><a href="#点云数据添加" class="headerlink" title="点云数据添加"></a>点云数据添加</h2><p>添加数据即进行扫描匹配，匹配成功就把结果作为结点加入位姿图，这玩意儿比较麻烦，再说</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * @brief 点云数据的处理, 先进行扫描匹配, 然后将扫描匹配的结果当做节点插入到后端的位姿图中</span></span><br><span class="line"><span class="comment">   * </span></span><br><span class="line"><span class="comment">   * @param[in] sensor_id topic名字</span></span><br><span class="line"><span class="comment">   * @param[in] timed_point_cloud_data 点云数据</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">AddSensorData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> sensor::TimedPointCloudData&amp; timed_point_cloud_data)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">    <span class="built_in">CHECK</span>(local_trajectory_builder_)</span><br><span class="line">        &lt;&lt; <span class="string">&quot;Cannot add TimedPointCloudData without a LocalTrajectoryBuilder.&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>  进行扫描匹配,调用addRangeData这个函数， 返回匹配后的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::unique_ptr&lt;typename LocalTrajectoryBuilder::MatchingResult&gt;</span><br><span class="line">    matching_result &#x3D; local_trajectory_builder_-&gt;AddRangeData(</span><br><span class="line">        sensor_id, timed_point_cloud_data);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 扫描匹配的result</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MatchingResult</span> &#123;</span></span><br><span class="line">  common::Time time;</span><br><span class="line">  transform::Rigid3d local_pose;</span><br><span class="line">  sensor::RangeData range_data_in_local; <span class="comment">// 经过扫描匹配之后位姿校准之后的雷达数据</span></span><br><span class="line">  <span class="comment">// &#x27;nullptr&#x27; if dropped by the motion filter.</span></span><br><span class="line">  std::unique_ptr&lt;<span class="keyword">const</span> InsertionResult&gt; insertion_result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">std::tie 如何返回多个值</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/03/1103%20c++%20explicit/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">explicit 使用</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#global-trajectory-builder-h%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">global_trajectory_builder.h文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="nav-number">1.2.1.</span> <span class="nav-text">参数说明</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#global-trajectory-builder-cc%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">global_trajectory_builder.cc文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IMU"><span class="nav-number">2.1.</span> <span class="nav-text">IMU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8C%E7%A8%8B%E8%AE%A1"><span class="nav-number">2.2.</span> <span class="nav-text">里程计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPS"><span class="nav-number">2.3.</span> <span class="nav-text">GPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LandMark"><span class="nav-number">2.4.</span> <span class="nav-text">LandMark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#local-slam"><span class="nav-number">2.5.</span> <span class="nav-text">local slam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E6%95%B0%E6%8D%AE%E6%B7%BB%E5%8A%A0"><span class="nav-number">2.6.</span> <span class="nav-text">点云数据添加</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

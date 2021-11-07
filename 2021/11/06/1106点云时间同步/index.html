@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            点云时间同步-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">点云时间同步-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-06 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>对雷达的同步的函数文件位于<code>cartographer/mapping/internal/range_data_collator.cc</code>文件中 </p>
+<p>同步雷达时间的类为<code>RangeDataCollator</code></p>
+<p>首先查看一下头文件，</p>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>对expected<em>sensor_ids</em> 进行赋值，注意expected<em>sensor_ids</em>他是一个集合</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RangeDataCollator</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">RangeDataCollator</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; expected_range_sensor_ids)</span></span></span><br><span class="line"><span class="function">      : expected_sensor_ids_(expected_range_sensor_ids.begin(),</span></span><br><span class="line"><span class="function">                             expected_range_sensor_ids.end()) &#123;</span>&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> std::set&lt;std::string&gt; expected_sensor_ids_;</span><br><span class="line">std::map&lt;std::string, sensor::TimedPointCloudData&gt; id_to_pending_data_; <span class="comment">// 待处理的数据</span></span><br><span class="line">common::Time current_start_ = common::Time::<span class="built_in">min</span>();</span><br><span class="line">common::Time current_end_ = common::Time::<span class="built_in">min</span>();</span><br></pre></td></tr></table></figure>
+<h1 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h1><p>此头文件只有两个函数，一个是AddRangeData，另外一个是CropAndMerge</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// If timed_point_cloud_data has incomplete intensity data, we will fill the</span></span><br><span class="line"> <span class="comment">// missing intensities with kDefaultIntensityValue.</span></span><br><span class="line"> <span class="function">sensor::TimedPointCloudOriginData <span class="title">AddRangeData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">     <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">     sensor::TimedPointCloudData timed_point_cloud_data)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"> <span class="function">sensor::TimedPointCloudOriginData <span class="title">CropAndMerge</span><span class="params">()</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="AddRangeData"><a href="#AddRangeData" class="headerlink" title="AddRangeData"></a>AddRangeData</h2><p>AddRangeData 的功能为多个雷达时间同步，记录当前同步数据的开始时间和结束时间</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 多个雷达数据的时间同步</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] sensor_id 雷达数据的话题</span></span><br><span class="line"><span class="comment"> * @param[in] timed_point_cloud_data 雷达数据</span></span><br><span class="line"><span class="comment"> * @return sensor::TimedPointCloudOriginData 根据时间处理之后的数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">sensor::TimedPointCloudOriginData <span class="title">RangeDataCollator::AddRangeData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    sensor::TimedPointCloudData timed_point_cloud_data)</span> </span>&#123; <span class="comment">// 第一次拷贝</span></span><br><span class="line">  <span class="built_in">CHECK_NE</span>(expected_sensor_ids_.<span class="built_in">count</span>(sensor_id), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 从sensor_bridge传过来的数据的intensities为空</span></span><br><span class="line">  timed_point_cloud_data.intensities.<span class="built_in">resize</span>(</span><br><span class="line">      timed_point_cloud_data.ranges.<span class="built_in">size</span>(), kDefaultIntensityValue);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// TODO(gaschler): These two cases can probably be one.</span></span><br><span class="line">  <span class="comment">// 如果同话题的点云, 还有没处理的, 就先处同步没处理的点云, 将当前点云保存</span></span><br><span class="line">  <span class="keyword">if</span> (id_to_pending_data_.<span class="built_in">count</span>(sensor_id) != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// current_end_为上一次时间同步的结束时间</span></span><br><span class="line">    <span class="comment">// current_start_为本次时间同步的开始时间</span></span><br><span class="line">    current_start_ = current_end_;</span><br><span class="line">    <span class="comment">// When we have two messages of the same sensor, move forward the older of</span></span><br><span class="line">    <span class="comment">// the two (do not send out current).</span></span><br><span class="line">    <span class="comment">// 本次时间同步的结束时间为这帧点云数据的结束时间</span></span><br><span class="line">    current_end_ = id_to_pending_data_.<span class="built_in">at</span>(sensor_id).time;</span><br><span class="line">    <span class="keyword">auto</span> result = <span class="built_in">CropAndMerge</span>();</span><br><span class="line">    <span class="comment">// 保存当前点云</span></span><br><span class="line">    id_to_pending_data_.<span class="built_in">emplace</span>(sensor_id, std::<span class="built_in">move</span>(timed_point_cloud_data));</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 先将当前点云添加到 等待时间同步的map中</span></span><br><span class="line">  id_to_pending_data_.<span class="built_in">emplace</span>(sensor_id, std::<span class="built_in">move</span>(timed_point_cloud_data));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 等到range数据的话题都到来之后再进行处理</span></span><br><span class="line">  <span class="keyword">if</span> (expected_sensor_ids_.<span class="built_in">size</span>() != id_to_pending_data_.<span class="built_in">size</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  current_start_ = current_end_;</span><br><span class="line">  <span class="comment">// We have messages from all sensors, move forward to oldest.</span></span><br><span class="line">  common::Time oldest_timestamp = common::Time::<span class="built_in">max</span>();</span><br><span class="line">  <span class="comment">// 找到所有传感器数据中最早的时间戳(点云最后一个点的时间)</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : id_to_pending_data_) &#123;</span><br><span class="line">    oldest_timestamp = std::<span class="built_in">min</span>(oldest_timestamp, pair.second.time);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// current_end_是本次时间同步的结束时间</span></span><br><span class="line">  <span class="comment">// 是待时间同步map中的 所有点云中最早的时间戳</span></span><br><span class="line">  current_end_ = oldest_timestamp;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">CropAndMerge</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="返回雷达的数据结构"><a href="#返回雷达的数据结构" class="headerlink" title="返回雷达的数据结构"></a>返回雷达的数据结构</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 时间同步后的点云</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TimedPointCloudOriginData</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">RangeMeasurement</span> &#123;</span></span><br><span class="line">    TimedRangefinderPoint point_time;   <span class="comment">// 带时间戳的单个数据点的坐标 xyz</span></span><br><span class="line">    <span class="keyword">float</span> intensity;                    <span class="comment">// 强度值</span></span><br><span class="line">    <span class="keyword">size_t</span> origin_index;                <span class="comment">// 属于第几个origins的点</span></span><br><span class="line">  &#125;;</span><br><span class="line">  common::Time time;                    <span class="comment">// 点云的时间</span></span><br><span class="line">  std::vector&lt;Eigen::Vector3f&gt; origins; <span class="comment">// 点云是由几个点云组成, 每个点云的原点</span></span><br><span class="line">  std::vector&lt;RangeMeasurement&gt; ranges; <span class="comment">// 数据点的集合</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h2><p>点云传进来是没有强度的，所以忽略</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 从sensor_bridge传过来的数据的intensities为空</span><br><span class="line">timed_point_cloud_data.intensities.resize(</span><br><span class="line">    timed_point_cloud_data.ranges.size(), kDefaultIntensityValue);</span><br></pre></td></tr></table></figure>
+<p>如果同话题的点云, 还有没处理的, 就先处同步没处理的点云, 然后将当前点云保存。</p>
+<p>这里的current<em>end</em> 获取的是id<em>to_pending_data</em> 中点云的time属性，这就是一个点云最后一个点的时间</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO(gaschler): These two cases can probably be one.</span></span><br><span class="line"><span class="comment">// 如果同话题的点云, 还有没处理的, 就先处同步没处理的点云, 将当前点云保存</span></span><br><span class="line"><span class="keyword">if</span> (id_to_pending_data_.<span class="built_in">count</span>(sensor_id) != <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="comment">// current_end_为上一次时间同步的结束时间</span></span><br><span class="line">  <span class="comment">// current_start_为本次时间同步的开始时间</span></span><br><span class="line">  current_start_ = current_end_;</span><br><span class="line">  <span class="comment">// When we have two messages of the same sensor, move forward the older of</span></span><br><span class="line">  <span class="comment">// the two (do not send out current).</span></span><br><span class="line">  <span class="comment">// 本次时间同步的结束时间为这帧点云数据的结束时间</span></span><br><span class="line">  current_end_ = id_to_pending_data_.<span class="built_in">at</span>(sensor_id).time;</span><br><span class="line">  <span class="keyword">auto</span> result = <span class="built_in">CropAndMerge</span>();</span><br><span class="line">  <span class="comment">// 保存当前点云</span></span><br><span class="line">  id_to_pending_data_.<span class="built_in">emplace</span>(sensor_id, std::<span class="built_in">move</span>(timed_point_cloud_data));</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果没有没有处理过的点云，则直接添加</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先将当前点云添加到 等待时间同步的map中</span></span><br><span class="line">id_to_pending_data_.<span class="built_in">emplace</span>(sensor_id, std::<span class="built_in">move</span>(timed_point_cloud_data));</span><br><span class="line"><span class="comment">// 等到range数据的话题都到来之后再进行处理</span></span><br><span class="line"><span class="keyword">if</span> (expected_sensor_ids_.<span class="built_in">size</span>() != id_to_pending_data_.<span class="built_in">size</span>()) &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加完之后，设置同步点云的开始时间和结束时间</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">current_start_ = current_end_;</span><br><span class="line"><span class="comment">// We have messages from all sensors, move forward to oldest.</span></span><br><span class="line">common::Time oldest_timestamp = common::Time::<span class="built_in">max</span>();</span><br><span class="line"><span class="comment">// 找到所有传感器数据中最早的时间戳(点云最后一个点的时间)</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : id_to_pending_data_) &#123;</span><br><span class="line">  oldest_timestamp = std::<span class="built_in">min</span>(oldest_timestamp, pair.second.time);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// current_end_是本次时间同步的结束时间</span></span><br><span class="line"><span class="comment">// 是待时间同步map中的 所有点云中最早的时间戳</span></span><br><span class="line">current_end_ = oldest_timestamp;</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">CropAndMerge</span>();</span><br></pre></td></tr></table></figure>
+<h2 id="CropAndMerge与解析"><a href="#CropAndMerge与解析" class="headerlink" title="CropAndMerge与解析"></a>CropAndMerge与解析</h2><p>对时间段内的数据进行截取与合并, 返回时间同步后的点云。</p>
+<p><strong>重点：</strong>雷达时间的同步即，把一段时间之内的雷达信息按照时间顺序再重新排一遍</p>
+<p>把AddRangeData 之中已经确定了 这一段时间的 开始和结束时间，current_begin 和 current_end</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对时间段内的数据进行截取与合并, 返回时间同步后的点云</span></span><br><span class="line"><span class="function">sensor::TimedPointCloudOriginData <span class="title">RangeDataCollator::CropAndMerge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  sensor::TimedPointCloudOriginData result&#123;current_end_, &#123;&#125;, &#123;&#125;&#125;;</span><br><span class="line">  <span class="keyword">bool</span> warned_for_dropped_points = <span class="literal">false</span>;</span><br><span class="line">  <span class="comment">// 遍历所有的传感器话题</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> it = id_to_pending_data_.<span class="built_in">begin</span>();</span><br><span class="line">       it != id_to_pending_data_.<span class="built_in">end</span>();) &#123;</span><br><span class="line">    <span class="comment">// 获取数据的引用</span></span><br><span class="line">    sensor::TimedPointCloudData&amp; data = it-&gt;second;</span><br><span class="line">    <span class="keyword">const</span> sensor::TimedPointCloud&amp; ranges = it-&gt;second.ranges;</span><br><span class="line">    <span class="keyword">const</span> std::vector&lt;<span class="keyword">float</span>&gt;&amp; intensities = it-&gt;second.intensities;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到点云中 最后一个时间戳小于current_start_的点的索引</span></span><br><span class="line">    <span class="keyword">auto</span> overlap_begin = ranges.<span class="built_in">begin</span>();</span><br><span class="line">    <span class="keyword">while</span> (overlap_begin &lt; ranges.<span class="built_in">end</span>() &amp;&amp;</span><br><span class="line">           data.time + common::<span class="built_in">FromSeconds</span>((*overlap_begin).time) &lt;</span><br><span class="line">               current_start_) &#123;</span><br><span class="line">      ++overlap_begin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到点云中 最后一个时间戳小于等于current_end_的点的索引</span></span><br><span class="line">    <span class="keyword">auto</span> overlap_end = overlap_begin;</span><br><span class="line">    <span class="keyword">while</span> (overlap_end &lt; ranges.<span class="built_in">end</span>() &amp;&amp;</span><br><span class="line">           data.time + common::<span class="built_in">FromSeconds</span>((*overlap_end).time) &lt;=</span><br><span class="line">               current_end_) &#123;</span><br><span class="line">      ++overlap_end;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 丢弃点云中时间比起始时间早的点, 每执行一下CropAndMerge()打印一次log</span></span><br><span class="line">    <span class="keyword">if</span> (ranges.<span class="built_in">begin</span>() &lt; overlap_begin &amp;&amp; !warned_for_dropped_points) &#123;</span><br><span class="line">      <span class="built_in">LOG</span>(WARNING) &lt;&lt; <span class="string">&quot;Dropped &quot;</span> &lt;&lt; std::<span class="built_in">distance</span>(ranges.<span class="built_in">begin</span>(), overlap_begin)</span><br><span class="line">                   &lt;&lt; <span class="string">&quot; earlier points.&quot;</span>;</span><br><span class="line">      warned_for_dropped_points = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Copy overlapping range.</span></span><br><span class="line">    <span class="keyword">if</span> (overlap_begin &lt; overlap_end) &#123;</span><br><span class="line">      <span class="comment">// 获取下个点云的index, 即当前vector的个数</span></span><br><span class="line">      std::<span class="keyword">size_t</span> origin_index = result.origins.<span class="built_in">size</span>();</span><br><span class="line">      result.origins.<span class="built_in">push_back</span>(data.origin);  <span class="comment">// 插入原点坐标</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 获取此传感器时间与集合时间戳的误差, 比如下面图中scan_2到current_end_的时间</span></span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">float</span> time_correction =</span><br><span class="line">          <span class="keyword">static_cast</span>&lt;<span class="keyword">float</span>&gt;(common::<span class="built_in">ToSeconds</span>(data.time - current_end_));</span><br><span class="line"></span><br><span class="line">      <span class="keyword">auto</span> intensities_overlap_it =</span><br><span class="line">          intensities.<span class="built_in">begin</span>() + (overlap_begin - ranges.<span class="built_in">begin</span>());</span><br><span class="line">      <span class="comment">// reserve() 在预留空间改变时, 会将之前的数据拷贝到新的内存中</span></span><br><span class="line">      result.ranges.<span class="built_in">reserve</span>(result.ranges.<span class="built_in">size</span>() +</span><br><span class="line">                            std::<span class="built_in">distance</span>(overlap_begin, overlap_end));</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 填充数据</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">auto</span> overlap_it = overlap_begin; overlap_it != overlap_end;</span><br><span class="line">           ++overlap_it, ++intensities_overlap_it) &#123;</span><br><span class="line">        sensor::TimedPointCloudOriginData::RangeMeasurement point&#123;</span><br><span class="line">            *overlap_it, *intensities_overlap_it, origin_index&#125;;</span><br><span class="line">        <span class="comment">// current_end_ + point_time[3]_after == in_timestamp +</span></span><br><span class="line">        <span class="comment">// point_time[3]_before</span></span><br><span class="line">        <span class="comment">// 针对每个点时间戳进行修正, 让最后一个点的时间为0</span></span><br><span class="line">        point.point_time.time += time_correction;  </span><br><span class="line">        result.ranges.<span class="built_in">push_back</span>(point);</span><br><span class="line">      &#125; <span class="comment">// end for</span></span><br><span class="line">    &#125; <span class="comment">// end if</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Drop buffered points until overlap_end.</span></span><br><span class="line">    <span class="comment">// 如果点云每个点都用了, 则可将这个数据进行删除</span></span><br><span class="line">    <span class="keyword">if</span> (overlap_end == ranges.<span class="built_in">end</span>()) &#123;</span><br><span class="line">      it = id_to_pending_data_.<span class="built_in">erase</span>(it);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">// 如果一个点都没用, 就先放这, 看下一个数据</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (overlap_end == ranges.<span class="built_in">begin</span>()) &#123;</span><br><span class="line">      ++it;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">// 用了一部分的点</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">auto</span> intensities_overlap_end =</span><br><span class="line">          intensities.<span class="built_in">begin</span>() + (overlap_end - ranges.<span class="built_in">begin</span>());</span><br><span class="line">      <span class="comment">// 将用了的点删除, 这里的赋值是拷贝</span></span><br><span class="line">      data = sensor::TimedPointCloudData&#123;</span><br><span class="line">          data.time, data.origin,</span><br><span class="line">          sensor::<span class="built_in">TimedPointCloud</span>(overlap_end, ranges.<span class="built_in">end</span>()),</span><br><span class="line">          std::vector&lt;<span class="keyword">float</span>&gt;(intensities_overlap_end, intensities.<span class="built_in">end</span>())&#125;;</span><br><span class="line">      ++it;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="comment">// end for</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对各传感器的点云 按照每个点的时间从小到大进行排序</span></span><br><span class="line">  std::<span class="built_in">sort</span>(result.ranges.<span class="built_in">begin</span>(), result.ranges.<span class="built_in">end</span>(),</span><br><span class="line">            [](<span class="keyword">const</span> sensor::TimedPointCloudOriginData::RangeMeasurement&amp; a,</span><br><span class="line">               <span class="keyword">const</span> sensor::TimedPointCloudOriginData::RangeMeasurement&amp; b) &#123;</span><br><span class="line">              <span class="keyword">return</span> a.point_time.time &lt; b.point_time.time;</span><br><span class="line">            &#125;);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看下面一段图，scan_1首先来一段数据，scan_2紧随其后，则</p>
+<ul>
+<li>current_end为第一段的最后一个点的时间</li>
+<li>current_begin 是一个很小的值</li>
+</ul>
+<p>那么会把scan_1所有的数据先放入result，然后把scan_2的部分数据放入result。</p>
+<p>最后按照每一个点的时间进行从小到大的排序进行返回</p>
+<p>第二次时间同步，需要从AddRangeData中再一次确定curren_end.</p>
+<ul>
+<li>current_end 为scan_2的最后一个点的值</li>
+<li>current_begin 为第一次的current_end的值</li>
+</ul>
+<p>直接把scan_2的第二段返回</p>
+<p><img src="image-20211107232236079.png" alt=""></p>
+<p><img src="/home/kong/repo/chargerKong.github.io/source/_posts/1106点云时间同步/image-20211107232236079.png" alt="image-20211107232236079"></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">点云匹配-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer-数据分发小结</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">成员函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AddRangeData"><span class="nav-number">3.1.</span> <span class="nav-text">AddRangeData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E9%9B%B7%E8%BE%BE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.</span> <span class="nav-text">返回雷达的数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">3.3.</span> <span class="nav-text">代码解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CropAndMerge%E4%B8%8E%E8%A7%A3%E6%9E%90"><span class="nav-number">3.4.</span> <span class="nav-text">CropAndMerge与解析</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
