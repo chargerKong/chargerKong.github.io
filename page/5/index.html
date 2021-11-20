@@ -132,6 +132,280 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/13/1013DeclareLaunchArgument/">
+                        DeclareLaunchArgument-launch文件
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        功能简介DeclareLaunchArgument 即声明一下launch 文件的可以修改的参数
+使用说明一般情况下，DeclareLaunchArgument放在LaunchDescription之后
+12345678return LaunchDe...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 13 2021 10:59:22 GMT+0800">2021-10-13</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/13/1013DeclareLaunchArgument/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/13/1013launchConfiguration/">
+                        LaunchConfiguration-launch文件
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        功能简介LaunchConfiguration参数是ros2中的常用函数之一，他的主要作用可以通过命令行传递参数。语法如下
+1&lt;name&gt;:&#x3D;&lt;value&gt;
+name是launch文件中的参数，加在launch文件之...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 13 2021 09:59:22 GMT+0800">2021-10-13</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/13/1013launchConfiguration/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/08/1008sensor_bridge4/">
+                        HandleLaserScan-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        上一次说道雷达如何转换为点云数据，无论是LaserScan还是多回声波雷达数据，都通过ToPointCloudWithIntensities函数进行转换，本节需要通过HandleLaserScan把点云数据进行处理。
+激光雷达首先从订阅的回调函数做过...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 08 2021 09:59:22 GMT+0800">2021-10-08</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/08/1008sensor_bridge4/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/07/1007sensor_bridge_point_cloud/">
+                        雷达转点云-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在cartographer中，有两种雷达的消息格式，一个是LaserScan，另外一个是MultiEchoLaserScan，即多回声波雷达。
+雷达消息处理流程下面是cartographer在接收到雷达消息的之后的流程示意图
+
+node类筛选数据在N...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 07 2021 09:59:22 GMT+0800">2021-10-07</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/07/1007sensor_bridge_point_cloud/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/29/0929%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">
+                        undefined reference to `vtable for Tianboard&#39;
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        系统：ros2-foxy
+编译发生错误  undefined reference to `vtable for Tianboard’
+vtable即虚函数表，即缺少一个析构函数
+
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Sep 29 2021 09:59:22 GMT+0800">2021-09-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/29/0929%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/26/0926sensor_bridge/">
+                        sensor-bridge-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        GPS数据处理在sensorBridge中，处理GPS数据的函数为HandleNavSatFixMessage。
+如果雷达的数据不是STATUS_NO_FIX，则就直接返回不处理
+12345678910111213141516171819202122...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 26 2021 15:59:23 GMT+0800">2021-09-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/26/0926sensor_bridge/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/25/0925sensor_bridge/">
+                        sensor-brifge-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        SensorBridge类将ROS的消息转换为在tracking frame上的传感器数据，为了方便建图
+构造函数首先看一下构造函数
+12345678910111213141516171819class SensorBridge &#123; pub...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Sep 25 2021 15:59:23 GMT+0800">2021-09-25</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/25/0925sensor_bridge/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/24/0923TianBot%E7%9A%84%E7%96%91%E9%97%AE/">
+                        tianbot ros2
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        驱动相机驱动ROS1: usb_cam，V4L（video for linux）的相机驱动
+ROS2: ros2_v4l2_camera，
+单线雷达驱动ROS1: rplidar_ros， 思岚科技
+ROS2: rplidar_ros，思岚科技 
+遗...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Sep 24 2021 15:59:23 GMT+0800">2021-09-24</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/24/0923TianBot%E7%9A%84%E7%96%91%E9%97%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/18/0922pip%E6%8C%87%E5%90%91python3/">
+                        pip指向Python3问题
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        当下载Python包的时候，无论是pip还是pip3，他的版本都是Python3的
+12pip -Vpip3 -V
+一，改一下软链接
+改一下目录为/usr/bin下的pip，将其指向/usr/local/bin下的pip，如果/usr/local/b...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Sep 18 2021 15:59:23 GMT+0800">2021-09-18</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/09/18/0922pip%E6%8C%87%E5%90%91python3/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/09/18/0918sensor-nav2/">
                         配置sensors-navigation2
                     </a>
@@ -151,266 +425,6 @@
     </div>
 
     <a href="/2021/09/18/0918sensor-nav2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/13/0922map_builder_bridge/">
-                        MapBuilderBridge类-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        本文主要介绍map_builder类的大致实现逻辑
-AddTrajectoy123456789101112131415161718192021222324252627282930313233343536int MapBuilderBridge::Ad...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 13 2021 15:59:22 GMT+0800">2021-09-13</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/13/0922map_builder_bridge/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/09/0909cartographer-ros2/">
-                        cartographer-ros2配置
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        cartographer 介绍Cartographer是一个跨多个平台和传感器配置提供2D和3D实时同步定位和绘图(SLAM)的系统。cartographer的应用较为广泛，比如我们平时所见到的送餐机器人大多都是通过cartographer建立的地图...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 09 2021 15:59:23 GMT+0800">2021-09-09</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/09/0909cartographer-ros2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/09/0909%E9%85%8D%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/">
-                        配置Odometry-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        翻译至https://navigation.ros.org/setup_guides/odom/setup_odom.html
-在本指南中，我们将研究如何将机器人的odometry系统与Nav2集成。首先，我们将简要介绍一下里程计，以及Nav2正确运...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 09 2021 15:59:23 GMT+0800">2021-09-09</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/09/0909%E9%85%8D%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/09/0909URDF-nav2/">
-                        配置URDF-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        翻译自https://navigation.ros.org/setup_guides/urdf/setup_urdf.html#urdf-and-the-robot-state-publisher
-在此教程中，我们会带着你用URDF手写一个双轮差速机...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 09 2021 15:59:22 GMT+0800">2021-09-09</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/09/0909URDF-nav2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/07/0907pbstream/">
-                        ProtoStreamReader-map_builder类-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        之前我们大致讲解了Node类的功能和使用，在Node类里面，有大量的map_builder_bridge的使用，今天开始记录一下，对map_builder_bridge的使用。
-两个坐标系：local map frame 与 global map f...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Sep 07 2021 15:59:22 GMT+0800">2021-09-07</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/07/0907pbstream/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/07/0907tf2-nav2/">
-                        里程计介绍-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        里程计(odometry)介绍翻译内容为：https://navigation.ros.org/setup_guides/odom/setup_odom.html#odometry-introduction
-里程计系统根据机器人的运动提供了机器人的姿...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Sep 07 2021 15:59:22 GMT+0800">2021-09-07</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/07/0907tf2-nav2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">
-                        服务介绍-Node类-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在构造Node类的时候，cartographer也声明了一些服务。
-123456789101112131415// Step: 2 声明发布对应名字的ROS服务, 并将服务的发布器放入到vector容器中service_servers_.push_b...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 06 2021 15:59:22 GMT+0800">2021-09-06</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/">
-                        定时发布数据-Node类-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        定时器定义调用Node的构造函数的时候，顺便定义了发布者，可查看node.cc文件Node::Node。submaplist_publisher即为一个::ros::Publisher
-12345678910111213141516171819202...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 05 2021 15:59:22 GMT+0800">2021-09-05</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/05/0905%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-                        数据处理-Node类-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在node_main.cc中添加轨迹的过程中，对轨迹根据option的配置进行了订阅者的定义和回调注册，即
-node_main.cc -&gt;Node::StartTrajectoryWithDefaultTopics -&gt; Node::Ad...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 05 2021 15:59:22 GMT+0800">2021-09-05</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/05/0905%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -545,5 +559,20 @@ node_main.cc -&gt;Node::StartTrajectoryWithDefaultTopics -&gt; Node::Ad...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

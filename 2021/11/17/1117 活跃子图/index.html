@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            活跃子图-ActiveSubmaps2D-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">活跃子图-ActiveSubmaps2D-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-17 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><strong>栅格地图的实现是二维激光SLAM的一个难点</strong></p>
+<p>三维激光SLAM形成的点云地图不需要自己手动实现点云的数据结构, PCL中有写好的数据类型,直接调用就行. 视觉SLAM形成的点云地图也可以用PCL来实现</p>
+<p>唯独二维激光SLAM的栅格地图需要自己手动实现, 目前所有的二维激光SLAM的栅格地图都是<br>SLAM作者自己写的, 没有通用的数据结构</p>
+<h1 id="ActiveSubmaps2D"><a href="#ActiveSubmaps2D" class="headerlink" title="ActiveSubmaps2D"></a>ActiveSubmaps2D</h1><p>此类位于<code>cartographer/cartographer/mapping/2d/submap2d.h</code>中</p>
+<p>此类做活跃的子图管理，一共保存两个子图，保存在<code>std::vector&lt;std::shared_ptr&lt;Submap2D&gt;&gt; submaps_;</code>中</p>
+<p>每一个子图都会添加雷达数据，最多不高于90，默认值源于配置文件<code>local_trajectory_2d.lua</code>中 <code>submaps: num_range_data=90</code></p>
+<p>过程：</p>
+<ul>
+<li>添加子图</li>
+<li>添加数据，直至90</li>
+<li>添加子图，两个子图同时添加数据，直到第二个子图到90，第一个子图是2倍的90</li>
+<li>添加子图，此时就需要删除180数据的子图了，然后继续添加数据</li>
+<li>回到第三步</li>
+</ul>
+<p><img src="活跃子图-ActiveSubmaps2D-cartographer/image-20211117220117112.png" alt=""></p>
+<p><img src="image-20211117220117112.png" alt=""></p>
+<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 2个活跃的子图,旧的用于匹配,新的用于初始化,当新子图变成旧子图时候再进行匹配</span></span><br><span class="line"><span class="comment"> * 只有初始化时才只有1个子图.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ActiveSubmaps2D</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">ActiveSubmaps2D</span><span class="params">(<span class="keyword">const</span> proto::SubmapsOptions2D&amp; options)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">ActiveSubmaps2D</span>(<span class="keyword">const</span> ActiveSubmaps2D&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">  ActiveSubmaps2D&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> ActiveSubmaps2D&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Inserts &#x27;range_data&#x27; into the Submap collection.</span></span><br><span class="line">  std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; <span class="built_in">InsertRangeData</span>(</span><br><span class="line">      <span class="keyword">const</span> sensor::RangeData&amp; range_data);</span><br><span class="line"></span><br><span class="line">  std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; <span class="built_in">submaps</span>() <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="function">std::unique_ptr&lt;RangeDataInserterInterface&gt; <span class="title">CreateRangeDataInserter</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function">std::unique_ptr&lt;GridInterface&gt; <span class="title">CreateGrid</span><span class="params">(<span class="keyword">const</span> Eigen::Vector2f&amp; origin)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">FinishSubmap</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">AddSubmap</span><span class="params">(<span class="keyword">const</span> Eigen::Vector2f&amp; origin)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> proto::SubmapsOptions2D options_;</span><br><span class="line">  std::vector&lt;std::shared_ptr&lt;Submap2D&gt;&gt; submaps_;</span><br><span class="line">  std::unique_ptr&lt;RangeDataInserterInterface&gt; range_data_inserter_;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 转换表, 第[0-32767]位置, 存的是[0.9, 0.1~0.9]的数据</span></span><br><span class="line">  ValueConversionTables conversion_tables_; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><ul>
+<li>options_ ： 保存trajectory_builder_2d.lua文件中，submaps相关配置</li>
+<li>submaps_ ： 保存两个子图的vector</li>
+<li>range<em>data_inserter</em> ： 数据插入器</li>
+<li>conversion<em>tables</em> ： 转换表，第[0-32767]位置, 存的是[0.9, 0.1…0.9]的数据。后面是0.1到0.9缓慢增加的数据</li>
+</ul>
+<h2 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h2><ul>
+<li>InsertRangeData(): 把点云写入到所有的submap中</li>
+<li>submaps(): 返回指向 Submap2D 的 shared_ptr指针 的vector</li>
+<li>CreateRangeDataInserter(): 创建地图数据写入器，类型可以<ul>
+<li>PROBABILITY_GRID_INSERTER_2D</li>
+<li>TSDF_INSERTER_2D</li>
+</ul>
+</li>
+<li>CreateGrid(): 以当前雷达原点为地图原点创建地图，可以选择的地图类型为<ul>
+<li>PROBABILITY_GRID</li>
+<li>TSDF</li>
+</ul>
+</li>
+<li>FinishSubmap(): 没有实现</li>
+<li>AddSubmap(): 对submaps_ 进行push_back，并且同时检查子图的数量，不能大于2</li>
+</ul>
+<h1 id="Submap2D"><a href="#Submap2D" class="headerlink" title="Submap2D"></a>Submap2D</h1><p>他就是保存在Activesubmap2D中 的submap. 这里存有地图的数据和转换表</p>
+<h2 id="头文件-1"><a href="#头文件-1" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Submap2D</span> :</span> <span class="keyword">public</span> Submap &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">Submap2D</span>(<span class="keyword">const</span> Eigen::Vector2f&amp; origin, std::unique_ptr&lt;Grid2D&gt; grid,</span><br><span class="line">           ValueConversionTables* conversion_tables);</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">Submap2D</span><span class="params">(<span class="keyword">const</span> proto::Submap2D&amp; proto,</span></span></span><br><span class="line"><span class="function"><span class="params">                    ValueConversionTables* conversion_tables)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function">proto::Submap <span class="title">ToProto</span><span class="params">(<span class="keyword">bool</span> include_grid_data)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">UpdateFromProto</span><span class="params">(<span class="keyword">const</span> proto::Submap&amp; proto)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">ToResponseProto</span><span class="params">(<span class="keyword">const</span> transform::Rigid3d&amp; global_submap_pose,</span></span></span><br><span class="line"><span class="function"><span class="params">                       proto::SubmapQuery::Response* response)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">const</span> Grid2D* <span class="title">grid</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> grid_.<span class="built_in">get</span>(); &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Insert &#x27;range_data&#x27; into this submap using &#x27;range_data_inserter&#x27;. The</span></span><br><span class="line">  <span class="comment">// submap must not be finished yet.</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">InsertRangeData</span><span class="params">(<span class="keyword">const</span> sensor::RangeData&amp; range_data,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="keyword">const</span> RangeDataInserterInterface* range_data_inserter)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Finish</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">      <span class="built_in">CHECK</span>(grid_);</span><br><span class="line">      <span class="built_in">CHECK</span>(!<span class="built_in">insertion_finished</span>());</span><br><span class="line">      grid_ = grid_-&gt;<span class="built_in">ComputeCroppedGrid</span>();</span><br><span class="line">      <span class="comment">// 将子图标记为完成状态</span></span><br><span class="line">      <span class="built_in">set_insertion_finished</span>(<span class="literal">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  std::unique_ptr&lt;Grid2D&gt; grid_; <span class="comment">// 地图栅格数据</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 转换表, 第[0-32767]位置, 存的是[0.9, 0.1~0.9]的数据</span></span><br><span class="line">  ValueConversionTables* conversion_tables_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="成员变量-1"><a href="#成员变量-1" class="headerlink" title="成员变量"></a>成员变量</h2><ul>
+<li>grid_： 地图栅格数据</li>
+<li>conversion<em>tables</em>： 转换表, 第[0-32767]位置, 存的是[0.9, 0.1~0.9]的数据</li>
+</ul>
+<h2 id="成员函数-1"><a href="#成员函数-1" class="headerlink" title="成员函数"></a>成员函数</h2><ul>
+<li>ToProto(): 根据mapping::Submap2D生成proto::Submap格式的数据</li>
+<li>UpdateFromProto(): 根据proto::Submap格式的数据更新地图</li>
+<li>ToResponseProto(): 将地图进行压缩, 放入response</li>
+<li>InsertRangeData(): 将雷达数据写到栅格地图中</li>
+</ul>
+<h1 id="Submap"><a href="#Submap" class="headerlink" title="Submap"></a>Submap</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 独立的子地图, 3个功能</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * 保存在local坐标系下的子图的坐标</span></span><br><span class="line"><span class="comment"> * 记录插入到子图中雷达数据的个数</span></span><br><span class="line"><span class="comment"> * 标记这个子图是否是完成状态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Submap</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 构造函数, 将传入的local_submap_pose作为子图的坐标原点</span></span><br><span class="line">  <span class="built_in">Submap</span>(<span class="keyword">const</span> transform::Rigid3d&amp; local_submap_pose)</span><br><span class="line">      : <span class="built_in">local_pose_</span>(local_submap_pose) &#123;&#125;</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">Submap</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> proto::Submap <span class="title">ToProto</span><span class="params">(<span class="keyword">bool</span> include_grid_data)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">UpdateFromProto</span><span class="params">(<span class="keyword">const</span> proto::Submap&amp; proto)</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Fills data into the &#x27;response&#x27;.</span></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">ToResponseProto</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> transform::Rigid3d&amp; global_submap_pose,</span></span></span><br><span class="line"><span class="function"><span class="params">      proto::SubmapQuery::Response* response)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Pose of this submap in the local map frame.</span></span><br><span class="line">  <span class="comment">// 在local坐标系的子图的坐标</span></span><br><span class="line">  <span class="function">transform::Rigid3d <span class="title">local_pose</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> local_pose_; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Number of RangeData inserted.</span></span><br><span class="line">  <span class="comment">// 插入到子图中雷达数据的个数</span></span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">num_range_data</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> num_range_data_; &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">set_num_range_data</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> num_range_data)</span> </span>&#123;</span><br><span class="line">    num_range_data_ = num_range_data;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">insertion_finished</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> insertion_finished_; &#125;</span><br><span class="line">  <span class="comment">// 将子图标记为完成状态</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">set_insertion_finished</span><span class="params">(<span class="keyword">bool</span> insertion_finished)</span> </span>&#123;</span><br><span class="line">    insertion_finished_ = insertion_finished;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">const</span> transform::Rigid3d local_pose_; <span class="comment">// 子图原点在local坐标系下的坐标</span></span><br><span class="line">  <span class="keyword">int</span> num_range_data_ = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">bool</span> insertion_finished_ = <span class="literal">false</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>流程总结，</p>
+<p>创建activesubmap 需要创建 submap</p>
+<p>创建submap 需要先创建 Grid2d</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/18/1119%20nav2-begin/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">initial pose-navigation2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/16/1116nav2%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">navigation2 插件配置</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ActiveSubmaps2D"><span class="nav-number">1.</span> <span class="nav-text">ActiveSubmaps2D</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">成员函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Submap2D"><span class="nav-number">2.</span> <span class="nav-text">Submap2D</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6-1"><span class="nav-number">2.1.</span> <span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-1"><span class="nav-number">2.2.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-1"><span class="nav-number">2.3.</span> <span class="nav-text">成员函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Submap"><span class="nav-number">3.</span> <span class="nav-text">Submap</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

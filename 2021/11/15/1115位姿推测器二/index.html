@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            位姿推测器-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">位姿推测器-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-15 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="AddPose"><a href="#AddPose" class="headerlink" title="AddPose"></a>AddPose</h1><p>对整个位姿估计器进行校准，本身估计器就是IMU加上里程计进行预测，预测肯定就有不准的情况，因此需要校准。就需要整个匹配后的Pose进行校准</p>
+<p>首先是IMU_tracker 没有初始化则初始化</p>
+<p>把Pose加入到</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在timed_pose_queue_中保存pose</span></span><br><span class="line">timed_pose_queue_.<span class="built_in">push_back</span>(TimedPose&#123;time, pose&#125;);</span><br></pre></td></tr></table></figure>
+<p>把这一帧Pose加入到<code>timed_pose_queue</code>，同时也要裁剪</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将imu_tracker_更新到time时刻,</span></span><br><span class="line"><span class="comment">// 本来是跟新到上一帧的姿态，现在把可以预测的时间拉到现在这个时间</span></span><br><span class="line"><span class="built_in">AdvanceImuTracker</span>(time, imu_tracker_.<span class="built_in">get</span>());</span><br></pre></td></tr></table></figure>
+<h1 id="AdvanceImuTracker"><a href="#AdvanceImuTracker" class="headerlink" title="AdvanceImuTracker"></a>AdvanceImuTracker</h1><p>把imu_tracker 更新到time时刻</p>
+<p>整个函数完成了一个，根据IMU数据队列，利用imu_tracker对时间点time的imu姿态进行预测，然后校准，再预测，再校准,</p>
+<p>此函数将imu<em>tracker</em>更新到time时刻</p>
+<p>还有一个情况，如果不适用imu数据，或者需要预测的时刻都还没有imu的数据</p>
+<p>那么就角速度就取里程计的，如果不适用里程计，那么就使用angular<em>velocity_from_poses</em> ，校准的位姿</p>
+<p>因此即便是没有使用IMU，计算的方式其实也是一样的，只不过线性加速度永远不会变，角速度来自于odometry</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 更新imu_tracker的状态, 并将imu_tracker的状态预测到time时刻</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] time 要预测到的时刻</span></span><br><span class="line"><span class="comment"> * @param[in] imu_tracker 给定的先验状态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseExtrapolator::AdvanceImuTracker</span><span class="params">(<span class="keyword">const</span> common::Time time,</span></span></span><br><span class="line"><span class="function"><span class="params">                                         ImuTracker* <span class="keyword">const</span> imu_tracker)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 检查指定时间是否大于等于 ImuTracker 的时间</span></span><br><span class="line">  <span class="built_in">CHECK_GE</span>(time, imu_tracker-&gt;<span class="built_in">time</span>());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 不使用imu 或者 预测时间之前没有imu数据的情况</span></span><br><span class="line">  <span class="keyword">if</span> (imu_data_.<span class="built_in">empty</span>() || time &lt; imu_data_.<span class="built_in">front</span>().time) &#123;</span><br><span class="line">    <span class="comment">// There is no IMU data until &#x27;time&#x27;, so we advance the ImuTracker and use</span></span><br><span class="line">    <span class="comment">// the angular velocities from poses and fake gravity to help 2D stability.</span></span><br><span class="line">    <span class="comment">// 在time之前没有IMU数据, 因此我们推进ImuTracker, 并使用姿势和假重力产生的角速度来帮助2D稳定</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 预测当前时刻的姿态与重力方向</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">Advance</span>(time);</span><br><span class="line">    <span class="comment">// 使用 假的重力数据对加速度的测量进行更新</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">AddImuLinearAccelerationObservation</span>(Eigen::Vector3d::<span class="built_in">UnitZ</span>());</span><br><span class="line">    <span class="comment">// 只能依靠其他方式得到的角速度进行测量值的更新</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">AddImuAngularVelocityObservation</span>(</span><br><span class="line">        odometry_data_.<span class="built_in">size</span>() &lt; <span class="number">2</span> ? angular_velocity_from_poses_</span><br><span class="line">                                  : angular_velocity_from_odometry_);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// imu_tracker的时间比imu数据队列中第一个数据的时间早, 就先预测到imu数据队列中第一个数据的时间</span></span><br><span class="line">  <span class="comment">// 比imu最早的数据的时间，都可以预测，方便后面开始循环</span></span><br><span class="line">  <span class="keyword">if</span> (imu_tracker-&gt;<span class="built_in">time</span>() &lt; imu_data_.<span class="built_in">front</span>().time) &#123;</span><br><span class="line">    <span class="comment">// Advance to the beginning of &#x27;imu_data_&#x27;.</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">Advance</span>(imu_data_.<span class="built_in">front</span>().time);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// c++11: std::lower_bound() 是在区间内找到第一个大于等于 value 的值的位置并返回, 如果没找到就返回 end() 位置</span></span><br><span class="line">  <span class="comment">// 在第四个参数位置可以自定义比较规则,在区域内查找第一个 **不符合** comp 规则的元素</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在imu数据队列中找到第一个时间上 大于等于 imu_tracker-&gt;time() 的数据的索引</span></span><br><span class="line">  <span class="keyword">auto</span> it = std::<span class="built_in">lower_bound</span>(</span><br><span class="line">      imu_data_.<span class="built_in">begin</span>(), imu_data_.<span class="built_in">end</span>(), imu_tracker-&gt;<span class="built_in">time</span>(),</span><br><span class="line">      [](<span class="keyword">const</span> sensor::ImuData&amp; imu_data, <span class="keyword">const</span> common::Time&amp; time) &#123;</span><br><span class="line">        <span class="keyword">return</span> imu_data.time &lt; time;</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 然后依次对imu数据进行预测, 以及添加观测, 直到imu_data_的时间大于等于time截止</span></span><br><span class="line">  <span class="comment">// 这里相当于就是先预测，然后再校准（两个速度）</span></span><br><span class="line">  <span class="keyword">while</span> (it != imu_data_.<span class="built_in">end</span>() &amp;&amp; it-&gt;time &lt; time) &#123;</span><br><span class="line">    <span class="comment">// 预测出当前time时刻的姿态与重力方向</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">Advance</span>(it-&gt;time);</span><br><span class="line">    <span class="comment">// 根据线速度的观测,更新重力的方向,并根据重力的方向对上一时刻预测的姿态进行校准</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">AddImuLinearAccelerationObservation</span>(it-&gt;linear_acceleration);</span><br><span class="line">    <span class="comment">// 更新角速度观测</span></span><br><span class="line">    imu_tracker-&gt;<span class="built_in">AddImuAngularVelocityObservation</span>(it-&gt;angular_velocity);</span><br><span class="line">    ++it;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 最后将imu_tracker的状态预测到time时刻</span></span><br><span class="line">  imu_tracker-&gt;<span class="built_in">Advance</span>(time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，这个advance，就是去变更imu_tracker的在某一个时刻time的四元数位姿，变更的依据为用于校准的角速度。即旋转情况。</p>
+<h1 id="EstimateGravityOrientation"><a href="#EstimateGravityOrientation" class="headerlink" title="EstimateGravityOrientation"></a>EstimateGravityOrientation</h1><p>预测得到time时刻 tracking frame 在 local 坐标系下的姿态</p>
+<p>这个数据传过来的时候就已经被传到local坐标系下了</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 预测得到time时刻 tracking frame 在 local 坐标系下的姿态</span></span><br><span class="line"><span class="function">Eigen::Quaterniond <span class="title">PoseExtrapolator::EstimateGravityOrientation</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> common::Time time)</span> </span>&#123;</span><br><span class="line">  ImuTracker imu_tracker = *imu_tracker_;</span><br><span class="line">  <span class="comment">// 使得 imu_tracker 预测到time时刻</span></span><br><span class="line">  AdvanceImuTracker(time, &amp;imu_tracker);</span><br><span class="line">  <span class="comment">// 返回 imu_tracker 预测到的time时刻 的姿态</span></span><br><span class="line">  <span class="keyword">return</span> imu_tracker.orientation();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ExtrapolatePose"><a href="#ExtrapolatePose" class="headerlink" title="ExtrapolatePose"></a>ExtrapolatePose</h1><p>有一个缓存变量，如果cached<em>extrapolated_pose</em> 时间已经算过了就不需要再一次计算了</p>
+<p>这里extrapolation<em>imu_tracker</em> 是用于旋转的预测，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 预测得到time时刻 tracking frame 在 local 坐标系下的位姿</span></span><br><span class="line"><span class="function">transform::Rigid3d <span class="title">PoseExtrapolator::ExtrapolatePose</span><span class="params">(<span class="keyword">const</span> common::Time time)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> TimedPose&amp; newest_timed_pose = timed_pose_queue_.<span class="built_in">back</span>();</span><br><span class="line">  <span class="built_in">CHECK_GE</span>(time, newest_timed_pose.time);</span><br><span class="line">  <span class="comment">// 如果本次预测时间与上次计算时间相同 就不再重复计算</span></span><br><span class="line">  <span class="keyword">if</span> (cached_extrapolated_pose_.time != time) &#123;</span><br><span class="line">    <span class="comment">// 预测tracking frame在local坐标系下time时刻的位置</span></span><br><span class="line">    <span class="keyword">const</span> Eigen::Vector3d translation =</span><br><span class="line">        <span class="built_in">ExtrapolateTranslation</span>(time) + newest_timed_pose.pose.<span class="built_in">translation</span>();</span><br><span class="line">    <span class="comment">// 预测tracking frame在local坐标系下time时刻的姿态</span></span><br><span class="line">    <span class="keyword">const</span> Eigen::Quaterniond rotation =</span><br><span class="line">        newest_timed_pose.pose.<span class="built_in">rotation</span>() *</span><br><span class="line">        <span class="built_in">ExtrapolateRotation</span>(time, extrapolation_imu_tracker_.<span class="built_in">get</span>());</span><br><span class="line">    cached_extrapolated_pose_ =</span><br><span class="line">        TimedPose&#123;time, transform::Rigid3d&#123;translation, rotation&#125;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> cached_extrapolated_pose_.pose;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ExtrapolateTranslation"><a href="#ExtrapolateTranslation" class="headerlink" title="ExtrapolateTranslation"></a>ExtrapolateTranslation</h1><p>预测一下time时刻的位移，通过  线性加速度乘以时间差，就可以得到位移差</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回从最后一个位姿的时间 到time时刻 的tracking frame在local坐标系下的平移量</span></span><br><span class="line"><span class="function">Eigen::Vector3d <span class="title">PoseExtrapolator::ExtrapolateTranslation</span><span class="params">(common::Time time)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> TimedPose&amp; newest_timed_pose = timed_pose_queue_.<span class="built_in">back</span>();</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> extrapolation_delta =</span><br><span class="line">      common::<span class="built_in">ToSeconds</span>(time - newest_timed_pose.time);</span><br><span class="line">      </span><br><span class="line">  <span class="comment">// 使用tracking frame 在 local坐标系下的线速度 乘以时间 得到平移量的预测</span></span><br><span class="line">  <span class="keyword">if</span> (odometry_data_.<span class="built_in">size</span>() &lt; <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> extrapolation_delta * linear_velocity_from_poses_;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果不使用里程计就使用通过pose计算出的线速度</span></span><br><span class="line">  <span class="keyword">return</span> extrapolation_delta * linear_velocity_from_odometry_;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ExtrapolateRotation"><a href="#ExtrapolateRotation" class="headerlink" title="ExtrapolateRotation"></a>ExtrapolateRotation</h1><p>先通过imu_tracker 获取上一次位姿校准的姿态，然后乘上现在的orientation，求出姿态变化量。</p>
+<p>注意：</p>
+<p>姿态变化量=上一次位姿的逆 * 这一次的位姿</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 计算从imu_tracker到time时刻的姿态变化量</span><br><span class="line">Eigen::Quaterniond PoseExtrapolator::ExtrapolateRotation(</span><br><span class="line">    const common::Time time, ImuTracker* const imu_tracker) const &#123;</span><br><span class="line">  CHECK_GE(time, imu_tracker-&gt;time());</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 更新imu_tracker的状态到time时刻</span><br><span class="line">  AdvanceImuTracker(time, imu_tracker);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 通过imu_tracker_获取上一次位姿校准时的姿态</span><br><span class="line">  const Eigen::Quaterniond last_orientation &#x3D; imu_tracker_-&gt;orientation();</span><br><span class="line">  &#x2F;&#x2F; 求取上一帧到当前时刻预测出的姿态变化量：上一帧姿态四元数的逆 乘以 当前时刻预测出来的姿态四元数</span><br><span class="line">  return last_orientation.inverse() * imu_tracker-&gt;orientation();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ExtrapolatePosesWithGravity"><a href="#ExtrapolatePosesWithGravity" class="headerlink" title="ExtrapolatePosesWithGravity"></a>ExtrapolatePosesWithGravity</h1><p>其返回结果为N个pose ， 当前的速度和一个位姿</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * @brief </span></span><br><span class="line"><span class="comment">   * 包含 请求时间内索引为0到N-1的位姿, 请求时间内索引N处的位姿</span></span><br><span class="line"><span class="comment">   * 当前线速度与当前重力方向</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">ExtrapolationResult</span> &#123;</span></span><br><span class="line">    <span class="comment">// The poses for the requested times at index 0 to N-1.</span></span><br><span class="line">    std::vector&lt;transform::Rigid3f&gt; previous_poses;</span><br><span class="line">    <span class="comment">// The pose for the requested time at index N.</span></span><br><span class="line">    transform::Rigid3d current_pose;</span><br><span class="line">    Eigen::Vector3d current_velocity;</span><br><span class="line">    Eigen::Quaterniond gravity_from_tracking;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>按照时间逐个预测位姿，存入vector</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取一段时间内的预测位姿的结果</span></span><br><span class="line">PoseExtrapolator::ExtrapolationResult</span><br><span class="line">PoseExtrapolator::<span class="built_in">ExtrapolatePosesWithGravity</span>(</span><br><span class="line">    <span class="keyword">const</span> std::vector&lt;common::Time&gt;&amp; times) &#123;</span><br><span class="line">  std::vector&lt;transform::Rigid3f&gt; poses;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// c++11: std::prev 获取一个距离指定迭代器 n 个元素的迭代器,而不改变输入迭代器的值</span></span><br><span class="line">  <span class="comment">// 默认 n 为1,当 n 为正数时, 其返回的迭代器将位于 it 左侧；</span></span><br><span class="line">  <span class="comment">// 反之, 当 n 为负数时, 其返回的迭代器位于 it 右侧</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获取 [0, n-1] 范围的预测位姿</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> it = times.<span class="built_in">begin</span>(); it != std::<span class="built_in">prev</span>(times.<span class="built_in">end</span>()); ++it) &#123;</span><br><span class="line">    poses.<span class="built_in">push_back</span>(<span class="built_in">ExtrapolatePose</span>(*it).cast&lt;<span class="keyword">float</span>&gt;());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 进行当前线速度的预测</span></span><br><span class="line">  <span class="keyword">const</span> Eigen::Vector3d current_velocity = odometry_data_.<span class="built_in">size</span>() &lt; <span class="number">2</span></span><br><span class="line">                                               ? linear_velocity_from_poses_</span><br><span class="line">                                               : linear_velocity_from_odometry_;</span><br><span class="line">  <span class="keyword">return</span> ExtrapolationResult&#123;poses, <span class="built_in">ExtrapolatePose</span>(times.<span class="built_in">back</span>()),</span><br><span class="line">                             current_velocity,</span><br><span class="line">                             <span class="built_in">EstimateGravityOrientation</span>(times.<span class="built_in">back</span>())&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>PoseExtrapolator 这个位姿推测器，他就是用来预测位姿，位姿又分为平移和旋转（姿态），姿态通过IMUtraker预测，平移通过线速度进行预测，使用里程计的话就用里程计的线速度进行预测，没有的画 就用Pose计算出来的线速度进行预测</p>
+<p>旋转：首选考虑的IMU，先预测，然后进行通过线性加速度进行校准，imu_tracker一个是确定俯仰角和翻滚角，还有一个就是对yaw角进行推测，偏航角，这个角就是用角速度进行推测，首先考虑imu的角速度，次之使用里程计的角速度，再次之使用pose的角速度</p>
+<p>cartographer总是认为他的位姿推测器是准确的，因此如果IMU不准，有加速度却没有动的话，他会以为你的机器人在移动</p>
+<p>使用里程计的时候，最好还是要加上imu，因为 里程计的角度是通过其他方式进行预测的，不如就自己搞雷达</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/15/1115ImuTracker/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ImuTracker-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/14/1114%E4%BD%8D%E5%A7%BF%E6%8E%A8%E6%B5%8B%E5%99%A8%E4%B8%80/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">位姿推测器-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AddPose"><span class="nav-number">1.</span> <span class="nav-text">AddPose</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AdvanceImuTracker"><span class="nav-number">2.</span> <span class="nav-text">AdvanceImuTracker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EstimateGravityOrientation"><span class="nav-number">3.</span> <span class="nav-text">EstimateGravityOrientation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ExtrapolatePose"><span class="nav-number">4.</span> <span class="nav-text">ExtrapolatePose</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ExtrapolateTranslation"><span class="nav-number">5.</span> <span class="nav-text">ExtrapolateTranslation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ExtrapolateRotation"><span class="nav-number">6.</span> <span class="nav-text">ExtrapolateRotation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ExtrapolatePosesWithGravity"><span class="nav-number">7.</span> <span class="nav-text">ExtrapolatePosesWithGravity</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

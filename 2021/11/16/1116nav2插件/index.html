@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            navigation2 插件配置 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">navigation2 插件配置</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-16 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/navigation2/">navigation2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>本节会讨论可以基于你机器和环境的一个不同的算法</p>
+<h1 id="Planner-and-Controller-Servers¶"><a href="#Planner-and-Controller-Servers¶" class="headerlink" title="Planner and Controller Servers¶"></a>Planner and Controller Servers<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#planner-and-controller-servers" >¶<i class="fas fa-external-link-alt"></i></a></h1><p>导航算法在Nav2中通过使用运行在ROS action servers 的插件来实现—— the planner, controller and recovery servers(等等)。在本节中，我们将讨论Planner和Controller Servers，它们是navigation的核心。这些servers可以实现一个或多个算法插件，每个插件都有自己的配置，为特定的动作或机器人状态定制。本指南将重点介绍基于机器人类型和机器人部署环境的不同算法。本指南将不包括recoveries，smoothers等，因为这些依赖于应用，而不是硬件/环境提供一般的建议。</p>
+<ul>
+<li><p><strong>planner server</strong> 用于计算机器人的路径。比如，一个插件可能在计算两个点之间的最短路径，而另一个插件可以计算到覆盖整个机器人环境的位置的路径。</p>
+</li>
+<li><p><strong>controller server</strong> 可以完成局部的控制，在完成全局路径的情况下，避障，甚至充电等</p>
+</li>
+</ul>
+<p>因此上述两个planner 和 controller servers 配置了不同的插件，不同的插件处理不同的任务。</p>
+<blockquote>
+<p>可以看 <a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/concepts/index.html#navigation-servers" >Navigation Servers<i class="fas fa-external-link-alt"></i></a> ，查看更多细节</p>
+</blockquote>
+<h1 id="Selecting-the-Algorithm-Plugins¶"><a href="#Selecting-the-Algorithm-Plugins¶" class="headerlink" title="Selecting the Algorithm Plugins¶"></a>Selecting the Algorithm Plugins<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#selecting-the-algorithm-plugins" >¶<i class="fas fa-external-link-alt"></i></a></h1><p>本节讨论Planner 和 Controller Servers的各种算法插件，讨论算法插件的目的，以及适配的机器人类型。最后我们对每一个server的插件都给出了配置案例</p>
+<blockquote>
+<p>插件可以自己写一个，详见  <a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugin_tutorials/docs/writing_new_nav2planner_plugin.html" >Writing a New Planner Plugin<i class="fas fa-external-link-alt"></i></a> 和 <a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugin_tutorials/docs/writing_new_nav2controller_plugin.html" >Writing a New Controller Plugin<i class="fas fa-external-link-alt"></i></a>. 目前可以使用的插件详情可见<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugins/index.html" >Navigation Plugins Section<i class="fas fa-external-link-alt"></i></a>.</p>
+</blockquote>
+<h2 id="Planner-Server¶"><a href="#Planner-Server¶" class="headerlink" title="Planner Server¶"></a>Planner Server<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#planner-server" >¶<i class="fas fa-external-link-alt"></i></a></h2><p> planner server 的插件算法利用传感器感知到的环境查找路径。planner server 的插件可能会利用网格空间（grid space）进行查找，例如 <code>NavFn Planner</code>, <code>Smac Planner 2D</code>, 和 <code>Theta Star Planner</code>.</p>
+<ul>
+<li>NavFn Planner: A*或者Dijkstra的导航算法</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/packages/configuring-smac-planner.html" >Smac 2D planner<i class="fas fa-external-link-alt"></i></a> ：2D A*导航算法</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/packages/configuring-thetastar.html#" >Theta Star planner<i class="fas fa-external-link-alt"></i></a> ：Theta* 导航算法</li>
+</ul>
+<p>在使用网格空间的算法时，您可能会遇到一个问题，即不能保证为任何类型的机器人生成可驾驶的路径。例如，由于NavFn Planner使用机器人的圆形足迹(通过近似机器人的最大横截面半径)，并检查每个成本地图网格单元的碰撞，因此不能保证在狭窄的空间中为非圆形机器人规划可行路径。</p>
+<p>此外，这些算法也不适合阿克曼和有腿机器人，因为它们有转向约束。也就是说，这些插件最适合用于那些可以朝任何方向行驶或原地安全旋转的机器人，比如圆形差速的机器人和圆形的全向机器人。</p>
+<p>其他的的planner算法，如<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/packages/configuring-smac-planner.html" >Smac Hybrid-A* planner<i class="fas fa-external-link-alt"></i></a> 就可以支持任何形状的阿克曼结构或者有腿的机器人，它是一个高度优化和完全可重构的Hybrid-A*实现，支持Dubin和Reeds-Shepp运动模型。</p>
+<p>该算法扩展了机器人的候选路径，同时考虑了机器人的最小转弯半径约束和机器人的全避碰足迹。因此，这个插件适用于任意形状的机器人，需要全足迹碰撞检查。它也可用于高速机器人，必须小心导航，以避免在高速下翻车、打滑或倾倒负载。</p>
+<p>还有基于State Lattice planner 的 <code>Smac Lattice planner</code> 插件。该插件通过扩展机器人状态空间，同时确保路径符合机器人的运动学约束来实现功能。该算法提供了最小的控制集，允许它支持差速、全向和阿克曼车辆的任何形状和大小的最小重新配置。</p>
+<h3 id="Summary¶"><a href="#Summary¶" class="headerlink" title="Summary¶"></a>Summary<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#summary" >¶<i class="fas fa-external-link-alt"></i></a></h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Plugin Name</th>
+<th>Supported Robot Types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NavFn Planner</td>
+<td>Circular Differential, Circular Omnidirectional</td>
+</tr>
+<tr>
+<td>Smac Planner 2D</td>
+<td>Circular Differential, Circular Omnidirectional</td>
+</tr>
+<tr>
+<td>Theta Star Planner</td>
+<td>Circular Differential, Circular Omnidirectional</td>
+</tr>
+<tr>
+<td>Smac Hybrid-A* Planner</td>
+<td>Non-circular or Circular Ackermann, Non-circular or Circular Legged</td>
+</tr>
+<tr>
+<td>Smac Lattice Planner</td>
+<td>Non-circular Differential, Non-circular Omnidirectional</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Example-Configuration¶"><a href="#Example-Configuration¶" class="headerlink" title="Example Configuration¶"></a>Example Configuration<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#example-configuration" >¶<i class="fas fa-external-link-alt"></i></a></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">planner_server:</span></span><br><span class="line">  <span class="attr">ros__parameters:</span></span><br><span class="line">    <span class="attr">planner_plugins:</span> [<span class="string">&#x27;GridBased&#x27;</span>]</span><br><span class="line">    <span class="attr">GridBased:</span></span><br><span class="line">      <span class="attr">plugin:</span> <span class="string">&#x27;nav2_navfn_planner/NavfnPlanner&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>上面给了一个插件的配置案例，planner_plugins 接受一个list，list中是给插件起的名字，这里就是GridBased，对每一个planner_plugins，我们都需要在指定plugin的类型。详情看 <a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/index.html" >Configuration Guide<i class="fas fa-external-link-alt"></i></a> </p>
+<h2 id="Controller-Server"><a href="#Controller-Server" class="headerlink" title="Controller Server"></a>Controller Server</h2><p>默认的控制器是<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/packages/configuring-dwb-controller.html" >DWB controller<i class="fas fa-external-link-alt"></i></a>. </p>
+<p>它实现了一个改进的动态窗口方法(DWA)算法与可配置的插件来计算机器人的控制命令。这个控制器利用了<code>Trajectory Generator plugin</code>来生成多种可能的轨迹，然后由一个或多个<code>Critic plugins</code>进行评估，每个插件可能会根据它们的配置情况给出不同的分数。他们分数的合就是这条轨迹的分数，分数最高的这条轨迹将会决定速度的指令。DWB控制器可用于圆形或非圆形差速机器人，圆形或非圆形全向机器人。在配置 <code>Trajectory Generation plugin</code> 的情况下，它也可以配置为阿克曼和有腿的机器人。此插件会考虑机器人的最小曲率约束。</p>
+<p>另外一个控制器： <a class="link"   target="_blank" rel="noopener" href="https://github.com/rst-tu-dortmund/teb_local_planner" >TEB controller<i class="fas fa-external-link-alt"></i></a> ，</p>
+<p>它是MPC时间最优控制器。根据机器人的运动学约束条件，根据机器人的执行时间、距离障碍物的距离以及机器人的可行性，实现了基于时间弹性带(Timed Elastic Band, TEB)算法的机器人轨迹优化。该控制器可用于差速、全向、阿克曼和有腿的机器人。</p>
+<p>最后一个例子：<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/packages/configuring-regulated-pp.html" >Regulated Pure Pursuit controller (RPP)<i class="fas fa-external-link-alt"></i></a> .</p>
+<p>该控制器实现了Pure Pursuit算法的变体，并添加了规则启发式函数来管理碰撞和速度约束。这种变化是针对服务或工业机器人的需要而实施的，适用于差动、阿克曼和有腿的机器人。</p>
+<h3 id="Summary¶-1"><a href="#Summary¶-1" class="headerlink" title="Summary¶"></a>Summary<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#id1" >¶<i class="fas fa-external-link-alt"></i></a></h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Plugin Name</th>
+<th>Supported Robot Types</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DWB controller</td>
+<td>Differential, Omnidirectional</td>
+<td>Dynamic obstacle avoidance</td>
+</tr>
+<tr>
+<td>TEB Controller</td>
+<td>Differential, Omnidirectional, Ackermann, Legged</td>
+<td>Dynamic obstacle avoidance</td>
+</tr>
+<tr>
+<td>RPP controller</td>
+<td>Differential, Ackermann, Legged</td>
+<td>Exact path following</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>他们全都可以适用于圆形和非圆形的机器人</p>
+<h3 id="Example-Configuration¶-1"><a href="#Example-Configuration¶-1" class="headerlink" title="Example Configuration¶"></a>Example Configuration<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/setup_guides/algorithm/select_algorithm.html#id2" >¶<i class="fas fa-external-link-alt"></i></a></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">planner_server:</span></span><br><span class="line">  <span class="attr">ros__parameters:</span></span><br><span class="line">    <span class="attr">controller_plugins:</span> [<span class="string">&quot;FollowPath&quot;</span>]</span><br><span class="line">    <span class="attr">FollowPath:</span></span><br><span class="line">       <span class="attr">plugin:</span> <span class="string">&quot;dwb_core::DWBLocalPlanner&quot;</span></span><br></pre></td></tr></table></figure>
+<p>和上面那个配置一样。详情见<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/configuration/index.html" >Configuration Guide<i class="fas fa-external-link-alt"></i></a> </p>
+<blockquote>
+<p>Planner Server和Controller Server，以及Nav2的其他的服务，是通过生命周期节点在ROS 2中启动。生命周期节点允许更容易地启动和关闭服务器。生命周期节点管理将在下一篇教程中讨论。</p>
+</blockquote>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>每一个server都又一些算法插件来只支持</p>
+<p>以上讨论了上面算法适配什么机器人，对部分插件的配置做了简单的案例展示。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/17/1117%20%E6%B4%BB%E8%B7%83%E5%AD%90%E5%9B%BE/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">活跃子图-ActiveSubmaps2D-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/16/1116%E9%94%99%E8%AF%AFrviz2/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Message Filter dropping message</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Planner-and-Controller-Servers%C2%B6"><span class="nav-number">1.</span> <span class="nav-text">Planner and Controller Servers</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Selecting-the-Algorithm-Plugins%C2%B6"><span class="nav-number">2.</span> <span class="nav-text">Selecting the Algorithm Plugins</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Planner-Server%C2%B6"><span class="nav-number">2.1.</span> <span class="nav-text">Planner Server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary%C2%B6"><span class="nav-number">2.1.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Configuration%C2%B6"><span class="nav-number">2.1.2.</span> <span class="nav-text">Example Configuration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Controller-Server"><span class="nav-number">2.2.</span> <span class="nav-text">Controller Server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary%C2%B6-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-Configuration%C2%B6-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">Example Configuration</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

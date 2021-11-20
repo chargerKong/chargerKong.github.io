@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ImuTracker-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ImuTracker-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-15 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>ImuTracker 的主要作用是根据 IMU的角速度和线性加速度进行位姿的预测，IMU原本给出的位姿是通过积分得出的，不准确的</p>
+<h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><p>ImuTracker 的主要作用是根据 IMU的角速度和线性加速度进行位姿的预测，IMU原本给出的位姿是通过积分得出的，不准确的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief </span></span><br><span class="line"><span class="comment"> * ImuTracker 的主要作用是根据 IMU的角速度来预测姿态,</span></span><br><span class="line"><span class="comment"> * 并根据IMU的线加速度来确定重力的方向, 并使用重力的方向来对姿态进行校准</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImuTracker</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">ImuTracker</span>(<span class="keyword">double</span> imu_gravity_time_constant, common::Time time);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Advances to the given &#x27;time&#x27; and updates the orientation to reflect this.</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Advance</span><span class="params">(common::Time time)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Updates from an IMU reading (in the IMU frame).</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">AddImuLinearAccelerationObservation</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> Eigen::Vector3d&amp; imu_linear_acceleration)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">AddImuAngularVelocityObservation</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> Eigen::Vector3d&amp; imu_angular_velocity)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Query the current time.</span></span><br><span class="line">  <span class="comment">// 获取上一次预测位姿的时间戳</span></span><br><span class="line">  <span class="function">common::Time <span class="title">time</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> time_; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Query the current orientation estimate.</span></span><br><span class="line">  <span class="comment">// 查询当前估计出的姿态</span></span><br><span class="line">  <span class="function">Eigen::Quaterniond <span class="title">orientation</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> orientation_; &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> imu_gravity_time_constant_;</span><br><span class="line">  common::Time time_;</span><br><span class="line">  common::Time last_linear_acceleration_time_;</span><br><span class="line">  Eigen::Quaterniond orientation_;</span><br><span class="line">  Eigen::Vector3d gravity_vector_;</span><br><span class="line">  Eigen::Vector3d imu_angular_velocity_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief Construct a new Imu Tracker:: Imu Tracker object</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] imu_gravity_time_constant 这个值在2d与3d情况下都为10</span></span><br><span class="line"><span class="comment"> * @param[in] time </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">ImuTracker::<span class="built_in">ImuTracker</span>(<span class="keyword">const</span> <span class="keyword">double</span> imu_gravity_time_constant,</span><br><span class="line">                       <span class="keyword">const</span> common::Time time)</span><br><span class="line">    : <span class="built_in">imu_gravity_time_constant_</span>(imu_gravity_time_constant),</span><br><span class="line">      <span class="built_in">time_</span>(time),</span><br><span class="line">      <span class="built_in">last_linear_acceleration_time_</span>(common::Time::<span class="built_in">min</span>()),</span><br><span class="line">      <span class="built_in">orientation_</span>(Eigen::Quaterniond::<span class="built_in">Identity</span>()), <span class="comment">// 初始方向角</span></span><br><span class="line">      <span class="built_in">gravity_vector_</span>(Eigen::Vector3d::<span class="built_in">UnitZ</span>()),    <span class="comment">// 重力方向初始化为[0,0,1]</span></span><br><span class="line">      <span class="built_in">imu_angular_velocity_</span>(Eigen::Vector3d::<span class="built_in">Zero</span>()) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>orientation_ 在最开始时，在欧拉角表示则为（0，0，0）的。</p>
+<h1 id="AddImuAngularVelocityObservation"><a href="#AddImuAngularVelocityObservation" class="headerlink" title="AddImuAngularVelocityObservation"></a>AddImuAngularVelocityObservation</h1><p>角速度的校准</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新角速度</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ImuTracker::AddImuAngularVelocityObservation</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> Eigen::Vector3d&amp; imu_angular_velocity)</span> </span>&#123;</span><br><span class="line">  imu_angular_velocity_ = imu_angular_velocity;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="AddImuLinearAccelerationObservation"><a href="#AddImuLinearAccelerationObservation" class="headerlink" title="AddImuLinearAccelerationObservation"></a>AddImuLinearAccelerationObservation</h1><p>此函数最主要的作用是计算出当前加速度下的位姿orientation_ 。</p>
+<p>在这期间，还做了以下操作</p>
+<ul>
+<li><p>更新目前时刻的线性加速度（和上一帧的加权平均），gravity<em>vector</em> 。gravity<em>vector</em> 就是 imu_linear_acceleration</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> alpha = <span class="number">1.</span> - std::<span class="built_in">exp</span>(-<span class="keyword">delta_t</span> / imu_gravity_time_constant_);  </span><br><span class="line">gravity_vector_ =</span><br><span class="line">      (<span class="number">1.</span> - alpha) * gravity_vector_ + alpha * imu_linear_acceleration;</span><br></pre></td></tr></table></figure>
+<p><strong>理解</strong>：如果imu时间间隔很小，那么就直接约等于上一帧的gravity<em>vector</em>  ，<strong>第一帧的时候，gravity<em>vector</em> 直接赋值为imu_linear_acceleration。</strong></p>
+<p>时间差约大就越相信当前传入的值，时间约小，就越相信之前的值</p>
+</li>
+<li><p>预测目前时刻的位姿</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 5 使用这个旋转量来校准当前的姿态</span></span><br><span class="line">orientation_ = (orientation_ * rotation).<span class="built_in">normalized</span>();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 更新线性加速度的值,并根据重力的方向对上一时刻的姿态进行校准</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] imu_linear_acceleration imu的线加速度的大小</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ImuTracker::AddImuLinearAccelerationObservation</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> Eigen::Vector3d&amp; imu_linear_acceleration)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Update the &#x27;gravity_vector_&#x27; with an exponential moving average using the</span></span><br><span class="line">  <span class="comment">// &#x27;imu_gravity_time_constant&#x27;.</span></span><br><span class="line">  <span class="comment">// 指数滑动平均法 exponential moving average</span></span><br><span class="line"> </span><br><span class="line">  <span class="comment">// Step: 1 求delta_t, delta_t初始时刻为infinity, 之后为time_-last_linear_acceleration_time_</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> <span class="keyword">delta_t</span> =</span><br><span class="line">      last_linear_acceleration_time_ &gt; common::Time::<span class="built_in">min</span>()</span><br><span class="line">          ? common::<span class="built_in">ToSeconds</span>(time_ - last_linear_acceleration_time_)</span><br><span class="line">          : std::numeric_limits&lt;<span class="keyword">double</span>&gt;::<span class="built_in">infinity</span>();</span><br><span class="line">  last_linear_acceleration_time_ = time_;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Step: 2 求alpha, alpha=1-e^(-delta_t/10)</span></span><br><span class="line">  <span class="comment">// delta_t越大, alpha越大</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> alpha = <span class="number">1.</span> - std::<span class="built_in">exp</span>(-<span class="keyword">delta_t</span> / imu_gravity_time_constant_);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Step: 3 将之前的线加速度与当前传入的线加速度进行融合, 这里采用指数滑动平均法</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 指数来确定权重, 因为有噪声的存在, 时间差越大, 当前的线性加速度的权重越大</span></span><br><span class="line">  <span class="comment">// 这里的gravity_vector_改成线性加速度更清晰一些</span></span><br><span class="line">  gravity_vector_ =</span><br><span class="line">      (<span class="number">1.</span> - alpha) * gravity_vector_ + alpha * imu_linear_acceleration;</span><br><span class="line">      </span><br><span class="line">  <span class="comment">// Change the &#x27;orientation_&#x27; so that it agrees with the current</span></span><br><span class="line">  <span class="comment">// &#x27;gravity_vector_&#x27;.</span></span><br><span class="line">  <span class="comment">// Step: 4 求得 线性加速度的值 与 由上一时刻姿态求出的线性加速度 间的旋转量</span></span><br><span class="line">  <span class="keyword">const</span> Eigen::Quaterniond rotation = <span class="built_in">FromTwoVectors</span>(</span><br><span class="line">      gravity_vector_, orientation_.<span class="built_in">conjugate</span>() * Eigen::Vector3d::<span class="built_in">UnitZ</span>());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Step: 5 使用这个旋转量来校准当前的姿态</span></span><br><span class="line">  orientation_ = (orientation_ * rotation).<span class="built_in">normalized</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// note: glog CHECK_GT: 第一个参数要大于第二个参数</span></span><br><span class="line">  <span class="comment">// 如果线性加速度与姿态均计算完全正确,那这二者的乘积应该是 0 0 1</span></span><br><span class="line">  <span class="built_in">CHECK_GT</span>((orientation_ * gravity_vector_).<span class="built_in">z</span>(), <span class="number">0.</span>);</span><br><span class="line">  <span class="built_in">CHECK_GT</span>((orientation_ * gravity_vector_).<span class="built_in">normalized</span>().<span class="built_in">z</span>(), <span class="number">0.99</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据现在的线性加速度和之前的线性加速度不一样，就会产生一个旋转，此旋转可以根据当前的线性加速度对之前的线性加速度做一个矫正，矫正量就是rotation，把这个rotation作用于之前的orientation<em> 上就可以得到现在的 orientation</em> 。</p>
+<h1 id="Advance"><a href="#Advance" class="headerlink" title="Advance"></a>Advance</h1><p>此函数 预测出time时刻的姿态与重力方向</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 预测出time时刻的姿态与重力方向</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] time 要预测的时刻</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ImuTracker::Advance</span><span class="params">(<span class="keyword">const</span> common::Time time)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">CHECK_LE</span>(time_, time);</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> <span class="keyword">delta_t</span> = common::<span class="built_in">ToSeconds</span>(time - time_);</span><br><span class="line">  <span class="comment">// 上一时刻的角速度乘以时间,得到当前时刻相对于上一时刻的预测的姿态变化量,再转换成四元数</span></span><br><span class="line">  <span class="keyword">const</span> Eigen::Quaterniond rotation =</span><br><span class="line">      transform::<span class="built_in">AngleAxisVectorToRotationQuaternion</span>(</span><br><span class="line">          Eigen::<span class="built_in">Vector3d</span>(imu_angular_velocity_ * <span class="keyword">delta_t</span>));</span><br><span class="line">  <span class="comment">// 使用上一时刻的姿态 orientation_ 乘以姿态变化量, 得到当前时刻的预测出的姿态</span></span><br><span class="line">  orientation_ = (orientation_ * rotation).<span class="built_in">normalized</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 根据预测出的姿态变化量,预测旋转后的线性加速度的值</span></span><br><span class="line">  gravity_vector_ = rotation.<span class="built_in">conjugate</span>() * gravity_vector_;</span><br><span class="line">  <span class="comment">// 更新时间</span></span><br><span class="line">  time_ = time;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/16/1116%E9%94%99%E8%AF%AFrviz2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Message Filter dropping message</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/15/1115%E4%BD%8D%E5%A7%BF%E6%8E%A8%E6%B5%8B%E5%99%A8%E4%BA%8C/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">位姿推测器-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AddImuAngularVelocityObservation"><span class="nav-number">3.</span> <span class="nav-text">AddImuAngularVelocityObservation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AddImuLinearAccelerationObservation"><span class="nav-number">4.</span> <span class="nav-text">AddImuLinearAccelerationObservation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Advance"><span class="nav-number">5.</span> <span class="nav-text">Advance</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

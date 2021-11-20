@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            地图坐标系-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">地图坐标系-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv5</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-18 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>ActiveSubmaps2D::AddSubmap 添加子图的过程中，需要新建一个子图（类Submap2D）然后进行添加。创建Submap2D则需要一个创建Grid2D</p>
+<p>在ActiveSubmaps2D::CreateGrid函数中（cartographer/mapping/2d/submap2d.h），可以创建不同类型的Grid2D：PROBABILITY_GRID与TSDF</p>
+<p>类ProbabilityGrid 和 TSDF2D 均继承于 Grid2D，Grid2D 继承于 GridInterface</p>
+<h1 id="Grid2D"><a href="#Grid2D" class="headerlink" title="Grid2D"></a>Grid2D</h1><p>该类表示一个2D的网格地图</p>
+<p>保存的值包括 所有可能的栅格值以及其对应的free 概率的值，即转换表</p>
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MapLimits limits_;  <span class="comment">// 地图大小边界, 包括x和y最大值, 分辨率, x和y方向栅格数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 地图栅格值, 存储的是free的概率转成uint16后的[0, 32767]范围内的值, 0代表未知</span></span><br><span class="line">std::vector&lt;uint16&gt; correspondence_cost_cells_; </span><br><span class="line"><span class="keyword">float</span> min_correspondence_cost_;</span><br><span class="line"><span class="keyword">float</span> max_correspondence_cost_;</span><br><span class="line">std::vector&lt;<span class="keyword">int</span>&gt; update_indices_;               <span class="comment">// 记录已经更新过的索引</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Bounding box of known cells to efficiently compute cropping limits.</span></span><br><span class="line">Eigen::AlignedBox2i known_cells_box_;           <span class="comment">// 栅格的bounding box, 存的是像素坐标</span></span><br><span class="line"><span class="comment">// 将[0, 1~32767] 映射到 [0.9, 0.1~0.9] 的转换表</span></span><br><span class="line"><span class="keyword">const</span> std::vector&lt;<span class="keyword">float</span>&gt;* value_to_correspondence_cost_table_;</span><br></pre></td></tr></table></figure>
+<p><strong>说明！</strong></p>
+<ul>
+<li><p><strong>probability</strong>: 栅格被占据的概率</p>
+<p>kMinProbability = 0.1, kMaxProbability = 0.9, kUnknownProbabilityValue = 0</p>
+</li>
+<li><p><strong>Odds</strong>: probability / (1.0f - probability)</p>
+</li>
+<li><p><strong>CorrespondenceCost</strong>: 栅格是free的概率; CorrespondenceCost + probability = 1</p>
+<p>kMinCorrespondenceCost = 0.1, kMaxCorrespondenceCost = 0.9</p>
+<p>kUnknownCorrespondenceValue = 0, kUpdateMarker = 32768</p>
+</li>
+<li><p><strong>Value</strong>: 代码里存储的栅格值, 是[0, 32767]范围内的 uint16 整数</p>
+</li>
+<li><p><strong>value<em>to_correspondence_cost_table</em></strong>: 将[0, 1~32767] 映射到 [0, 0.1~0.9] 的转换表</p>
+</li>
+<li><p><em>hit_table</em> 计算[0, 1~32767] 按照占用概率0.55更新之后的值</p>
+</li>
+<li><p>miss<em>table</em> 计算[0, 1~32767] 按照空闲概率0.49更新之后的值</p>
+</li>
+</ul>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>基本上就是简单粗暴的赋值操作</p>
+<p>correspondence<em>cost_cells</em> ： 初始化为一个长度为 地图长 <em> 地图宽的，默认值为0的vector。<em>*保存地图栅格值！</em></em></p>
+<p>value<em>to_correspondence_cost_table</em> ：一个转换表，存储着栅格值[0, 1~32767] 映射到 [0, 0.1~0.9] 的表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 构造函数</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] limits 地图坐标信息</span></span><br><span class="line"><span class="comment"> * @param[in] min_correspondence_cost 最小correspondence_cost 0.1</span></span><br><span class="line"><span class="comment"> * @param[in] max_correspondence_cost 最大correspondence_cost 0.9</span></span><br><span class="line"><span class="comment"> * @param[in] conversion_tables 传入的转换表指针</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Grid2D::<span class="built_in">Grid2D</span>(<span class="keyword">const</span> MapLimits&amp; limits, <span class="keyword">float</span> min_correspondence_cost,</span><br><span class="line">               <span class="keyword">float</span> max_correspondence_cost,</span><br><span class="line">               ValueConversionTables* conversion_tables)</span><br><span class="line">    : <span class="built_in">limits_</span>(limits),</span><br><span class="line">      <span class="built_in">correspondence_cost_cells_</span>(</span><br><span class="line">          limits_.<span class="built_in">cell_limits</span>().num_x_cells * limits_.<span class="built_in">cell_limits</span>().num_y_cells,</span><br><span class="line">          kUnknownCorrespondenceValue),  <span class="comment">// 0</span></span><br><span class="line">      <span class="built_in">min_correspondence_cost_</span>(min_correspondence_cost),  <span class="comment">// 0.1</span></span><br><span class="line">      <span class="built_in">max_correspondence_cost_</span>(max_correspondence_cost),  <span class="comment">// 0.9</span></span><br><span class="line">      <span class="comment">// 新建转换表</span></span><br><span class="line">      <span class="built_in">value_to_correspondence_cost_table_</span>(conversion_tables-&gt;<span class="built_in">GetConversionTable</span>(</span><br><span class="line">          max_correspondence_cost, min_correspondence_cost,</span><br><span class="line">          max_correspondence_cost)) &#123;</span><br><span class="line">  <span class="built_in">CHECK_LT</span>(min_correspondence_cost_, max_correspondence_cost_);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>GetConversionTable 返回的内容是一个vector，长度为65536 + 1，内容为如下的第二行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[0,   1,   ..., 32767, 0,   1,  ..., 32767]</span><br><span class="line">通过映射转换如下，除了0直接变成0.9， 其他的数都缓缓往上均匀增加</span><br><span class="line">[0.9, 0.1, ..., 0.9,   0.9, 0.1,..., 0.9  ]</span><br></pre></td></tr></table></figure>
+<p>结果为存储的值相对应的free的概率。</p>
+<p>注意，这里conversion_tables 经过调用，成员变量已经被赋值了。</p>
+<p>因此，调用的Grid2D的ProbabilityGrid的构造函数中， conversion<em>tables 也就有值了给conversion_tables</em> 了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ProbabilityGrid::<span class="built_in">ProbabilityGrid</span>(<span class="keyword">const</span> MapLimits&amp; limits,</span><br><span class="line">                                 ValueConversionTables* conversion_tables)</span><br><span class="line">    : <span class="built_in">Grid2D</span>(limits, kMinCorrespondenceCost, kMaxCorrespondenceCost,</span><br><span class="line">             conversion_tables),</span><br><span class="line">      <span class="built_in">conversion_tables_</span>(conversion_tables) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h2><h3 id="FinishUpdate"><a href="#FinishUpdate" class="headerlink" title="FinishUpdate"></a>FinishUpdate</h3><p>雷达的点是散射的，因此有的栅格会被多次打到，为了防止多次更新，可以设置结束更新。</p>
+<p>在更新的一次，都会加一次kUpdateMarker，32768。 和转换表内的两次0-32767对应</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Grid2D::FinishUpdate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (!update_indices_.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">    <span class="built_in">DCHECK_GE</span>(correspondence_cost_cells_[update_indices_.<span class="built_in">back</span>()],</span><br><span class="line">              kUpdateMarker);</span><br><span class="line">    <span class="comment">// 更新的时候加上了kUpdateMarker, 在这里减去</span></span><br><span class="line">    correspondence_cost_cells_[update_indices_.<span class="built_in">back</span>()] -= kUpdateMarker;</span><br><span class="line">    update_indices_.<span class="built_in">pop_back</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="GrowLimits"><a href="#GrowLimits" class="headerlink" title="GrowLimits"></a>GrowLimits</h3><p>地图每一次扩大都是两倍的进行扩大。</p>
+<p>bounding box平移，从左上角移动到以old为左上角的一个box</p>
+<p><img src="image-20211119224129580.png" alt=""></p>
+<p><img src="/home/kong/.config/Typora/typora-user-images/image-20211119224129580.png" alt="image-20211119224129580"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据坐标决定是否对地图进行扩大</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Grid2D::GrowLimits</span><span class="params">(<span class="keyword">const</span> Eigen::Vector2f&amp; point,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">const</span> std::vector&lt;std::vector&lt;uint16&gt;*&gt;&amp; grids,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">const</span> std::vector&lt;uint16&gt;&amp; grids_unknown_cell_values)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(update_indices_.<span class="built_in">empty</span>());</span><br><span class="line">  <span class="comment">// 判断该点是否在地图坐标系内</span></span><br><span class="line">  <span class="keyword">while</span> (!limits_.<span class="built_in">Contains</span>(limits_.<span class="built_in">GetCellIndex</span>(point))) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> x_offset = limits_.<span class="built_in">cell_limits</span>().num_x_cells / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> y_offset = limits_.<span class="built_in">cell_limits</span>().num_y_cells / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 将xy扩大至2倍, 中心点不变, 向四周扩大</span></span><br><span class="line">    <span class="function"><span class="keyword">const</span> MapLimits <span class="title">new_limits</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        limits_.resolution(),</span></span></span><br><span class="line"><span class="function"><span class="params">        limits_.max() +</span></span></span><br><span class="line"><span class="function"><span class="params">            limits_.resolution() * Eigen::Vector2d(y_offset, x_offset),</span></span></span><br><span class="line"><span class="function"><span class="params">        CellLimits(<span class="number">2</span> * limits_.cell_limits().num_x_cells,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="number">2</span> * limits_.cell_limits().num_y_cells))</span></span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> stride = new_limits.<span class="built_in">cell_limits</span>().num_x_cells;</span><br><span class="line">    <span class="comment">// 老坐标系的原点在新坐标系下的一维像素坐标</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> offset = x_offset + stride * y_offset;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> new_size = new_limits.<span class="built_in">cell_limits</span>().num_x_cells *</span><br><span class="line">                         new_limits.<span class="built_in">cell_limits</span>().num_y_cells;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// grids.size()为1</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> grid_index = <span class="number">0</span>; grid_index &lt; grids.<span class="built_in">size</span>(); ++grid_index) &#123;</span><br><span class="line">      <span class="function">std::vector&lt;uint16&gt; <span class="title">new_cells</span><span class="params">(new_size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    grids_unknown_cell_values[grid_index])</span></span>;</span><br><span class="line">      <span class="comment">// 将老地图的栅格值复制到新地图上</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; limits_.<span class="built_in">cell_limits</span>().num_y_cells; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; limits_.<span class="built_in">cell_limits</span>().num_x_cells; ++j) &#123;</span><br><span class="line">          new_cells[offset + j + i * stride] =</span><br><span class="line">              (*grids[grid_index])[j + i * limits_.<span class="built_in">cell_limits</span>().num_x_cells];</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 将新地图替换老地图, 拷贝</span></span><br><span class="line">      *grids[grid_index] = new_cells;</span><br><span class="line">    &#125; <span class="comment">// end for</span></span><br><span class="line">    <span class="comment">// 更新地图尺寸</span></span><br><span class="line">    limits_ = new_limits;</span><br><span class="line">    <span class="keyword">if</span> (!known_cells_box_.<span class="built_in">isEmpty</span>()) &#123;</span><br><span class="line">      <span class="comment">// 将known_cells_box_的x与y进行平移到老地图的范围上</span></span><br><span class="line">      known_cells_box_.<span class="built_in">translate</span>(Eigen::<span class="built_in">Vector2i</span>(x_offset, y_offset));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="MapLimits"><a href="#MapLimits" class="headerlink" title="MapLimits"></a>MapLimits</h1><p>此类就是计算物理坐标和像素坐标之间的一个转换，对地图的大小保存一些元数据</p>
+<p>几个地图坐标系</p>
+<p><img src="/home/kong/mnt/repo/chargerKong.github.io/source/_posts/1117地图坐标系/_config.yml" alt=""></p>
+<p><img src="_config.yml" alt=""></p>
+<h2 id="成员变量-1"><a href="#成员变量-1" class="headerlink" title="成员变量"></a>成员变量</h2><ul>
+<li>resolution：分辨率。默认0.05，室外可以是0.1，室内精度要高的话可以0.02，需要注意内存</li>
+<li>Eigen::Vector2d max: 左上角的坐标为地图坐标的最大值</li>
+<li>CellLimits cell<em>limits</em>： 一个struct保存着，地图x方向与y方向的格子数</li>
+</ul>
+<h2 id="构造函数-1"><a href="#构造函数-1" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * @brief 构造函数</span></span><br><span class="line"><span class="comment">  * </span></span><br><span class="line"><span class="comment">  * @param[in] resolution 地图分辨率</span></span><br><span class="line"><span class="comment">  * @param[in] max 左上角的坐标为地图坐标的最大值</span></span><br><span class="line"><span class="comment">  * @param[in] cell_limits 地图x方向与y方向的格子数</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="built_in">MapLimits</span>(<span class="keyword">const</span> <span class="keyword">double</span> resolution, <span class="keyword">const</span> Eigen::Vector2d&amp; max,</span><br><span class="line">           <span class="keyword">const</span> CellLimits&amp; cell_limits)</span><br><span class="line">     : <span class="built_in">resolution_</span>(resolution), <span class="built_in">max_</span>(max), <span class="built_in">cell_limits_</span>(cell_limits) &#123;</span><br><span class="line">   <span class="built_in">CHECK_GT</span>(resolution_, <span class="number">0.</span>);</span><br><span class="line">   <span class="built_in">CHECK_GT</span>(cell_limits.num_x_cells, <span class="number">0.</span>);</span><br><span class="line">   <span class="built_in">CHECK_GT</span>(cell_limits.num_y_cells, <span class="number">0.</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="调用处"><a href="#调用处" class="headerlink" title="调用处"></a>调用处</h3><p>于<code>cartographer/mapping/2d/submap_2d.cc</code>文件中，函数ActiveSubmaps2D::CreateGrid 里，创建了MapLimits</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以当前雷达原点为地图原件创建地图</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;GridInterface&gt; <span class="title">ActiveSubmaps2D::CreateGrid</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> Eigen::Vector2f&amp; origin)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 地图初始大小,100个栅格  </span></span><br><span class="line">  <span class="keyword">constexpr</span> <span class="keyword">int</span> kInitialSubmapSize = <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">float</span> resolution = options_.<span class="built_in">grid_options_2d</span>().<span class="built_in">resolution</span>(); <span class="comment">// param: grid_options_2d.resolution</span></span><br><span class="line">  <span class="built_in"><span class="keyword">switch</span></span> (options_.<span class="built_in">grid_options_2d</span>().<span class="built_in">grid_type</span>()) &#123;</span><br><span class="line">    <span class="comment">// 概率栅格地图</span></span><br><span class="line">    <span class="keyword">case</span> proto::GridOptions2D::PROBABILITY_GRID:</span><br><span class="line">      <span class="keyword">return</span> absl::make_unique&lt;ProbabilityGrid&gt;(</span><br><span class="line">          <span class="built_in">MapLimits</span>(resolution,</span><br><span class="line">                    <span class="comment">// 左上角坐标为坐标系的最大值, origin位于地图的中间</span></span><br><span class="line">                    origin.cast&lt;<span class="keyword">double</span>&gt;() + <span class="number">0.5</span> * kInitialSubmapSize *</span><br><span class="line">                                                resolution *</span><br><span class="line">                                                Eigen::Vector2d::<span class="built_in">Ones</span>(),</span><br><span class="line">                    <span class="comment">// x方向和y方向都给100个栅格</span></span><br><span class="line">                    <span class="built_in">CellLimits</span>(kInitialSubmapSize, kInitialSubmapSize)),</span><br><span class="line">          &amp;conversion_tables_);</span><br></pre></td></tr></table></figure>
+<p>左上角的最大值 = origin坐标点 + 栅格数*分辨率。</p>
+<p>如果分辨率越小，地图左上角能覆盖到的距离越短，但是格子多，因此分辨率会很高，很清晰</p>
+<h2 id="成员函数-1"><a href="#成员函数-1" class="headerlink" title="成员函数"></a>成员函数</h2><ul>
+<li>contain，判断给出的点的下标是否在坐标系内</li>
+<li>GetCellCenter：从下标点转为坐标点</li>
+<li>GetCellIndex：从坐标点转换为下标点</li>
+</ul>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/19/1119%E6%A6%82%E7%8E%87%E5%9C%B0%E5%9B%BE/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">概率地图-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/18/1119%20nav2-begin/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">initial pose-navigation2</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Grid2D"><span class="nav-number">1.</span> <span class="nav-text">Grid2D</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">成员函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FinishUpdate"><span class="nav-number">1.3.1.</span> <span class="nav-text">FinishUpdate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GrowLimits"><span class="nav-number">1.3.2.</span> <span class="nav-text">GrowLimits</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MapLimits"><span class="nav-number">2.</span> <span class="nav-text">MapLimits</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F-1"><span class="nav-number">2.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-1"><span class="nav-number">2.2.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E5%A4%84"><span class="nav-number">2.2.1.</span> <span class="nav-text">调用处</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-1"><span class="nav-number">2.3.</span> <span class="nav-text">成员函数</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

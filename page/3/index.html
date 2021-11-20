@@ -132,6 +132,270 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/01/1101c++%20%E6%97%B6%E9%97%B4/">
+                        C++11 std::chrono库详解
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        本文源：https://www.cnblogs.com/jwk000/p/3560086.html
+C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的说明整理了一下，因为没发现别人有详细讲解。
+　　ch...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 01 2021 09:59:23 GMT+0800">2021-11-01</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/01/1101c++%20%E6%97%B6%E9%97%B4/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/29/1029OrderMutiQueue2/">
+                        OrderedMultiQueue(二)-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        OrderedMultiQueue 类，位于cartographer/sensor/internal/ordered_muti_queue.h
+维护排序后的传感器数据的多个队列, 并按合并排序的顺序进行调度，它将等待为每个未完成的队列查看至少一个值,...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:23 GMT+0800">2021-10-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/29/1029OrderMutiQueue2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/29/1030blocking_queue/">
+                        Blocking-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        一个阻塞队列，可以看成是一个缓冲区。
+生产者把数据放入队列，消费者把数据从队列里取出来进行消费
+为什么要用生产，消费模式
+解耦：生产者和消费者之间不能直接依赖，从队列里取，
+并发：  生产者直接调用消费者, 两者是同步（阻塞）的, 如果消费者吞吐数据...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:23 GMT+0800">2021-10-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/29/1030blocking_queue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/29/1029OrderedMultiQueue/">
+                        OrderedMultiQueue(一)-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        类Collator是对传感器数据的处理
+他的全部操作相当于是对如下数据结构的数据进行封装
+12// Queue keys are a pair of trajectory ID and sensor identifier.OrderedMultiQu...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:22 GMT+0800">2021-10-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/29/1029OrderedMultiQueue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">
+                        使用colcon_cd
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        1echo &quot;source &#x2F;usr&#x2F;share&#x2F;colcon_cd&#x2F;function&#x2F;colcon_cd.sh&quot; &gt;&gt; ~&#x2F;.bashrc
+1echo &q...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 28 2021 09:59:22 GMT+0800">2021-10-28</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/27/1027sensor_collate/">
+                        sensor_collate-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        sensor_collator的创建map_builder.cc文件：MapBuilder的构造函数
+1234567891011121314MapBuilder::MapBuilder(const proto::MapBuilderOptions&a...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 27 2021 09:59:22 GMT+0800">2021-10-27</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/27/1027sensor_collate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">
+                        ros2 launch 使用记录说明
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        IncludeLaunchDescriptioncondition、launch_arguments12345678910111213141516171819202122232425262728from launch import LaunchDes...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">
+                        多个tf树无法连接
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        问题报错1Could not find a connection between &#39;base_link&#39; and &#39;base_footprint&#39; because they are not part of the sa...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">
+                        AddSensorData与RateTimer-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        本节介绍的函数位于cartographer/mapping/internal/collated_trajectory_builder.cc文件中
+AddSensorDataAddSensorData 函数为CollatedTrajectoryBuil...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Oct 25 2021 09:59:22 GMT+0800">2021-10-25</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/10/22/1022%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0%E5%9B%9E%E8%B0%83/">
                         参数回调 OnSetParametersCallbackHandle
                     </a>
@@ -153,272 +417,6 @@
     </div>
 
     <a href="/2021/10/22/1022%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0%E5%9B%9E%E8%B0%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/22/1022RCLCPP_WARN_THROTTLE/">
-                        RCLCPP_WARN_THROTTLE 说明
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        RCLCPP_WARN_THROTTLE的官方说明在此，即
-12345#define RCLCPP_WARN_THROTTLE	(logger, 	clock, 	duration, 	... )		
-此声明是用于控制告警信息的一个时间间隔，dura...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 22 2021 09:59:22 GMT+0800">2021-10-22</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/22/1022RCLCPP_WARN_THROTTLE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/22/1023laser_filter/">
-                        Laser Filters 说明
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        概述此包laser_filters的主要目的是对sensor_msgs/LaserScan消息进行过滤处理。过滤是依赖于filter包的。目前，所有这些过滤器都直接在sensor_msgs/LaserScan上运行，但将来可能会添加处理sensor_...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 22 2021 09:59:22 GMT+0800">2021-10-22</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/22/1023laser_filter/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/21/1021%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A4%B4%E6%96%87%E4%BB%B6/">
-                        colcon 安装之后仍然无法找不到头文件
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在src文件下安装了ros2的filter功能包，正常编译通过。
-但是其他功能包对其调用的时候却显示
-1fatal error: filters&#x2F;median.hpp: No such file or directory
-1 没有重新sou...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 21 2021 09:59:22 GMT+0800">2021-10-21</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/21/1021%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A4%B4%E6%96%87%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/21/1019collator/">
-                        collator类
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        此类的作用是整理传感器的数据，不区分2d和3d。先让数据按照时间排列，然后输入前端。只对传感器数据进行处理没有其他的操作
-继承类TrajectoryBuilderInterfaceCollatedTrajectoryBuilder 类继承于 Traj...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 21 2021 09:59:22 GMT+0800">2021-10-21</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/21/1019collator/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/17/1017%E5%A4%9A%E6%80%81c++/">
-                        多态c++
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        多态顾名思义多种形态。
-即声明一个指向基类的指针，此类中的纯虚函数被其他类继承，指针可以调用继承于此类的于纯虚函数同名的方法
-看示例
-1234567891011121314151617181920212223242526272829303132333...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Oct 17 2021 09:59:22 GMT+0800">2021-10-17</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/17/1017%E5%A4%9A%E6%80%81c++/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1014%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-ros2/">
-                        colcon环境变量设置-ros2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        环境变量设置在构建包之后使用包，或者在其依赖项之上构建包，可能需要更新环境变量。对于前者，用户的最佳选择是让脚本执行环境更新，以方便使用。在后一种情况下，需要自动化流程，以便在没有用户交互的情况下按照拓扑顺序构建包。
-例如，如果一个包安装了一个可执行...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 18:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1014%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-ros2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/">
-                        添加轨迹-MapBuilder-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在MapBuilder类中，AddTrajectoryBuilder函数会创建一个新的 TrajectoryBuilder 并返回它的 trajectory_id。
-建立轨迹的过程就需要用到前端和后端的数据
-下面首先给出该函数的全部内容
-123456...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 11:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1014%E6%B7%BB%E5%8A%A0%E8%BD%A8%E8%BF%B9-MapBuilder/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
-                        MapBuilder构造函数-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        MapBuilder包含前端(TrajectoryBuilders,scan to submap) 与 后端(用于查找回环的PoseGraph) 的完整的SLAM，其位置位于cartographer/mapping/map_builder.h
-本文将...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1016%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%20/">
-                        传感器数据走向-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        传感器数据走向Node类的HandleLaserScanMessage函数123456789101112// 调用SensorBridge的传感器处理函数进行数据处理void Node::HandleLaserScanMessage(const in...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1016%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%20/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -553,5 +551,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
