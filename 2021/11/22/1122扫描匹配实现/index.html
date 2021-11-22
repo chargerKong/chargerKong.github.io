@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            扫描匹配-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">扫描匹配-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-22 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>首先还是local_trajectory_builder_2d</p>
+<h1 id="AddAccumulatedRangeData"><a href="#AddAccumulatedRangeData" class="headerlink" title="AddAccumulatedRangeData"></a>AddAccumulatedRangeData</h1><p>预测time时间的先验位姿，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Computes a gravity aligned pose prediction.</span></span><br><span class="line"><span class="comment">// 进行位姿的预测, 先验位姿</span></span><br><span class="line"><span class="keyword">const</span> transform::Rigid3d non_gravity_aligned_pose_prediction =</span><br><span class="line">    extrapolator_-&gt;<span class="built_in">ExtrapolatePose</span>(time);</span><br></pre></td></tr></table></figure>
+<p>对重力方向进行校准，即让z轴和重力方向一致，得到了二维的先验位姿</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将三维位姿先旋转到姿态为0, 再取xy坐标将三维位姿转成二维位姿</span></span><br><span class="line"><span class="keyword">const</span> transform::Rigid2d pose_prediction = transform::<span class="built_in">Project2D</span>(</span><br><span class="line">    non_gravity_aligned_pose_prediction * gravity_alignment.<span class="built_in">inverse</span>());</span><br></pre></td></tr></table></figure>
+<p>进行一个自适应体素滤波，就可以进行扫描匹配了</p>
+<p>会返回一个pose_estimate_2d，一个扫描匹配之后的位姿</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// local map frame &lt;- gravity-aligned frame</span></span><br><span class="line"><span class="comment">// 扫描匹配, 进行点云与submap的匹配</span></span><br><span class="line">std::unique_ptr&lt;transform::Rigid2d&gt; pose_estimate_2d =</span><br><span class="line">    <span class="built_in">ScanMatch</span>(time, pose_prediction, filtered_gravity_aligned_point_cloud);</span><br></pre></td></tr></table></figure>
+<p>把扫描之后的位姿进行返回，变换到扫描匹配之前的一个状态</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将二维坐标旋转回之前的姿态</span></span><br><span class="line"><span class="keyword">const</span> transform::Rigid3d pose_estimate =</span><br><span class="line">    transform::<span class="built_in">Embed3D</span>(*pose_estimate_2d) * gravity_alignment;</span><br></pre></td></tr></table></figure>
+<p>pose_estimate 就是扫描匹配之后的一个位姿了，然后再校准</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 校准位姿估计器</span></span><br><span class="line">extrapolator_-&gt;<span class="built_in">AddPose</span>(time, pose_estimate);</span><br></pre></td></tr></table></figure>
+<h1 id="ScanMatch"><a href="#ScanMatch" class="headerlink" title="ScanMatch"></a>ScanMatch</h1><p>如果没有活跃的子图，那么就将先验位姿直接返回</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (active_submaps_.<span class="built_in">submaps</span>().<span class="built_in">empty</span>()) &#123;</span><br><span class="line">  <span class="keyword">return</span> absl::make_unique&lt;transform::Rigid2d&gt;(pose_prediction);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>活跃子图一般有俩，第一个用于扫描匹配，取出子图</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用active_submaps_的第一个子图进行匹配</span></span><br><span class="line">std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt; matching_submap =</span><br><span class="line">    active_submaps_.<span class="built_in">submaps</span>().<span class="built_in">front</span>();</span><br></pre></td></tr></table></figure>
+<p>使用相关性扫描匹配，即暴力匹配，对传入的位姿进行校准</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">transform::Rigid2d initial_ceres_pose = pose_prediction;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据参数决定是否 使用correlative_scan_matching对先验位姿进行校准</span></span><br><span class="line"><span class="keyword">if</span> (options_.<span class="built_in">use_online_correlative_scan_matching</span>()) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">double</span> score = real_time_correlative_scan_matcher_.<span class="built_in">Match</span>(</span><br><span class="line">      pose_prediction, filtered_gravity_aligned_point_cloud,</span><br><span class="line">      *matching_submap-&gt;<span class="built_in">grid</span>(), &amp;initial_ceres_pose);</span><br><span class="line">  kRealTimeCorrelativeScanMatcherScoreMetric-&gt;<span class="built_in">Observe</span>(score);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用校准完的Pose进行ceres的基于优化的扫描匹配的实现，由于校准之后的位姿比较准，因为这里的效果会比较好</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> pose_observation = absl::make_unique&lt;transform::Rigid2d&gt;();</span><br><span class="line">ceres::Solver::Summary summary;</span><br><span class="line"><span class="comment">// 使用ceres进行扫描匹配</span></span><br><span class="line">ceres_scan_matcher_.<span class="built_in">Match</span>(pose_prediction.<span class="built_in">translation</span>(), initial_ceres_pose,</span><br><span class="line">                          filtered_gravity_aligned_point_cloud,</span><br><span class="line">                          *matching_submap-&gt;<span class="built_in">grid</span>(), pose_observation.<span class="built_in">get</span>(),</span><br><span class="line">                          &amp;summary);</span><br></pre></td></tr></table></figure>
+<p>匹配成功之后返回结果pose_observation</p>
+<h2 id="scan-matching-RealTimeCorrelativeScanMatcher2D"><a href="#scan-matching-RealTimeCorrelativeScanMatcher2D" class="headerlink" title="scan_matching::RealTimeCorrelativeScanMatcher2D"></a>scan_matching::RealTimeCorrelativeScanMatcher2D</h2><p>暴力的实时相关性扫描匹配，其文件位于<code>cartographer/mapping/internal/2d/scan_matching/real_time_correlative_scan_matcher_2d.h</code>文件中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// An implementation of &quot;Real-Time Correlative Scan Matching&quot; by Olson.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealTimeCorrelativeScanMatcher2D</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">RealTimeCorrelativeScanMatcher2D</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> proto::RealTimeCorrelativeScanMatcherOptions&amp; options)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">RealTimeCorrelativeScanMatcher2D</span>(<span class="keyword">const</span> RealTimeCorrelativeScanMatcher2D&amp;) =</span><br><span class="line">      <span class="keyword">delete</span>;</span><br><span class="line">  RealTimeCorrelativeScanMatcher2D&amp; <span class="keyword">operator</span>=(</span><br><span class="line">      <span class="keyword">const</span> RealTimeCorrelativeScanMatcher2D&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Aligns &#x27;point_cloud&#x27; within the &#x27;grid&#x27; given an</span></span><br><span class="line">  <span class="comment">// &#x27;initial_pose_estimate&#x27; then updates &#x27;pose_estimate&#x27; with the result and</span></span><br><span class="line">  <span class="comment">// returns the score.</span></span><br><span class="line">  <span class="function"><span class="keyword">double</span> <span class="title">Match</span><span class="params">(<span class="keyword">const</span> transform::Rigid2d&amp; initial_pose_estimate,</span></span></span><br><span class="line"><span class="function"><span class="params">               <span class="keyword">const</span> sensor::PointCloud&amp; point_cloud, <span class="keyword">const</span> Grid2D&amp; grid,</span></span></span><br><span class="line"><span class="function"><span class="params">               transform::Rigid2d* pose_estimate)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Computes the score for each Candidate2D in a collection. The cost is</span></span><br><span class="line">  <span class="comment">// computed as the sum of probabilities or normalized TSD values, different</span></span><br><span class="line">  <span class="comment">// from the Ceres CostFunctions: http://ceres-solver.org/modeling.html</span></span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="comment">// Visible for testing.</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">ScoreCandidates</span><span class="params">(<span class="keyword">const</span> Grid2D&amp; grid,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="keyword">const</span> std::vector&lt;DiscreteScan2D&gt;&amp; discrete_scans,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="keyword">const</span> SearchParameters&amp; search_parameters,</span></span></span><br><span class="line"><span class="function"><span class="params">                       std::vector&lt;Candidate2D&gt;* candidates)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="function">std::vector&lt;Candidate2D&gt; <span class="title">GenerateExhaustiveSearchCandidates</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> SearchParameters&amp; search_parameters)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> proto::RealTimeCorrelativeScanMatcherOptions options_;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>头文件，只有两个函数 和两个成员变量 </p>
+<p>其他所有的函数都是通过Match函数进行调用的，因此只看Match，注意Match里面的点云都是相对于Local坐标系的，其点云的原点也是在local坐标系原点的</p>
+<h1 id="Match"><a href="#Match" class="headerlink" title="Match"></a>Match</h1><p>Match函数位于<code>cartographer/mapping/internal/2d/scan_matching/real_time_correlative_scan_matcher_2d.h</code>中，</p>
+<p>RealTimeCorrelativeScanMatcher2D::Match 函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 相关性扫描匹配 - 计算量很大</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] initial_pose_estimate 预测出来的先验位姿</span></span><br><span class="line"><span class="comment"> * @param[in] point_cloud 用于匹配的点云 点云的原点位于local坐标系原点</span></span><br><span class="line"><span class="comment"> * @param[in] grid 用于匹配的栅格地图</span></span><br><span class="line"><span class="comment"> * @param[out] pose_estimate 校正后的位姿</span></span><br><span class="line"><span class="comment"> * @return double 匹配得分</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">RealTimeCorrelativeScanMatcher2D::Match</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> transform::Rigid2d&amp; initial_pose_estimate,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::PointCloud&amp; point_cloud, <span class="keyword">const</span> Grid2D&amp; grid,</span></span></span><br><span class="line"><span class="function"><span class="params">    transform::Rigid2d* pose_estimate)</span> <span class="keyword">const</span></span></span><br></pre></td></tr></table></figure>
+<p>把点云旋转到先验位姿上</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 1 将点云旋转到预测的方向上</span></span><br><span class="line"><span class="keyword">const</span> Eigen::Rotation2Dd initial_rotation = initial_pose_estimate.<span class="built_in">rotation</span>();</span><br><span class="line"><span class="keyword">const</span> sensor::PointCloud rotated_point_cloud = sensor::<span class="built_in">TransformPointCloud</span>(</span><br><span class="line">    point_cloud,</span><br><span class="line">    transform::Rigid3f::<span class="built_in">Rotation</span>(Eigen::<span class="built_in">AngleAxisf</span>(</span><br><span class="line">        initial_rotation.cast&lt;<span class="keyword">float</span>&gt;().<span class="built_in">angle</span>(), Eigen::Vector3f::<span class="built_in">UnitZ</span>())));</span><br></pre></td></tr></table></figure>
+<p>SearchParameters是一个配置参数的位置，传入的参数有</p>
+<ul>
+<li>linear_search_window 从 配置文件来，线性搜索窗口的大小</li>
+<li>angular_search_window 从配置文件来，角度搜索窗口的大小</li>
+<li>旋转后的点云</li>
+<li>网格的分辨率</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据配置参数初始化 SearchParameters</span></span><br><span class="line"><span class="function"><span class="keyword">const</span> SearchParameters <span class="title">search_parameters</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    options_.linear_search_window(), options_.angular_search_window(),</span></span></span><br><span class="line"><span class="function"><span class="params">    rotated_point_cloud, grid.limits().resolution())</span></span>;</span><br></pre></td></tr></table></figure>
+<p>search_parameters 里面存储了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Tightens the search window as much as possible.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShrinkToFit</span><span class="params">(<span class="keyword">const</span> std::vector&lt;DiscreteScan2D&gt;&amp; scans,</span></span></span><br><span class="line"><span class="function"><span class="params">                 <span class="keyword">const</span> CellLimits&amp; cell_limits)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> num_angular_perturbations;            <span class="comment">// 个数</span></span><br><span class="line"><span class="keyword">double</span> angular_perturbation_step_size;    <span class="comment">// 角度分辨率</span></span><br><span class="line"><span class="keyword">double</span> resolution;</span><br><span class="line"><span class="keyword">int</span> num_scans;                            <span class="comment">// 旋转后的点云集合的个数</span></span><br><span class="line">std::vector&lt;LinearBounds&gt; linear_bounds;</span><br></pre></td></tr></table></figure>
+<p>按照角度分辨率和旋转后点云集合的个数，对点云进行旋转保存于vector。至于要如何生成 这个个数。可以查看论文</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 2 生成按照不同角度旋转后的点云集合</span></span><br><span class="line"><span class="keyword">const</span> std::vector&lt;sensor::PointCloud&gt; rotated_scans =</span><br><span class="line">    <span class="built_in">GenerateRotatedScans</span>(rotated_point_cloud, search_parameters);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对点云进行平移，返回的内容不是点云本身，而是经过平移之后的在栅格中的索引。大vector里面的元素代表着第几个旋转点云</p>
+<p><code>DiscreteScan2D</code> 也是一个vector <code>typedef std::vector&lt;Eigen::Array2i&gt; DiscreteScan2D;</code> 这个vector的元素表示每一个点平移后的索引</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 3 将旋转后的点云集合按照预测出的平移量进行平移, 获取平移后的点在地图中的索引</span></span><br><span class="line"><span class="keyword">const</span> std::vector&lt;DiscreteScan2D&gt; discrete_scans = <span class="built_in">DiscretizeScans</span>(</span><br><span class="line">    grid.<span class="built_in">limits</span>(), rotated_scans,</span><br><span class="line">    Eigen::<span class="built_in">Translation2f</span>(initial_pose_estimate.<span class="built_in">translation</span>().<span class="built_in">x</span>(),</span><br><span class="line">                         initial_pose_estimate.<span class="built_in">translation</span>().<span class="built_in">y</span>()));</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/21/1121%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">扫描匹配-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AddAccumulatedRangeData"><span class="nav-number">1.</span> <span class="nav-text">AddAccumulatedRangeData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ScanMatch"><span class="nav-number">2.</span> <span class="nav-text">ScanMatch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#scan-matching-RealTimeCorrelativeScanMatcher2D"><span class="nav-number">2.1.</span> <span class="nav-text">scan_matching::RealTimeCorrelativeScanMatcher2D</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Match"><span class="nav-number">3.</span> <span class="nav-text">Match</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

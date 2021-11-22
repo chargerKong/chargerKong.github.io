@@ -142,7 +142,7 @@
                     <div class="author">
                         <span class="name">Kong Liangqian</span>
                         
-                            <span class="author-label">Lv5</span>
+                            <span class="author-label">Lv6</span>
                         
                     </div>
                     <div class="meta-info">
@@ -176,12 +176,22 @@
         
 
         <div class="article-content markdown-body">
-            <p><img src="/home/kong/Downloads/cartographer课件/思维导图/ActiveSubmaps2D.pdf" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<object data="/home/kong/Downloads/cartographer课件/思维导图/ActiveSubmaps2D.pdf" type="application/pdf" width="800px" height="1400px">
-    <embed src="/home/kong/Downloads/cartographer课件/思维导图/ActiveSubmaps2D.pdf">
-</object>
-
+            <h1 id="雷达数据写入器生成"><a href="#雷达数据写入器生成" class="headerlink" title="雷达数据写入器生成"></a>雷达数据写入器生成</h1><p>位于<code>cartographer/mapping/2d/submap_2d.h</code>中ActiveSubmaps2D类 的构造函数里</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ActiveSubmaps2D构造函数</span></span><br><span class="line">ActiveSubmaps2D::<span class="built_in">ActiveSubmaps2D</span>(<span class="keyword">const</span> proto::SubmapsOptions2D&amp; options)</span><br><span class="line">    : <span class="built_in">options_</span>(options), <span class="built_in">range_data_inserter_</span>(<span class="built_in">CreateRangeDataInserter</span>()) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CreateRangeDataInserter"><a href="#CreateRangeDataInserter" class="headerlink" title="CreateRangeDataInserter"></a>CreateRangeDataInserter</h2><p>创建两种地图写入器，PROBABILITY_GRID_INSERTER_2D 与  TSDF_INSERTER_2D</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建地图数据写入器</span></span><br><span class="line">std::unique_ptr&lt;RangeDataInserterInterface&gt;</span><br><span class="line">ActiveSubmaps2D::<span class="built_in">CreateRangeDataInserter</span>() &#123;</span><br><span class="line">  <span class="built_in"><span class="keyword">switch</span></span> (options_.<span class="built_in">range_data_inserter_options</span>().<span class="built_in">range_data_inserter_type</span>()) &#123;</span><br><span class="line">    <span class="comment">// 概率栅格地图的写入器</span></span><br><span class="line">    <span class="keyword">case</span> proto::RangeDataInserterOptions::PROBABILITY_GRID_INSERTER_2D:</span><br><span class="line">      <span class="keyword">return</span> absl::make_unique&lt;ProbabilityGridRangeDataInserter2D&gt;(</span><br><span class="line">          options_.<span class="built_in">range_data_inserter_options</span>()</span><br><span class="line">              .<span class="built_in">probability_grid_range_data_inserter_options_2d</span>());</span><br><span class="line">    <span class="comment">// tsdf地图的写入器</span></span><br><span class="line">    <span class="keyword">case</span> proto::RangeDataInserterOptions::TSDF_INSERTER_2D:</span><br><span class="line">      <span class="keyword">return</span> absl::make_unique&lt;TSDFRangeDataInserter2D&gt;(</span><br><span class="line">          options_.<span class="built_in">range_data_inserter_options</span>()</span><br><span class="line">              .<span class="built_in">tsdf_range_data_inserter_options_2d</span>());</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="built_in">LOG</span>(FATAL) &lt;&lt; <span class="string">&quot;Unknown RangeDataInserterType.&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="数据器写入调用"><a href="#数据器写入调用" class="headerlink" title="数据器写入调用"></a>数据器写入调用</h1><p> ActiveSubmaps2D::InsertRangeData 中，把数据写入每一个子图中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将点云数据写入到submap中</span></span><br><span class="line">std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; ActiveSubmaps2D::<span class="built_in">InsertRangeData</span>(</span><br><span class="line">    <span class="keyword">const</span> sensor::RangeData&amp; range_data) &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 将一帧雷达数据同时写入两个子图中</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; submap : submaps_) &#123;</span><br><span class="line">    submap-&gt;<span class="built_in">InsertRangeData</span>(range_data, range_data_inserter_.<span class="built_in">get</span>());</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此处的for循环的元素为每一个submap2D，调用submap2D的insertRangeData函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Submap2D::InsertRangeData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::RangeData&amp; range_data,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> RangeDataInserterInterface* range_data_inserter)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(grid_);</span><br><span class="line">  <span class="built_in">CHECK</span>(!<span class="built_in">insertion_finished</span>());</span><br><span class="line">  <span class="comment">// 将雷达数据写到栅格地图中</span></span><br><span class="line">  range_data_inserter-&gt;<span class="built_in">Insert</span>(range_data, grid_.<span class="built_in">get</span>());</span><br><span class="line">  <span class="comment">// 插入到地图中的雷达数据的个数加1</span></span><br><span class="line">  <span class="built_in">set_num_range_data</span>(<span class="built_in">num_range_data</span>() + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里range_data_inserter是PROBABILITY_GRID_INSERTER_2D，（默认）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 将点云写入栅格地图</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] range_data 要写入地图的点云</span></span><br><span class="line"><span class="comment"> * @param[in] grid 栅格地图</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ProbabilityGridRangeDataInserter2D::Insert</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::RangeData&amp; range_data, GridInterface* <span class="keyword">const</span> grid)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  ProbabilityGrid* <span class="keyword">const</span> probability_grid = <span class="keyword">static_cast</span>&lt;ProbabilityGrid*&gt;(grid);</span><br><span class="line">  <span class="built_in">CHECK</span>(probability_grid != <span class="literal">nullptr</span>);</span><br><span class="line">  <span class="comment">// By not finishing the update after hits are inserted, we give hits priority</span></span><br><span class="line">  <span class="comment">// (i.e. no hits will be ignored because of a miss in the same cell).</span></span><br><span class="line">  <span class="comment">// param: insert_free_space</span></span><br><span class="line">  <span class="built_in">CastRays</span>(range_data, hit_table_, miss_table_, options_.<span class="built_in">insert_free_space</span>(),</span><br><span class="line">           probability_grid);</span><br><span class="line">  probability_grid-&gt;<span class="built_in">FinishUpdate</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CastRays"><a href="#CastRays" class="headerlink" title="CastRays"></a>CastRays</h2><p>根据雷达点对栅格地图进行更新</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 根据雷达点对栅格地图进行更新</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] range_data </span></span><br><span class="line"><span class="comment"> * @param[in] hit_table 更新占用栅格时的查找表</span></span><br><span class="line"><span class="comment"> * @param[in] miss_table 更新空闲栅格时的查找表</span></span><br><span class="line"><span class="comment"> * @param[in] insert_free_space </span></span><br><span class="line"><span class="comment"> * @param[in] probability_grid 栅格地图</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CastRays</span><span class="params">(<span class="keyword">const</span> sensor::RangeData&amp; range_data,</span></span></span><br><span class="line"><span class="function"><span class="params">              <span class="keyword">const</span> std::vector&lt;uint16&gt;&amp; hit_table,</span></span></span><br><span class="line"><span class="function"><span class="params">              <span class="keyword">const</span> std::vector&lt;uint16&gt;&amp; miss_table,</span></span></span><br><span class="line"><span class="function"><span class="params">              <span class="keyword">const</span> <span class="keyword">bool</span> insert_free_space, ProbabilityGrid* probability_grid)</span></span></span><br></pre></td></tr></table></figure>
+<p>详见 <a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/chaosir1991/article/details/109561010" >https://blog.csdn.net/chaosir1991/article/details/109561010<i class="fas fa-external-link-alt"></i></a> </p>
+<p>这里一个是对hit点进行更新，另外一个是对原点到hit点图中的点进行更新，使用<a class="link"   target="_blank" rel="noopener" href="http://www.idivecat.com/archives/652" >Bresenham算法<i class="fas fa-external-link-alt"></i></a> </p>
+<p>还有就是没有打到物体的点进行更新 </p>
+<p>如何对一个类进行for 循环，可以查看此sensor::RangeData 中的 pointcloud</p>
 
         </div>
 
@@ -190,14 +200,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/21/1121%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">扫描匹配-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/11/19/1119%E6%A6%82%E7%8E%87%E5%9C%B0%E5%9B%BE/"
+                           href="/2021/11/20/1121const/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">概率地图-cartographer</span>
+                                <span class="post-nav-title-item">const c++</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -367,7 +392,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5%E5%99%A8%E7%94%9F%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">雷达数据写入器生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CreateRangeDataInserter"><span class="nav-number">1.1.</span> <span class="nav-text">CreateRangeDataInserter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%99%A8%E5%86%99%E5%85%A5%E8%B0%83%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">数据器写入调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CastRays"><span class="nav-number">2.1.</span> <span class="nav-text">CastRays</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
@@ -416,20 +441,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
