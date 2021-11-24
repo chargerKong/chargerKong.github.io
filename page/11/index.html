@@ -132,6 +132,105 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">
+                        图优化（Graph-based）
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        Pose Graph的构建图构建好，就需要进行优化
+
+用一个图来表示SLAM问题
+每一个节点都是位姿（x,y,theta）
+两个节点之间的边，表示两个节点之间的空间约束
+帧间边：表示时间连续的两个点
+回环边：两个时间是不连续的两个点
+
+
+一旦出现了回...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed May 26 2021 10:23:20 GMT+0800">2021-05-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/05/23/IMLS%20-ICP/">
+                        IMLS -ICP
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        推荐书多视图几何（multiple view geometer），状态估计(state estimate for robotic)
+内容非常全，对初学者不是很友好。
+视觉里程计：给出两张图来判断相机是如何运动的
+后端：让总体的轨迹和地图更精确
+ICP...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 23 2021 18:38:29 GMT+0800">2021-05-23</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/23/IMLS%20-ICP/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+                        ros1代码学习
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        参考：此处博客
+ROS Time表示的是ROS网络中的时间。
+ROS网络中的时间是指，如果当时在非仿真环境里运行，那它就是当前的时间。但是假设去回放当时的情况，那就需要把当时的时间录下来。以控制为例，很多的数据处理需要知道当时某一个时刻发生了什么。W...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu May 20 2021 10:11:26 GMT+0800">2021-05-20</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/">
                         位姿变换
                     </a>
@@ -339,96 +438,6 @@ Action servers和规范化的service十分...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/26/Nav2%E5%AD%A6%E4%B9%A0%E4%B8%80/">
-                        Navigation2总览
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Navigation2总览这是一个致力于做出一个可以让移动机器人从点A安全的移动到点B的库。它也可以被应用在其他牵扯到机器人导航的应用中，比如跟随动态物体。在此过程中，他会完成动态路径规划，计算电机速度，避障以及结构恢复性行为。
-Nav2使用行为树调...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Apr 26 2021 16:24:35 GMT+0800">2021-04-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/26/Nav2%E5%AD%A6%E4%B9%A0%E4%B8%80/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/25/%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B-%E8%AE%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%87%AA%E5%B7%B1%E7%A7%BB%E5%8A%A8/">
-                        简单案例-让机器人自己移动
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        建立一个工作包12cd ~&#x2F;dev_ws&#x2F;srcros2 pkg create robot_auto_move --build-type ament_python 
-创建执行节点创立两个py节点文件到robot_auto_move...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Apr 25 2021 18:38:29 GMT+0800">2021-04-25</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/25/%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B-%E8%AE%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%87%AA%E5%B7%B1%E7%A7%BB%E5%8A%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/24/%E6%B7%BB%E5%8A%A0world%E5%88%B0%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/">
-                        添加world到启动文件
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        添加world文件与model文件打开robot_desciption文件夹
-1cd ~&#x2F;dev_es&#x2F;src&#x2F;robot_description
-新建两个文件夹
-12mkdir modelmkdir world
-在wo...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Apr 24 2021 10:23:20 GMT+0800">2021-04-24</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/24/%E6%B7%BB%E5%8A%A0world%E5%88%B0%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -559,5 +568,20 @@ Nav2使用行为树调...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -140,8 +140,9 @@
                 <div class="home-article-content markdown-body">
                     
                         首先还是local_trajectory_builder_2d
+可以对暴力匹配的部分单独提取出来，进行一个重定位。
 AddAccumulatedRangeData预测time时间的先验位姿，
-1234// Computes a gravity aligned pose prediction.// 进行...
+1234// Computes a gravity ali...
                     
                 </div>
 
@@ -153,6 +154,101 @@ AddAccumulatedRangeData预测time时间的先验位姿，
     </div>
 
     <a href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/22/1122Node%20lifecycle/">
+                        node lifecycle
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        节点生命周期的管理允许对ROS系统的状态进行更大的控制。它将允许roslaunch在允许任何组件开始执行其行为之前确保所有组件已经被正确实例化。它还允许在线重启或替换节点。
+本文档最重要的概念是，管理节点表示一个已知的接口，根据一个已知的生命周期状态...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 22 2021 18:38:29 GMT+0800">2021-11-22</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/22/1122Node%20lifecycle/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/22/1122ROS2%20launch%20Design_2/">
+                        ros2 launch 与 roslaunch异同
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        launch系统可以分开进行讨论，大致可以分为如下
+
+进程和各种节点样式的调用约定
+事件报告系统
+系统描述和静态分析
+系统描述的执行和验证
+测试
+
+下面几节的目的是列举出launch系统可以做什么事情，以及如何交互，但是他不是必须要求的。
+Calli...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 22 2021 18:38:29 GMT+0800">2021-11-22</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/22/1122ROS2%20launch%20Design_2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/22/1122ROS2%20launch%20Design/">
+                        ros2 launch 与 roslaunch异同
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        原文（https://design.ros2.org/articles/roslaunch.html）
+本文描述了ROS 2的launch系统，它可以看作是ROS 1 launch系统的继承者。本文将ROS 1中roslaunch的特性和作用，并将它...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 22 2021 18:38:29 GMT+0800">2021-11-22</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/22/1122ROS2%20launch%20Design/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -330,95 +426,6 @@ AddAccumulatedRangeData预测time时间的先验位姿，
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/17/1117%20%E6%B4%BB%E8%B7%83%E5%AD%90%E5%9B%BE/">
-                        活跃子图-ActiveSubmaps2D-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        栅格地图的实现是二维激光SLAM的一个难点
-三维激光SLAM形成的点云地图不需要自己手动实现点云的数据结构, PCL中有写好的数据类型,直接调用就行. 视觉SLAM形成的点云地图也可以用PCL来实现
-唯独二维激光SLAM的栅格地图需要自己手动实现, ...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Nov 17 2021 18:38:29 GMT+0800">2021-11-17</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/17/1117%20%E6%B4%BB%E8%B7%83%E5%AD%90%E5%9B%BE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/16/1116nav2%E6%8F%92%E4%BB%B6/">
-                        navigation2 插件配置
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        本节会讨论可以基于你机器和环境的一个不同的算法
-Planner and Controller Servers¶导航算法在Nav2中通过使用运行在ROS action servers 的插件来实现—— the planner, controller a...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Nov 16 2021 18:38:29 GMT+0800">2021-11-16</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/16/1116nav2%E6%8F%92%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/16/1116%E9%94%99%E8%AF%AFrviz2/">
-                        Message Filter dropping message
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Message Filter dropping message: frame ‘odom’ at time 403.240 for reason ‘Unknown’需要检查的地方
-
-odom的timestamp是否已经设置，如果是自己发出的写的结点，...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Nov 16 2021 18:38:29 GMT+0800">2021-11-16</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/16/1116%E9%94%99%E8%AF%AFrviz2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -545,5 +552,20 @@ odom的timestamp是否已经设置，如果是自己发出的写的结点，...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

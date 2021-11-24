@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ros2 launch 与 roslaunch异同 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ros2 launch 与 roslaunch异同</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-22 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>launch系统可以分开进行讨论，大致可以分为如下</p>
+<ul>
+<li>进程和各种节点样式的调用约定</li>
+<li>事件报告系统</li>
+<li>系统描述和静态分析</li>
+<li>系统描述的执行和验证</li>
+<li>测试</li>
+</ul>
+<p>下面几节的目的是列举出launch系统可以做什么事情，以及如何交互，但是他不是必须要求的。</p>
+<h1 id="Calling-Conventions"><a href="#Calling-Conventions" class="headerlink" title="Calling Conventions"></a>Calling Conventions</h1><p>为了启动一个launch系统，我们首先要思考的是如何理解被启动的描述文件。</p>
+<p>calling convention（调用约定）的意思是描述描述launch系统与它正在执行和监视的任何东西之间的“接口”或“契约”。该合同涵盖了初始执行、运行期间的活动、launch系统的信号处理和行为以及关闭。</p>
+<h2 id="操作系统进程"><a href="#操作系统进程" class="headerlink" title="操作系统进程"></a>操作系统进程</h2><p>这些实体最基础的版本就是操作系统进程</p>
+<h3 id="Execution（执行器）"><a href="#Execution（执行器）" class="headerlink" title="Execution（执行器）"></a>Execution（执行器）</h3><p>launch系统需要知道如何执行他们，为此，需要</p>
+<ul>
+<li>可执行文件的名字</li>
+<li>环境变量((<code>PATH</code>, <code>LD_LIBRARY_PATH</code>, <code>DL_PRELOAD</code>, etc…))</li>
+<li>命令行参数</li>
+<li>工作目录</li>
+<li>launch前缀</li>
+</ul>
+<h3 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h3><p>在运行的时候，launch系统会监控操作系统进程所有的</p>
+<ul>
+<li>stdout pipe</li>
+<li>stderr pipe</li>
+</ul>
+<p>launch系统可以选择捕获这些管道，用于记录或抑制输出到控制台，或者它可以将这些管道连接到一个现有的pty（远程连接的虚拟终端），比如终端的stdout和/或stderr管道或一个空管道(例如/dev/null)。</p>
+<p>当捕获进程的输出管道时， launch系统可以以用户可以实时处理的方式报告这些数据，或者可以通过用户定义的过滤器传递数据，在过滤器匹配时生成用户处理的事件。</p>
+<h3 id="Termination"><a href="#Termination" class="headerlink" title="Termination"></a>Termination</h3><p>如果操作系统进程终止，并因此返回一个返回代码，launch系统将报告该事件，并可以以用户定义的方式处理它。终止包括预期的终止(如返回main()或使用exit())和意外的终止(如中止陷阱或分割故障或总线错误)。</p>
+<p>ROS1允许一些常用的退出处理方式</p>
+<ul>
+<li>require=true: 如果这个进程退出就结束整个launch</li>
+<li>respawn=true: 如果这个进程退出了，就以一样的设置方式重启<ul>
+<li>respawn_delay=N：如果需要重启，设置重启间隔的时间</li>
+</ul>
+</li>
+</ul>
+<p>启动系统可以启动一个操作系统进程的终止过程。首先在子进程上发送<code>SIGINT</code>信号。如果这并没有导致进程的终止，那么基于启动系统的配置可能会发生以下几件事:</p>
+<ul>
+<li>经过一段时间，发送SIGTERM</li>
+<li>经过一段时间，发送SIGKILL</li>
+</ul>
+<p>在默认情况下，launch系统会</p>
+<ul>
+<li>发送SIGINT</li>
+<li>经过一段时间，发送SIGTERM</li>
+<li>经过一段时间，发送SIGKILL</li>
+</ul>
+<p>当一个事件(内置的或用户生成的)启动关闭时，launch系统将启动这个进程，例如，当一个具有require=true退出处理程序的进程终止时，或者当launch系统本身收到SIGINT信号时。</p>
+<p>如果启动系统本身收到SIGTERM信号，它将向所有子进程发送SIGKILL信号并立即退出。</p>
+<p>之前规则的基本原理是，如果有人试图发送SIGTERM给launch系统，他们可能是在向发射系统发送SIGINT后不耐烦地这样做，因此发射系统应该尝试快速退出。快速退出有望避免鼓励用户SIGKILL启动系统，这可能会导致子进程不正确地关闭，甚至可能成为僵死进程。</p>
+<h3 id="Shell-Evaluation"><a href="#Shell-Evaluation" class="headerlink" title="Shell Evaluation"></a>Shell Evaluation</h3><h3 id="Remote-Operating-System-Processes"><a href="#Remote-Operating-System-Processes" class="headerlink" title="Remote Operating System Processes"></a>Remote Operating System Processes</h3><h2 id="ROS-Nodes"><a href="#ROS-Nodes" class="headerlink" title="ROS Nodes"></a>ROS Nodes</h2><p>任何操作系统进程都可以通过拥有至少一个ROS节点而变得特定于ROS的进程。在进程中拥有一个或多个“普通”ROS节点并不会增加新的标准化方法来将信息输入或输出包含这些节点的操作系统进程，尽管可以在运行时访问ROS主题、服务、参数等。但是，它确实在执行过程中添加了一些特定类型的输入，而且它还会影响进程对信号的反应。</p>
+<p>这适用于普通的结点，对于ROS结点管理来说，他有更多的功能</p>
+<h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p>除了“操作系统进程”部分的“执行”部分，其中包含ROS节点的进程则需要考虑其他元素，例如:</p>
+<ul>
+<li><p>包名+执行节点名 而不是 执行节点名</p>
+</li>
+<li><p>ROS 特定的环境变量（如 ROS_DOMAIN_ID,  RMW_IMPLEMENTATION）</p>
+</li>
+<li>ROS 特定的命令行参数<ul>
+<li>Varies for single Node processes and multi Node processes</li>
+<li>Change node name or namespace</li>
+<li>Remap topics, services, actions, parameters, etc…</li>
+<li>Initialize parameter values</li>
+</ul>
+</li>
+</ul>
+<p>在每一种情况下，ROS特定的构造都可以用“操作系统进程”的“执行”小节描述的现有机制来表示，也就是说，ROS特定的构造可以扩展为命令行参数或环境变量。因此，launch系统能够接受ROS特定的声明，例如“将‘image’重新映射到‘left/image’”，并将它们隐式地转换为正常操作系统进程可以使用的术语，比如环境变量或命令行参数，例如在命令行参数中添加image:=left/image。然而，一个给定的ROS特定声明被转换成什么，取决于在这个过程中如何使用节点，但后面的章节将详细介绍这一点。</p>
+<h3 id="Runtime-1"><a href="#Runtime-1" class="headerlink" title="Runtime"></a>Runtime</h3><p>在运行时，“普通”ROS节点不会暴露操作系统进程之外的任何新内容。它确实有ROS主题、服务、参数等，但没有一个是标准化的，在这个时候对launch系统有用。</p>
+<p>它也不会以任何特殊的方式对stdin作出反应，但是包含ROS节点的进程确实倾向于为SIGINT提供一个信号处理程序，它会进行更优雅的关闭，但这不是强制的。发送SIGINT信号通常会导致大多数节点在使用rclcpp中的“spin”函数或轮询rclcpp::ok()时关闭，这是推荐的。</p>
+<h3 id="Termination-1"><a href="#Termination-1" class="headerlink" title="Termination"></a>Termination</h3><p>除了操作系统进程(返回代码)所观察到的外，ROS节点(节点，而不是进程)的终止在外部是不可观察的。</p>
+<h2 id="Managed-ROS-Nodes"><a href="#Managed-ROS-Nodes" class="headerlink" title="Managed ROS Nodes"></a>Managed ROS Nodes</h2><p>ROS node 是有生命周期的，即Managed ROS Nodes，每一个ROS节点会有额外的runtime 状态，他可以直接通过launch系统访问和使用。或者将其传递给事件系统，或者在将其传递给事件系统之前进行聚合。</p>
+<p>“Managed ROS Nodes”再次建立在以前的实体上，它继承了正常ROS节点以及操作系统进程的所有执行、运行和终止特征。</p>
+<h3 id="执行-1"><a href="#执行-1" class="headerlink" title="执行"></a>执行</h3><p>Managed ROS Nodes 在执行时不会在“普通”ROS节点的添加之上添加任何额外的输入或特定配置，至少此时不会。以后可能会发生变化，所以请参考设计文档3或有关该主题的未来文档。</p>
+<h3 id="Runtime-2"><a href="#Runtime-2" class="headerlink" title="Runtime"></a>Runtime</h3><p>在运行时，Managed ROS Nodes 在节点状态发生变化时发出事件。这至少是在一个主题上发出的，但也可以通过其他方式捕获、聚合和/或交流。这些状态变化可以由启动系统本身或用户使用，它们都可以对这些变化作出反应。</p>
+<p><strong>例如，用户可以这样表达“当节点A进入Active状态时，启动节点B和C”或“如果节点A退出并返回代码或进入Finalized状态，关闭一切”。</strong></p>
+<h3 id="Termination-2"><a href="#Termination-2" class="headerlink" title="Termination"></a>Termination</h3><p>Managed ROS Nodes 在终止时有一些额外的可观察效果(节点，不一定是包含它的进程)。Managed节点在终止时通过shutingdown过渡状态后，进入最终状态。因为这些是状态转换，所以可以通过生命周期事件系统观察到它们，至少可以通过ROS主题lifecycle_state(可能会发生更改)。</p>
+<p>托管ROS节点如何过渡到最终状态(或任何其他状态)的机制将不在本文档中决定。相反，实现或一些其他特定于生命周期的文档将涵盖这些内容。但是，您可以想象这个转换可以由Node本身自动处理，或者通过启动发送一个状态转换请求，或者通过启动发送一个特定的信号。</p>
+<h2 id="处理单个节点"><a href="#处理单个节点" class="headerlink" title="处理单个节点"></a>处理单个节点</h2><p>本节以及后面的小节的内容会描述不同的可能的节点组合。在每一个例子中，他们都继承了 “ROS nodes” or the “Managed ROS nodes”的行为方式。但在本小中 ， “如何”通信ROS特定的option 被更详细地描述。</p>
+<p>最简单的例子是一个进程中有一个ROS结点，这在ROS1中非常常见，在ROS1中一个节点一个进程，但是在ROS2中，一个进程可以有多个节点。</p>
+<p>因为只有一个ROS节点，所以命令行参数不需要显式地说明它们应用于哪个节点。例如，改变单个节点的命名空间可以用命令行参数__ns:=new_namespace来表示。</p>
+<p>即便这里只有一个节点，也不需要在进程启动时启动该节点，也不需要在节点关闭和/或销毁时结束进程。</p>
+<p>如果这个节点是一个managed node， 他就可以使用生命周期事件来追溯节点的生命周期。实际上，具有单个节点的进程可以启动一个节点，运行一段时间，然后销毁它，然后再次创建它。</p>
+<p>因此，单节点进程的最大影响是可以简化命令行参数和环境变量的配置。</p>
+<h2 id="处理多个节点"><a href="#处理多个节点" class="headerlink" title="处理多个节点"></a>处理多个节点</h2><p>处理多节点和处理单个节点是非常类似的，但是在配置，传参方面需要细化对哪个节点进行设置。remapping文档详细介绍了如何使用命令行参数有选择地配置多个节点，因此请在这里查看最新的详细信息。</p>
+<p>考虑一个程序，有两个相机驱动node，名字分别为<code>camera1</code>和<code>camera2</code>，我们可以通过如下方式来配置命名空间<code>camera1:__ns:=left camera2:__ns:=right</code>.</p>
+<h3 id="动态加载节点"><a href="#动态加载节点" class="headerlink" title="动态加载节点"></a>动态加载节点</h3><p>动态加载节点意味着在容器进程中生成它，而容器进程在被要求加载节点之前并不知道该节点。容器进程是一个独立的可执行文件，它在自身内部加载和执行节点。</p>
+<h4 id="Container-Process-API"><a href="#Container-Process-API" class="headerlink" title="Container Process API"></a>Container Process API</h4><h2 id="Event-Subsystem"><a href="#Event-Subsystem" class="headerlink" title="Event Subsystem"></a>Event Subsystem</h2><p>本文的这一部分介绍了启动系统中的事件子系统，它负责生成事件并将它们报告给用户和它自己，以便可以处理这些事件。</p>
+<h3 id="按来源分类的事件"><a href="#按来源分类的事件" class="headerlink" title="按来源分类的事件"></a>按来源分类的事件</h3><p>来源于事件子系统的事件可以分为两类：launch系统可以直接观察到的，以及其他系统可以直接观察到的。因此，如果我们想让其他应用程序或用户使用这些事件，那么只有启动系统可以观察到的事件必须通过事件系统公开。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/22/1122Node%20lifecycle/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">node lifecycle</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/22/1122ROS2%20launch%20Design/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros2 launch 与 roslaunch异同</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Calling-Conventions"><span class="nav-number">1.</span> <span class="nav-text">Calling Conventions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Execution%EF%BC%88%E6%89%A7%E8%A1%8C%E5%99%A8%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">Execution（执行器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runtime"><span class="nav-number">1.1.2.</span> <span class="nav-text">Runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Termination"><span class="nav-number">1.1.3.</span> <span class="nav-text">Termination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell-Evaluation"><span class="nav-number">1.1.4.</span> <span class="nav-text">Shell Evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Remote-Operating-System-Processes"><span class="nav-number">1.1.5.</span> <span class="nav-text">Remote Operating System Processes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROS-Nodes"><span class="nav-number">1.2.</span> <span class="nav-text">ROS Nodes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C"><span class="nav-number">1.2.1.</span> <span class="nav-text">执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runtime-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">Runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Termination-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">Termination</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Managed-ROS-Nodes"><span class="nav-number">1.3.</span> <span class="nav-text">Managed ROS Nodes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runtime-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">Runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Termination-2"><span class="nav-number">1.3.3.</span> <span class="nav-text">Termination</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%8D%95%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.</span> <span class="nav-text">处理单个节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%A4%9A%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.</span> <span class="nav-text">处理多个节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.1.</span> <span class="nav-text">动态加载节点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Container-Process-API"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">Container Process API</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-Subsystem"><span class="nav-number">1.6.</span> <span class="nav-text">Event Subsystem</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E6%9D%A5%E6%BA%90%E5%88%86%E7%B1%BB%E7%9A%84%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.6.1.</span> <span class="nav-text">按来源分类的事件</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

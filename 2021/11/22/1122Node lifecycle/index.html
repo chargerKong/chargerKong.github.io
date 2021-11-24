@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            node lifecycle |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">node lifecycle</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-22 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>节点生命周期的管理允许对ROS系统的状态进行更大的控制。它将允许roslaunch在允许任何组件开始执行其行为之前确保所有组件已经被正确实例化。它还允许在线重启或替换节点。</p>
+<p>本文档最重要的概念是，管理节点表示一个已知的接口，根据一个已知的生命周期状态机执行，否则可以视为一个黑盒。这允许节点开发人员自由决定如何提供管理生命周期功能，同时还确保为管理节点而创建的任何工具都可以与任何兼容的节点一起工作。</p>
+<p><img src="http://design.ros2.org/img/node_lifecycle/life_cycle_sm.png" alt="The proposed node life cycle state machine"></p>
+<p>有四个主要的状态：</p>
+<ul>
+<li><code>Unconfigured</code></li>
+<li><code>Inactive</code></li>
+<li><code>Active</code></li>
+<li><code>Finalized</code></li>
+</ul>
+<p>想要转换出主要的状态，需要外部的监控进程，除了在Active状态触发错误之外。</p>
+<p>还有6个转换状态，它们是请求转换期间的中间状态。</p>
+<ul>
+<li><code>Configuring</code></li>
+<li><code>CleaningUp</code></li>
+<li><code>ShuttingDown</code></li>
+<li><code>Activating</code></li>
+<li><code>Deactivating</code></li>
+<li><code>ErrorProcessing</code></li>
+</ul>
+<p>在转换状态中，将执行逻辑以确定转换是否成功。成功或失败应通过生命周期管理界面传达给生命周期管理软件。</p>
+<p>有7种过渡暴露在监督过程中，它们是:</p>
+<ul>
+<li><code>create</code></li>
+<li><code>configure</code></li>
+<li><code>cleanup</code></li>
+<li><code>activate</code></li>
+<li><code>deactivate</code></li>
+<li><code>shutdown</code></li>
+<li><code>destroy</code></li>
+</ul>
+<h3 id="Primary-State-Unconfigured"><a href="#Primary-State-Unconfigured" class="headerlink" title="Primary State: Unconfigured"></a>Primary State: Unconfigured</h3><p>生命周期状态，表示结点才刚刚被实例化。他也有可能是一个被返回的结点，如果出错。<strong>这个状态应该是不存储其他状态？</strong></p>
+<h3 id="Primary-State-Inactive"><a href="#Primary-State-Inactive" class="headerlink" title="Primary State: Inactive"></a>Primary State: Inactive</h3><p>这个状态下的结点表示，该节点还没有做任何的处理</p>
+<p>这个状态下，允许重新进行配置</p>
+<p>在这种状态下，节点将不会收到任何用于读取topic、执行数据处理、响应功能性服务请求等的执行时间。也不会读取任何已经传送过来的数据</p>
+<h3 id="Primary-State-Active"><a href="#Primary-State-Active" class="headerlink" title="Primary State: Active"></a>Primary State: Active</h3><p>在这个生命周期节点中，这个是一个主要的状态，在这种状态下，节点执行任何处理、响应服务请求、读取和处理数据、生成输出等。</p>
+<h3 id="Primary-State-Finalized"><a href="#Primary-State-Finalized" class="headerlink" title="Primary State: Finalized"></a>Primary State: Finalized</h3><p>最终状态是节点在被销毁之前立即结束的状态。这种状态总是终结的，从这里唯一的过渡就是被摧毁。</p>
+<p>这种状态的存在是为了支持调试和自省。一个失败的节点将对系统自省保持可见，并且可能通过调试工具而不是直接销毁来实现自省。如果一个节点在重新生成循环中启动，或者已知循环的原因，则监视流程将具有自动销毁并重新创建该节点的策略。</p>
+<h3 id="Transition-State-Configuring"><a href="#Transition-State-Configuring" class="headerlink" title="Transition State: Configuring"></a>Transition State: Configuring</h3><h3 id="Transition-State-CleaningUp"><a href="#Transition-State-CleaningUp" class="headerlink" title="Transition State: CleaningUp"></a>Transition State: CleaningUp</h3><p>在这个状态下，<code>onCleanup</code>回调函数会被调用，如果调用</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">扫描匹配-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/22/1122ROS2%20launch%20Design_2/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ros2 launch 与 roslaunch异同</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Unconfigured"><span class="nav-number">1.</span> <span class="nav-text">Primary State: Unconfigured</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Inactive"><span class="nav-number">2.</span> <span class="nav-text">Primary State: Inactive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Active"><span class="nav-number">3.</span> <span class="nav-text">Primary State: Active</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Finalized"><span class="nav-number">4.</span> <span class="nav-text">Primary State: Finalized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-Configuring"><span class="nav-number">5.</span> <span class="nav-text">Transition State: Configuring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-CleaningUp"><span class="nav-number">6.</span> <span class="nav-text">Transition State: CleaningUp</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
