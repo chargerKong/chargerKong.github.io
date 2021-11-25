@@ -9,7 +9,7 @@
     
     <title>
         
-            node lifecycle |
+            node lifecycle design |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">node lifecycle</span>
+            <span class="title-hover-animation">node lifecycle design</span>
         </div>
 
         
@@ -214,7 +214,11 @@
 <h3 id="Primary-State-Active"><a href="#Primary-State-Active" class="headerlink" title="Primary State: Active"></a>Primary State: Active</h3><p>在这个生命周期节点中，这个是一个主要的状态，在这种状态下，节点执行任何处理、响应服务请求、读取和处理数据、生成输出等。</p>
 <h3 id="Primary-State-Finalized"><a href="#Primary-State-Finalized" class="headerlink" title="Primary State: Finalized"></a>Primary State: Finalized</h3><p>最终状态是节点在被销毁之前立即结束的状态。这种状态总是终结的，从这里唯一的过渡就是被摧毁。</p>
 <p>这种状态的存在是为了支持调试和自省。一个失败的节点将对系统自省保持可见，并且可能通过调试工具而不是直接销毁来实现自省。如果一个节点在重新生成循环中启动，或者已知循环的原因，则监视流程将具有自动销毁并重新创建该节点的策略。</p>
-<h3 id="Transition-State-Configuring"><a href="#Transition-State-Configuring" class="headerlink" title="Transition State: Configuring"></a>Transition State: Configuring</h3><h3 id="Transition-State-CleaningUp"><a href="#Transition-State-CleaningUp" class="headerlink" title="Transition State: CleaningUp"></a>Transition State: CleaningUp</h3><p>在这个状态下，<code>onCleanup</code>回调函数会被调用，如果调用</p>
+<h3 id="Transition-State-Configuring"><a href="#Transition-State-Configuring" class="headerlink" title="Transition State: Configuring"></a>Transition State: Configuring</h3><p>在此状态下，会调用<code>onConfigure</code>，加载配置文件，节点的配置通常会涉及在节点的生命周期内必须执行一次的那些任务，例如获取永久内存缓冲区和设置不会更改的主题发布/订阅。</p>
+<p>节点使用它来设置它在其整个生命周期中必须持有的任何资源（无论它是活动的还是非活动的）。 作为示例，此类资源可以包括主题发布和订阅、持续持有的内存以及初始化配置参数。</p>
+<h3 id="Transition-State-CleaningUp"><a href="#Transition-State-CleaningUp" class="headerlink" title="Transition State: CleaningUp"></a>Transition State: CleaningUp</h3><p>在这个状态下，<code>onCleanup</code>回调函数会被调用，会清理掉所有的状态，如果发送错误会转换到<code>ErrorProcessing</code>.</p>
+<p><strong>记住</strong>，所有的转换状态如果失败了都会到 <code>ErrorProcessing</code>.</p>
+<h3 id="Transition-State-ErrorProcessing"><a href="#Transition-State-ErrorProcessing" class="headerlink" title="Transition State: ErrorProcessing"></a>Transition State: ErrorProcessing</h3><p>这个过渡状态是可以清除任何错误的地方。 可以从将执行用户代码的任何状态进入此状态。 如果错误处理成功完成，则节点可以返回到未配置状态，如果无法进行完全清理，则它必须失败，节点将转换为已完成以准备销毁。</p>
 
         </div>
 
@@ -415,7 +419,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Unconfigured"><span class="nav-number">1.</span> <span class="nav-text">Primary State: Unconfigured</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Inactive"><span class="nav-number">2.</span> <span class="nav-text">Primary State: Inactive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Active"><span class="nav-number">3.</span> <span class="nav-text">Primary State: Active</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Finalized"><span class="nav-number">4.</span> <span class="nav-text">Primary State: Finalized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-Configuring"><span class="nav-number">5.</span> <span class="nav-text">Transition State: Configuring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-CleaningUp"><span class="nav-number">6.</span> <span class="nav-text">Transition State: CleaningUp</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Unconfigured"><span class="nav-number">1.</span> <span class="nav-text">Primary State: Unconfigured</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Inactive"><span class="nav-number">2.</span> <span class="nav-text">Primary State: Inactive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Active"><span class="nav-number">3.</span> <span class="nav-text">Primary State: Active</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Primary-State-Finalized"><span class="nav-number">4.</span> <span class="nav-text">Primary State: Finalized</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-Configuring"><span class="nav-number">5.</span> <span class="nav-text">Transition State: Configuring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-CleaningUp"><span class="nav-number">6.</span> <span class="nav-text">Transition State: CleaningUp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transition-State-ErrorProcessing"><span class="nav-number">7.</span> <span class="nav-text">Transition State: ErrorProcessing</span></a></li></ol>
     </div>
 </div>
         </aside>
@@ -464,20 +468,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

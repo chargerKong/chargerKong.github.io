@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            node lifecycle intro |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">node lifecycle intro</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-25 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><a class="link"   target="_blank" rel="noopener" href="https://index.ros.org/p/lifecycle/" >https://index.ros.org/p/lifecycle/<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ROS2 introduces the concept of managed nodes, also called <code>LifecycleNode</code><br>In the following tutorial, we explain the purpose of these nodes, what makes them different from regular nodes and how they comply to a lifecycle management.<br>Managed nodes are scoped within a state machine of a finite amount of states.</p>
+<p>管理节点的状态被限制于状态机的有限个状态中</p>
+<p>These states can be changed by invoking a transition id which indicates the succeeding consecutive state.<br>The state machine is implemented as described at the <code>ROS2 design page &lt;http://design.ros2.org/articles/node_lifecycle.html&gt;</code>.</p>
+<p>Our implementation differentiates between <code>Primary States</code> and <code>Transition States</code>.<br>Primary States are supposed to be steady states in which any node can do the respected task.<br>On the other hand, Transition States are meant as temporary intermediate states attached to a transition.<br>The result of these intermediate states are used to indicate whether a transition between two primary states is considered successful or not.</p>
+<p>Thus, any managed node can be in one of the following states:</p>
+<p>基本状态是稳定的状态，在这种状态下，任何节点都可以完成相应的任务。另一方面，过渡状态意味着附加到转换的临时中间状态。这些中间状态的结果用于表明两个主要状态之间的转换是否被认为成功。因此，任何管理节点都可能处于以下状态之一:</p>
+<p>Primary States (steady states):</p>
+<ul>
+<li>unconfigured</li>
+<li>inactive</li>
+<li>active</li>
+<li>shutdown</li>
+</ul>
+<p>Transition States (intermediate states):</p>
+<ul>
+<li>configuring</li>
+<li>activating</li>
+<li>deactivating</li>
+<li>cleaningup</li>
+<li>shuttingdown</li>
+</ul>
+<p>The possible transitions to invoke are:</p>
+<ul>
+<li>configure</li>
+<li>activate</li>
+<li>deactivate</li>
+<li>cleanup</li>
+<li>shutdown</li>
+</ul>
+<p>For a more verbose explanation on the applied state machine, we refer to the design page which provides an in-detail explanation about each state and transition.</p>
+<h2 id="The-demo"><a href="#The-demo" class="headerlink" title="The demo"></a>The demo</h2><h3 id="What’s-happening"><a href="#What’s-happening" class="headerlink" title="What’s happening"></a>What’s happening</h3><p>The demo is split into 3 different separate applications.</p>
+<ul>
+<li>lifecycle_talker</li>
+<li>lifecycle_listener</li>
+<li>lifecycle_service_client</li>
+</ul>
+<p>The <code>lifecycle_talker</code> represents a managed node and publishes according to which state the node is in.<br>We split the tasks of the talker node into separate pieces and execute them as followed.</p>
+<p>lifecycle_talker表示一个管理节点，并根据该节点所处的状态进行数据发布。我们将talker节点的任务分割成几个单独的部分，并按如下方式执行它们。</p>
+<ul>
+<li>configuring: We initialize our publisher and timer</li>
+<li>activate: We activate the publisher and timer in order to enable a publishing</li>
+<li>deactivate: We stop the publisher and timer</li>
+<li>cleanup: We destroy the publisher and timer</li>
+</ul>
+<p>The principle is implemented in this demo as the typical talker/listener demo.<br>However, imaging a real scenario with attached hardware which may have a rather long booting phase, i.e. a laser or camera.</p>
+<p>想象一下，在真实的情况下，硬件可能有一段相当长时间的启动阶段，例如雷达或者相机</p>
+<p>One could image bringing up the device driver in the configuring state, start and stop only the publishing of the device’s data and only in the cleanup/shutdown phase actually shutdown the device.</p>
+<p>你可以在配置状态下启动设备驱动程序，启动和停止设备数据的发布，只有在清理/关闭阶段才会真正关闭设备。</p>
+<p>The <code>lifecycle_listener</code> is a simple listener which shows the characteristics of the lifecycle talker.<br>The talker enables the message publishing only in the active state and thus making the listener receiving only messages when the talker is in an active state.</p>
+<p>The <code>lifecycle_service_client</code> is a script calling different transitions on the <code>lifecycle_talker</code>.<br>This is meant as the external user controlling the lifecycle of nodes.</p>
+<p>外部用户可以控制节点的生命周期</p>
+<h2 id="Run-the-demo"><a href="#Run-the-demo" class="headerlink" title="Run the demo"></a>Run the demo</h2><p>In order to run this demo, we open three terminals and source our ROS2 environment variables either from the binary distributions or the workspace we compiled from source.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>lifecycle_talker</th>
+<th>lifecycle_listener</th>
+<th>lifecycle_service_client</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$ ros2 run lifecycle lifecycle_talker</code></td>
+<td><code>$ ros2 run lifecycle lifecycle_listener</code></td>
+<td><code>$ ros2 run lifecycle lifecycle_service_client</code></td>
+</tr>
+<tr>
+<td><img src="https://camo.githubusercontent.com/6af40d87a90146d4ef95dadbaf346b7aafab0fd885ea6c5c42cfa33e4230ba4c/68747470733a2f2f61736369696e656d612e6f72672f612f3234393034392e706e67" alt="asciicast"></td>
+<td><img src="https://camo.githubusercontent.com/e39630aeaf1a23341e89846256563cb02d42d50741ccfea51613cf660633998b/68747470733a2f2f61736369696e656d612e6f72672f612f3234393035302e706e67" alt="asciicast"></td>
+<td><img src="https://camo.githubusercontent.com/e39630aeaf1a23341e89846256563cb02d42d50741ccfea51613cf660633998b/68747470733a2f2f61736369696e656d612e6f72672f612f3234393035302e706e67" alt="asciicast"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Alternatively, these three programs can be run together in the same terminal using the launch file (as of ROS 2 Bouncy):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch lifecycle lifecycle_demo.launch.py</span><br></pre></td></tr></table></figure>
+<p>If we look at the output of the <code>lifecycle_talker</code>\ , we notice that nothing seems to happen.<br>And this does make sense, since every node starts as <code>unconfigured</code>.<br>The lifecycle_talker is not configured yet and in our example, no publishers and timers are created yet.<br>The same behavior can be seen for the <code>lifecycle_listener</code>\ , which is less surprising given that no publishers are available at this moment.<br>The interesting part starts with the third terminal.<br>In there we launch our <code>lifecycle_service_client</code> which is responsible for changing the states of the <code>lifecycle_talker</code>.</p>
+<p>第一个和第二个窗口什么都没有发生，都处于unconfigured状态，直到第三个窗口启动lifecycle_service_client，他改变了lifecycle_talker的状态</p>
+<h3 id="Triggering-transition-1-configure"><a href="#Triggering-transition-1-configure" class="headerlink" title="Triggering transition 1 (configure)"></a>Triggering transition 1 (configure)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lc_client] Transition 1 successfully triggered.</span><br><span class="line">[lc_client] Node lc_talker has current state inactive.</span><br></pre></td></tr></table></figure>
+<p>makes the lifecycle talker change its state to inactive.<br><strong>Inactive means that all publishers and timers are created and configured.</strong></p>
+<p>However, the node is still not active.<br>Therefore no messages are getting published.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lc_talker] on_configure() is called.</span><br><span class="line">Lifecycle publisher is currently inactive. Messages are not published</span><br></pre></td></tr></table></figure>
+<p>The lifecycle listener on the same time receives a notification as it listens to every state change notification of the lifecycle talker.<br>In fact, the listener receives two consecutive notifications.</p>
+<p>实际上，listener接收两个连续的通知。</p>
+<p>One for changing from the primary state “unconfigured” to “configuring”.<br>Because the configuring step was successful within the lifecycle talker, a second notification from “configuring” to “inactive”.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lc_listener] notify callback: Transition from state unconfigured to configuring</span><br><span class="line">[lc_listener] notify callback: Transition from state configuring to inactive</span><br></pre></td></tr></table></figure>
+<h3 id="Triggering-transition-2-activate"><a href="#Triggering-transition-2-activate" class="headerlink" title="Triggering transition 2 (activate)"></a>Triggering transition 2 (activate)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lc_client] Transition 2 successfully triggered.</span><br><span class="line">[lc_client] Node lc_talker has current state active.</span><br></pre></td></tr></table></figure>
+<p>makes the lifecycle talker change its state to active.<br>That means all <strong>publishers and timers are now activated</strong> and therefore the messages are now getting published.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[lc_talker] on_activate() is called.</span><br><span class="line">[lc_talker] Lifecycle publisher is active. Publishing: [Lifecycle HelloWorld #11]</span><br><span class="line">[lc_talker] Lifecycle publisher is active. Publishing: [Lifecycle HelloWorld #12]</span><br></pre></td></tr></table></figure>
+<p>The lifecycle listener receives the same set of notifications as before.<br>Lifecycle talker changed its state from inactive to active.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lc_listener]: notify callback: Transition from state inactive to activating</span><br><span class="line">[lc_listener]: notify callback: Transition from state activating to active</span><br></pre></td></tr></table></figure>
+<p>The difference to the transition event before is that our listener now also receives the actual published data.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lc_listener] data_callback: Lifecycle HelloWorld #11</span><br><span class="line">[lc_listener] data_callback: Lifecycle HelloWorld #12</span><br></pre></td></tr></table></figure>
+<p>Please note that the index of the published message is already at 11.<br>The purpose of this demo is to show that even though we call <code>publish</code> at every state of the lifecycle talker, only when the state in active, the messages are actually published.</p>
+<p>这个demo的目的是，即使我们在talker生命周期的每个状态都调用 publish ，也只有当状态处于活动状态时，消息才会被实际发布。</p>
+<p>As for the beta1, all other messages are getting ignored.<br>This behavior may change in future versions in order to provide better error handling.</p>
+<p>For the rest of the demo, you will see similar output as we deactivate and activate the lifecycle talker and finally shut it down.</p>
+<h2 id="The-demo-code"><a href="#The-demo-code" class="headerlink" title="The demo code"></a>The demo code</h2><h3 id="lifecycle-talker-lifecycle-listener-and-lifecycle-service-client"><a href="#lifecycle-talker-lifecycle-listener-and-lifecycle-service-client" class="headerlink" title="lifecycle_talker, lifecycle_listener and lifecycle_service_client"></a>lifecycle_talker, lifecycle_listener and lifecycle_service_client</h3><p>If we have a look at the code, there is one significant change for the lifecycle talker compared to a regular talker.<br><strong>Our node does not inherit from the regular <code>rclcpp::node::Node</code> but from <code>rclcpp_lifecycle::LifecycleNode</code>.</strong></p>
+<p>生命周期结点继承的不是rclcpp::node::Node，而是rclcpp_lifecycle::LifecycleNode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class LifecycleTalker : public rclcpp_lifecycle::LifecycleNode</span><br></pre></td></tr></table></figure>
+<p>Every child of LifecycleNodes have a set of callbacks provided.<br>These callbacks go along with the applied state machine attached to it.<br>These callbacks are:</p>
+<p>他的每一个子类都有一系列的callback函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn</span><br><span class="line"><span class="built_in">on_configure</span>(<span class="keyword">const</span> rclcpp_lifecycle::State &amp; previous_state)</span><br><span class="line"></span><br><span class="line">rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn</span><br><span class="line"><span class="built_in">on_activate</span>(<span class="keyword">const</span> rclcpp_lifecycle::State &amp; previous_state)</span><br><span class="line"></span><br><span class="line">rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn</span><br><span class="line"><span class="built_in">on_deactivate</span>(<span class="keyword">const</span> rclcpp_lifecycle::State &amp; previous_state)</span><br><span class="line"></span><br><span class="line">rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn</span><br><span class="line"><span class="built_in">on_cleanup</span>(<span class="keyword">const</span> rclcpp_lifecycle::State &amp; previous_state)</span><br><span class="line"></span><br><span class="line">rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn</span><br><span class="line"><span class="built_in">on_shutdown</span>(<span class="keyword">const</span> rclcpp_lifecycle::State &amp; previous_state)</span><br></pre></td></tr></table></figure>
+<p>In the following we assume that we are inside the namespace <code>rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface</code> to shorten the name of the return type.<br>All these callbacks have a positive default return value (\ <code>return CallbackReturn::SUCCESS</code>\ ).</p>
+<p>所有的callback函数都有一个默认的返回值 <code>return CallbackReturn::SUCCESS</code>\</p>
+<p>This allows a lifecycle node to change its state even though no explicit callback function was overwritten.</p>
+<p>这样即便是没有显示的覆盖。也可以让生命周期结点正常改变他的状态</p>
+<p>There is one other callback function for error handling.<br>Whenever a state transition throws an uncaught exception, we call <code>on_error</code>.</p>
+<p>当任何一个状态转换发生错误的时候，就会调用on_error回调函数</p>
+<ul>
+<li><code>CallbackReturn on_error(const rclcpp_lifecycle::State &amp; previous_state)</code></li>
+</ul>
+<p>This gives room for executing a custom error handling.<br>Only (!) in the case that this function returns <code>CallbackReturn::SUCCESS</code>\ , the state machine transitions to the state <code>unconfigured</code>.<br>By default, the <code>on_error</code> returns <code>CallbackReturn::FAILURE</code> and the state machine transitions into <code>finalized</code>.</p>
+<p>这为执行自定义错误处理提供了空间。只有在该函数返回CallbackReturn::SUCCESS的情况下，状态机转换为unconfigured的状态。默认情况下，on_error返回CallbackReturn::FAILURE，状态机转换为finalize。</p>
+<p>At the same time, every lifecycle node has by default 5 different communication interfaces.</p>
+<p>同时，每个生命周期节点默认有5个不同的通信接口。</p>
+<ul>
+<li><p>Publisher <code>&lt;node_name&gt;__transition_event</code> : publishes in case a transition is happening. </p>
+</li>
+<li><p>当转换发生的时候调用</p>
+</li>
+</ul>
+<p>This allows users to get notified of transition events within the network.</p>
+<ul>
+<li>Service <code>&lt;node_name&gt;__get_state</code>\ : query about the current state of the node.</li>
+<li>查询node现在的状态，返回一个primary或者transition的状态</li>
+</ul>
+<p>Return either a primary or transition state.</p>
+<ul>
+<li>Service <code>&lt;node_name&gt;__change_state</code>\ : triggers a transition for the current node.</li>
+<li>出发一个节点的转换</li>
+</ul>
+<p>This service call takes a transition id.<br>Only in the case, that this transition ID is a valid transition of the current state, the transition is fulfilled.<br>All other cases are getting ignored. ？？</p>
+<ul>
+<li>Service <code>&lt;node_name&gt;__get_available_states</code>\ : This is meant to be an introspection tool.</li>
+</ul>
+<p>It returns a list of all possible states this node can be.</p>
+<ul>
+<li>Service <code>&lt;node_name&gt;__get_available_transitions</code>\ : Same as above, meant to an introspection tool.</li>
+</ul>
+<p>It returns a list of all possible transitions this node can execute.</p>
+<h3 id="ros2-lifecycle-command-line-interface"><a href="#ros2-lifecycle-command-line-interface" class="headerlink" title="ros2 lifecycle command line interface"></a>ros2 lifecycle command line interface</h3><p>The <code>lifecycle_service_client</code> application is a fixed order script for this demo purpose only.<br>It explains the use and the API calls made for this lifecycle implementation, but may be inconvenient to use otherwise.<br>For this reason we implemented a command line tool which lets you dynamically change states or various nodes.</p>
+<p>它解释了这个生命周期实现的使用和API调用，但如果不这样使用可能会不方便。出于这个原因，我们实现了一个命令行工具，它可以让你动态地改变状态或各种节点。</p>
+<p>In the case you want to get the current state of the <code>lc_talker</code> node, you would call:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 lifecycle get &#x2F;lc_talker</span><br><span class="line">unconfigured [1]</span><br></pre></td></tr></table></figure>
+<p>The next step would be to execute a state change:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 lifecycle set &#x2F;lc_talker configure</span><br><span class="line">Transitioning successful</span><br></pre></td></tr></table></figure>
+<p>In order to see what states are currently available:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 lifecycle list lc_talker</span><br><span class="line"></span><br><span class="line">- configure [1]</span><br><span class="line">  Start: unconfigured</span><br><span class="line">  Goal: configuring</span><br><span class="line">- shutdown [5]</span><br><span class="line">  Start: unconfigured</span><br><span class="line">  Goal: shuttingdown</span><br></pre></td></tr></table></figure>
+<p>In this case we see that currently, the available transitions are <code>configure</code> and <code>shutdown</code>.<br>The complete state machine can be viewed with the following command, which can be helpful for debugging or visualization purposes:</p>
+<p>可以使用以下命令查看完整的状态机，这对调试或可视化很有帮助:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 lifecycle list lc_talker -a</span><br><span class="line"></span><br><span class="line">   - configure [1]</span><br><span class="line">     Start: unconfigured</span><br><span class="line">     Goal: configuring</span><br><span class="line">   - transition_success [10]</span><br><span class="line">     Start: configuring</span><br><span class="line">     Goal: inactive</span><br><span class="line">   - transition_failure [11]</span><br><span class="line">     Start: configuring</span><br><span class="line">     Goal: unconfigured</span><br><span class="line">   - transition_error [12]</span><br><span class="line">     Start: configuring</span><br><span class="line">     Goal: errorprocessing</span><br><span class="line"></span><br><span class="line">   [...]</span><br><span class="line"></span><br><span class="line">   - transition_error [62]</span><br><span class="line">     Start: errorprocessing</span><br><span class="line">     Goal: finalized</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>   All of the above commands are nothing else than calling the lifecycle node’s services.<br>With that being said, we can also call these services directly with the ros2 command line interface:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 service call &#x2F;lc_talker&#x2F;get_state lifecycle_msgs&#x2F;GetState</span><br><span class="line">  requester: making request: lifecycle_msgs.srv.GetState_Request()</span><br><span class="line">  </span><br><span class="line">  response:</span><br><span class="line">  lifecycle_msgs.srv.GetState_Response(current_state&#x3D;lifecycle_msgs.msg.State(id&#x3D;1, label&#x3D;&#39;unconfigured&#39;))</span><br></pre></td></tr></table></figure>
+<p>In order to trigger a transition, we call the <code>change_state</code> service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> $ ros2 service call &#x2F;lc_talker&#x2F;change_state lifecycle_msgs&#x2F;ChangeState &quot;&#123;transition: &#123;id: 2&#125;&#125;&quot;</span><br><span class="line">  requester: making request: lifecycle_msgs.srv.ChangeState_Request(transition&#x3D;lifecycle_msgs.msg.Transition(id&#x3D;2, label&#x3D;&#39;&#39;))</span><br><span class="line">  </span><br><span class="line">response:</span><br><span class="line">  lifecycle_msgs.srv.ChangeState_Response(success&#x3D;True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>It is slightly less convenient, because you have to know the IDs which correspond to each transition.<br>You can find them though in the lifecycle_msgs package.</p>
+<p>它稍微有些不方便，因为您必须知道与每个转换对应的id。您可以在lifecycle_msgs包中找到它们。</p>
+<pre><code>$ ros2 interface show lifecycle_msgs/msg/Transition
+</code></pre><h2 id="Outlook"><a href="#Outlook" class="headerlink" title="Outlook"></a>Outlook</h2><p>The above description points to the current state of the development as for beta1.<br>The future todo list for this topic comprises:</p>
+<ul>
+<li>Python lifecycle nodes</li>
+<li>Lifecycle manager: A global node, handling and dispatching trigger requests for multiple nodes.</li>
+<li>LifeyclceSubscriber/LifecycleWalltimer/… add more lifecycle controlled entities.</li>
+</ul>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8.md/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ceres使用</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">扫描匹配-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-demo"><span class="nav-number">2.</span> <span class="nav-text">The demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What%E2%80%99s-happening"><span class="nav-number">2.1.</span> <span class="nav-text">What’s happening</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-the-demo"><span class="nav-number">3.</span> <span class="nav-text">Run the demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Triggering-transition-1-configure"><span class="nav-number">3.1.</span> <span class="nav-text">Triggering transition 1 (configure)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Triggering-transition-2-activate"><span class="nav-number">3.2.</span> <span class="nav-text">Triggering transition 2 (activate)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-demo-code"><span class="nav-number">4.</span> <span class="nav-text">The demo code</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lifecycle-talker-lifecycle-listener-and-lifecycle-service-client"><span class="nav-number">4.1.</span> <span class="nav-text">lifecycle_talker, lifecycle_listener and lifecycle_service_client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ros2-lifecycle-command-line-interface"><span class="nav-number">4.2.</span> <span class="nav-text">ros2 lifecycle command line interface</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Outlook"><span class="nav-number">5.</span> <span class="nav-text">Outlook</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            ceres使用 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ceres使用</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-11-25 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>cartographer的ceres扫描匹配使用在<code>cartographer/mapping/internal/2d/local_trajetory_builder.cc</code>中</p>
+<h1 id="ceres-调用处"><a href="#ceres-调用处" class="headerlink" title="ceres 调用处"></a>ceres 调用处</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用ceres进行扫描匹配</span></span><br><span class="line">ceres_scan_matcher_.<span class="built_in">Match</span>(pose_prediction.<span class="built_in">translation</span>(), initial_ceres_pose,</span><br><span class="line">                          filtered_gravity_aligned_point_cloud,</span><br><span class="line">                          *matching_submap-&gt;<span class="built_in">grid</span>(), pose_observation.<span class="built_in">get</span>(),</span><br><span class="line">                          &amp;summary);</span><br></pre></td></tr></table></figure>
+<p>如果没有进行暴力匹配搜索的话，pose_prediction和initial_ceres_pose 是一样的，后面的是点云，地图，以及两个输出</p>
+<h1 id="ceres使用的头文件"><a href="#ceres使用的头文件" class="headerlink" title="ceres使用的头文件"></a>ceres使用的头文件</h1><p>位于文件<code>cartographer/mapping/internal/2d/scan_matching/ceres_scan_matcher_2d.h</code>中，需要传入的是Options</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CeresScanMatcher2D</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">CeresScanMatcher2D</span><span class="params">(<span class="keyword">const</span> proto::CeresScanMatcherOptions2D&amp; options)</span></span>;</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">CeresScanMatcher2D</span>();</span><br><span class="line"></span><br><span class="line">  <span class="built_in">CeresScanMatcher2D</span>(<span class="keyword">const</span> CeresScanMatcher2D&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">  CeresScanMatcher2D&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> CeresScanMatcher2D&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Aligns &#x27;point_cloud&#x27; within the &#x27;grid&#x27; given an</span></span><br><span class="line">  <span class="comment">// &#x27;initial_pose_estimate&#x27; and returns a &#x27;pose_estimate&#x27; and the solver</span></span><br><span class="line">  <span class="comment">// &#x27;summary&#x27;.</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Match</span><span class="params">(<span class="keyword">const</span> Eigen::Vector2d&amp; target_translation,</span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="keyword">const</span> transform::Rigid2d&amp; initial_pose_estimate,</span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="keyword">const</span> sensor::PointCloud&amp; point_cloud, <span class="keyword">const</span> Grid2D&amp; grid,</span></span></span><br><span class="line"><span class="function"><span class="params">             transform::Rigid2d* pose_estimate,</span></span></span><br><span class="line"><span class="function"><span class="params">             ceres::Solver::Summary* summary)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">const</span> proto::CeresScanMatcherOptions2D options_;</span><br><span class="line">  ceres::Solver::Options ceres_solver_options_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><ul>
+<li>options_： protobuf形式的option</li>
+<li>ceres<em>solver_options</em>: ceres_solver形式的option</li>
+</ul>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CeresScanMatcher2D::<span class="built_in">CeresScanMatcher2D</span>(</span><br><span class="line">    <span class="keyword">const</span> proto::CeresScanMatcherOptions2D&amp; options)</span><br><span class="line">    : <span class="built_in">options_</span>(options),</span><br><span class="line">      <span class="built_in">ceres_solver_options_</span>(</span><br><span class="line">          common::<span class="built_in">CreateCeresSolverOptions</span>(options.<span class="built_in">ceres_solver_options</span>())) &#123;</span><br><span class="line">  ceres_solver_options_.linear_solver_type = ceres::DENSE_QR;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对两个option进行赋值，线性分解的方法使用的是稠密的QR分解</p>
+<h2 id="Match"><a href="#Match" class="headerlink" title="Match"></a>Match</h2><h3 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> ceres_pose_estimate[<span class="number">3</span>] = &#123;initial_pose_estimate.<span class="built_in">translation</span>().<span class="built_in">x</span>(),</span><br><span class="line">                                 initial_pose_estimate.<span class="built_in">translation</span>().<span class="built_in">y</span>(),</span><br><span class="line">                                 initial_pose_estimate.<span class="built_in">rotation</span>().<span class="built_in">angle</span>()&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="平移残差的逼近"><a href="#平移残差的逼近" class="headerlink" title="平移残差的逼近"></a>平移残差的逼近</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">problem.<span class="built_in">AddResidualBlock</span>(</span><br><span class="line">    TranslationDeltaCostFunctor2D::<span class="built_in">CreateAutoDiffCostFunction</span>(</span><br><span class="line">        options_.<span class="built_in">translation_weight</span>(), target_translation), <span class="comment">// 平移的目标值, 没有使用校准后的平移</span></span><br><span class="line">    <span class="literal">nullptr</span> <span class="comment">/* loss function */</span>, ceres_pose_estimate);      <span class="comment">// 平移的初值</span></span><br></pre></td></tr></table></figure>
+<p>第一个参数是函数，需要定义优化的目标函数，第二个nullptr表示没有loss function，第三个是更新的变量，</p>
+<p>查看目标函数，类的静态函数，返回一个类的实例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TranslationDeltaCostFunctor2D</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">// 静态成员函数, 返回CostFunction</span></span><br><span class="line">  <span class="function"><span class="keyword">static</span> ceres::CostFunction* <span class="title">CreateAutoDiffCostFunction</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> <span class="keyword">double</span> scaling_factor, <span class="keyword">const</span> Eigen::Vector2d&amp; target_translation)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ceres::AutoDiffCostFunction&lt;TranslationDeltaCostFunctor2D,</span><br><span class="line">                                           <span class="number">2</span> <span class="comment">/* residuals 需要更新的变量维度*/</span>, </span><br><span class="line">                                           <span class="number">3</span> <span class="comment">/* pose variables 实际变量的维度*/</span>&gt;(</span><br><span class="line">        <span class="keyword">new</span> <span class="built_in">TranslationDeltaCostFunctor2D</span>(scaling_factor, target_translation));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>构造函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">TranslationDeltaCostFunctor2D</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">double</span> scaling_factor, <span class="keyword">const</span> Eigen::Vector2d&amp; target_translation)</span></span></span><br><span class="line"><span class="function">    : scaling_factor_(scaling_factor),</span></span><br><span class="line"><span class="function">      x_(target_translation.x()),</span></span><br><span class="line"><span class="function">      y_(target_translation.y()) &#123;</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>查看一下（）的重载，即目标函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 平移量残差的计算, (pose[0] - x_)的平方ceres会自动加上</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> T* <span class="keyword">const</span> pose, T* residual)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  residual[<span class="number">0</span>] = scaling_factor_ * (pose[<span class="number">0</span>] - x_);</span><br><span class="line">  residual[<span class="number">1</span>] = scaling_factor_ * (pose[<span class="number">1</span>] - y_);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优化变量pose，两个维度，减去的x<em> 和y</em> 是target_translation的值，是<strong>位姿估计器</strong>的值。要把pose优化到位姿估计器上去</p>
+<h3 id="旋转残差"><a href="#旋转残差" class="headerlink" title="旋转残差"></a>旋转残差</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 旋转的残差, 固定了角度不变</span></span><br><span class="line"> <span class="built_in">CHECK_GT</span>(options_.<span class="built_in">rotation_weight</span>(), <span class="number">0.</span>);</span><br><span class="line"> problem.<span class="built_in">AddResidualBlock</span>(</span><br><span class="line">     RotationDeltaCostFunctor2D::<span class="built_in">CreateAutoDiffCostFunction</span>(</span><br><span class="line">         options_.<span class="built_in">rotation_weight</span>(), ceres_pose_estimate[<span class="number">2</span>]), <span class="comment">// 角度的目标值</span></span><br><span class="line">     <span class="literal">nullptr</span> <span class="comment">/* loss function */</span>, ceres_pose_estimate);       <span class="comment">// 角度的初值</span></span><br></pre></td></tr></table></figure>
+<p>查看旋转的目标函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RotationDeltaCostFunctor2D</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">// 静态成员函数, 返回CostFunction</span></span><br><span class="line">  <span class="function"><span class="keyword">static</span> ceres::CostFunction* <span class="title">CreateAutoDiffCostFunction</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> <span class="keyword">double</span> scaling_factor, <span class="keyword">const</span> <span class="keyword">double</span> target_angle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ceres::AutoDiffCostFunction&lt;</span><br><span class="line">        RotationDeltaCostFunctor2D, <span class="number">1</span> <span class="comment">/* residuals */</span>, <span class="number">3</span> <span class="comment">/* pose variables */</span>&gt;(</span><br><span class="line">        <span class="keyword">new</span> <span class="built_in">RotationDeltaCostFunctor2D</span>(scaling_factor, target_angle));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这里要优化的变量是ceres_pose_estimate的第三个变量，即角度。所以residuals这里是1</p>
+<p>构造函数，也是对角度进行了赋值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">RotationDeltaCostFunctor2D</span><span class="params">(<span class="keyword">const</span> <span class="keyword">double</span> scaling_factor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">const</span> <span class="keyword">double</span> target_angle)</span></span></span><br><span class="line"><span class="function">    : scaling_factor_(scaling_factor), angle_(target_angle) &#123;</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>旋转的目标函数，转换到位姿估计器上的角度，如有暴力匹配，则是<strong>暴力匹配之后的角度</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 旋转量残差的计算</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> T* <span class="keyword">const</span> pose, T* residual)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  residual[<span class="number">0</span>] = scaling_factor_ * (pose[<span class="number">2</span>] - angle_);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>调参问题，如果位姿估计器不准确，可以把平移和旋转的逼近直接注释掉</strong>，有可能叠图</p>
+<h3 id="地图残差的逼近"><a href="#地图残差的逼近" class="headerlink" title="地图残差的逼近"></a>地图残差的逼近</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 地图部分的残差</span></span><br><span class="line"><span class="built_in">CHECK_GT</span>(options_.<span class="built_in">occupied_space_weight</span>(), <span class="number">0.</span>);</span><br><span class="line"><span class="built_in"><span class="keyword">switch</span></span> (grid.<span class="built_in">GetGridType</span>()) &#123;</span><br><span class="line">  <span class="keyword">case</span> GridType::PROBABILITY_GRID:</span><br><span class="line">    problem.<span class="built_in">AddResidualBlock</span>(</span><br><span class="line">        <span class="built_in">CreateOccupiedSpaceCostFunction2D</span>(</span><br><span class="line">            options_.<span class="built_in">occupied_space_weight</span>() /</span><br><span class="line">                std::<span class="built_in">sqrt</span>(<span class="keyword">static_cast</span>&lt;<span class="keyword">double</span>&gt;(point_cloud.<span class="built_in">size</span>())),</span><br><span class="line">            point_cloud, grid),</span><br><span class="line">        <span class="literal">nullptr</span> <span class="comment">/* loss function */</span>, ceres_pose_estimate);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> GridType::TSDF:</span><br><span class="line">    problem.<span class="built_in">AddResidualBlock</span>(</span><br><span class="line">        <span class="built_in">CreateTSDFMatchCostFunction2D</span>(</span><br><span class="line">            options_.<span class="built_in">occupied_space_weight</span>() /</span><br><span class="line">                std::<span class="built_in">sqrt</span>(<span class="keyword">static_cast</span>&lt;<span class="keyword">double</span>&gt;(point_cloud.<span class="built_in">size</span>())),</span><br><span class="line">            point_cloud, <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> TSDF2D&amp;&gt;(grid)),</span><br><span class="line">        <span class="literal">nullptr</span> <span class="comment">/* loss function */</span>, ceres_pose_estimate);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以待补充，通过空闲的概率来获取插值后空闲的概率来表示残差项，free越小，概率才越大</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>可能有问题的点<br>平移和旋转的残差项是逼近于先验位姿的, 当先验位姿不准确时会产生问题</li>
+<li>可能的改进建议<br>先将地图的权重调大, 平移旋转的权重调小, 如 1000, 1, 1, 或者 100, 1, 1<br>调参没有作用的时候可以将平移和旋转的残差项注释掉</li>
+</ul>
+<p>如果都不行，可以把位姿估计器改成gmapping的或者是karto的试一下</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/11/25/1125lifecycle%20intro/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">node lifecycle intro</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ceres-%E8%B0%83%E7%94%A8%E5%A4%84"><span class="nav-number">1.</span> <span class="nav-text">ceres 调用处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ceres%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">ceres使用的头文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Match"><span class="nav-number">2.3.</span> <span class="nav-text">Match</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">定义变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E7%A7%BB%E6%AE%8B%E5%B7%AE%E7%9A%84%E9%80%BC%E8%BF%91"><span class="nav-number">2.3.2.</span> <span class="nav-text">平移残差的逼近</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E6%AE%8B%E5%B7%AE"><span class="nav-number">2.3.3.</span> <span class="nav-text">旋转残差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E6%AE%8B%E5%B7%AE%E7%9A%84%E9%80%BC%E8%BF%91"><span class="nav-number">2.3.4.</span> <span class="nav-text">地图残差的逼近</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
