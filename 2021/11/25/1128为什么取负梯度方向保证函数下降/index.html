@@ -9,7 +9,7 @@
     
     <title>
         
-            直接法匹配 |
+            为什么负梯度方向使得函数下降 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">直接法匹配</span>
+            <span class="title-hover-animation">为什么负梯度方向使得函数下降</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-07-12 15:59:22
+        <i class="fas fa-edit"></i>&nbsp;2021-11-25 18:38:29
     </span>
     
     
@@ -157,7 +157,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/%E8%A7%86%E8%A7%89SLAM%EF%BC%8C%E5%8C%B9%E9%85%8D/">视觉SLAM，匹配</a>&nbsp;
+                        <a href="/tags/math/">math</a>&nbsp;
                     </li>
                 
             </ul>
@@ -176,61 +176,10 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="单层直接法"><a href="#单层直接法" class="headerlink" title="单层直接法"></a>单层直接法</h2><p>假设有两个帧，运动位置，但是有初始的估计$R,t$</p>
-<p><img src="/home/kong/Pictures/2021-07-12 14-18-07屏幕截图.png" alt=""></p>
-<p>假设左边这是第一帧，有了投影点$p_1$，按照初始的估计，得到第二帧上的投影为$p_2$。</p>
-<p>投影关系为</p>
-<p><img src="/home/kong/Pictures/2021-07-12 14-23-44屏幕截图.png" alt=""></p>
-<p>已知的内容。注意在这里，第一幅图中的点不必是角点，随机的都可以</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DirectPoseEstimationSingleLayer</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> cv::Mat &amp;img1, <span class="comment">// 左边第一帧</span></span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> cv::Mat &amp;img2, <span class="comment">// 右边第二帧</span></span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> VecVector2d &amp;px_ref, <span class="comment">// 第一帧中的点</span></span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> vector&lt;<span class="keyword">double</span>&gt; depth_ref,<span class="comment">//对应于第一幅图的深度图</span></span></span></span><br><span class="line"><span class="function"><span class="params">        Sophus::SE3d &amp;T21 <span class="comment">//第一幅图点的相机坐标系到第二幅图的相机坐标系</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span></span><br></pre></td></tr></table></figure>
-<p>首先求出在第二幅图中，对应于第一幅图的所有点。步骤</p>
-<ul>
-<li><p>把img1的点转换到相机坐标系，我们知道像素坐标和相机坐标的转换公式关系有</p>
+            <script type="math/tex; mode=display">
+f(x+\Delta x)=f(x)+f'(x)\Delta x</script><p>当$\Delta x=-f’(x)$时</p>
 <script type="math/tex; mode=display">
-\begin{pmatrix}
-u\\v\\1 
-\end{pmatrix}
-=\frac{1}{Z}
-\begin{pmatrix}
-f_x & 0 & c_x\\
-0&f_y&c_y\\
-0&0&1
-\end{pmatrix}
-\begin{pmatrix}
-X\\Y\\Z
-\end{pmatrix}
-=\frac{1}{Z}KP</script><p>其中，$P$为点在相机坐标系下的坐标，$u,v$为像素坐标</p>
-</li>
-<li><p>利用变换矩阵进行位姿变换到img2</p>
-</li>
-<li><p>把img2的相机坐标系转到像素坐标</p>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; px_ref.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">    <span class="comment">// 计算作图中的像素对应的相机坐标系</span></span><br><span class="line">    Eigen::Vector3d point_ref = </span><br><span class="line">            depth_ref[i] * Eigen::<span class="built_in">Vector3d</span>((px_ref[i][<span class="number">0</span>] - cx) / fx, (px_ref[i][<span class="number">1</span>] - cy) / fy, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 计算点在第二图中的相机坐标</span></span><br><span class="line">    Eigen::Vector3d cur = T21 * point_ref;</span><br><span class="line">    <span class="comment">// 如果深度小于0，则不需要</span></span><br><span class="line">    <span class="keyword">if</span> (cur[<span class="number">2</span>] &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    <span class="comment">// 计算第二帧所对应的像素坐标系</span></span><br><span class="line">    <span class="keyword">double</span> u = fx * cur[<span class="number">0</span>] / cur[<span class="number">2</span>] + cx, v = fy * cur[<span class="number">1</span>] / cur[<span class="number">2</span>] + cy;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们依然取一个8x8的窗口进行计算</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> x = -half_patch_size; x &lt; half_patch_size; x++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = -half_patch_size; y &lt; half_patch_size; y++) &#123;</span><br><span class="line">		...    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>下面开始计算误差，由于我们依然是基于灰度不变的假设，因此，我们依然可以最小化光度误差</p>
-<script type="math/tex; mode=display">
-e=I_1(p_1)-I_2(p_2)</script><p>那么对于每一个点来说</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> error = <span class="built_in">GetPixelValue</span>(img1, px_ref[i][<span class="number">0</span>] + x, px_ref[i][<span class="number">1</span>] + y) - </span><br><span class="line">    <span class="built_in">GetPixelValue</span>(img2, u + x, v + y);</span><br></pre></td></tr></table></figure>
-<p>这里，$p_1$是在第一帧上的点，$p_2$是第二帧上的点。那么整个相机的位姿估计问题可以写为</p>
-<script type="math/tex; mode=display">
-T^*=\mathop\min_T||e||^2=\mathop\min_T\sum_{i=1}^Ne_i^Te_i</script><p>其中$e<em>i=I_1(p</em>{1,i})-I<em>2(p</em>{2,i})$。</p>
-<p>下面利用高斯牛顿方法求解此最小化问题，类似于光流法匹配一文中的做法，我们需要先求出导函数$J(x)$。我们可以知道$p_2=KP/Z,P=Tp_1$，$P=（X’,Y’,Z’）$为第二帧的相机坐标系的点，$p_1$为第一帧的相机坐标系的点。所以</p>
-<script type="math/tex; mode=display">
-\frac{\partial e}{\partial T}=-\frac{\partial I_2}{\partial p_2}\frac{\partial p_2}{\partial P}\frac{\partial P}{\partial \delta\phi}</script><p>参考SLAM十四讲P220，</p>
-<script type="math/tex; mode=display">
-\frac{\partial p_2}{\partial \delta\phi}=
-\begin{bmatrix}
-\displaystyle\frac{f_x}{Z'} & 0 & \displaystyle\frac{-f_xX'}{(Z')^2}& \displaystyle\frac{-f_xX'Y'}{(Z')^2}& f_x+\displaystyle\frac{f_x(X')^2}{(Z')^2}& \displaystyle\frac{-f_xY'}{Z'}\\
-0& \displaystyle\frac{f_y}{Z'}& \displaystyle\frac{-f_yY'}{(Z')^2}& -f_y-\displaystyle\frac{f_y(Y')^2}{(Z')^2}& \displaystyle\frac{f_xX'Y'}{(Z')^2}& \displaystyle\frac{f_yX'}{Z'}
-\end{bmatrix}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Matrix26d J_pixel_xi;</span><br><span class="line"><span class="keyword">double</span> iz2 = <span class="number">1</span> / Z / Z;</span><br><span class="line">J_pixel_xi &lt;&lt; fx / Z, <span class="number">0</span> , -fx * X * iz2, -fx * X * Y * iz2, fx + fx * X * X * iz2, - fx * Y / Z,</span><br><span class="line">	<span class="number">0</span>, fy / Z, -fy * Y * iz2, -fy - fy * Y * Y * iz2, fy * X * Y * iz2, fy * X / Z;</span><br></pre></td></tr></table></figure>
-<p>所以</p>
-<script type="math/tex; mode=display">
-\frac{\partial e}{\partial T}=-\frac{\partial I_2}{\partial p_2}\frac{\partial p_2}{\partial \delta\phi}</script><p>这里的${\partial I_2}/{\partial p_2}$可以通过导数计算的定义得到</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Eigen::Vector2d J_img_pixel;</span><br><span class="line">J_img_pixel &lt;&lt; <span class="number">0.5</span> * (<span class="built_in">GetPixelValue</span>(img2, u + x + <span class="number">1</span>, v + y) - <span class="built_in">GetPixelValue</span>(img2, u + x - <span class="number">1</span>, v + y)),</span><br><span class="line">	<span class="number">0.5</span> * (<span class="built_in">GetPixelValue</span>(img2, u + x, v + y + <span class="number">1</span>) - <span class="built_in">GetPixelValue</span>(img2, u + x, v + y - <span class="number">1</span>));</span><br></pre></td></tr></table></figure>
-<p>最后计算$J$，累加每一个$H$和$b$。</p>
-<h2 id="多层直接法"><a href="#多层直接法" class="headerlink" title="多层直接法"></a>多层直接法</h2><p><img src="711直接法/2021-07-12 20-19-56屏幕截图.png" alt=""></p>
+f(x+\Delta x)-f(x)=-f'(x)^2<0</script><p>所以$f(x+\Delta x)&lt;f(x)$。</p>
 
         </div>
 
@@ -242,13 +191,13 @@ T^*=\mathop\min_T||e||^2=\mathop\min_T\sum_{i=1}^Ne_i^Te_i</script><p>其中$e<e
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/07/19/0719g2o/"
+                           href="/2021/11/25/1125lifecycle%20intro/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">G20</span>
+                                <span class="post-nav-title-item">node lifecycle intro</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -258,10 +207,10 @@ T^*=\mathop\min_T||e||^2=\mathop\min_T\sum_{i=1}^Ne_i^Te_i</script><p>其中$e<e
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/07/12/713%E5%90%8E%E7%AB%AF%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/"
+                           href="/2021/11/25/1128%E9%AB%98%E6%96%AF%E7%89%9B%E9%A1%BF%E6%B3%95/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">后端优化笔记</span>
+                                <span class="post-nav-title-item">高斯牛顿过程，何时使用</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -431,7 +380,7 @@ T^*=\mathop\min_T||e||^2=\mathop\min_T\sum_{i=1}^Ne_i^Te_i</script><p>其中$e<e
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E5%B1%82%E7%9B%B4%E6%8E%A5%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">单层直接法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%B1%82%E7%9B%B4%E6%8E%A5%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">多层直接法</span></a></li></ol>
+        
     </div>
 </div>
         </aside>
@@ -480,5 +429,20 @@ T^*=\mathop\min_T||e||^2=\mathop\min_T\sum_{i=1}^Ne_i^Te_i</script><p>其中$e<e
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
