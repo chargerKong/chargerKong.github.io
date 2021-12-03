@@ -9,7 +9,7 @@
     
     <title>
         
-            高斯牛顿过程，何时使用 |
+            Groot安装 |
         
         随笔记
     </title>
@@ -130,7 +130,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">高斯牛顿过程，何时使用</span>
+            <span class="title-hover-animation">Groot安装</span>
         </div>
 
         
@@ -148,7 +148,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-25 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2021-12-03 18:38:29
     </span>
     
     
@@ -157,7 +157,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/math/">math</a>&nbsp;
+                        <a href="/tags/gazebo-ros2/">gazebo, ros2</a>&nbsp;
                     </li>
                 
             </ul>
@@ -176,25 +176,19 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="高斯牛顿法应用"><a href="#高斯牛顿法应用" class="headerlink" title="高斯牛顿法应用"></a>高斯牛顿法应用</h1><h2 id="求根"><a href="#求根" class="headerlink" title="求根"></a>求根</h2><p>高斯牛顿法可以用于求函数$f(x)$ 根的一个方法。对于任何一个函数，他都可以写成如下方式</p>
-<script type="math/tex; mode=display">
-F(x)=\min_x ||f(x)||^2</script><p>那么$F(x)$的最小值也就是当$x=x_0$时，$F(x)=0$的情况，$x_0$也就是$f(x)$的根</p>
-<h2 id="拟合"><a href="#拟合" class="headerlink" title="拟合"></a>拟合</h2><p>当有一组观测数据$(x_i,y_i)$，现在把他拟合成</p>
-<script type="math/tex; mode=display">
-y=\exp(ax^2+bx+c)</script><p>我们的目的是使得$(x_i,y_i)$尽可能的都落在函数y上，最完美的情况，每一个点都在线上，完美的拟合。因此我们需要使得每一个$|y-y_i|$最小。可以写成如下形式</p>
-<script type="math/tex; mode=display">
-F(a,b,c)=\min_{a,b,c}||y_i-\exp(ax^2+bx+c)||^2</script><p>即$F(a,b,c)=\min||f(a,b,c)||^2$，其中$f(a,b,c)=y_i-\exp(ax^2+bx+c)$</p>
-<p>这相当于求$f(a,b,c)=0$时，三个未知量的值。即求根</p>
-<h1 id="高斯牛顿过程"><a href="#高斯牛顿过程" class="headerlink" title="高斯牛顿过程"></a>高斯牛顿过程</h1><p>高斯牛顿是一个迭代法，每一次迭代都找到下一个x，使得这个x的走向让整个F(x)的走向为减小的方向（最小也就是0）。</p>
-<p><strong>最后目标是找到一个$x_0$，使得$f(x_0)=0$，那么最后一步的前一步则为有一个$x_1$, 使得$f(x_1+\Delta x)=f(x_0)=0$。因此这个问题也就可以转换为</strong></p>
-<script type="math/tex; mode=display">
-F(x)=\min_{\Delta x} ||f(x+\Delta x)||^2</script><p>高斯牛顿法的中心思想是把中间的$f(x+\Delta x)$进行一阶泰勒展开。</p>
-<p>接下来的过程可以参考网上大伙儿推导过程了。譬如<a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/42383070" >https://zhuanlan.zhihu.com/p/42383070<i class="fas fa-external-link-alt"></i></a></p>
-<p>推导的过程几个需要注意的地方，当J 和 x 都是矢量的时候</p>
-<ul>
-<li>$\partial (Jx)/\partial x=J^T$</li>
-<li>$J^Tx$是一个标量，$(J^Tx)^T=J^Tx$</li>
-</ul>
+            <h1 id="安装Groot"><a href="#安装Groot" class="headerlink" title="安装Groot"></a>安装Groot</h1><p><img src="2021-12-03 18-35-42屏幕截图.png" alt=""></p>
+<p><img src="1203 安装Groot/2021-12-03 18-35-42屏幕截图.png" alt=""></p>
+<h1 id="安装BehaviorTree-CPP"><a href="#安装BehaviorTree-CPP" class="headerlink" title="安装BehaviorTree.CPP"></a>安装BehaviorTree.CPP</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libzmq3-dev libboost-dev</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;BehaviorTree&#x2F;BehaviorTree.CPP</span><br><span class="line">cd BehaviorTree.CPP;mkdir build;cd build;</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<h1 id="安装Groot-1"><a href="#安装Groot-1" class="headerlink" title="安装Groot"></a>安装Groot</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install qtbase5-dev libqt5svg5-dev</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;BehaviorTree&#x2F;Groot</span><br><span class="line">cd Groot;mkdir build;cd build;</span><br><span class="line">cmake ..</span><br><span class="line">make </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<h1 id="运行Groot"><a href="#运行Groot" class="headerlink" title="运行Groot"></a>运行Groot</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Groot</span><br></pre></td></tr></table></figure>
+<p>如果报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">so: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>添加so的链接路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;ld.so.conf</span><br></pre></td></tr></table></figure>
+<p>添加一行如下，如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 include &#x2F;etc&#x2F;ld.so.conf.d&#x2F;*.conf</span><br><span class="line">2 &#x2F;usr&#x2F;local&#x2F;lib</span><br></pre></td></tr></table></figure>
+<p>保存退出之后，运行ldconfig，再一次运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Groot</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -203,29 +197,14 @@ F(x)=\min_{\Delta x} ||f(x+\Delta x)||^2</script><p>高斯牛顿法的中心思�
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/11/25/1128%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%96%E8%B4%9F%E6%A2%AF%E5%BA%A6%E6%96%B9%E5%90%91%E4%BF%9D%E8%AF%81%E5%87%BD%E6%95%B0%E4%B8%8B%E9%99%8D/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">为什么负梯度方向使得函数下降</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/"
+                           href="/2021/12/03/1203%20%E8%A1%8C%E4%B8%BA%E6%A0%91%E4%BA%A4%E4%BA%92-navigation/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">扫描匹配-cartographer</span>
+                                <span class="post-nav-title-item">Groot-与行为树交互</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -395,7 +374,7 @@ F(x)=\min_{\Delta x} ||f(x+\Delta x)||^2</script><p>高斯牛顿法的中心思�
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E7%89%9B%E9%A1%BF%E6%B3%95%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">高斯牛顿法应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E6%A0%B9"><span class="nav-number">1.1.</span> <span class="nav-text">求根</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%9F%E5%90%88"><span class="nav-number">1.2.</span> <span class="nav-text">拟合</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E7%89%9B%E9%A1%BF%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">高斯牛顿过程</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Groot"><span class="nav-number">1.</span> <span class="nav-text">安装Groot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85BehaviorTree-CPP"><span class="nav-number">2.</span> <span class="nav-text">安装BehaviorTree.CPP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Groot-1"><span class="nav-number">3.</span> <span class="nav-text">安装Groot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8CGroot"><span class="nav-number">4.</span> <span class="nav-text">运行Groot</span></a></li></ol>
     </div>
 </div>
         </aside>

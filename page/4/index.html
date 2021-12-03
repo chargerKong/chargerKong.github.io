@@ -132,6 +132,246 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/08/1112git%E6%94%B9%E5%8F%98%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF/">
+                        改变历史commit注释-git
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        现在对历史提交信息需要修改
+1git log
+目前的记录为
+1234567891011commit bee8dd7a91683577a290ccdbc1da4142153b0713 (HEAD -&gt; ros2)Author: chargerKo...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 08 2021 18:38:29 GMT+0800">2021-11-08</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/08/1112git%E6%94%B9%E5%8F%98%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/08/1108%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E5%92%8C%E7%82%B9%E4%BA%91%E6%BB%A4%E6%B3%A2/">
+                        坐标变换和点云滤波-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        之前说到雷达会经过时间同步，和畸变校准，并且最后来到了匹配
+123456789101112   // 获取机器人当前姿态   const transform::Rigid3d gravity_alignment = transform::Rigid3...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 08 2021 18:38:29 GMT+0800">2021-11-08</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/08/1108%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E5%92%8C%E7%82%B9%E4%BA%91%E6%BB%A4%E6%B3%A2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/06/1106%E7%82%B9%E4%BA%91%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">
+                        点云时间同步-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        对雷达的同步的函数文件位于cartographer/mapping/internal/range_data_collator.cc文件中 
+同步雷达时间的类为RangeDataCollator
+首先查看一下头文件，
+构造函数对expectedsens...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 06 2021 18:38:29 GMT+0800">2021-11-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/06/1106%E7%82%B9%E4%BA%91%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">
+                        点云匹配预备-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        上节说到，在global_traject_builder 中会进行AddSensorData 加入转化为点云的雷达扫描数据
+第一步即，扫描匹配，in GlobalTrajectoryBuilder类的AddSensorData中
+1234// 进行扫...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 06 2021 18:38:29 GMT+0800">2021-11-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">
+                        cartographer-数据分发小结
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在处理数据之前，cartographer需要进行数据分发器的创建，然后数据的处理
+数据分发器的创建整一个数据分发器的建立就是AddTrajectory的过程，最后需要达到如下效果
+针对每一个轨迹下的每一个topic, 即QueueKey, 绑定一个回...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">
+                        std::tie 如何返回多个值
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        假设有两个变量，需要赋值
+12NodeOptions node_options;TrajectoryOptions trajectory_options;
+我们可以一次性通过std::tie 进行赋值
+12std::tie(node_options,...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/05/1105%20global_trajectory_builder/">
+                        global_trajectory_builder-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        处理排好序的数据，为什么是排好序？在数据分发dispatch的时候，通过寻找it-&gt;second.queue.Peek();来找到时间最老的一个数据，因此是排好序的。
+global_trajectory_builder.h文件在global_t...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/05/1105%20global_trajectory_builder/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/03/1103%20c++%20explicit/">
+                        explicit 使用
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在构造函数前面加上explicit，可以防止隐式调用带来的非预期的类型转换下面的例子介绍了什么是隐式调用
+12345678910111213141516171819202122232425262728#include &lt;iostream&gt;...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Nov 03 2021 18:38:29 GMT+0800">2021-11-03</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/03/1103%20c++%20explicit/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/11/01/1101c++%20%E6%97%B6%E9%97%B4/">
                         C++11 std::chrono库详解
                     </a>
@@ -182,241 +422,6 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
     </div>
 
     <a href="/2021/10/29/1029OrderMutiQueue2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/29/1030blocking_queue/">
-                        Blocking-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        一个阻塞队列，可以看成是一个缓冲区。
-生产者把数据放入队列，消费者把数据从队列里取出来进行消费
-为什么要用生产，消费模式
-解耦：生产者和消费者之间不能直接依赖，从队列里取，
-并发：  生产者直接调用消费者, 两者是同步（阻塞）的, 如果消费者吞吐数据...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:23 GMT+0800">2021-10-29</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/29/1030blocking_queue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/29/1029OrderedMultiQueue/">
-                        OrderedMultiQueue(一)-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        类Collator是对传感器数据的处理
-他的全部操作相当于是对如下数据结构的数据进行封装
-12// Queue keys are a pair of trajectory ID and sensor identifier.OrderedMultiQu...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:22 GMT+0800">2021-10-29</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/29/1029OrderedMultiQueue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">
-                        使用colcon_cd
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1echo &quot;source &#x2F;usr&#x2F;share&#x2F;colcon_cd&#x2F;function&#x2F;colcon_cd.sh&quot; &gt;&gt; ~&#x2F;.bashrc
-1echo &q...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 28 2021 09:59:22 GMT+0800">2021-10-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/27/1027sensor_collate/">
-                        sensor_collate-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        sensor_collator的创建map_builder.cc文件：MapBuilder的构造函数
-1234567891011121314MapBuilder::MapBuilder(const proto::MapBuilderOptions&a...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 27 2021 09:59:22 GMT+0800">2021-10-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/27/1027sensor_collate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">
-                        ros2 launch 使用记录说明
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        IncludeLaunchDescriptioncondition、launch_arguments12345678910111213141516171819202122232425262728from launch import LaunchDes...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">
-                        多个tf树无法连接
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        问题报错1Could not find a connection between &#39;base_link&#39; and &#39;base_footprint&#39; because they are not part of the sa...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">
-                        AddSensorData与RateTimer-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        本节介绍的函数位于cartographer/mapping/internal/collated_trajectory_builder.cc文件中
-AddSensorDataAddSensorData 函数为CollatedTrajectoryBuil...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Oct 25 2021 09:59:22 GMT+0800">2021-10-25</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/22/1022%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0%E5%9B%9E%E8%B0%83/">
-                        参数回调 OnSetParametersCallbackHandle
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        OnSetParametersCallbackHandle 在于foxy版本添加，dashing中还尚未支持。
-在foxy版本中，也添加了返回此类型的回调函数，
-12345678910111213141516171819202122232425262...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 22 2021 10:59:22 GMT+0800">2021-10-22</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/22/1022%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0%E5%9B%9E%E8%B0%83/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
