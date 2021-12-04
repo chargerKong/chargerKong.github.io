@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            WorkItem与 线程池-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">WorkItem与 线程池-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-04 17:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="WorkItem"><a href="#WorkItem" class="headerlink" title="WorkItem"></a>WorkItem</h1><p>定义了一个task，他的返回类型是一个Result, 而Result只有两个变量，即，是否优化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">WorkItem</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">Result</span> &#123;</span></span><br><span class="line">    kDoNotRunOptimization, <span class="comment">// 执行任务结束后不需要执行优化</span></span><br><span class="line">    kRunOptimization,      <span class="comment">// 执行任务结束后需要执行优化</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  std::chrono::steady_clock::time_point time;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// task为 一个函数的名字, 这个函数返回值类型为Result, 参数列表为(), 为空</span></span><br><span class="line">  std::function&lt;<span class="built_in">Result</span>()&gt; task;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">using</span> WorkQueue = std::deque&lt;WorkItem&gt;;</span><br></pre></td></tr></table></figure>
+<h1 id="WorkItem使用位置"><a href="#WorkItem使用位置" class="headerlink" title="WorkItem使用位置"></a>WorkItem使用位置</h1><p>在后端最主要的类中 PoseGraph2D 中，定义了一个指向WorkQueue 的一个指针。</p>
+<p>任何需要被执行的任务都需要添加到这个队列当中，不会直接执行，会被调度执行</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If it exists, further work items must be added to this queue, and will be</span></span><br><span class="line"><span class="comment">// considered later.</span></span><br><span class="line"><span class="comment">// 指向 双端队列 的指针</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;WorkQueue&gt; work_queue_ <span class="title">GUARDED_BY</span><span class="params">(work_queue_mutex_)</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="AddWorkItem"><a href="#AddWorkItem" class="headerlink" title="AddWorkItem"></a>AddWorkItem</h2><p>添加任务，等待被执行，如果队列还没有初始化，则初始化。然后把任务添加到work<em>queue</em> 队列中</p>
+<p>这里work<em>queue</em>和线程池是没有关系的，通过DrainWorkQueue 把他们和线程池进行相连</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将任务放入到任务队列中等待被执行</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseGraph2D::AddWorkItem</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::function&lt;WorkItem::Result()&gt;&amp; work_item)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">locker</span><span class="params">(&amp;work_queue_mutex_)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (work_queue_ == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    <span class="comment">// work_queue_的初始化</span></span><br><span class="line">    work_queue_ = absl::make_unique&lt;WorkQueue&gt;();</span><br><span class="line">    <span class="comment">// 将 执行一次DrainWorkQueue()的任务 放入线程池中等待计算</span></span><br><span class="line">    <span class="keyword">auto</span> task = absl::make_unique&lt;common::Task&gt;();</span><br><span class="line">    task-&gt;<span class="built_in">SetWorkItem</span>([<span class="keyword">this</span>]() &#123; <span class="built_in">DrainWorkQueue</span>(); &#125;);</span><br><span class="line">    <span class="comment">// 放到线程池里等待调度</span></span><br><span class="line">    thread_pool_-&gt;<span class="built_in">Schedule</span>(std::<span class="built_in">move</span>(task));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> now = std::chrono::steady_clock::<span class="built_in">now</span>();</span><br><span class="line">  <span class="comment">// 将传入的任务放入 work_queue_ 队列中</span></span><br><span class="line">  work_queue_-&gt;<span class="built_in">push_back</span>(&#123;now, work_item&#125;);</span><br><span class="line"></span><br><span class="line">  kWorkQueueSizeMetric-&gt;<span class="built_in">Set</span>(work_queue_-&gt;<span class="built_in">size</span>());</span><br><span class="line">  kWorkQueueDelayMetric-&gt;<span class="built_in">Set</span>(</span><br><span class="line">      std::chrono::duration_cast&lt;std::chrono::duration&lt;<span class="keyword">double</span>&gt;&gt;(</span><br><span class="line">          now - work_queue_-&gt;<span class="built_in">front</span>().time)</span><br><span class="line">          .<span class="built_in">count</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="DrainWorkQueue"><a href="#DrainWorkQueue" class="headerlink" title="DrainWorkQueue"></a>DrainWorkQueue</h1><p>他是在线程池里进行执行的</p>
+<p>函数会一直取双端队列work<em>queue</em> 的第一个函数，然后执行，一直执行到函数返回内容是kRunOptimization为止</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在调用线程上执行工作队列中的待处理任务, 直到队列为空或需要优化时退出循环</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseGraph2D::DrainWorkQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">bool</span> process_work_queue = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">size_t</span> work_queue_size;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 循环一直执行, 直到队列为空或需要优化时退出循环</span></span><br><span class="line">  <span class="keyword">while</span> (process_work_queue) &#123;</span><br><span class="line">    std::function&lt;WorkItem::<span class="built_in">Result</span>()&gt; work_item;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="function">absl::MutexLock <span class="title">locker</span><span class="params">(&amp;work_queue_mutex_)</span></span>;</span><br><span class="line">      <span class="comment">// 退出条件1 如果任务队列空了, 就将work_queue_的指针删除</span></span><br><span class="line">      <span class="keyword">if</span> (work_queue_-&gt;<span class="built_in">empty</span>()) &#123;</span><br><span class="line">        work_queue_.<span class="built_in">reset</span>();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 取出第一个任务</span></span><br><span class="line">      work_item = work_queue_-&gt;<span class="built_in">front</span>().task;</span><br><span class="line">      <span class="comment">// 将取出的任务从任务队列中删掉</span></span><br><span class="line">      work_queue_-&gt;<span class="built_in">pop_front</span>();</span><br><span class="line">      work_queue_size = work_queue_-&gt;<span class="built_in">size</span>();</span><br><span class="line">      kWorkQueueSizeMetric-&gt;<span class="built_in">Set</span>(work_queue_size);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 执行任务</span></span><br><span class="line">    <span class="comment">// 退出条件2 执行任务后的结果是需要优化, process_work_queue为false退出循环</span></span><br><span class="line">    process_work_queue = <span class="built_in">work_item</span>() == WorkItem::Result::kDoNotRunOptimization;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Remaining work items in queue: &quot;</span> &lt;&lt; work_queue_size;</span><br><span class="line">  <span class="comment">// We have to optimize again.</span></span><br><span class="line">  <span class="comment">// 退出循环后, 首先等待计算约束中的任务执行完, 再执行HandleWorkQueue,进行优化</span></span><br><span class="line">  constraint_builder_.<span class="built_in">WhenDone</span>(</span><br><span class="line">      [<span class="keyword">this</span>](<span class="keyword">const</span> constraints::ConstraintBuilder2D::Result&amp; result) &#123;</span><br><span class="line">        <span class="built_in">HandleWorkQueue</span>(result);</span><br><span class="line">      &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，到底有什么函数是要在这里执行的呢，即保存在work<em>queue</em>中的 </p>
+<p><img src="2021-12-01 10-33-04屏幕截图.png" alt=""></p>
+<p><img src="1204workItem-cartographer/2021-12-01 10-33-04屏幕截图.png" alt=""></p>
+<p>循环执行的分支的六个函数都是需要在这里被执行的</p>
+<h2 id="哪里添加workqueue数据"><a href="#哪里添加workqueue数据" class="headerlink" title="哪里添加workqueue数据"></a>哪里添加workqueue数据</h2><p>还有在AddWorkItem里面才有</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将传入的任务放入work_queue_队列中</span></span><br><span class="line">  work_queue_-&gt;<span class="built_in">push_back</span>(&#123;now, work_item&#125;);</span><br></pre></td></tr></table></figure>
+<p>那么哪里调用了AddworkItem</p>
+<h3 id="AddImuData"><a href="#AddImuData" class="headerlink" title="AddImuData"></a>AddImuData</h3><p>注意此函数里添加到WorkItem的返回值是 WorkItem::Result::kDoNotRunOptimization;</p>
+<h4 id="被调用处"><a href="#被调用处" class="headerlink" title="被调用处"></a>被调用处</h4><p>于global_trajectory_data的AddImuData中，一份是给了前端一份是给了后端</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 把imu数据加入到优化问题中 这个任务放入到任务队列中</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseGraph2D::AddImuData</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                             <span class="keyword">const</span> sensor::ImuData&amp; imu_data)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">AddWorkItem</span>([=]() <span class="built_in">LOCKS_EXCLUDED</span>(mutex_) &#123;</span><br><span class="line">    absl::MutexLock <span class="built_in">locker</span>(&amp;mutex_);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">CanAddWorkItemModifying</span>(trajectory_id)) &#123;</span><br><span class="line">      optimization_problem_-&gt;<span class="built_in">AddImuData</span>(trajectory_id, imu_data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 添加数据后不用立刻执行全局优化</span></span><br><span class="line">    <span class="keyword">return</span> WorkItem::Result::kDoNotRunOptimization;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="AddOdometryData"><a href="#AddOdometryData" class="headerlink" title="AddOdometryData"></a>AddOdometryData</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 把里程计数据加入到优化问题中 这个任务放入到任务队列中</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseGraph2D::AddOdometryData</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  <span class="keyword">const</span> sensor::OdometryData&amp; odometry_data)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">AddWorkItem</span>([=]() <span class="built_in">LOCKS_EXCLUDED</span>(mutex_) &#123;</span><br><span class="line">    absl::MutexLock <span class="built_in">locker</span>(&amp;mutex_);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">CanAddWorkItemModifying</span>(trajectory_id)) &#123;</span><br><span class="line">      optimization_problem_-&gt;<span class="built_in">AddOdometryData</span>(trajectory_id, odometry_data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> WorkItem::Result::kDoNotRunOptimization;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AddFixedFramePoseData"><a href="#AddFixedFramePoseData" class="headerlink" title="AddFixedFramePoseData"></a>AddFixedFramePoseData</h3><p>注意，在global_trajectory_builder中，GPS是只传入到后端了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 把gps数据加入到优化问题中 这个任务放入到任务队列中</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseGraph2D::AddFixedFramePoseData</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor::FixedFramePoseData&amp; fixed_frame_pose_data)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">AddWorkItem</span>([=]() <span class="built_in">LOCKS_EXCLUDED</span>(mutex_) &#123;</span><br><span class="line">    absl::MutexLock <span class="built_in">locker</span>(&amp;mutex_);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">CanAddWorkItemModifying</span>(trajectory_id)) &#123;</span><br><span class="line">      optimization_problem_-&gt;<span class="built_in">AddFixedFramePoseData</span>(trajectory_id,</span><br><span class="line">                                                   fixed_frame_pose_data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> WorkItem::Result::kDoNotRunOptimization;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等等，形式都一样</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/04/1204%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%8E%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6-cartographer/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">线程池与任务调度-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/03/1203%20%E5%AE%89%E8%A3%85Groot/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Groot安装</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WorkItem"><span class="nav-number">1.</span> <span class="nav-text">WorkItem</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WorkItem%E4%BD%BF%E7%94%A8%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">WorkItem使用位置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AddWorkItem"><span class="nav-number">2.1.</span> <span class="nav-text">AddWorkItem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DrainWorkQueue"><span class="nav-number">3.</span> <span class="nav-text">DrainWorkQueue</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%AA%E9%87%8C%E6%B7%BB%E5%8A%A0workqueue%E6%95%B0%E6%8D%AE"><span class="nav-number">3.1.</span> <span class="nav-text">哪里添加workqueue数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AddImuData"><span class="nav-number">3.1.1.</span> <span class="nav-text">AddImuData</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A2%AB%E8%B0%83%E7%94%A8%E5%A4%84"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">被调用处</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AddOdometryData"><span class="nav-number">3.1.2.</span> <span class="nav-text">AddOdometryData</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AddFixedFramePoseData"><span class="nav-number">3.1.3.</span> <span class="nav-text">AddFixedFramePoseData</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

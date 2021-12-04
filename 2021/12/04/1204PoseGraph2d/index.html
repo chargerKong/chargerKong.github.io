@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            PoseGraph2D-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">PoseGraph2D-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-04 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>PoseGraph2D文件位于<code>mapping/internel/2d</code></p>
+<p>继承于<code>PoseGraphInterface</code></p>
+<h1 id="PoseGraphInterface"><a href="#PoseGraphInterface" class="headerlink" title="PoseGraphInterface"></a>PoseGraphInterface</h1><p>节点: tracking_frame的位姿, 子图原点的位姿</p>
+<p>约束: tracking_frame与子图原点间的坐标变换</p>
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 包含了子图的id, 节点的id, 节点j相对于子图i的坐标变换, 以及节点是在子图内还是子图外的标志</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Constraint</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Pose</span> &#123;</span></span><br><span class="line">    transform::Rigid3d zbar_ij;</span><br><span class="line">    <span class="keyword">double</span> translation_weight;</span><br><span class="line">    <span class="keyword">double</span> rotation_weight;</span><br><span class="line">  &#125;;</span><br><span class="line">  SubmapId submap_id;  <span class="comment">// &#x27;i&#x27; in the paper.</span></span><br><span class="line">  NodeId node_id;      <span class="comment">// &#x27;j&#x27; in the paper.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// Pose of the node &#x27;j&#x27; relative to submap &#x27;i&#x27;.</span></span><br><span class="line">  Pose pose;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Differentiates between intra-submap (where node &#x27;j&#x27; was inserted into</span></span><br><span class="line">  <span class="comment">// submap &#x27;i&#x27;) and inter-submap constraints (where node &#x27;j&#x27; was not inserted</span></span><br><span class="line">  <span class="comment">// into submap &#x27;i&#x27;).</span></span><br><span class="line">  <span class="class"><span class="keyword">enum</span> <span class="title">Tag</span> &#123;</span> INTRA_SUBMAP, INTER_SUBMAP &#125; tag;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="LandmarkNode"><a href="#LandmarkNode" class="headerlink" title="LandmarkNode"></a>LandmarkNode</h1><p>这里包含一个landmark数据是相对于tracking_frame的相对坐标变换</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LandmarkNode</span> &#123;</span></span><br><span class="line">  <span class="comment">// landmark数据是相对于tracking_frame的相对坐标变换</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">LandmarkObservation</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> trajectory_id;</span><br><span class="line">    common::Time time;</span><br><span class="line">    transform::Rigid3d landmark_to_tracking_transform;</span><br><span class="line">    <span class="keyword">double</span> translation_weight;</span><br><span class="line">    <span class="keyword">double</span> rotation_weight;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 同一时刻可能会观测到多个landmark数据</span></span><br><span class="line">  std::vector&lt;LandmarkObservation&gt; landmark_observations;</span><br><span class="line">  <span class="comment">// 这帧数据对应的tracking_frame在global坐标系下的位姿</span></span><br><span class="line">  absl::optional&lt;transform::Rigid3d&gt; global_landmark_pose;</span><br><span class="line">  <span class="keyword">bool</span> frozen = <span class="literal">false</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其他</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SubmapPose</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> version;</span><br><span class="line">  transform::Rigid3d pose; <span class="comment">//子图原点的一个坐标</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SubmapData</span> &#123;</span><span class="comment">//指向了具体栅格指针</span></span><br><span class="line">  std::shared_ptr&lt;<span class="keyword">const</span> Submap&gt; submap;</span><br><span class="line">  transform::Rigid3d pose;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// tag: TrajectoryData</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TrajectoryData</span> &#123;</span></span><br><span class="line">  <span class="keyword">double</span> gravity_constant = <span class="number">9.8</span>;</span><br><span class="line">  std::array&lt;<span class="keyword">double</span>, 4&gt; imu_calibration&#123;&#123;<span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>&#125;&#125;;</span><br><span class="line">  absl::optional&lt;transform::Rigid3d&gt; fixed_frame_origin_in_map;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">TrajectoryState</span> &#123;</span> ACTIVE, FINISHED, FROZEN, DELETED &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> GlobalSlamOptimizationCallback =</span><br><span class="line">    std::function&lt;<span class="built_in"><span class="keyword">void</span></span>(<span class="keyword">const</span> std::map&lt;<span class="keyword">int</span> <span class="comment">/* trajectory_id */</span>, SubmapId&gt;&amp;,</span><br><span class="line">                       <span class="keyword">const</span> std::map&lt;<span class="keyword">int</span> <span class="comment">/* trajectory_id */</span>, NodeId&gt;&amp;)&gt;;</span><br></pre></td></tr></table></figure>
+<h1 id="PoseGraph2D"><a href="#PoseGraph2D" class="headerlink" title="PoseGraph2D"></a>PoseGraph2D</h1><p>PoseGraphData数据结构下包含了后端优化需要的所有数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PoseGraphData</span> &#123;</span></span><br><span class="line">  <span class="comment">// Submaps get assigned an ID and state as soon as they are seen, even</span></span><br><span class="line">  <span class="comment">// before they take part in the background computations.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// submap_data_ 里面,包含了所有的submap,以及以及完成插入的节点的ID</span></span><br><span class="line">  MapById&lt;SubmapId, InternalSubmapData&gt; submap_data;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Global submap poses currently used for displaying data.</span></span><br><span class="line">  <span class="comment">// submap 在 global 坐标系下的坐标</span></span><br><span class="line">  MapById&lt;SubmapId, optimization::SubmapSpec2D&gt; global_submap_poses_2d;</span><br><span class="line">  MapById&lt;SubmapId, optimization::SubmapSpec3D&gt; global_submap_poses_3d;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Data that are currently being shown.</span></span><br><span class="line">  <span class="comment">// 所有的轨迹节点的id与 节点的在global坐标系下的坐标, 在local map 下的坐标与时间</span></span><br><span class="line">  MapById&lt;NodeId, TrajectoryNode&gt; trajectory_nodes;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Global landmark poses with all observations.</span></span><br><span class="line">  std::map&lt;std::string /* landmark ID */, PoseGraphInterface::LandmarkNode&gt;</span><br><span class="line">      landmark_nodes;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// How our various trajectories are related.</span></span><br><span class="line">  TrajectoryConnectivityState trajectory_connectivity_state;</span><br><span class="line">  <span class="comment">// 节点的个数</span></span><br><span class="line">  <span class="keyword">int</span> num_trajectory_nodes = <span class="number">0</span>;</span><br><span class="line">  <span class="comment">// 轨迹与轨迹的状态</span></span><br><span class="line">  std::map&lt;<span class="keyword">int</span>, InternalTrajectoryState&gt; trajectories_state;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Set of all initial trajectory poses.</span></span><br><span class="line">  std::map&lt;<span class="keyword">int</span>, PoseGraph::InitialTrajectoryPose&gt; initial_trajectory_poses;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 所有的约束数据</span></span><br><span class="line">  std::vector&lt;PoseGraphInterface::Constraint&gt; constraints;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>被调用处</p>
+<p><code>mapping/map_builder.cc</code>中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2d位姿图(后端)的初始化</span></span><br><span class="line"><span class="keyword">if</span> (options.<span class="built_in">use_trajectory_builder_2d</span>()) &#123;</span><br><span class="line">  pose_graph_ = absl::make_unique&lt;PoseGraph2D&gt;(</span><br><span class="line">      options_.<span class="built_in">pose_graph_options</span>(),</span><br><span class="line">      absl::make_unique&lt;optimization::OptimizationProblem2D&gt;(</span><br><span class="line">          options_.<span class="built_in">pose_graph_options</span>().<span class="built_in">optimization_problem_options</span>()),</span><br><span class="line">      &amp;thread_pool_);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数据传入"><a href="#数据传入" class="headerlink" title="数据传入"></a>数据传入</h3><p>各个数据都是从global_trajetory中获得</p>
+<h1 id="AddNode"><a href="#AddNode" class="headerlink" title="AddNode"></a>AddNode</h1><h2 id="调用之处："><a href="#调用之处：" class="headerlink" title="调用之处："></a>调用之处：</h2><p><code>mapping/internal/global_trajectory_builder.cc</code>的AddSensorData函数中，AddSensorData是先进行扫描匹配，然后再将扫描匹配的结果当做节点插入到后端的位姿图中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// matching_result-&gt;insertion_result 的类型是 LocalTrajectoryBuilder2D::InsertionResult</span></span><br><span class="line"><span class="comment">// 如果雷达成功插入到地图中</span></span><br><span class="line"><span class="keyword">if</span> (matching_result-&gt;insertion_result != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">  kLocalSlamInsertionResults-&gt;<span class="built_in">Increment</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将匹配后的结果 当做节点 加入到位姿图中</span></span><br><span class="line">  <span class="keyword">auto</span> node_id = pose_graph_-&gt;<span class="built_in">AddNode</span>(</span><br><span class="line">      matching_result-&gt;insertion_result-&gt;constant_data, trajectory_id_,</span><br><span class="line">      matching_result-&gt;insertion_result-&gt;insertion_submaps);</span><br></pre></td></tr></table></figure>
+<p>下面是前端匹配的结果的数据结构，很明显，返回的数据是一个点云数据，包含 sensor::RangeData ,这里有点云的原点在local坐标系下的坐标，以及点云的数据在PointCloud类里面，还有global的坐标系下的pose，会随着优化而改变</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将点云插入到地图后的result</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">InsertionResult</span> &#123;</span></span><br><span class="line">  std::shared_ptr&lt;<span class="keyword">const</span> TrajectoryNode::Data&gt; constant_data;</span><br><span class="line">  std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; insertion_submaps; <span class="comment">// 最多只有2个子图的指针</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 扫描匹配的result</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MatchingResult</span> &#123;</span></span><br><span class="line">  common::Time time;</span><br><span class="line">  transform::Rigid3d local_pose;</span><br><span class="line">  sensor::RangeData range_data_in_local; <span class="comment">// 经过扫描匹配之后位姿校准之后的雷达数据</span></span><br><span class="line">  <span class="comment">// &#x27;nullptr&#x27; if dropped by the motion filter.</span></span><br><span class="line">  std::unique_ptr&lt;<span class="keyword">const</span> InsertionResult&gt; insertion_result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TrajectoryNode</span> &#123;</span></span><br><span class="line">  <span class="comment">// 前端匹配所用的数据与计算出的local坐标系下的位姿</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Data</span> &#123;</span></span><br><span class="line">    common::Time time;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Transform to approximately gravity align the tracking frame as</span></span><br><span class="line">    <span class="comment">// determined by local SLAM.</span></span><br><span class="line">    Eigen::Quaterniond gravity_alignment;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Used for loop closure in 2D: voxel filtered returns in the</span></span><br><span class="line">    <span class="comment">// &#x27;gravity_alignment&#x27; frame.</span></span><br><span class="line">    sensor::PointCloud filtered_gravity_aligned_point_cloud;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Used for loop closure in 3D.</span></span><br><span class="line">    sensor::PointCloud high_resolution_point_cloud;</span><br><span class="line">    sensor::PointCloud low_resolution_point_cloud;</span><br><span class="line">    Eigen::VectorXf rotational_scan_matcher_histogram;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The node pose in the local SLAM frame.</span></span><br><span class="line">    transform::Rigid3d local_pose;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="function">common::Time <span class="title">time</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> constant_data-&gt;time; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// This must be a shared_ptr. If the data is used for visualization while the</span></span><br><span class="line">  <span class="comment">// node is being trimmed, it must survive until all use finishes.</span></span><br><span class="line">  std::shared_ptr&lt;<span class="keyword">const</span> Data&gt; constant_data; <span class="comment">// 不会被后端优化修改的数据, 所以是constant</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// The node pose in the global SLAM frame.</span></span><br><span class="line">  transform::Rigid3d global_pose; <span class="comment">// 后端优化后, global_pose会发生改变</span></span><br></pre></td></tr></table></figure>
+<p>所以这里的调用，传入的内容是</p>
+<ul>
+<li>指向TrajectoryNode::Data的 前端匹配使用的数据，他不会被后端优化所修改</li>
+<li>轨迹ID</li>
+<li>活跃的子图</li>
+</ul>
+<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><p>把节点在local坐标系上的Pose，转为global坐标系下的，注意，变换是一个</p>
+<script type="math/tex; mode=display">
+T_{local->global}*Pose_{local}=Pose_{global}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将节点在local坐标系下的坐标转成global坐标系下的坐标</span></span><br><span class="line"><span class="function"><span class="keyword">const</span> transform::Rigid3d <span class="title">optimized_pose</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    GetLocalToGlobalTransform(trajectory_id) * constant_data-&gt;local_pose)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>向节点列表中添加一个新的节点, 并保存新生成的submap</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向节点列表加入节点,并得到节点的id</span></span><br><span class="line"><span class="keyword">const</span> NodeId node_id = <span class="built_in">AppendNode</span>(constant_data, trajectory_id,</span><br><span class="line">                                  insertion_submaps, optimized_pose);</span><br></pre></td></tr></table></figure>
+<p>把状态已经完成的节点放入WorkItem，并计算节点的约束</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取第一个submap是否是完成状态</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">bool</span> newly_finished_submap =</span><br><span class="line">    insertion_submaps.<span class="built_in">front</span>()-&gt;<span class="built_in">insertion_finished</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把计算约束的工作放入workitem中等待执行</span></span><br><span class="line"><span class="built_in">AddWorkItem</span>([=]() <span class="built_in">LOCKS_EXCLUDED</span>(mutex_) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">ComputeConstraintsForNode</span>(node_id, insertion_submaps,</span><br><span class="line">                                   newly_finished_submap);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>返回已经加入后的节点ID</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> node_id;</span><br></pre></td></tr></table></figure>
+<h2 id="AppendNode"><a href="#AppendNode" class="headerlink" title="AppendNode"></a>AppendNode</h2><p>首先是检查记录该轨迹的状态的键值对是否建立，没有的话就建立一个, 并为轨迹添加采样器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddTrajectoryIfNeeded(trajectory_id);</span><br></pre></td></tr></table></figure>
+<p>检查是否可以添加任务，<strong>然后添加节点</strong>，只有这一个地方可以添加节点，添加的内容为、</p>
+<ul>
+<li>constant_data，前端匹配所用的数据与计算出的local坐标系下的位姿</li>
+<li>optimized_pose，global坐标系下的位姿</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向节点列表中添加一个新的节点</span></span><br><span class="line"><span class="keyword">const</span> NodeId node_id = data_.trajectory_nodes.<span class="built_in">Append</span>(</span><br><span class="line">    trajectory_id, TrajectoryNode&#123;constant_data, optimized_pose&#125;);</span><br><span class="line"><span class="comment">// 节点总个数加1</span></span><br><span class="line">++data_.num_trajectory_nodes;</span><br></pre></td></tr></table></figure>
+<p><strong>子图的生成和保存</strong></p>
+<p>后端是不会改变子图的内容的，只有前端会改变，一旦子图变成finish状态了，就都不会改变了。</p>
+<p>所有代码如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 向节点列表中添加一个新的节点, 并保存新生成的submap</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] constant_data 节点数据的指针</span></span><br><span class="line"><span class="comment"> * @param[in] trajectory_id 轨迹id</span></span><br><span class="line"><span class="comment"> * @param[in] insertion_submaps 子地图指针的vector</span></span><br><span class="line"><span class="comment"> * @param[in] optimized_pose 当前节点在global坐标系下的坐标</span></span><br><span class="line"><span class="comment"> * @return NodeId 返回新生成的节点id</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">NodeId <span class="title">PoseGraph2D::AppendNode</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    std::shared_ptr&lt;<span class="keyword">const</span> TrajectoryNode::Data&gt; constant_data,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt;&amp; insertion_submaps,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> transform::Rigid3d&amp; optimized_pose)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">locker</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果轨迹不存在, 则将轨迹添加到连接状态里并添加采样器</span></span><br><span class="line">  <span class="built_in">AddTrajectoryIfNeeded</span>(trajectory_id);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 根据轨迹状态判断是否可以添加任务</span></span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">CanAddWorkItemModifying</span>(trajectory_id)) &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(WARNING) &lt;&lt; <span class="string">&quot;AddNode was called for finished or deleted trajectory.&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 向节点列表中添加一个新的节点</span></span><br><span class="line">  <span class="keyword">const</span> NodeId node_id = data_.trajectory_nodes.<span class="built_in">Append</span>(</span><br><span class="line">      trajectory_id, TrajectoryNode&#123;constant_data, optimized_pose&#125;);</span><br><span class="line">  <span class="comment">// 节点总个数加1</span></span><br><span class="line">  ++data_.num_trajectory_nodes;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Test if the &#x27;insertion_submap.back()&#x27; is one we never saw before.</span></span><br><span class="line">  <span class="comment">// 如果是刚开始的轨迹, 或者insertion_submaps.back()是第一次看到, 就添加新的子图</span></span><br><span class="line">  <span class="keyword">if</span> (data_.submap_data.<span class="built_in">SizeOfTrajectoryOrZero</span>(trajectory_id) == <span class="number">0</span> ||</span><br><span class="line">      std::<span class="built_in">prev</span>(data_.submap_data.<span class="built_in">EndOfTrajectory</span>(trajectory_id))</span><br><span class="line">              -&gt;data.submap != insertion_submaps.<span class="built_in">back</span>()) &#123;</span><br><span class="line">    <span class="comment">// We grow &#x27;data_.submap_data&#x27; as needed. This code assumes that the first</span></span><br><span class="line">    <span class="comment">// time we see a new submap is as &#x27;insertion_submaps.back()&#x27;.</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果insertion_submaps.back()是第一次看到, 也就是新生成的</span></span><br><span class="line">    <span class="comment">// 在data_.submap_data中加入一个空的InternalSubmapData</span></span><br><span class="line">    <span class="keyword">const</span> SubmapId submap_id =</span><br><span class="line">        data_.submap_data.<span class="built_in">Append</span>(trajectory_id, <span class="built_in">InternalSubmapData</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 保存后边的地图, 将后边的地图的指针赋值过去</span></span><br><span class="line">    <span class="comment">// 地图是刚生成的, 但是地图会在前端部分通过插入点云数据进行更新, 这里只保存指针</span></span><br><span class="line">    <span class="comment">// tag: 画图说明一下</span></span><br><span class="line">    data_.submap_data.<span class="built_in">at</span>(submap_id).submap = insertion_submaps.<span class="built_in">back</span>();</span><br><span class="line">    <span class="built_in">LOG</span>(INFO) &lt;&lt; <span class="string">&quot;Inserted submap &quot;</span> &lt;&lt; submap_id &lt;&lt; <span class="string">&quot;.&quot;</span>;</span><br><span class="line">    kActiveSubmapsMetric-&gt;<span class="built_in">Increment</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> node_id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/04/Untitled%201/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/04/1204%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%8E%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6-cartographer/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">线程池与任务调度-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PoseGraphInterface"><span class="nav-number">1.</span> <span class="nav-text">PoseGraphInterface</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.1.</span> <span class="nav-text">约束</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LandmarkNode"><span class="nav-number">2.</span> <span class="nav-text">LandmarkNode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PoseGraph2D"><span class="nav-number">3.</span> <span class="nav-text">PoseGraph2D</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E5%85%A5"><span class="nav-number">4.0.1.</span> <span class="nav-text">数据传入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AddNode"><span class="nav-number">5.</span> <span class="nav-text">AddNode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E4%B9%8B%E5%A4%84%EF%BC%9A"><span class="nav-number">5.1.</span> <span class="nav-text">调用之处：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="nav-number">5.2.</span> <span class="nav-text">实现过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AppendNode"><span class="nav-number">5.3.</span> <span class="nav-text">AppendNode</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
