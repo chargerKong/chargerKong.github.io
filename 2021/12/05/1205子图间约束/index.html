@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            子图间约束-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">子图间约束-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-05 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>添加子图约束的函数，是放入线程池计算的其中一个，于函数<code>PoseGraph2D::AddNode</code>中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把计算约束的工作放入workitem中等待执行</span></span><br><span class="line"><span class="built_in">AddWorkItem</span>([=]() <span class="built_in">LOCKS_EXCLUDED</span>(mutex_) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">ComputeConstraintsForNode</span>(node_id, insertion_submaps,</span><br><span class="line">                                   newly_finished_submap);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>传入的数据内容为</p>
+<ul>
+<li>node_id：节点ID，即一个位姿</li>
+<li>insertion_submaps： 子图，到底是什么？</li>
+<li>newly_finished_submap：第一个子图是否是完成状态的布尔值</li>
+</ul>
+<h1 id="ComputeConstraintsForNode"><a href="#ComputeConstraintsForNode" class="headerlink" title="ComputeConstraintsForNode"></a>ComputeConstraintsForNode</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 保存节点, 计算子图内约束, 查找回环</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] node_id 刚加入的节点ID</span></span><br><span class="line"><span class="comment"> * @param[in] insertion_submaps active_submaps</span></span><br><span class="line"><span class="comment"> * @param[in] newly_finished_submap 是否是新finished的submap</span></span><br><span class="line"><span class="comment"> * @return WorkItem::Result 是否需要执行全局优化</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">WorkItem::Result <span class="title">PoseGraph2D::ComputeConstraintsForNode</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> NodeId&amp; node_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; insertion_submaps,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">bool</span> newly_finished_submap)</span> </span>&#123;</span><br><span class="line">  std::vector&lt;SubmapId&gt; submap_ids;                 <span class="comment">// 活跃状态下的子图的id</span></span><br><span class="line">  std::vector&lt;SubmapId&gt; finished_submap_ids;        <span class="comment">// 处于完成状态的子图id的集合</span></span><br><span class="line">  std::set&lt;NodeId&gt; newly_finished_submap_node_ids;  <span class="comment">// 刚刚完成的子图对应的节点id</span></span><br><span class="line">  <span class="comment">// 保存节点与计算子图内约束</span></span><br><span class="line">  &#123;</span><br></pre></td></tr></table></figure>
+<p>获取节点的信息，node_id不过是添加后的自然增长的序号</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取节点信息数据</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; constant_data =</span><br><span class="line">    data_.trajectory_nodes.<span class="built_in">at</span>(node_id).constant_data;</span><br></pre></td></tr></table></figure>
+<p>获取 trajectory_id 下的正处于活跃状态下的子图的SubmapId</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取 trajectory_id 下的正处于活跃状态下的子图的SubmapId</span></span><br><span class="line">submap_ids = <span class="built_in">InitializeGlobalSubmapPoses</span>(</span><br><span class="line">    node_id.trajectory_id, constant_data-&gt;time, insertion_submaps);</span><br></pre></td></tr></table></figure>
+<p>获取前一个的submap Id，并计算他的二维坐标</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取这两个submap中前一个的id</span></span><br><span class="line">   <span class="keyword">const</span> SubmapId matching_id = submap_ids.<span class="built_in">front</span>();</span><br><span class="line">   <span class="comment">// 计算该Node投影到平面后的位姿 gravity_alignment是机器人的姿态</span></span><br><span class="line">   <span class="keyword">const</span> transform::Rigid2d local_pose_2d =</span><br><span class="line">       transform::<span class="built_in">Project2D</span>(constant_data-&gt;local_pose * <span class="comment">// 三维转平面</span></span><br><span class="line">                            transform::Rigid3d::<span class="built_in">Rotation</span>(</span><br><span class="line">                                constant_data-&gt;gravity_alignment.<span class="built_in">inverse</span>()));</span><br></pre></td></tr></table></figure>
+<p>计算Node在global下的坐标</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算该Node在global坐标系下的二维位姿</span></span><br><span class="line"><span class="comment">// global_pose * constraints::ComputeSubmapPose().inverse() = globla指向local的坐标变换</span></span><br><span class="line"><span class="keyword">const</span> transform::Rigid2d global_pose_2d =</span><br><span class="line">    optimization_problem_-&gt;<span class="built_in">submap_data</span>().<span class="built_in">at</span>(matching_id).global_pose *</span><br><span class="line">    constraints::<span class="built_in">ComputeSubmapPose</span>(*insertion_submaps.<span class="built_in">front</span>()).<span class="built_in">inverse</span>() *</span><br><span class="line">    local_pose_2d;</span><br></pre></td></tr></table></figure>
+<p>把该节点的信息加入到OptimizationProblem中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把该节点的信息加入到OptimizationProblem中</span></span><br><span class="line">    optimization_problem_-&gt;<span class="built_in">AddTrajectoryNode</span>(</span><br><span class="line">        matching_id.trajectory_id,</span><br><span class="line">        optimization::NodeSpec2D&#123;constant_data-&gt;time, local_pose_2d,</span><br><span class="line">                                 global_pose_2d,</span><br><span class="line">                                 constant_data-&gt;gravity_alignment&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="添加子图和节点的约束"><a href="#添加子图和节点的约束" class="headerlink" title="添加子图和节点的约束"></a>添加子图和节点的约束</h2><p>遍历submap</p>
+<ul>
+<li>向submap添加node_id</li>
+<li>计算 子图原点 指向 node坐标 间的坐标变换(子图内约束)</li>
+<li>把子图内约束放入容器中</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历2个子图, 将节点加入子图的节点列表中, 计算子图原点与及节点间的约束(子图内约束)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; insertion_submaps.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">      <span class="keyword">const</span> SubmapId submap_id = submap_ids[i];</span><br><span class="line">      <span class="comment">// Even if this was the last node added to &#x27;submap_id&#x27;, the submap will</span></span><br><span class="line">      <span class="comment">// only be marked as finished in &#x27;data_.submap_data&#x27; further below.</span></span><br><span class="line">      <span class="built_in">CHECK</span>(data_.submap_data.<span class="built_in">at</span>(submap_id).state ==</span><br><span class="line">            SubmapState::kNoConstraintSearch);</span><br><span class="line">      <span class="comment">// 将node_id放到子图保存的node_ids的set中</span></span><br><span class="line">      data_.submap_data.<span class="built_in">at</span>(submap_id).node_ids.<span class="built_in">emplace</span>(node_id);</span><br><span class="line">      <span class="comment">// 计算 子图原点 指向 node坐标 间的坐标变换(子图内约束)</span></span><br><span class="line">      <span class="keyword">const</span> transform::Rigid2d constraint_transform =</span><br><span class="line">          constraints::<span class="built_in">ComputeSubmapPose</span>(*insertion_submaps[i]).<span class="built_in">inverse</span>() *</span><br><span class="line">          local_pose_2d;</span><br><span class="line">      <span class="comment">// 新生成的 子图内约束 放入容器中</span></span><br><span class="line">      data_.constraints.<span class="built_in">push_back</span>(</span><br><span class="line">          Constraint&#123;submap_id,</span><br><span class="line">                     node_id,</span><br><span class="line">                     &#123;transform::<span class="built_in">Embed3D</span>(constraint_transform),</span><br><span class="line">                      options_.<span class="built_in">matcher_translation_weight</span>(),</span><br><span class="line">                      options_.<span class="built_in">matcher_rotation_weight</span>()&#125;,</span><br><span class="line">                     Constraint::INTRA_SUBMAP&#125;); <span class="comment">// 子图内约束</span></span><br><span class="line">    &#125; <span class="comment">// end for</span></span><br></pre></td></tr></table></figure>
+<p>记录下所有已经finish的submapID</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 找到所有已经标记为kFinished状态的submap的id</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; submap_id_data : data_.submap_data) &#123;</span><br><span class="line">  <span class="keyword">if</span> (submap_id_data.data.state == SubmapState::kFinished) &#123;</span><br><span class="line">    <span class="built_in">CHECK_EQ</span>(submap_id_data.data.node_ids.<span class="built_in">count</span>(node_id), <span class="number">0</span>);</span><br><span class="line">    finished_submap_ids.<span class="built_in">emplace_back</span>(submap_id_data.id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是刚刚finished的submap，则记录它的子图数据，并且记录该子图下的所有节点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果是刚刚finished的submap</span></span><br><span class="line"><span class="keyword">if</span> (newly_finished_submap) &#123;</span><br><span class="line">  <span class="keyword">const</span> SubmapId newly_finished_submap_id = submap_ids.<span class="built_in">front</span>();</span><br><span class="line">  InternalSubmapData&amp; finished_submap_data =</span><br><span class="line">      data_.submap_data.<span class="built_in">at</span>(newly_finished_submap_id);</span><br><span class="line">  <span class="comment">// 检查它还是不是kNoConstraintSearch</span></span><br><span class="line">  <span class="built_in">CHECK</span>(finished_submap_data.state == SubmapState::kNoConstraintSearch);</span><br><span class="line">  <span class="comment">// 把它设置成kFinished</span></span><br><span class="line">  finished_submap_data.state = SubmapState::kFinished;</span><br><span class="line">  <span class="comment">// 刚结束的这个子图里包含的所有节点</span></span><br><span class="line">  newly_finished_submap_node_ids = finished_submap_data.node_ids;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="回环：当前节点与所有已经完成的子图进行约束的计算"><a href="#回环：当前节点与所有已经完成的子图进行约束的计算" class="headerlink" title="回环：当前节点与所有已经完成的子图进行约束的计算"></a>回环：当前节点与所有已经完成的子图进行约束的计算</h2><p>node_id 是函数传进来固定的一个节点，计算改节点和其他已经完成的子图的约束    </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 当前节点与所有已经完成的子图进行约束的计算---实际上就是回环检测</span></span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; submap_id : finished_submap_ids) &#123;</span><br><span class="line">   <span class="comment">// 计算旧的submap和新的节点间的约束</span></span><br><span class="line">   <span class="built_in">ComputeConstraint</span>(node_id, submap_id);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="回环：-计算所有节点与刚完成子图间的约束"><a href="#回环：-计算所有节点与刚完成子图间的约束" class="headerlink" title="回环： 计算所有节点与刚完成子图间的约束"></a>回环： 计算所有节点与刚完成子图间的约束</h2><p>如果有刚刚完成的子图，则计算所有节点和他的约束，调用的函数依然是ComputeConstraint，传入node_id和submap_id</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (newly_finished_submap) &#123;</span><br><span class="line">  <span class="keyword">const</span> SubmapId newly_finished_submap_id = submap_ids.<span class="built_in">front</span>();</span><br><span class="line">  <span class="comment">// We have a new completed submap, so we look into adding constraints for</span></span><br><span class="line">  <span class="comment">// old nodes.</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; node_id_data : optimization_problem_-&gt;<span class="built_in">node_data</span>()) &#123;</span><br><span class="line">    <span class="keyword">const</span> NodeId&amp; node_id = node_id_data.id;</span><br><span class="line">    <span class="comment">// 刚结束的子图内部的节点, 不再与这个子图进行约束的计算</span></span><br><span class="line">    <span class="keyword">if</span> (newly_finished_submap_node_ids.<span class="built_in">count</span>(node_id) == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 计算新的submap和旧的节点间的约束</span></span><br><span class="line">      <span class="built_in">ComputeConstraint</span>(node_id, newly_finished_submap_id);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结束构建约束"><a href="#结束构建约束" class="headerlink" title="结束构建约束"></a>结束构建约束</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">constraint_builder_.<span class="built_in">NotifyEndOfNode</span>();</span><br></pre></td></tr></table></figure>
+<h2 id="判断是否需要优化"><a href="#判断是否需要优化" class="headerlink" title="判断是否需要优化"></a>判断是否需要优化</h2><p>只有当num<em>nodes_since_last_loop_closure</em> &gt; 90的时候，即默认的参数，90个节点，才执行一次优化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">absl::MutexLock <span class="title">locker</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">++num_nodes_since_last_loop_closure_;</span><br><span class="line"><span class="comment">// Step: 插入的节点数大于optimize_every_n_nodes时执行一次优化</span></span><br><span class="line"><span class="comment">// optimize_every_n_nodes = 0 时不进行优化, 这样就可以单独分析前端的效果</span></span><br><span class="line"><span class="keyword">if</span> (options_.<span class="built_in">optimize_every_n_nodes</span>() &gt; <span class="number">0</span> &amp;&amp; <span class="comment">// param: optimize_every_n_nodes</span></span><br><span class="line">    num_nodes_since_last_loop_closure_ &gt; options_.<span class="built_in">optimize_every_n_nodes</span>()) &#123;</span><br><span class="line">  <span class="comment">// 正在建图时只有这一块会返回 执行优化</span></span><br><span class="line">  <span class="keyword">return</span> WorkItem::Result::kRunOptimization;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> WorkItem::Result::kDoNotRunOptimization;</span><br></pre></td></tr></table></figure>
+<h1 id="InitializeGlobalSubmapPoses"><a href="#InitializeGlobalSubmapPoses" class="headerlink" title="InitializeGlobalSubmapPoses"></a>InitializeGlobalSubmapPoses</h1><p>此函数返回当前活跃状态的子图的ID，初始化一个GlobalSubmapPose</p>
+<p>data_.global_submap_poses_2d:全都是优化后的子图在global坐标系下的pose</p>
+<p>optimization<em>problem</em>-&gt;submap_data():包含了优化后和还没有进行优化的子图在global坐标系下的pose</p>
+<h2 id="一个子图"><a href="#一个子图" class="headerlink" title="一个子图"></a>一个子图</h2><p>如果slam刚刚开始，子图肯定只有一个，如果这条轨迹上还没有添加submap的pose，则把这个轨迹添加到optimization<em>problem</em> 中去，并且把submap的local_pose转换到global_pose</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果判断指定id的submap_data的size为0, 这条轨迹上还没有添加submap的pose</span></span><br><span class="line"><span class="keyword">if</span> (submap_data.<span class="built_in">SizeOfTrajectoryOrZero</span>(trajectory_id) == <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="comment">// 如果没设置初始位姿就是0, 设置了就是1，默认是没有设置初始位姿的</span></span><br><span class="line">  <span class="keyword">if</span> (data_.initial_trajectory_poses.<span class="built_in">count</span>(trajectory_id) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 把该trajectory_id与其初始位姿的基准轨迹的id关联起来</span></span><br><span class="line">    data_.trajectory_connectivity_state.<span class="built_in">Connect</span>(</span><br><span class="line">        trajectory_id,</span><br><span class="line">        data_.initial_trajectory_poses.<span class="built_in">at</span>(trajectory_id).to_trajectory_id,</span><br><span class="line">        time);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将该submap的global pose加入到optimization_problem_中</span></span><br><span class="line">  optimization_problem_-&gt;<span class="built_in">AddSubmap</span>(</span><br><span class="line">      trajectory_id, transform::<span class="built_in">Project2D</span>(</span><br><span class="line">                         <span class="built_in">ComputeLocalToGlobalTransform</span>(</span><br><span class="line">                             data_.global_submap_poses_2d, trajectory_id) *</span><br><span class="line">                         insertion_submaps[<span class="number">0</span>]-&gt;<span class="built_in">local_pose</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在已经有了此轨迹的数据，直接新建一个SubmapId并且返回，它由轨迹ID和submap的索引组成</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 因为是第一个submap, 所以该submap的ID是(trajectory_id,0), 其中0是submap的index, 从0开始</span></span><br><span class="line"><span class="keyword">const</span> SubmapId submap_id&#123;trajectory_id, <span class="number">0</span>&#125;;</span><br><span class="line"><span class="comment">// 检查这个SubmapId下的submap是否等于insertion_submaps的第一个元素.因为我们初始化第一个submap肯定是要被插入的那个submap</span></span><br><span class="line"><span class="built_in">CHECK</span>(data_.submap_data.<span class="built_in">at</span>(submap_id).submap == insertion_submaps.<span class="built_in">front</span>());</span><br><span class="line"><span class="comment">// 因为是第一个submap, 那就把刚刚建立的submap的id返回</span></span><br><span class="line"><span class="keyword">return</span> &#123;submap_id&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意，这里做的check是因为在AppendNode函数中，已经把data_.submap_data.at(submap_id).submap做过赋值，因为只有一个子图，所以front和back是一样的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">NodeId <span class="title">PoseGraph2D::AppendNode</span><span class="params">(    </span></span></span><br><span class="line"><span class="function"><span class="params">	<span class="comment">// 如果insertion_submaps.back()是第一次看到, 也就是新生成的</span></span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="comment">// 在data_.submap_data中加入一个空的InternalSubmapData</span></span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> SubmapId submap_id =</span></span></span><br><span class="line"><span class="function"><span class="params">        data_.submap_data.Append(trajectory_id, InternalSubmapData());</span></span></span><br><span class="line"><span class="function"><span class="params">    </span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="comment">// 保存后边的地图, 将后边的地图的指针赋值过去</span></span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="comment">// 地图是刚生成的, 但是地图会在前端部分通过插入点云数据进行更新, 这里只保存指针</span></span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="comment">// tag: 画图说明一下</span></span></span></span><br><span class="line"><span class="function"><span class="params">    data_.submap_data.at(submap_id).submap = insertion_submaps.back();</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="两个子图"><a href="#两个子图" class="headerlink" title="两个子图"></a>两个子图</h2><p>现在进行有两个子图的情况，</p>
+<p>如果optimization<em>problem</em>中最后一个此轨迹的数据的ID等于insertion_submaps的front的数据，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span> end_it = submap_data.<span class="built_in">EndOfTrajectory</span>(trajectory_id);  </span><br><span class="line"><span class="keyword">const</span> SubmapId last_submap_id = std::<span class="built_in">prev</span>(end_it)-&gt;id;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果是等于第一个子图, 说明insertion_submaps的第二个子图还没有加入到optimization_problem_中</span></span><br><span class="line"><span class="comment">// 拿着optimization_problem_中子图的索引, 根据这个索引在data_.submap_data中获取地图的指针</span></span><br><span class="line"><span class="keyword">if</span> (data_.submap_data.<span class="built_in">at</span>(last_submap_id).submap ==</span><br><span class="line">    insertion_submaps.<span class="built_in">front</span>()) &#123;</span><br></pre></td></tr></table></figure>
+<p>那就说back的那个数据还没有加入，就通过AddSubmap 进行<strong>添加该子图的global位姿</strong>，需要计算子图在global下的坐标。</p>
+<p>注意这里的坐标换边，</p>
+<ul>
+<li>first_submap_pose 表示1</li>
+<li>constraints::ComputeSubmapPose(*insertion_submaps[0]).inverse() 表示2</li>
+<li>constraints::ComputeSubmapPose(*insertion_submaps[1]) 表示3</li>
+</ul>
+<p>最后返回这个submapID和 下一个submapID。生成的是submap_1在global坐标系下的Pose。</p>
+<p> <img src="/home/kong/mnt/repo/chargerKong.github.io/source/_posts/1205子图间约束/07939c4b13d8e191bd20b94c12564b4.jpg" alt="07939c4b13d8e191bd20b94c12564b4"></p>
+<p><img src="07939c4b13d8e191bd20b94c12564b4.jpg" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// In this case, &#x27;last_submap_id&#x27; is the ID of</span></span><br><span class="line">  <span class="comment">// &#x27;insertions_submaps.front()&#x27; and &#x27;insertions_submaps.back()&#x27; is new.</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 这种情况下, 要给新的submap分配id, 并把它加到OptimizationProblem的submap_data_这个容器中</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span>&amp; first_submap_pose = submap_data.<span class="built_in">at</span>(last_submap_id).global_pose;</span><br><span class="line">  <span class="comment">// 解算新的submap的global pose, 插入到OptimizationProblem2D::submap_data_中</span></span><br><span class="line">  optimization_problem_-&gt;<span class="built_in">AddSubmap</span>(</span><br><span class="line">      trajectory_id,</span><br><span class="line">      <span class="comment">// first_submap_pose * constraints::ComputeSubmapPose(*insertion_submaps[0]).inverse() = globla指向local的坐标变换</span></span><br><span class="line">      <span class="comment">// globla指向local的坐标变换 * 第二个子图原点在local下的坐标 = 第二个子图原点在global下的坐标</span></span><br><span class="line">      first_submap_pose *</span><br><span class="line">          constraints::<span class="built_in">ComputeSubmapPose</span>(*insertion_submaps[<span class="number">0</span>]).<span class="built_in">inverse</span>() *</span><br><span class="line">          constraints::<span class="built_in">ComputeSubmapPose</span>(*insertion_submaps[<span class="number">1</span>]));</span><br><span class="line">  <span class="keyword">return</span> &#123;last_submap_id,</span><br><span class="line">          SubmapId&#123;trajectory_id, last_submap_id.submap_index + <span class="number">1</span>&#125;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果optimization<em>problem</em>中最后一个轨迹数据的ID的submap等于insertion_submaps的backup的数据</p>
+<p>则，说明两个子图都已经加入到优化问题中了，可以直接返回两个子图的submapID，即上一个submapID</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果是等于第二个子图, 说明第二个子图已经分配了id, 已经在OptimizationProblem的submap_data_中了</span></span><br><span class="line">  <span class="built_in">CHECK</span>(data_.submap_data.<span class="built_in">at</span>(last_submap_id).submap ==</span><br><span class="line">        insertion_submaps.<span class="built_in">back</span>());</span><br><span class="line">  <span class="comment">// 那么第一个子图的index就是last_submap_id.submap_index的前一个, 所以要-1</span></span><br><span class="line">  <span class="keyword">const</span> SubmapId front_submap_id&#123;trajectory_id,</span><br><span class="line">                                 last_submap_id.submap_index - <span class="number">1</span>&#125;;</span><br><span class="line">  <span class="built_in">CHECK</span>(data_.submap_data.<span class="built_in">at</span>(front_submap_id).submap ==</span><br><span class="line">        insertion_submaps.<span class="built_in">front</span>());</span><br><span class="line">  <span class="keyword">return</span> &#123;front_submap_id, last_submap_id&#125;;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/06/1206Nav2-planner%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写一个planner插件-navigation2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/05/1206%E5%90%AF%E5%8A%A8tb3-sim-nav2/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">启动tb3_simulation.launch.py-navigation</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ComputeConstraintsForNode"><span class="nav-number">1.</span> <span class="nav-text">ComputeConstraintsForNode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%AD%90%E5%9B%BE%E5%92%8C%E8%8A%82%E7%82%B9%E7%9A%84%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.1.</span> <span class="nav-text">添加子图和节点的约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E7%8E%AF%EF%BC%9A%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E4%B8%8E%E6%89%80%E6%9C%89%E5%B7%B2%E7%BB%8F%E5%AE%8C%E6%88%90%E7%9A%84%E5%AD%90%E5%9B%BE%E8%BF%9B%E8%A1%8C%E7%BA%A6%E6%9D%9F%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">1.2.</span> <span class="nav-text">回环：当前节点与所有已经完成的子图进行约束的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E7%8E%AF%EF%BC%9A-%E8%AE%A1%E7%AE%97%E6%89%80%E6%9C%89%E8%8A%82%E7%82%B9%E4%B8%8E%E5%88%9A%E5%AE%8C%E6%88%90%E5%AD%90%E5%9B%BE%E9%97%B4%E7%9A%84%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.3.</span> <span class="nav-text">回环： 计算所有节点与刚完成子图间的约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E6%9E%84%E5%BB%BA%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.4.</span> <span class="nav-text">结束构建约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81%E4%BC%98%E5%8C%96"><span class="nav-number">1.5.</span> <span class="nav-text">判断是否需要优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#InitializeGlobalSubmapPoses"><span class="nav-number">2.</span> <span class="nav-text">InitializeGlobalSubmapPoses</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AD%90%E5%9B%BE"><span class="nav-number">2.1.</span> <span class="nav-text">一个子图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%AD%90%E5%9B%BE"><span class="nav-number">2.2.</span> <span class="nav-text">两个子图</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

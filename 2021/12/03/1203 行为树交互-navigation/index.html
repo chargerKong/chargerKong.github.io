@@ -180,8 +180,28 @@
 <p><a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugin_tutorials/docs/writing_new_bt_plugin.html#writing-new-nbt-plugin" >Writing a New Behavior Tree Plugin<i class="fas fa-external-link-alt"></i></a>提供了一个编写良好的例子，如果创建新的BT节点，如何创建一个简单的Action节点。本教程将专注于启动Groot，可视化一个行为树，并且自定义行为树，假设有一个BT节点库。幸运的是，Nav2提供了大量的BT节点供你开箱即用，enumerated in <a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugins/index.html#plugins" >Navigation Plugins<i class="fas fa-external-link-alt"></i></a>.</p>
 <p> BehaviorTree.CPP的配置文件为XML文件。这用于在运行时从适当库的中动态加载BT节点插件。详细XML格式 <a class="link"   target="_blank" rel="noopener" href="https://www.behaviortree.dev/xml_format/" >in detail here<i class="fas fa-external-link-alt"></i></a>. 。因此，Groot需要有一个它可以访问的节点列表，以及关于它们的重要元数据，比如它们的类型和端口(或参数)。在本教程的后面，我们将其称为节点的“pallet”。</p>
 <p>在上面的视频中，你可以看到Groot与RVIz并排，以及一个100%配备了SIEMENS支持ros硬件的测试平台。Groot不仅在机器人操作时显示当前的行为树。注意:在ROS 2 Humble之前，Nav2支持在执行过程中实时监视Groot行为树。由于BT.CPP /Groot对飞行中改变行为树的bug支持，这一功能被移除</p>
-<h1 id="行为树可视化"><a href="#行为树可视化" class="headerlink" title="行为树可视化"></a>行为树可视化</h1><h1 id="行为树编辑"><a href="#行为树编辑" class="headerlink" title="行为树编辑"></a>行为树编辑</h1><p>现在你已经在编辑模式下在Groot中打开了一个Nav2 BT，你应该能够使用GUI简单地修改它。从如图4所示的屏幕开始，您可以从侧面板拉入新的节点，将它们添加到工作区中。然后，您可以在节点的输入和输出端口之间使用“拖放”动作连接节点，以将新节点组装到树中。</p>
+<h1 id="行为树可视化"><a href="#行为树可视化" class="headerlink" title="行为树可视化"></a>行为树可视化</h1><ol>
+<li>打开Groot，如图1</li>
+<li>选择<em>Load palette from</em></li>
+<li>打开“/path/to/navigation2/nav2_behavior_tree/nav2_tree_nodes.xml”文件，导入所有用于导航的自定义行为树节点。注意这个时候，左边的palette会多一些内容，如图2</li>
+<li>选择Load tree</li>
+<li>选择 navigate_w_replanning_and_recovery.xml，如图3</li>
+</ol>
+<p><img src="https://navigation.ros.org/_images/groot_bt_editor.png" alt="../../_images/groot_bt_editor.png"></p>
+<p><img src="https://navigation.ros.org/_images/groot_with_nav2_custom_nodes.png" alt="../../_images/groot_with_nav2_custom_nodes.png"></p>
+<p><img src="https://navigation.ros.org/_images/bt_w_replanning_and_recovery.png" alt="../../_images/bt_w_replanning_and_recovery.png"></p>
+<h1 id="行为树编辑"><a href="#行为树编辑" class="headerlink" title="行为树编辑"></a>行为树编辑</h1><p>现在你已经在编辑模式下在Groot中打开了一个Nav2 BT，你应该能够使用GUI简单地修改它。从如图4所示的屏幕开始，您可以从侧面板拉入新的节点，将它们添加到工作区中。然后，您可以在节点的输入和输出端口之间使用“拖放”动作连接节点，以将新节点组装到树中。</p>
 <p>如果您选择一个给定的节点，您可以更改关于它的元数据，比如它的名称或可参数化端口的值。当您完成修改后，只需保存新的配置文件，并在下一次使用您的机器人!</p>
+<h1 id="添加一个已定义的节点"><a href="#添加一个已定义的节点" class="headerlink" title="添加一个已定义的节点"></a>添加一个已定义的节点</h1><p>行为树中的每个节点都拥有一个专门的函数。有时，在设计过程中创建新节点并将它们添加到您的托盘中是很有用的——可能是在实现本身存在之前。</p>
+<p>这有助于设计者从树本身的更高层次逻辑中抽象出节点的实现细节，以及它们希望如何与给定节点交互(例如类型、端口等)。在Groot中，您可以创建新的自定义节点添加到您的树中，并将这些新节点导出到您的pallet中。实现节点本身需要与Groot分开完成，这在编写一个新的行为树插件中进行了描述。</p>
+<p>实现节点本身需要与Groot分开完成，这在<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugin_tutorials/docs/writing_new_bt_plugin.html#writing-new-nbt-plugin" >Writing a New Behavior Tree Plugin<i class="fas fa-external-link-alt"></i></a>.中进行了描述。</p>
+<p>点击新建一个自定义节点</p>
+<p><img src="https://navigation.ros.org/_images/groot_create_custom_node.png" alt="../../_images/groot_create_custom_node.png"></p>
+<p>在编辑模式下，应该出来如下内容，定义节点的名字，类型以及相关的参数,</p>
+<p><img src="https://navigation.ros.org/_images/groot_interactive_node_creation.png" alt="../../_images/groot_interactive_node_creation.png"></p>
+<p>点击完成后，在palette中会多一项</p>
+<p><img src="https://navigation.ros.org/_images/groot_export_new_node.png" alt="../../_images/groot_export_new_node.png"></p>
+<p>建议将新创建的节点导出保存，以防Groot崩溃。点击上图中绿色的框，对树的model进行导出</p>
 
         </div>
 
@@ -382,7 +402,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E6%A0%91%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">行为树可视化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E6%A0%91%E7%BC%96%E8%BE%91"><span class="nav-number">2.</span> <span class="nav-text">行为树编辑</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E6%A0%91%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">行为树可视化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E6%A0%91%E7%BC%96%E8%BE%91"><span class="nav-number">2.</span> <span class="nav-text">行为树编辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%B7%B2%E5%AE%9A%E4%B9%89%E7%9A%84%E8%8A%82%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">添加一个已定义的节点</span></a></li></ol>
     </div>
 </div>
         </aside>

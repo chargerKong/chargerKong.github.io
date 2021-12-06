@@ -214,7 +214,7 @@
 <p>上述的流程表示下图左半边的流程，不涉及到依赖的task。右半边的流程是先设置的依赖。</p>
 <p><img src="2021-12-05 17-44-43屏幕截图.png" alt=""></p>
 <p><img src="1205 线程池与任务调度-cartographer/2021-12-05 17-44-43屏幕截图.png" alt=""></p>
-<p>注意，第一个任务是DrainWorkQueue， 即初始化任务队列的时候添加的，它本身就是while循环，所以第一个线程就相当于是堵塞的</p>
+<p>注意，第一个任务是DrainWorkQueue， 即初始化任务队列的时候添加的，它本身就是while循环，所以第一个线程就相当于是堵塞的，他就一直执行work_</p>
 
         </div>
 
@@ -223,14 +223,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/05/1206%E5%90%AF%E5%8A%A8tb3-sim-nav2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">启动tb3_simulation.launch.py-navigation</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/12/04/Untitled%201/"
+                           href="/2021/12/04/1204PoseGraph2d/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-title-item">PoseGraph2D-cartographer</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

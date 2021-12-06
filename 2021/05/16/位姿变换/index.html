@@ -152,6 +152,17 @@
     </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/math/">math</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
@@ -173,7 +184,18 @@
 \cos\theta & -\sin\theta &x\\
 \sin\theta & \cos\theta &y \\
 0&0&1
-\end{bmatrix}\tag{2}</script><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p><strong>例一</strong></p>
+\end{bmatrix}\tag{2}</script><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>切记：</p>
+<p>A在local坐标系下的pose为A_local</p>
+<p>A在global坐标系下的pose为A_global</p>
+<p>T_localToGlobal = A_global * A_local.inverse()</p>
+<p>假设有一个B，在local下的坐标系为B_local，则</p>
+<p>B_global = T_localToGlobal * B_local</p>
+<p>即B 在 global下的坐标</p>
+<script type="math/tex; mode=display">
+T_{g}^B=T^A_g * T^L_A* T^B_L</script><p>或者</p>
+<script type="math/tex; mode=display">
+T_{g}^B=T^B_L*T^L_A*T^A_g</script><p>第一种用的比较普遍</p>
+<p><strong>例一</strong></p>
 <p>假设没有旋转，只考虑平移。B在W中的坐标为$(1,1)$，即上述的(1)为</p>
 <script type="math/tex; mode=display">
 (1,1,0)</script><p>假设有一个点P在B上的坐标为$(-1， 0)$， P在W上的坐标明显为$(0, 1)$。可以通过如下式子转换</p>
@@ -201,8 +223,9 @@
 <p>即：第一次转换$p_a=(1,1,1.57)$，第二次转换$p_b=(1,1,0)$</p>
 <p>首先，定义$x$轴为0度，那么，毫无疑问，A点应该是如下图所示</p>
 <p><img src="IMG_20210809_221146.jpg" alt=""></p>
+<p><img src="位姿变换/IMG_20210809_221146.jpg" alt=""></p>
 <p>注意，这里A是点是旋转了90度的，因此，针对于点A来说，他的坐标系应该是如下图所示</p>
-<p><img src="IMG_20210809_221205.jpg" alt=""></p>
+<p><img src="位姿变换/IMG_20210809_221205.jpg" alt=""></p>
 <p>因此，按照这个坐标系再移动$(1,1)$，就会得到原来坐标系下的$(0,2,1.57)$</p>
 <p>如果做两次变换，则只需要简单的计算</p>
 <script type="math/tex; mode=display">

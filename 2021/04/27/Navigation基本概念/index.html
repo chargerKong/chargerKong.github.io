@@ -189,7 +189,7 @@
 <p>生命周期节点框架在此项目中应用广泛。</p>
 <p>在Nav2中，我们使用了生命周期节点的一个wrapper，<code>nav2_util LifecycleNode</code>. 此wrapper包装了很多典型的应用，他还为了生命周期管理器(manager)包括了一个<code>bond</code>链接，以确保在server转换后，它也保持活动状态。如果server崩溃，它会让生命周期管理器知道并向下转换系统，以防止出现重大故障</p>
 <h1 id="行为树"><a href="#行为树" class="headerlink" title="行为树"></a>行为树</h1><p>行为树（BT）在复杂的机器人任务中变得越来越普遍，这是一系列待完成的树结构任务。它为定义多步骤或多状态应用程序创建了更具可扩展性和易于理解的框架。这与有限状态机（FSM）相反，后者可能具有数十个状态或成百上千个转换。一个例子是足球比赛机器人，将足球比赛的逻辑嵌入到FSM中将具有挑战性并且容易出错，并且存在许多可能的状态和规则。此外，模型动作（例如从左，右或中心射击）的选择尤其不清楚。使用BT，可以创建诸如“踢”，“走”，“向球方向前进”之类的基本语句，并将其重用于许多行为。可以参考<a class="link"   target="_blank" rel="noopener" href="https://arxiv.org/abs/1709.00084" >此书<i class="fas fa-external-link-alt"></i></a>的前三节</p>
-<p>对于此项目，我们将BehaviorTree CPP V3用作行为树的库。我们在<code>BT Navigator</code>内部创建可以构建行为树的节点插件。将节点插件加载到BT中，并在解析树的XML文件时，将关联已注册的名称。至此，我们可以遍历行为树进行导航。</p>
+<p>对于此项目，我们将使用BehaviorTree CPP V3库。我们在<code>BT Navigator</code>内部创建可以构建行为树的节点插件。将节点插件加载到BT中，并在解析树的XML文件时，将关联已注册的名称。至此，我们可以遍历行为树进行导航。</p>
 <p>使用这个库的一个原因是它能够加载子树。这意味着Nav2的行为树可以被加载到另一个更高级别的BT中来使用这个项目作为节点插件。一个例子是在足球比赛中，使用Nav2行为树作为“向球方向前进”节点，球检测作为更大任务的一部分。另外，我们为BT提供了一个NavigateToPoseAction插件，这样就可以从客户端应用程序通过通常的操作界面调用Nav2堆栈。 </p>
 <h1 id="Navigation-Servers"><a href="#Navigation-Servers" class="headerlink" title="Navigation Servers"></a>Navigation Servers</h1><p>Planners和controllers是导航任务的核心。Recoveries用于将机器人脱离糟糕的情况或试图处理各种形式的问题。下面介绍他们一般的概念和使用</p>
 <h2 id="Planner-Controller和Recovery-Servers"><a href="#Planner-Controller和Recovery-Servers" class="headerlink" title="Planner, Controller和Recovery Servers"></a>Planner, Controller和Recovery Servers</h2><p>上面三个玩意儿在此项目中就是三个action servers。这些action servers用于承载算法插件的映射，以完成各种任务，<font color="red">它们还承载算法插件用来计算输出的环境表示。</font></p>
