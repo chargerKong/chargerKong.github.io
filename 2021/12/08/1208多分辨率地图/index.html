@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            多分辨率地图生成-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">多分辨率地图生成-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-08 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><img src="1208多分辨率地图/2021-12-08 16-26-24屏幕截图.png" alt=""></p>
+<p>本文讲解如何生成多分辨率地图</p>
+<h1 id="函数调用处"><a href="#函数调用处" class="headerlink" title="函数调用处"></a>函数调用处</h1><p>位于<code>ConstraintBuilder2D::DispatchScanMatcherConstruction</code>函数中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成一个将初始化匹配器的任务, 初始化时会计算多分辨率地图, 比较耗时</span></span><br><span class="line">scan_matcher_task-&gt;<span class="built_in">SetWorkItem</span>(</span><br><span class="line">    [&amp;submap_scan_matcher, &amp;scan_matcher_options]() &#123;</span><br><span class="line">      <span class="comment">// 进行匹配器的初始化, 与多分辨率地图的创建</span></span><br><span class="line">      submap_scan_matcher.fast_correlative_scan_matcher =</span><br><span class="line">          absl::make_unique&lt;scan_matching::FastCorrelativeScanMatcher2D&gt;(</span><br><span class="line">              *submap_scan_matcher.grid, scan_matcher_options);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>submap_scan_matcher 是一个struct</p>
+<p>他包含</p>
+<ul>
+<li>grid：地图信息</li>
+<li>FastCorrelativeScanMatcher2D： 什么什么匹配器</li>
+<li>creation_task_handle：一个Task</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SubmapScanMatcher</span> &#123;</span></span><br><span class="line">  <span class="keyword">const</span> Grid2D* grid = <span class="literal">nullptr</span>;</span><br><span class="line">  std::unique_ptr&lt;scan_matching::FastCorrelativeScanMatcher2D&gt;</span><br><span class="line">      fast_correlative_scan_matcher;</span><br><span class="line">  std::weak_ptr&lt;common::Task&gt; creation_task_handle;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在SetWorkItem里面就只是进行一个初始化，此初始化会创建多张地图</p>
+<h1 id="fast-correlative-scan-matcher-2d-文件"><a href="#fast-correlative-scan-matcher-2d-文件" class="headerlink" title="fast_correlative_scan_matcher_2d 文件"></a>fast_correlative_scan_matcher_2d 文件</h1><p>此文件中包含三个类：</p>
+<ul>
+<li>PrecomputationGrid2D</li>
+<li>PrecomputationGridStack2D</li>
+<li>FastCorrelativeScanMatcher2D</li>
+</ul>
+<p>很明显，PrecomputationGridStack2D是一个存储PrecomputationGrid2D的类，是一个集合。存储多分辨率存储</p>
+<h2 id="FastCorrelativeScanMatcher2D构造函数"><a href="#FastCorrelativeScanMatcher2D构造函数" class="headerlink" title="FastCorrelativeScanMatcher2D构造函数"></a>FastCorrelativeScanMatcher2D构造函数</h2><p>对三个成员变量进行初始化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line">FastCorrelativeScanMatcher2D::<span class="built_in">FastCorrelativeScanMatcher2D</span>(</span><br><span class="line">    <span class="keyword">const</span> Grid2D&amp; grid,</span><br><span class="line">    <span class="keyword">const</span> proto::FastCorrelativeScanMatcherOptions2D&amp; options)</span><br><span class="line">    : <span class="built_in">options_</span>(options),</span><br><span class="line">      <span class="built_in">limits_</span>(grid.<span class="built_in">limits</span>()),</span><br><span class="line">      <span class="comment">// 多分辨率地图的构建</span></span><br><span class="line">      <span class="built_in">precomputation_grid_stack_</span>(</span><br><span class="line">          absl::make_unique&lt;PrecomputationGridStack2D&gt;(grid, options)) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="PrecomputationGridStack2D构造函数"><a href="#PrecomputationGridStack2D构造函数" class="headerlink" title="PrecomputationGridStack2D构造函数"></a>PrecomputationGridStack2D构造函数</h2><p>构建多分辨地图，保存了七个PrecomputationGrid2D对象在precomputation<em>grids</em>对象中。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造多分辨率地图</span></span><br><span class="line">PrecomputationGridStack2D::<span class="built_in">PrecomputationGridStack2D</span>(</span><br><span class="line">    <span class="keyword">const</span> Grid2D&amp; grid,</span><br><span class="line">    <span class="keyword">const</span> proto::FastCorrelativeScanMatcherOptions2D&amp; options) &#123;</span><br><span class="line">  <span class="built_in">CHECK_GE</span>(options.<span class="built_in">branch_and_bound_depth</span>(), <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// param: branch_and_bound_depth 默认为7, 确定 最大的分辨率, 也就是64个栅格合成一个格子</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> max_width = <span class="number">1</span> &lt;&lt; (options.<span class="built_in">branch_and_bound_depth</span>() - <span class="number">1</span>); <span class="comment">// 64</span></span><br><span class="line">  <span class="comment">// precomputation_grids_ 用于保存地图，所以个数就是分支定界的深度</span></span><br><span class="line">  precomputation_grids_.<span class="built_in">reserve</span>(options.<span class="built_in">branch_and_bound_depth</span>());</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 保存地图值</span></span><br><span class="line">  std::vector&lt;<span class="keyword">float</span>&gt; reusable_intermediate_grid;</span><br><span class="line">  <span class="keyword">const</span> CellLimits limits = grid.<span class="built_in">limits</span>().<span class="built_in">cell_limits</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 经过滑窗后产生的栅格地图会变宽, x方向最多会比原地图多max_width-1个格子</span></span><br><span class="line">  reusable_intermediate_grid.<span class="built_in">reserve</span>((limits.num_x_cells + max_width - <span class="number">1</span>) *</span><br><span class="line">                                     limits.num_y_cells);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 分辨率逐渐变大, i=0时就是默认分辨率0.05, i=6时, width=64,也就是64个格子合成一个值</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i != options.<span class="built_in">branch_and_bound_depth</span>(); ++i) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> width = <span class="number">1</span> &lt;&lt; i;</span><br><span class="line">    <span class="comment">// 构造不同分辨率的地图 PrecomputationGrid2D</span></span><br><span class="line">    <span class="comment">// 保存到reusable_intermediate_grid</span></span><br><span class="line">    precomputation_grids_.<span class="built_in">emplace_back</span>(grid, limits, width,</span><br><span class="line">                                       &amp;reusable_intermediate_grid);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="PrecomputationGrid2D构造函数"><a href="#PrecomputationGrid2D构造函数" class="headerlink" title="PrecomputationGrid2D构造函数"></a>PrecomputationGrid2D构造函数</h2><p>通过滑动窗口来生成不同分辨率的地图</p>
+<p>代码大致分为，前面三个for，对地图进行横着滑动窗口:</p>
+<ul>
+<li>滑动窗口还没有完全进入一行数据，intermediate一直进数据</li>
+<li>刚好完全进入，intermediate右边进左边出</li>
+<li>intermediate刚好到一行数据的最末尾，然后左边只出</li>
+</ul>
+<p>建立intermediate</p>
+<p>接下来三个for，对地图进行竖着滑动窗口</p>
+<p>该地图是通过width来控制，由多少个点来公共组成一个点，假设width=3、那么在窗口中最大值将会覆盖到三个点上，看起来分辨率就下降了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">PrecomputationGrid2D::<span class="built_in">PrecomputationGrid2D</span>(</span><br><span class="line">    <span class="keyword">const</span> Grid2D&amp; grid, <span class="keyword">const</span> CellLimits&amp; limits, <span class="keyword">const</span> <span class="keyword">int</span> width,</span><br><span class="line">    std::vector&lt;<span class="keyword">float</span>&gt;* reusable_intermediate_grid)</span><br><span class="line">    : <span class="built_in">offset_</span>(-width + <span class="number">1</span>, -width + <span class="number">1</span>),</span><br><span class="line">      <span class="built_in">wide_limits_</span>(limits.num_x_cells + width - <span class="number">1</span>,</span><br><span class="line">                   limits.num_y_cells + width - <span class="number">1</span>),</span><br><span class="line">      <span class="built_in">min_score_</span>(<span class="number">1.f</span> - grid.<span class="built_in">GetMaxCorrespondenceCost</span>()), <span class="comment">// 0.1 min_score_</span></span><br><span class="line">      <span class="built_in">max_score_</span>(<span class="number">1.f</span> - grid.<span class="built_in">GetMinCorrespondenceCost</span>()), <span class="comment">// 0.9 max_score_</span></span><br><span class="line">      <span class="built_in">cells_</span>(wide_limits_.num_x_cells * wide_limits_.num_y_cells) &#123;</span><br><span class="line">  <span class="built_in">CHECK_GE</span>(width, <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">CHECK_GE</span>(limits.num_x_cells, <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">CHECK_GE</span>(limits.num_y_cells, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> stride = wide_limits_.num_x_cells;</span><br><span class="line">  <span class="comment">// First we compute the maximum probability for each (x0, y) achieved in the</span></span><br><span class="line">  <span class="comment">// span defined by x0 &lt;= x &lt; x0 + width.</span></span><br><span class="line">  std::vector&lt;<span class="keyword">float</span>&gt;&amp; intermediate = *reusable_intermediate_grid;</span><br><span class="line">  intermediate.<span class="built_in">resize</span>(wide_limits_.num_x_cells * limits.num_y_cells);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 对每一行从左到右横着做一次滑窗, 将滑窗后的地图放在intermediate(临时数据)中</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y != limits.num_y_cells; ++y) &#123;</span><br><span class="line">    SlidingWindowMaximum current_values;</span><br><span class="line">    <span class="comment">// 获取 grid 的x坐标的索引: 首先获取 (0, y)</span></span><br><span class="line">    current_values.<span class="built_in">AddValue</span>(</span><br><span class="line">        <span class="number">1.f</span> - std::<span class="built_in">abs</span>(grid.<span class="built_in">GetCorrespondenceCost</span>(Eigen::<span class="built_in">Array2i</span>(<span class="number">0</span>, y))));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step: 1 滑动窗口在x方向开始划入地图, 所以只进行 填入值</span></span><br><span class="line">    <span class="comment">// intermediate的索引x + width - 1 + y * stride的范围是 [0, width-2] 再加上 y * stride</span></span><br><span class="line">    <span class="comment">// grid的索引 x + width 的坐标范围是 [1, width-1]</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = -width + <span class="number">1</span>; x != <span class="number">0</span>; ++x) &#123;</span><br><span class="line">      intermediate[x + width - <span class="number">1</span> + y * stride] = current_values.<span class="built_in">GetMaximum</span>();</span><br><span class="line">      <span class="keyword">if</span> (x + width &lt; limits.num_x_cells) &#123;</span><br><span class="line">        current_values.<span class="built_in">AddValue</span>(<span class="number">1.f</span> - std::<span class="built_in">abs</span>(grid.<span class="built_in">GetCorrespondenceCost</span>(</span><br><span class="line">                                          Eigen::<span class="built_in">Array2i</span>(x + width, y))));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step: 2 滑动窗口已经完全在地图里了, 滑窗进行一入一出的操作</span></span><br><span class="line">    <span class="comment">// x + width - 1 + y * stride 的范围是 [width-1, limits.num_x_cells-2] 再加上 y * stride</span></span><br><span class="line">    <span class="comment">// grid的索引 x + width 的坐标范围是 [width, limits.num_x_cells-width-1]</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; limits.num_x_cells - width; ++x) &#123;</span><br><span class="line">      intermediate[x + width - <span class="number">1</span> + y * stride] = current_values.<span class="built_in">GetMaximum</span>();</span><br><span class="line">      current_values.<span class="built_in">RemoveValue</span>(</span><br><span class="line">          <span class="number">1.f</span> - std::<span class="built_in">abs</span>(grid.<span class="built_in">GetCorrespondenceCost</span>(Eigen::<span class="built_in">Array2i</span>(x, y))));</span><br><span class="line">      current_values.<span class="built_in">AddValue</span>(<span class="number">1.f</span> - std::<span class="built_in">abs</span>(grid.<span class="built_in">GetCorrespondenceCost</span>(</span><br><span class="line">                                        Eigen::<span class="built_in">Array2i</span>(x + width, y))));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step: 3 滑动窗口正在划出, 一次减少一个值, 所以intermediate的宽度比grid多 width-1</span></span><br><span class="line">    <span class="comment">// x + width - 1 + y * stride 的范围是 [limits.num_x_cells-1, limits.num_x_cells+width-1] 再加上 y * stride</span></span><br><span class="line">    <span class="comment">// grid 的索引 x的范围是 [limits.num_x_cells-width, limits.num_x_cells-1]</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = std::<span class="built_in">max</span>(limits.num_x_cells - width, <span class="number">0</span>);</span><br><span class="line">         x != limits.num_x_cells; ++x) &#123;</span><br><span class="line">      intermediate[x + width - <span class="number">1</span> + y * stride] = current_values.<span class="built_in">GetMaximum</span>();</span><br><span class="line">      current_values.<span class="built_in">RemoveValue</span>(</span><br><span class="line">          <span class="number">1.f</span> - std::<span class="built_in">abs</span>(grid.<span class="built_in">GetCorrespondenceCost</span>(Eigen::<span class="built_in">Array2i</span>(x, y))));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 理论上, 滑窗走完地图的一行之后应该是空的, 经过 只入, 一出一入, 只出, 3个步骤</span></span><br><span class="line">    current_values.<span class="built_in">CheckIsEmpty</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// For each (x, y), we compute the maximum probability in the width x width</span></span><br><span class="line">  <span class="comment">// region starting at each (x, y) and precompute the resulting bound on the</span></span><br><span class="line">  <span class="comment">// score.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 根据intermediate的值, 对每一列从下到上竖着再做一次滑窗, 这个才是真正的地图cells_</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x != wide_limits_.num_x_cells; ++x) &#123;</span><br><span class="line">    SlidingWindowMaximum current_values;</span><br><span class="line"></span><br><span class="line">    current_values.<span class="built_in">AddValue</span>(intermediate[x]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = -width + <span class="number">1</span>; y != <span class="number">0</span>; ++y) &#123;</span><br><span class="line">      cells_[x + (y + width - <span class="number">1</span>) * stride] =</span><br><span class="line">          <span class="built_in">ComputeCellValue</span>(current_values.<span class="built_in">GetMaximum</span>());</span><br><span class="line">      <span class="keyword">if</span> (y + width &lt; limits.num_y_cells) &#123;</span><br><span class="line">        current_values.<span class="built_in">AddValue</span>(intermediate[x + (y + width) * stride]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = <span class="number">0</span>; y &lt; limits.num_y_cells - width; ++y) &#123;</span><br><span class="line">      cells_[x + (y + width - <span class="number">1</span>) * stride] =</span><br><span class="line">          <span class="built_in">ComputeCellValue</span>(current_values.<span class="built_in">GetMaximum</span>());</span><br><span class="line">      current_values.<span class="built_in">RemoveValue</span>(intermediate[x + y * stride]);</span><br><span class="line">      current_values.<span class="built_in">AddValue</span>(intermediate[x + (y + width) * stride]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> y = std::<span class="built_in">max</span>(limits.num_y_cells - width, <span class="number">0</span>);</span><br><span class="line">         y != limits.num_y_cells; ++y) &#123;</span><br><span class="line">      cells_[x + (y + width - <span class="number">1</span>) * stride] =</span><br><span class="line">          <span class="built_in">ComputeCellValue</span>(current_values.<span class="built_in">GetMaximum</span>());</span><br><span class="line">      current_values.<span class="built_in">RemoveValue</span>(intermediate[x + y * stride]);</span><br><span class="line">    &#125;</span><br><span class="line">    current_values.<span class="built_in">CheckIsEmpty</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/07/1207%20Nav-controller%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写一个Controller插件-navigation2</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%A4%84"><span class="nav-number">1.</span> <span class="nav-text">函数调用处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fast-correlative-scan-matcher-2d-%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">fast_correlative_scan_matcher_2d 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastCorrelativeScanMatcher2D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">FastCorrelativeScanMatcher2D构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PrecomputationGridStack2D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">PrecomputationGridStack2D构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PrecomputationGrid2D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">PrecomputationGrid2D构造函数</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

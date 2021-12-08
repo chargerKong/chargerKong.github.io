@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            写一个行为树插件-navigation2 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">写一个行为树插件-navigation2</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-07 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/navigation2/">navigation2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="创建一个新插件"><a href="#创建一个新插件" class="headerlink" title="创建一个新插件"></a>创建一个新插件</h1><p>我们将创建一个简单的 BT 插件节点，使他在另一台服务器中执行操作。 对于本示例，我们将分析 nav2_behavior_tree 包中最简单的行为树操作节点，即wait节点。</p>
+<p>除了这个动作 BT 节点示例之外，您还可以创建自定义装饰器、条件和控制节点。 每个节点类型在行为树中都具有独特的作用，可以执行诸如planning、control BT 流、检查condition的状态或修改其他 BT 节点的输出等操作。</p>
+<p>下面的这份代码是 <a class="link"   target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2/tree/main/nav2_behavior_tree" >nav2_behavior_tree<i class="fas fa-external-link-alt"></i></a> 的包中的wait_action 节点.</p>
+<p>我们的示例插件继承自基类 nav2_behavior_tree::BtActionNode。 基类是 BehaviorTree.CPP BT::ActionNodeBase 的包装器，它利用 ROS 2  action 客户端简化了 BT  action 节点。 BTActionNode 既是 BT action，又使用 ROS 2 action 网络接口, 可以调用远程服务器来做一些工作。</p>
+<p>如果是其他类型的节点，就需要继承对应的Node,decorator, control, condition分别对应 <code>BT::DecoratorNode</code>, <code>BT::ControlNode</code>, or <code>BT::ConditionNode</code>。</p>
+<p>对于不使用 ROS 2 action 接口的 BT action 节点，请使用 BT::ActionNodeBase 基类本身。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>method</strong></th>
+<th><strong>Method description</strong></th>
+<th><strong>Required?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constructor</td>
+<td>Constructor to indicate the corresponding XML tag name to that matches the plugin, the name of the action server to call using the plugin, and any BehaviorTree.CPP special configurations required.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>providedPorts()</td>
+<td>A function to define the input and output ports a BT node may have. These are analogous to parameters that are defined in the BT XML by hardcoded values or by the value of other output ports of other nodes.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>on_tick()</td>
+<td>Method is called when this BT node is ticked by the behavior tree while executing. This should be used to get dynamic updates like new blackboard values, input ports, or parameters. May also reset state for the action.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>on_wait_for_result()</td>
+<td>Method is called when the behavior tree node is waiting for a result from the ROS 2 action server it called. This could be used to check for updates to preempt the current task, check for a timeout, or anything to compute while waiting for the action to complete.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>on_success()</td>
+<td>Method is called when the ROS 2 action server returns a successful result. Returns the value the BT node will report back to the tree.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>on_aborted()</td>
+<td>Method is called when the ROS 2 action server returns an aborted result. Returns the value the BT node will report back to the tree.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>on_cancelled()</td>
+<td>MMethod is called when the ROS 2 action server returns a cancelled result. Returns the value the BT node will report back to the tree.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在本教程中，我们只使用on_tick方法</p>
+<p>在这个例子中，我们设置了需要等待的时间duration</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">WaitAction::<span class="built_in">WaitAction</span>(</span><br><span class="line">  <span class="keyword">const</span> std::string &amp; xml_tag_name,</span><br><span class="line">  <span class="keyword">const</span> std::string &amp; action_name,</span><br><span class="line">  <span class="keyword">const</span> BT::NodeConfiguration &amp; conf)</span><br><span class="line">: BtActionNode&lt;nav2_msgs::action::Wait&gt;(xml_tag_name, action_name, conf)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">int</span> duration;</span><br><span class="line">  <span class="built_in">getInput</span>(<span class="string">&quot;wait_duration&quot;</span>, duration);</span><br><span class="line">  <span class="keyword">if</span> (duration &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">RCLCPP_WARN</span>(</span><br><span class="line">      node_-&gt;<span class="built_in">get_logger</span>(), <span class="string">&quot;Wait duration is negative or zero &quot;</span></span><br><span class="line">      <span class="string">&quot;(%i). Setting to positive.&quot;</span>, duration);</span><br><span class="line">    duration *= <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  goal_.time.sec = duration;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，我们给出xml_tag_name的输入，它告诉BT节点插件与该节点对应的XML中的字符串。action_name是将会被执行的action，最后一系列的配置我们可以暂时性忽略</p>
+<p>然后调用了BtActionNode构造函数，模板参数为nav2_msgs::action::Wait，即一个action message类型，BTActionNode中的tick()方法，当从树中调用该节点时，行为树直接调用该方法。然后，随着action客户端目标一起调用On_tick()。</p>
+<p>在构造函数中，我们通过输入给duration赋值，并且也给goal_对象中的时间进行赋值。</p>
+<p>providedPorts() 可以定义输入和输出，他是行为树节点可以访问的。我们的例子中，只有一个输入， <code>wait_duration</code>，这是对每一个BT xml节点都可以设置的。我们设置其值的类型为int，1，变量名为wait_duration，一个简单的描述 <code>Wait time</code>.</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> BT::PortsList <span class="title">providedPorts</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">providedBasicPorts</span>(</span><br><span class="line">    &#123;</span><br><span class="line">      BT::InputPort&lt;<span class="keyword">int</span>&gt;(<span class="string">&quot;wait_duration&quot;</span>, <span class="number">1</span>, <span class="string">&quot;Wait time&quot;</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当行为树标记特定节点时，调用on<em>tick()方法。对于此wait BT节点，我们只需通知blackboard上的计数器，对应于recovery的动作插件被勾选了。这对于保存在特定导航运行期间执行的recovery数量的度量非常有用。你也可以记录或更新goal</em>等待时间，如果那是一个变量输入。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WaitAction::on_tick</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">increment_recovery_count</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其余的方法不使用，也不强制覆盖它们。只有一些BT节点插件需要覆盖on_wait_for_result()来检查抢占或超时。如果没有方法的重写，success, aborted, and cancelled 方法将分别默认为success、FAILURE、success。</p>
+<h1 id="导出插件"><a href="#导出插件" class="headerlink" title="导出插件"></a>导出插件</h1><p>我们已经完成了插件的制作，现在需要将其导出。在BehaviorTree.CPP中，加载和导出插件的操作是通过宏BT_REGISTER_NODES来完成的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;behaviortree_cpp_v3/bt_factory.h&quot;</span></span></span><br><span class="line"><span class="built_in">BT_REGISTER_NODES</span>(factory)</span><br><span class="line">&#123;</span><br><span class="line">  BT::NodeBuilder builder =</span><br><span class="line">    [](<span class="keyword">const</span> std::string &amp; name, <span class="keyword">const</span> BT::NodeConfiguration &amp; config)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">return</span> std::make_unique&lt;nav2_behavior_tree::WaitAction&gt;(name, <span class="string">&quot;wait&quot;</span>, config);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  factory.registerBuilder&lt;nav2_behavior_tree::WaitAction&gt;(<span class="string">&quot;Wait&quot;</span>, builder);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在宏里面，我们必须要创建一个NodeBuilder的对象，这样才可以指定我们自定义的action，此lambda 函数会返回一个指向我们自定义的节点，传入参数name和config，然后定义ROS2的action 的名字，这里是wait action。</p>
+<p>最后把这个builder传入工厂去创建，Wait是xml行为树中的名字，也对应的插件的名字，下面是示例，其中Wait BT XML节点指定了一个非变量输入端口wait_duration为5秒。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Wait wait_duration&#x3D;&quot;5&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="添加插件名字到config文件"><a href="#添加插件名字到config文件" class="headerlink" title="添加插件名字到config文件"></a>添加插件名字到config文件</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">bt_navigator:</span></span><br><span class="line">  <span class="attr">ros__parameters:</span></span><br><span class="line">    <span class="attr">use_sim_time:</span> <span class="literal">True</span></span><br><span class="line">    <span class="attr">global_frame:</span> <span class="string">map</span></span><br><span class="line">    <span class="attr">robot_base_frame:</span> <span class="string">base_link</span></span><br><span class="line">    <span class="attr">odom_topic:</span> <span class="string">/odom</span></span><br><span class="line">    <span class="attr">default_bt_xml_filename:</span> <span class="string">&quot;navigate_w_replanning_and_recovery.xml&quot;</span></span><br><span class="line">    <span class="attr">plugin_lib_names:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">nav2_back_up_action_bt_node</span> <span class="comment"># other plugin</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">nav2_wait_action_bt_node</span>    <span class="comment"># our new plugin</span></span><br></pre></td></tr></table></figure>
+<h1 id="跑起来"><a href="#跑起来" class="headerlink" title="跑起来~"></a>跑起来~</h1><p>现在在行为树中可以使用刚刚自定义的节点了。下面是navigate_w_replanning_and_recovery.xml的例子</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;root main_tree_to_execute=<span class="string">&quot;MainTree&quot;</span>&gt;</span><br><span class="line">  &lt;BehaviorTree ID=<span class="string">&quot;MainTree&quot;</span>&gt;</span><br><span class="line">    &lt;RecoveryNode number_of_retries=<span class="string">&quot;6&quot;</span> name=<span class="string">&quot;NavigateRecovery&quot;</span>&gt;</span><br><span class="line">      &lt;PipelineSequence name=<span class="string">&quot;NavigateWithReplanning&quot;</span>&gt;</span><br><span class="line">        &lt;RateController hz=<span class="string">&quot;1.0&quot;</span>&gt;</span><br><span class="line">          &lt;RecoveryNode number_of_retries=<span class="string">&quot;1&quot;</span> name=<span class="string">&quot;ComputePathToPose&quot;</span>&gt;</span><br><span class="line">            &lt;ComputePathToPose goal=<span class="string">&quot;&#123;goal&#125;&quot;</span> path=<span class="string">&quot;&#123;path&#125;&quot;</span> planner_id=<span class="string">&quot;GridBased&quot;</span>/&gt;</span><br><span class="line">            &lt;ClearEntireCostmap name=<span class="string">&quot;ClearGlobalCostmap-Context&quot;</span> service_name=<span class="string">&quot;global_costmap/clear_entirely_global_costmap&quot;</span>/&gt;</span><br><span class="line">          &lt;/RecoveryNode&gt;</span><br><span class="line">        &lt;/RateController&gt;</span><br><span class="line">        &lt;RecoveryNode number_of_retries=<span class="string">&quot;1&quot;</span> name=<span class="string">&quot;FollowPath&quot;</span>&gt;</span><br><span class="line">          &lt;FollowPath path=<span class="string">&quot;&#123;path&#125;&quot;</span> controller_id=<span class="string">&quot;FollowPath&quot;</span>/&gt;</span><br><span class="line">          &lt;ClearEntireCostmap name=<span class="string">&quot;ClearLocalCostmap-Context&quot;</span> service_name=<span class="string">&quot;local_costmap/clear_entirely_local_costmap&quot;</span>/&gt;</span><br><span class="line">        &lt;/RecoveryNode&gt;</span><br><span class="line">      &lt;/PipelineSequence&gt;</span><br><span class="line">      &lt;ReactiveFallback name=<span class="string">&quot;RecoveryFallback&quot;</span>&gt;</span><br><span class="line">        &lt;GoalUpdated/&gt;</span><br><span class="line">        &lt;SequenceStar name=<span class="string">&quot;RecoveryActions&quot;</span>&gt;</span><br><span class="line">          &lt;ClearEntireCostmap name=<span class="string">&quot;ClearLocalCostmap-Subtree&quot;</span> service_name=<span class="string">&quot;local_costmap/clear_entirely_local_costmap&quot;</span>/&gt;</span><br><span class="line">          &lt;ClearEntireCostmap name=<span class="string">&quot;ClearGlobalCostmap-Subtree&quot;</span> service_name=<span class="string">&quot;global_costmap/clear_entirely_global_costmap&quot;</span>/&gt;</span><br><span class="line">          &lt;Spin spin_dist=<span class="string">&quot;1.57&quot;</span>/&gt;</span><br><span class="line">          &lt;Wait wait_duration=<span class="string">&quot;5&quot;</span>/&gt;</span><br><span class="line">        &lt;/SequenceStar&gt;</span><br><span class="line">      &lt;/ReactiveFallback&gt;</span><br><span class="line">    &lt;/RecoveryNode&gt;</span><br><span class="line">  &lt;/BehaviorTree&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/07/1207%20Nav-controller%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写一个Controller插件-navigation2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/07/1207%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">子图间约束-cartographer</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E6%8F%92%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">创建一个新插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BC%E5%87%BA%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">导出插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6%E5%90%8D%E5%AD%97%E5%88%B0config%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">添加插件名字到config文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="nav-number">4.</span> <span class="nav-text">跑起来~</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

@@ -177,7 +177,7 @@
 
         <div class="article-content markdown-body">
             <p>启动tb3_simulation 的时候，gazebo会卡顿，原因是找不到world，设置model的目录即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GAZEBO_MODEL_PATH&#x3D;&#x2F;opt&#x2F;ros&#x2F;foxy&#x2F;share&#x2F;turtlebot3_gazebo&#x2F;models&#x2F;\</span><br><span class="line">export TURTLEBOT3_MODEL&#x3D;waffle</span><br><span class="line">ros2 launch nav2_bringup tb3_simulation_launch.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GAZEBO_MODEL_PATH&#x3D;&#x2F;opt&#x2F;ros&#x2F;foxy&#x2F;share&#x2F;turtlebot3_gazebo&#x2F;models&#x2F;</span><br><span class="line">export TURTLEBOT3_MODEL&#x3D;waffle</span><br><span class="line">ros2 launch nav2_bringup tb3_simulation_launch.py</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -427,20 +427,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

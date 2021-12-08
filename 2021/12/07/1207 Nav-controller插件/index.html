@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            写一个Controller插件-navigation2 |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">写一个Controller插件-navigation2</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-07 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/navigation2/">navigation2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>在本教程中，我们将会使用 <code>PurePursuitController::configure</code>, <code>PurePursuitController::setPlan</code> 和 <code>PurePursuitController::computeVelocityCommands</code>.</p>
+<h1 id="创建一个新插件"><a href="#创建一个新插件" class="headerlink" title="创建一个新插件"></a>创建一个新插件</h1><h2 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h2><p>在控制器中，configure() 函数必须要完成初始化的操作</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PurePursuitController::configure</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> rclcpp_lifecycle::LifecycleNode::WeakPtr &amp; parent,</span></span></span><br><span class="line"><span class="function"><span class="params">  std::string name, <span class="keyword">const</span> std::shared_ptr&lt;tf2_ros::Buffer&gt; &amp; tf,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> std::shared_ptr&lt;nav2_costmap_2d::Costmap2DROS&gt; &amp; costmap_ros)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  node_ = parent;</span><br><span class="line">  <span class="keyword">auto</span> node = node_.<span class="built_in">lock</span>();</span><br><span class="line"></span><br><span class="line">  costmap_ros_ = costmap_ros;</span><br><span class="line">  tf_ = tf;</span><br><span class="line">  plugin_name_ = name;</span><br><span class="line">  logger_ = node-&gt;<span class="built_in">get_logger</span>();</span><br><span class="line">  clock_ = node-&gt;<span class="built_in">get_clock</span>();</span><br><span class="line"></span><br><span class="line">  <span class="built_in">declare_parameter_if_not_declared</span>(</span><br><span class="line">    node, plugin_name_ + <span class="string">&quot;.desired_linear_vel&quot;</span>, rclcpp::<span class="built_in">ParameterValue</span>(</span><br><span class="line">      <span class="number">0.2</span>));</span><br><span class="line">  <span class="built_in">declare_parameter_if_not_declared</span>(</span><br><span class="line">    node, plugin_name_ + <span class="string">&quot;.lookahead_dist&quot;</span>,</span><br><span class="line">    rclcpp::<span class="built_in">ParameterValue</span>(<span class="number">0.4</span>));</span><br><span class="line">  <span class="built_in">declare_parameter_if_not_declared</span>(</span><br><span class="line">    node, plugin_name_ + <span class="string">&quot;.max_angular_vel&quot;</span>, rclcpp::<span class="built_in">ParameterValue</span>(</span><br><span class="line">      <span class="number">1.0</span>));</span><br><span class="line">  <span class="built_in">declare_parameter_if_not_declared</span>(</span><br><span class="line">    node, plugin_name_ + <span class="string">&quot;.transform_tolerance&quot;</span>, rclcpp::<span class="built_in">ParameterValue</span>(</span><br><span class="line">      <span class="number">0.1</span>));</span><br><span class="line"></span><br><span class="line">  node-&gt;<span class="built_in">get_parameter</span>(plugin_name_ + <span class="string">&quot;.desired_linear_vel&quot;</span>, desired_linear_vel_);</span><br><span class="line">  node-&gt;<span class="built_in">get_parameter</span>(plugin_name_ + <span class="string">&quot;.lookahead_dist&quot;</span>, lookahead_dist_);</span><br><span class="line">  node-&gt;<span class="built_in">get_parameter</span>(plugin_name_ + <span class="string">&quot;.max_angular_vel&quot;</span>, max_angular_vel_);</span><br><span class="line">  <span class="keyword">double</span> transform_tolerance;</span><br><span class="line">  node-&gt;<span class="built_in">get_parameter</span>(plugin_name_ + <span class="string">&quot;.transform_tolerance&quot;</span>, transform_tolerance);</span><br><span class="line">  transform_tolerance_ = rclcpp::Duration::<span class="built_in">from_seconds</span>(transform_tolerance);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参数的名字规则为 <code>&lt;mapped_name_of_plugin&gt;.&lt;name_of_parameter&gt;</code> ，如果插件的名字是 <code>FollowPath</code> ，要获取参数 <code>desired_linear_vel</code>，那么参数名字就为<code>FollowPath.desired_linear_vel</code>。</p>
+<h2 id="setPlan"><a href="#setPlan" class="headerlink" title="setPlan"></a>setPlan</h2><p>我们会接收到一直更新的全局路径，发布此路径，并且保存到global<em>plan</em>中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PurePursuitController::setPlan</span><span class="params">(<span class="keyword">const</span> nav_msgs::msg::Path &amp; path)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  global_pub_-&gt;<span class="built_in">publish</span>(path);</span><br><span class="line">  global_plan_ = path;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="computeVelocityCommands"><a href="#computeVelocityCommands" class="headerlink" title="computeVelocityCommands()"></a>computeVelocityCommands()</h2><p>此函数可以计算速度指令，可以根据现有的速度和pose计算指令。在Pure Pursuit中，它会尽可能的去跟随全局路径来发布速度指令，此算法的速度是一个常量，它会基于这个全局路径来计算一个角度。最后返回一个cmd_vel</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">geometry_msgs::<span class="function">msg::TwistStamped <span class="title">PurePursuitController::computeVelocityCommands</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> geometry_msgs::msg::PoseStamped &amp; pose,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> geometry_msgs::msg::Twist &amp; velocity)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// Find the first pose which is at a distance greater than the specified lookahed distance</span></span><br><span class="line">  <span class="keyword">auto</span> goal_pose = std::<span class="built_in">find_if</span>(</span><br><span class="line">    global_plan_.poses.<span class="built_in">begin</span>(), global_plan_.poses.<span class="built_in">end</span>(),</span><br><span class="line">    [&amp;](<span class="keyword">const</span> <span class="keyword">auto</span> &amp; global_plan_pose) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">hypot</span>(</span><br><span class="line">        global_plan_pose.pose.position.x,</span><br><span class="line">        global_plan_pose.pose.position.y) &gt;= lookahead_dist_;</span><br><span class="line">    &#125;)-&gt;pose;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">double</span> linear_vel, angular_vel;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// If the goal pose is in front of the robot then compute the velocity using the pure pursuit algorithm</span></span><br><span class="line">  <span class="comment">// else rotate with the max angular velocity until the goal pose is in front of the robot</span></span><br><span class="line">  <span class="keyword">if</span> (goal_pose.position.x &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> curvature = <span class="number">2.0</span> * goal_pose.position.y /</span><br><span class="line">      (goal_pose.position.x * goal_pose.position.x + goal_pose.position.y * goal_pose.position.y);</span><br><span class="line">    linear_vel = desired_linear_vel_;</span><br><span class="line">    angular_vel = desired_linear_vel_ * curvature;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    linear_vel = <span class="number">0.0</span>;</span><br><span class="line">    angular_vel = max_angular_vel_;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Create and publish a TwistStamped message with the desired velocity</span></span><br><span class="line">  geometry_msgs::msg::TwistStamped cmd_vel;</span><br><span class="line">  cmd_vel.header.frame_id = pose.header.frame_id;</span><br><span class="line">  cmd_vel.header.stamp = clock_-&gt;<span class="built_in">now</span>();</span><br><span class="line">  cmd_vel.twist.linear.x = linear_vel;</span><br><span class="line">  cmd_vel.twist.angular.z = <span class="built_in">max</span>(</span><br><span class="line">    <span class="number">-1.0</span> * <span class="built_in">abs</span>(max_angular_vel_), <span class="built_in">min</span>(</span><br><span class="line">      angular_vel, <span class="built_in">abs</span>(</span><br><span class="line">        max_angular_vel_)));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> cmd_vel;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他的方法也是需要重载的，留空即可</p>
+<h1 id="导出插件"><a href="#导出插件" class="headerlink" title="导出插件"></a>导出插件</h1><p>我们已经完成了插件的制作，现在需要将其导出，这样controller Server才可以找到它。在ROS2中，导入和导出一个插件是通过 <code>pluginlib</code>来完成的</p>
+<ol>
+<li>代码的最后我们需要添加两行</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;pluginlib&#x2F;class_list_macros.hpp&quot;</span><br><span class="line">PLUGINLIB_EXPORT_CLASS(nav2_pure_pursuit_controller::PurePursuitController, nav2_core::Controller)</span><br></pre></td></tr></table></figure>
+<p>Pluginlib会提供一个宏 <code>PLUGINLIB_EXPORT_CLASS</code> ，他可以完成导出的所有工作</p>
+<p>这两行也可以写在做在文件的最前面，最好写在最后面</p>
+<ol>
+<li>接下来需要添加一下该描述该插件的xml文件，在根目录，创建pure_pursuit_controller_plugin.xml</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">library</span> <span class="attr">path</span>=<span class="string">&quot;nav2_pure_pursuit_controller&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">type</span>=<span class="string">&quot;nav2_pure_pursuit_controller::PurePursuitController&quot;</span> <span class="attr">base_class_type</span>=<span class="string">&quot;nav2_core::Controller&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">      This is pure pursuit controller</span><br><span class="line">    <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">library</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>属性信息：</p>
+<ul>
+<li><code>library path</code>:  插件的名字</li>
+<li><code>class name</code>: 类名</li>
+<li><code>class type</code>: 类的类型</li>
+<li><code>base class</code>: 基类的类名</li>
+<li><code>description</code>: 插件作用的描述</li>
+</ul>
+<ol>
+<li>下一步我们需要通过CMakeLists来导出插件，利用<code>pluginlib_export_plugin_description_file()</code>.函数，他可以把插件安装到share目录下</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pluginlib_export_plugin_description_file(nav2_core pure_pursuit_controller_plugin.xml)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>插件的描述应该被添加到 <code>package.xml</code>中</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;export&gt;</span><br><span class="line">  &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">  &lt;nav2_core plugin&#x3D;&quot;$&#123;prefix&#125;&#x2F;pure_pursuit_controller_plugin.xml&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;export&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>编译，生成插件</li>
+</ol>
+<h2 id="步骤三：使用插件"><a href="#步骤三：使用插件" class="headerlink" title="步骤三：使用插件"></a>步骤三：使用插件</h2><p>我们需要去修改Nav2的配置文件，修改原来的controller插件参数</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">controller_server:</span></span><br><span class="line">  <span class="attr">ros__parameters:</span></span><br><span class="line">    <span class="attr">controller_plugins:</span> [<span class="string">&quot;FollowPath&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="attr">FollowPath:</span></span><br><span class="line">      <span class="attr">plugin:</span> <span class="string">&quot;nav2_pure_pursuit_controller::PurePursuitController&quot;</span></span><br><span class="line">      <span class="attr">debug_trajectory_details:</span> <span class="literal">True</span></span><br><span class="line">      <span class="attr">desired_linear_vel:</span> <span class="number">0.2</span></span><br><span class="line">      <span class="attr">lookahead_dist:</span> <span class="number">0.4</span></span><br><span class="line">      <span class="attr">max_angular_vel:</span> <span class="number">1.0</span></span><br><span class="line">      <span class="attr">transform_tolerance:</span> <span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+<p>在上面的配置文件中，我们为id为FollowPath的插件 指定<code>nav2_pure_pursuit_controller::PurePursuitController</code>插件，为了使用插件特定的参数我们可以使用 <code>&lt;plugin_id&gt;.&lt;plugin_specific_parameter&gt;</code>.</p>
+<h2 id="步骤四：跑起来！"><a href="#步骤四：跑起来！" class="headerlink" title="步骤四：跑起来！"></a>步骤四：跑起来！</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 launch nav2_bringup tb3_simulation_launch.py params_file:&#x3D;&#x2F;path&#x2F;to&#x2F;your_params_file.yaml</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/08/1208%E5%A4%9A%E5%88%86%E8%BE%A8%E7%8E%87%E5%9C%B0%E5%9B%BE/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">多分辨率地图生成-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/07/1207%20Nav2%E5%A6%82%E4%BD%95%E5%86%99%E8%A1%8C%E4%B8%BA%E6%A0%91%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写一个行为树插件-navigation2</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E6%8F%92%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">创建一个新插件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#configure"><span class="nav-number">1.1.</span> <span class="nav-text">configure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setPlan"><span class="nav-number">1.2.</span> <span class="nav-text">setPlan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#computeVelocityCommands"><span class="nav-number">1.3.</span> <span class="nav-text">computeVelocityCommands()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BC%E5%87%BA%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">导出插件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">步骤三：使用插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E5%9B%9B%EF%BC%9A%E8%B7%91%E8%B5%B7%E6%9D%A5%EF%BC%81"><span class="nav-number">2.2.</span> <span class="nav-text">步骤四：跑起来！</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

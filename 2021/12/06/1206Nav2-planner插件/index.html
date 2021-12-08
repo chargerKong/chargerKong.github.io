@@ -176,13 +176,116 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="创建一个新的Planner插件"><a href="#创建一个新的Planner插件" class="headerlink" title="创建一个新的Planner插件"></a>创建一个新的Planner插件</h1>
+            <p>源<a class="link"   target="_blank" rel="noopener" href="https://navigation.ros.org/plugin_tutorials/docs/writing_new_nav2planner_plugin.html" >https://navigation.ros.org/plugin_tutorials/docs/writing_new_nav2planner_plugin.html<i class="fas fa-external-link-alt"></i></a></p>
+<p><img src="https://navigation.ros.org/_images/nav2_straightline_gif.gif" alt="Animated gif with gradient demo"></p>
+<h1 id="创建一个新的Planner插件"><a href="#创建一个新的Planner插件" class="headerlink" title="创建一个新的Planner插件"></a>创建一个新的Planner插件</h1><p>该教程会指导我们如何制作一个走直线的planner</p>
+<h2 id="前置要求"><a href="#前置要求" class="headerlink" title="前置要求"></a>前置要求</h2><ul>
+<li>ROS2</li>
+<li>Nav2</li>
+<li>Gazebo</li>
+<li>turtlebot3</li>
+</ul>
+<h2 id="步骤一：创建一个新的Planner插件"><a href="#步骤一：创建一个新的Planner插件" class="headerlink" title="步骤一：创建一个新的Planner插件"></a>步骤一：创建一个新的Planner插件</h2><p>我们会创建一个简单的走直线的Planner插件，代码在<a class="link"   target="_blank" rel="noopener" href="https://github.com/ros-planning/navigation2_tutorials" >navigation_tutorials<i class="fas fa-external-link-alt"></i></a> 仓库中，名字为nav2_straightline_planner。我们的插件继承于<code>nav2_core::GlobalPlanner</code>. 基类提供了五个纯虚函数，这个插件会被Planner Server调用来计算轨迹</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>Virtual method</strong></th>
+<th><strong>Method description</strong></th>
+<th><strong>Requires override?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>configure()</td>
+<td>Method is called at when planner server enters on_configure state. Ideally this methods should perform declarations of ROS parameters and initialization of planner’s member variables. This method takes 4 input params: shared pointer to parent node, planner name, tf buffer pointer and shared pointer to costmap.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>activate()</td>
+<td>Method is called when planner server enters on_activate state. Ideally this method should implement operations which are neccessary before planner goes to an active state.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>deactivate()</td>
+<td>Method is called when planner server enters on_deactivate state. Ideally this method should implement operations which are neccessary before planner goes to an inactive state.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>cleanup()</td>
+<td>Method is called when planner server goes to on_cleanup state. Ideally this method should clean up resoures which are created for the planner.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>createPlan()</td>
+<td>Method is called when planner server demands a global plan for specified start and goal pose. This method returns nav_msgs::msg::Path carrying global plan. This method takes 2 input parmas: start pose and goal pose.</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>在本教程中，我们会利用StraightLine::configure() 和 StraightLine::createPlan()来创建直线planner.</p>
+<p>在Planner中，configure() 方法必须要设置好成员变量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">node_ = parent;</span><br><span class="line">tf_ = tf;</span><br><span class="line">name_ = name;</span><br><span class="line">costmap_ = costmap_ros-&gt;<span class="built_in">getCostmap</span>();</span><br><span class="line">global_frame_ = costmap_ros-&gt;<span class="built_in">getGlobalFrameID</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Parameter initialization</span></span><br><span class="line">nav2_util::<span class="built_in">declare_parameter_if_not_declared</span>(node_, name_ + <span class="string">&quot;.interpolation_resolution&quot;</span>, rclcpp::<span class="built_in">ParameterValue</span>(<span class="number">0.1</span>));</span><br><span class="line">node_-&gt;<span class="built_in">get_parameter</span>(name_ + <span class="string">&quot;.interpolation_resolution&quot;</span>, interpolation_resolution_);</span><br></pre></td></tr></table></figure>
+<p>name_ + “.interpolation_resolution” 的值可以从ROS 参数系统中获得，并把他赋值给我们定义的成员变量，interpolation_resolution。Nav2可以同时加载多个插件，通过 <code>&lt;mapped_name_of_plugin&gt;.&lt;name_of_parameter&gt;</code> 方式可以检索出特定插件的参数。举个例子，如果这个插件名字为<code>GridBased</code>，我们想要指定interpolation_resolution 参数，那么<code>Gridbased.interpolation_resolution</code> 即可，</p>
+<p>在 <code>createPlan()</code>方法中，我们需要指定一条从start到end的路径。该方法会创建一个 <code>nav_msgs::msg::Path</code> 并将他返回给planner server。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">nav_msgs::msg::Path global_path;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Checking if the goal and start state is in the global frame</span></span><br><span class="line"><span class="keyword">if</span> (start.header.frame_id != global_frame_) &#123;</span><br><span class="line">  <span class="built_in">RCLCPP_ERROR</span>(</span><br><span class="line">    node_-&gt;<span class="built_in">get_logger</span>(), <span class="string">&quot;Planner will only except start position from %s frame&quot;</span>,</span><br><span class="line">    global_frame_.<span class="built_in">c_str</span>());</span><br><span class="line">  <span class="keyword">return</span> global_path;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (goal.header.frame_id != global_frame_) &#123;</span><br><span class="line">  <span class="built_in">RCLCPP_INFO</span>(</span><br><span class="line">    node_-&gt;<span class="built_in">get_logger</span>(), <span class="string">&quot;Planner will only except goal position from %s frame&quot;</span>,</span><br><span class="line">    global_frame_.<span class="built_in">c_str</span>());</span><br><span class="line">  <span class="keyword">return</span> global_path;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">global_path.poses.<span class="built_in">clear</span>();</span><br><span class="line">global_path.header.stamp = node_-&gt;<span class="built_in">now</span>();</span><br><span class="line">global_path.header.frame_id = global_frame_;</span><br><span class="line"><span class="comment">// calculating the number of loops for current value of interpolation_resolution_</span></span><br><span class="line"><span class="keyword">int</span> total_number_of_loop = std::<span class="built_in">hypot</span>(</span><br><span class="line">  goal.pose.position.x - start.pose.position.x,</span><br><span class="line">  goal.pose.position.y - start.pose.position.y) /</span><br><span class="line">  interpolation_resolution_;</span><br><span class="line"><span class="keyword">double</span> x_increment = (goal.pose.position.x - start.pose.position.x) / total_number_of_loop;</span><br><span class="line"><span class="keyword">double</span> y_increment = (goal.pose.position.y - start.pose.position.y) / total_number_of_loop;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; total_number_of_loop; ++i) &#123;</span><br><span class="line">  geometry_msgs::msg::PoseStamped pose;</span><br><span class="line">  pose.pose.position.x = start.pose.position.x + x_increment * i;</span><br><span class="line">  pose.pose.position.y = start.pose.position.y + y_increment * i;</span><br><span class="line">  pose.pose.position.z = <span class="number">0.0</span>;</span><br><span class="line">  pose.pose.orientation.x = <span class="number">0.0</span>;</span><br><span class="line">  pose.pose.orientation.y = <span class="number">0.0</span>;</span><br><span class="line">  pose.pose.orientation.z = <span class="number">0.0</span>;</span><br><span class="line">  pose.pose.orientation.w = <span class="number">1.0</span>;</span><br><span class="line">  pose.header.stamp = node_-&gt;<span class="built_in">now</span>();</span><br><span class="line">  pose.header.frame_id = global_frame_;</span><br><span class="line">  global_path.poses.<span class="built_in">push_back</span>(pose);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">global_path.poses.<span class="built_in">push_back</span>(goal);</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> global_path;</span><br></pre></td></tr></table></figure>
+<h2 id="步骤二：导出插件"><a href="#步骤二：导出插件" class="headerlink" title="步骤二：导出插件"></a>步骤二：导出插件</h2><p>我们已经完成了插件的制作，现在需要将其导出，这样Planner Server才可以找到它。在ROS2中，导入和导出一个插件是通过 <code>pluginlib</code>来完成的</p>
+<ol>
+<li>代码的最后我们需要添加两行</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;pluginlib&#x2F;class_list_macros.hpp&quot;</span><br><span class="line">PLUGINLIB_EXPORT_CLASS(nav2_straightline_planner::StraightLine, nav2_core::GlobalPlanner)</span><br></pre></td></tr></table></figure>
+<p>Pluginlib会提供一个宏 <code>PLUGINLIB_EXPORT_CLASS</code> ，他可以完成导出的所有工作</p>
+<p>这两行也可以写在做在文件的最前面</p>
+<ol>
+<li>接下来需要添加一下该描述该插件的xml文件，在根目录，创建global_planner_plugin.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">library</span> <span class="attr">path</span>=<span class="string">&quot;nav2_straightline_planner_plugin&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">&quot;nav2_straightline_planner/StraightLine&quot;</span> <span class="attr">type</span>=<span class="string">&quot;nav2_straightline_planner::StraightLine&quot;</span> <span class="attr">base_class_type</span>=<span class="string">&quot;nav2_core::GlobalPlanner&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>This is an example plugin which produces straight path.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">library</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>属性信息：</p>
+<ul>
+<li><code>library path</code>:  插件的名字</li>
+<li><code>class name</code>: 类名</li>
+<li><code>class type</code>: 类的类型</li>
+<li><code>base class</code>: 基类的类名</li>
+<li><code>description</code>: 插件作用的描述</li>
+</ul>
+<ol>
+<li>下一步我们需要通过CMakeLists来导出插件，利用<code>pluginlib_export_plugin_description_file()</code>.函数，他可以把插件安装到share目录下</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pluginlib_export_plugin_description_file(nav2_core global_planner_plugin.xml)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>插件的描述应该被添加到 <code>package.xml</code>中</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;export&gt;</span><br><span class="line">  &lt;build_type&gt;ament_cmake&lt;&#x2F;build_type&gt;</span><br><span class="line">  &lt;nav2_core plugin&#x3D;&quot;$&#123;prefix&#125;&#x2F;global_planner_plugin.xml&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;export&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>编译，生成插件</li>
+</ol>
+<h2 id="步骤三：使用插件"><a href="#步骤三：使用插件" class="headerlink" title="步骤三：使用插件"></a>步骤三：使用插件</h2><p>我们需要去修改Nav2的配置文件，修改原来的Planner插件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">planner_server:</span></span><br><span class="line"><span class="attr">ros__parameters:</span></span><br><span class="line">  <span class="attr">planner_plugin_types:</span> [<span class="string">&quot;nav2_straightline_planner/StraightLine&quot;</span>] <span class="comment"># For Eloquent and earlier</span></span><br><span class="line">  <span class="attr">planner_plugin_ids:</span> [<span class="string">&quot;GridBased&quot;</span>] <span class="comment"># For Eloquent and earlier</span></span><br><span class="line">  <span class="attr">plugins:</span> [<span class="string">&quot;GridBased&quot;</span>] <span class="comment"># For Foxy and later</span></span><br><span class="line">  <span class="attr">use_sim_time:</span> <span class="literal">True</span></span><br><span class="line">  <span class="attr">GridBased:</span></span><br><span class="line">    <span class="attr">plugin:</span> <span class="string">nav2_straightline_planner/StraightLine</span> <span class="comment"># For Foxy and later</span></span><br><span class="line">    <span class="attr">interpolation_resolution:</span> <span class="number">0.1</span></span><br></pre></td></tr></table></figure>
+<p>在上面的配置文件中，我们为id为GridBased的插件 指定<code>nav2_straightline_planner/StraightLine</code>插件，为了使用插件特定的参数我们可以使用 <code>&lt;plugin_id&gt;.&lt;plugin_specific_parameter&gt;</code>.</p>
+<h2 id="步骤四：跑起来！"><a href="#步骤四：跑起来！" class="headerlink" title="步骤四：跑起来！"></a>步骤四：跑起来！</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ros2 launch nav2_bringup tb3_simulation_launch.py params_file:&#x3D;&#x2F;path&#x2F;to&#x2F;your_params_file.yaml</span><br></pre></td></tr></table></figure>
+
         </div>
 
         
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/07/1207%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">子图间约束-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -361,7 +464,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Planner%E6%8F%92%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">创建一个新的Planner插件</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Planner%E6%8F%92%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">创建一个新的Planner插件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">前置要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84Planner%E6%8F%92%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">步骤一：创建一个新的Planner插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E4%BA%8C%EF%BC%9A%E5%AF%BC%E5%87%BA%E6%8F%92%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">步骤二：导出插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">步骤三：使用插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E5%9B%9B%EF%BC%9A%E8%B7%91%E8%B5%B7%E6%9D%A5%EF%BC%81"><span class="nav-number">1.5.</span> <span class="nav-text">步骤四：跑起来！</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
@@ -410,20 +513,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

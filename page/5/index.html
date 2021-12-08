@@ -132,6 +132,128 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/06/1106%E7%82%B9%E4%BA%91%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">
+                        点云时间同步-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        对雷达的同步的函数文件位于cartographer/mapping/internal/range_data_collator.cc文件中 
+同步雷达时间的类为RangeDataCollator
+首先查看一下头文件，
+构造函数对expectedsens...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 06 2021 18:38:29 GMT+0800">2021-11-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/06/1106%E7%82%B9%E4%BA%91%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">
+                        点云匹配预备-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        上节说到，在global_traject_builder 中会进行AddSensorData 加入转化为点云的雷达扫描数据
+第一步即，扫描匹配，in GlobalTrajectoryBuilder类的AddSensorData中
+1234// 进行扫...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 06 2021 18:38:29 GMT+0800">2021-11-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">
+                        cartographer-数据分发小结
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在处理数据之前，cartographer需要进行数据分发器的创建，然后数据的处理
+数据分发器的创建整一个数据分发器的建立就是AddTrajectory的过程，最后需要达到如下效果
+针对每一个轨迹下的每一个topic, 即QueueKey, 绑定一个回...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">
+                        std::tie 如何返回多个值
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        假设有两个变量，需要赋值
+12NodeOptions node_options;TrajectoryOptions trajectory_options;
+我们可以一次性通过std::tie 进行赋值
+12std::tie(node_options,...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/11/05/1105%20global_trajectory_builder/">
                         global_trajectory_builder-cartographer
                     </a>
@@ -306,120 +428,6 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">
-                        使用colcon_cd
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1echo &quot;source &#x2F;usr&#x2F;share&#x2F;colcon_cd&#x2F;function&#x2F;colcon_cd.sh&quot; &gt;&gt; ~&#x2F;.bashrc
-1echo &q...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 28 2021 09:59:22 GMT+0800">2021-10-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/27/1027sensor_collate/">
-                        sensor_collate-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        sensor_collator的创建map_builder.cc文件：MapBuilder的构造函数
-1234567891011121314MapBuilder::MapBuilder(const proto::MapBuilderOptions&a...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 27 2021 09:59:22 GMT+0800">2021-10-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/27/1027sensor_collate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">
-                        ros2 launch 使用记录说明
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        IncludeLaunchDescriptioncondition、launch_arguments12345678910111213141516171819202122232425262728from launch import LaunchDes...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">
-                        多个tf树无法连接
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        问题报错1Could not find a connection between &#39;base_link&#39; and &#39;base_footprint&#39; because they are not part of the sa...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -550,20 +558,5 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

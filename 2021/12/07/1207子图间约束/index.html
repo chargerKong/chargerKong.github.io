@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            子图间约束-cartographer |
+        
+        随笔记
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                随笔记
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">子图间约束-cartographer</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-12-07 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>之前说到ComputeConstraintsForNode，完成了初始化全局submap的位姿，和子图间内约束。</p>
+<h1 id="ComputeConstraintsForNode"><a href="#ComputeConstraintsForNode" class="headerlink" title="ComputeConstraintsForNode"></a>ComputeConstraintsForNode</h1><p>在文件<code>WorkItem::Result PoseGraph2D::ComputeConstraintsForNode</code>中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 当前节点与所有已经完成的子图进行约束的计算---实际上就是回环检测</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; submap_id : finished_submap_ids) &#123;</span><br><span class="line">  <span class="comment">// 计算旧的submap和新的节点间的约束</span></span><br><span class="line">  <span class="built_in">ComputeConstraint</span>(node_id, submap_id);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Step: 计算所有节点与刚完成子图间的约束---实际上就是回环检测</span></span><br><span class="line"><span class="keyword">if</span> (newly_finished_submap) &#123;</span><br><span class="line">  <span class="keyword">const</span> SubmapId newly_finished_submap_id = submap_ids.<span class="built_in">front</span>();</span><br><span class="line">  <span class="comment">// We have a new completed submap, so we look into adding constraints for</span></span><br><span class="line">  <span class="comment">// old nodes.</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; node_id_data : optimization_problem_-&gt;<span class="built_in">node_data</span>()) &#123;</span><br><span class="line">    <span class="keyword">const</span> NodeId&amp; node_id = node_id_data.id;</span><br><span class="line">    <span class="comment">// 刚结束的子图内部的节点, 不再与这个子图进行约束的计算</span></span><br><span class="line">    <span class="keyword">if</span> (newly_finished_submap_node_ids.<span class="built_in">count</span>(node_id) == <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 计算新的submap和旧的节点间的约束</span></span><br><span class="line">      <span class="built_in">ComputeConstraint</span>(node_id, newly_finished_submap_id);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>本文详细说明一下子图间的约束，即点和子图的约束.</p>
+<h1 id="ComputeConstraint"><a href="#ComputeConstraint" class="headerlink" title="ComputeConstraint"></a>ComputeConstraint</h1><p>计算子图间约束(回环检测)。传入的内容是节点的ID和submap的ID.<code>mapping/internal/2d/pose_graph_2d.cc</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 进行子图间约束计算, 也可以说成是回环检测</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @param[in] node_id 节点的id</span></span><br><span class="line"><span class="comment"> * @param[in] submap_id submap的id</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PoseGraph2D::ComputeConstraint</span><span class="params">(<span class="keyword">const</span> NodeId&amp; node_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    <span class="keyword">const</span> SubmapId&amp; submap_id)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">bool</span> maybe_add_local_constraint = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">bool</span> maybe_add_global_constraint = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">const</span> TrajectoryNode::Data* constant_data;</span><br><span class="line">  <span class="keyword">const</span> Submap2D* submap;</span><br></pre></td></tr></table></figure>
+<p>如果地图未完成状态，则立马退出</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果是未完成状态的地图不进行约束计算</span></span><br><span class="line"><span class="keyword">if</span> (!data_.submap_data.<span class="built_in">at</span>(submap_id).submap-&gt;<span class="built_in">insertion_finished</span>()) &#123;</span><br><span class="line">  <span class="comment">// Uplink server only receives grids when they are finished, so skip</span></span><br><span class="line">  <span class="comment">// constraint search before that.</span></span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比较此node和submap中最近一次添加的node时间做对比</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取该 node 和该 submap 中的 node 中较新的时间</span></span><br><span class="line">    <span class="keyword">const</span> common::Time node_time = <span class="built_in">GetLatestNodeTime</span>(node_id, submap_id);</span><br></pre></td></tr></table></figure>
+<p>如果在建图的过程中，此if一直为true，则设置添加局部约束为true</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 两个轨迹的最后连接时间</span></span><br><span class="line"><span class="keyword">const</span> common::Time last_connection_time =</span><br><span class="line">    data_.trajectory_connectivity_state.<span class="built_in">LastConnectionTime</span>(</span><br><span class="line">        node_id.trajectory_id, submap_id.trajectory_id);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果节点和子图属于同一轨迹, 或者时间小于阈值</span></span><br><span class="line"><span class="comment">// 则只需进行 局部搜索窗口 的约束计算(对局部子图进行回环检测)</span></span><br><span class="line"><span class="keyword">if</span> (node_id.trajectory_id == submap_id.trajectory_id ||</span><br><span class="line">    node_time &lt;</span><br><span class="line">        last_connection_time +</span><br><span class="line">            common::<span class="built_in">FromSeconds</span>(</span><br><span class="line">                options_.<span class="built_in">global_constraint_search_after_n_seconds</span>())) &#123;</span><br><span class="line">  <span class="comment">// If the node and the submap belong to the same trajectory or if there</span></span><br><span class="line">  <span class="comment">// has been a recent global constraint that ties that node&#x27;s trajectory to</span></span><br><span class="line">  <span class="comment">// the submap&#x27;s trajectory, it suffices to do a match constrained to a</span></span><br><span class="line">  <span class="comment">// local search window.</span></span><br><span class="line"></span><br><span class="line">  maybe_add_local_constraint = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在重定位的过程中，可能if会不成立，则设置添加全局约束</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (global_localization_samplers_[node_id.trajectory_id]-&gt;<span class="built_in">Pulse</span>()) &#123;</span><br><span class="line">  maybe_add_global_constraint = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取节点信息数据与地图数据</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">constant_data = data_.trajectory_nodes.<span class="built_in">at</span>(node_id).constant_data.<span class="built_in">get</span>();</span><br><span class="line">    submap = <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> Submap2D*&gt;(</span><br><span class="line">        data_.submap_data.<span class="built_in">at</span>(submap_id).submap.<span class="built_in">get</span>());</span><br></pre></td></tr></table></figure>
+<p>通过局部搜索进行回环检测，调用MaybeAddConstraint添加约束</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 建图时只会执行这块, 通过局部搜索进行回环检测</span></span><br><span class="line"><span class="keyword">if</span> (maybe_add_local_constraint) &#123;</span><br><span class="line">  <span class="comment">// 计算约束的先验估计值</span></span><br><span class="line">  <span class="comment">// submap原点在global坐标系下的坐标的逆 * 节点在global坐标系下的坐标 = submap原点指向节点的坐标变换</span></span><br><span class="line">  <span class="keyword">const</span> transform::Rigid2d initial_relative_pose =</span><br><span class="line">      optimization_problem_-&gt;<span class="built_in">submap_data</span>()</span><br><span class="line">          .<span class="built_in">at</span>(submap_id)</span><br><span class="line">          .global_pose.<span class="built_in">inverse</span>() *</span><br><span class="line">      optimization_problem_-&gt;<span class="built_in">node_data</span>().<span class="built_in">at</span>(node_id).global_pose_2d;</span><br><span class="line">  <span class="comment">// 进行局部搜索窗口 的约束计算 (对局部子图进行回环检测)</span></span><br><span class="line">  constraint_builder_.<span class="built_in">MaybeAddConstraint</span>(</span><br><span class="line">      submap_id, submap, node_id, constant_data, initial_relative_pose);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定位时才有可能执行这块，调用MaybeAddGlobalConstraint添加约束</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定位时才有可能执行这块</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (maybe_add_global_constraint) &#123;</span><br><span class="line">  <span class="comment">// 全局搜索窗口 的约束计算 (对整体子图进行回环检测)</span></span><br><span class="line">  constraint_builder_.<span class="built_in">MaybeAddGlobalConstraint</span>(submap_id, submap, node_id,</span><br><span class="line">                                               constant_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MaybeAddConstraint"><a href="#MaybeAddConstraint" class="headerlink" title="MaybeAddConstraint"></a>MaybeAddConstraint</h2><p>此函数添加的是节点和子图的约束, <code>mapping/internal/contraints/contraint_builder_2d.cc</code></p>
+<p>总的来说一共做了一下内容</p>
+<ul>
+<li>计算量的过滤</li>
+<li>新建匹配器（构成七张地图的匹配器）送入线程池</li>
+<li>把计算节点和submap的约束的函数送入线程池，并添加相应的依赖</li>
+</ul>
+<p><strong>具体实现</strong></p>
+<p>超过范围的不进行约束的计算，此距离可以在配置文件中设置，pose_graph.lua文件中，constraint_builder的max_constraint_distance。对局部子图进行回环检测时能成为约束的最大距离（什么是局部子图）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">max_constraint_distance  <span class="comment">// 超过范围的不进行约束的计算</span></span><br><span class="line">  <span class="keyword">if</span> (initial_relative_pose.<span class="built_in">translation</span>().<span class="built_in">norm</span>() &gt;</span><br><span class="line">      options_.<span class="built_in">max_constraint_distance</span>()) &#123; <span class="comment">// param: max_constraint_distance</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>在队列中新建一个指向Constraint数据的指针</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在队列中新建一个指向Constraint数据的指针</span></span><br><span class="line">constraints_.<span class="built_in">emplace_back</span>();</span><br><span class="line">kQueueLengthMetric-&gt;<span class="built_in">Set</span>(constraints_.<span class="built_in">size</span>());</span><br><span class="line"><span class="keyword">auto</span>* <span class="keyword">const</span> constraint = &amp;constraints_.<span class="built_in">back</span>();</span><br></pre></td></tr></table></figure>
+<p>为子图新建一个匹配器，传入的是此submap的栅格地图</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 为子图新建一个匹配器</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span>* scan_matcher =</span><br><span class="line">    <span class="built_in">DispatchScanMatcherConstruction</span>(submap_id, submap-&gt;<span class="built_in">grid</span>());</span><br></pre></td></tr></table></figure>
+<p>新建约束任务，进行添加, 注意此ComputeConstraint 非 之前的ComputeConstraint</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> constraint_task = absl::make_unique&lt;common::Task&gt;();</span><br><span class="line">constraint_task-&gt;<span class="built_in">SetWorkItem</span>([=]() <span class="built_in">LOCKS_EXCLUDED</span>(mutex_) &#123;</span><br><span class="line">  <span class="built_in">ComputeConstraint</span>(submap_id, submap, node_id, <span class="literal">false</span>, <span class="comment">/* match_full_submap */</span></span><br><span class="line">                    constant_data, initial_relative_pose, *scan_matcher,</span><br><span class="line">                    constraint);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>为此任务添加依赖，注意，这是放入线程池因此不会直接运行，而是等待调度</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 等匹配器之后初始化才能进行约束的计算</span></span><br><span class="line">  constraint_task-&gt;<span class="built_in">AddDependency</span>(scan_matcher-&gt;creation_task_handle);</span><br><span class="line">  <span class="comment">// 将计算约束这个任务放入线程池等待执行</span></span><br><span class="line">    <span class="keyword">auto</span> constraint_task_handle =</span><br><span class="line">      thread_pool_-&gt;<span class="built_in">Schedule</span>(std::<span class="built_in">move</span>(constraint_task));</span><br><span class="line">  <span class="comment">// 将计算约束这个任务 添加到 finish_node_task_的依赖项中</span></span><br><span class="line">  finish_node_task_-&gt;<span class="built_in">AddDependency</span>(constraint_task_handle);</span><br></pre></td></tr></table></figure>
+<p>finish<em>node_task</em> 在每一次运行到这的时候都会添加一个依赖项，因此他可能会依赖上百个任务，来表示这个NODE到底有没有完成优化task</p>
+<h3 id="匹配器的建立"><a href="#匹配器的建立" class="headerlink" title="匹配器的建立"></a>匹配器的建立</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为每个子图新建一个匹配器</span></span><br><span class="line"><span class="keyword">const</span> ConstraintBuilder2D::SubmapScanMatcher*</span><br><span class="line">ConstraintBuilder2D::<span class="built_in">DispatchScanMatcherConstruction</span>(<span class="keyword">const</span> SubmapId&amp; submap_id,</span><br><span class="line">                                                     <span class="keyword">const</span> Grid2D* <span class="keyword">const</span> grid) &#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(grid);</span><br><span class="line">  <span class="comment">// 如果匹配器里已经存在, 则直接返回对应id的匹配器</span></span><br><span class="line">  <span class="keyword">if</span> (submap_scan_matchers_.<span class="built_in">count</span>(submap_id) != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;submap_scan_matchers_.<span class="built_in">at</span>(submap_id);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// submap_scan_matchers_新增加一个 key</span></span><br><span class="line">  <span class="keyword">auto</span>&amp; submap_scan_matcher = submap_scan_matchers_[submap_id];</span><br><span class="line">  kNumSubmapScanMatchersMetric-&gt;<span class="built_in">Set</span>(submap_scan_matchers_.<span class="built_in">size</span>());</span><br><span class="line">  <span class="comment">// 保存栅格地图的指针</span></span><br><span class="line">  submap_scan_matcher.grid = grid;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">auto</span>&amp; scan_matcher_options = options_.<span class="built_in">fast_correlative_scan_matcher_options</span>();</span><br><span class="line">  <span class="keyword">auto</span> scan_matcher_task = absl::make_unique&lt;common::Task&gt;();</span><br><span class="line">  <span class="comment">// 生成一个将初始化匹配器的任务, 初始化时会计算多分辨率地图, 比较耗时,把他放入线程池的原因是</span></span><br><span class="line">  <span class="comment">// 这里需要生成七张地图，比较费时</span></span><br><span class="line">  scan_matcher_task-&gt;<span class="built_in">SetWorkItem</span>(</span><br><span class="line">      [&amp;submap_scan_matcher, &amp;scan_matcher_options]() &#123;</span><br><span class="line">        <span class="comment">// 进行匹配器的初始化, 与多分辨率地图的创建</span></span><br><span class="line">        submap_scan_matcher.fast_correlative_scan_matcher =</span><br><span class="line">            absl::make_unique&lt;scan_matching::FastCorrelativeScanMatcher2D&gt;(</span><br><span class="line">                *submap_scan_matcher.grid, scan_matcher_options);</span><br><span class="line">      &#125;);</span><br><span class="line">  <span class="comment">// 将初始化匹配器的任务放入线程池中, 并且将任务的智能指针保存起来</span></span><br><span class="line">  submap_scan_matcher.creation_task_handle =</span><br><span class="line">      thread_pool_-&gt;<span class="built_in">Schedule</span>(std::<span class="built_in">move</span>(scan_matcher_task));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &amp;submap_scan_matchers_.<span class="built_in">at</span>(submap_id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面继续走</p>
+<h1 id="ComputeConstraintsForNode-1"><a href="#ComputeConstraintsForNode-1" class="headerlink" title="ComputeConstraintsForNode"></a>ComputeConstraintsForNode</h1><p>在计算完上面的节点和子图之间的局部和全部约束之后，调用函数constraint<em>builder</em>.NotifyEndOfNode();来通知该节点的约束构建完毕</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 结束构建约束</span></span><br><span class="line">constraint_builder_.<span class="built_in">NotifyEndOfNode</span>();</span><br></pre></td></tr></table></figure>
+<h2 id="NotifyEndOfNode"><a href="#NotifyEndOfNode" class="headerlink" title="NotifyEndOfNode"></a>NotifyEndOfNode</h2><ul>
+<li>添加finish<em>node_task</em>的任务，因为之前都已经设置好了他的依赖了，所以依赖完成一个他加一个1</li>
+<li>添加when<em>done_task</em> 任务</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 告诉ConstraintBuilder2D的对象, 刚刚完成了一个节点的约束的计算</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConstraintBuilder2D::NotifyEndOfNode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">locker</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="built_in">CHECK</span>(finish_node_task_ != <span class="literal">nullptr</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 生成个任务: 将num_finished_nodes_自加, 记录完成约束计算节点的总个数</span></span><br><span class="line">  finish_node_task_-&gt;<span class="built_in">SetWorkItem</span>([<span class="keyword">this</span>] &#123;</span><br><span class="line">    absl::MutexLock <span class="built_in">locker</span>(&amp;mutex_);</span><br><span class="line">    ++num_finished_nodes_;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将这个任务传入线程池中等待执行, 由于之前添加了依赖, 所以finish_node_task_一定会比计算约束更晚完成</span></span><br><span class="line">  <span class="keyword">auto</span> finish_node_task_handle =</span><br><span class="line">      thread_pool_-&gt;<span class="built_in">Schedule</span>(std::<span class="built_in">move</span>(finish_node_task_));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// move之后finish_node_task_就没有指向的地址了, 所以这里要重新初始化</span></span><br><span class="line">  finish_node_task_ = absl::make_unique&lt;common::Task&gt;();</span><br><span class="line">  <span class="comment">// 设置when_done_task_依赖finish_node_task_handle</span></span><br><span class="line">  when_done_task_-&gt;<span class="built_in">AddDependency</span>(finish_node_task_handle);</span><br><span class="line">  ++num_started_nodes_;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/07/1207%20Nav2%E5%A6%82%E4%BD%95%E5%86%99%E8%A1%8C%E4%B8%BA%E6%A0%91%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写一个行为树插件-navigation2</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/12/06/1206Nav2-planner%E6%8F%92%E4%BB%B6/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写一个planner插件-navigation2</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'en'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ComputeConstraintsForNode"><span class="nav-number">1.</span> <span class="nav-text">ComputeConstraintsForNode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ComputeConstraint"><span class="nav-number">2.</span> <span class="nav-text">ComputeConstraint</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MaybeAddConstraint"><span class="nav-number">2.1.</span> <span class="nav-text">MaybeAddConstraint</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%99%A8%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">匹配器的建立</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ComputeConstraintsForNode-1"><span class="nav-number">3.</span> <span class="nav-text">ComputeConstraintsForNode</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NotifyEndOfNode"><span class="nav-number">3.1.</span> <span class="nav-text">NotifyEndOfNode</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
