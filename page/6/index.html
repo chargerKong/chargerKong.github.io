@@ -132,6 +132,68 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/29/1030blocking_queue/">
+                        Blocking-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        一个阻塞队列，可以看成是一个缓冲区。
+生产者把数据放入队列，消费者把数据从队列里取出来进行消费
+为什么要用生产，消费模式
+解耦：生产者和消费者之间不能直接依赖，从队列里取，
+并发：  生产者直接调用消费者, 两者是同步（阻塞）的, 如果消费者吞吐数据...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:23 GMT+0800">2021-10-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/29/1030blocking_queue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/29/1029OrderedMultiQueue/">
+                        OrderedMultiQueue(一)-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        类Collator是对传感器数据的处理
+他的全部操作相当于是对如下数据结构的数据进行封装
+12// Queue keys are a pair of trajectory ID and sensor identifier.OrderedMultiQu...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:22 GMT+0800">2021-10-29</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/29/1029OrderedMultiQueue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">
                         使用colcon_cd
                     </a>
@@ -358,66 +420,6 @@ AddSensorDataAddSensorData 函数为CollatedTrajectoryBuil...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/21/1021%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A4%B4%E6%96%87%E4%BB%B6/">
-                        colcon 安装之后仍然无法找不到头文件
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在src文件下安装了ros2的filter功能包，正常编译通过。
-但是其他功能包对其调用的时候却显示
-1fatal error: filters&#x2F;median.hpp: No such file or directory
-1 没有重新sou...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 21 2021 09:59:22 GMT+0800">2021-10-21</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/21/1021%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A4%B4%E6%96%87%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/21/1019collator/">
-                        collator类
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        此类的作用是整理传感器的数据，不区分2d和3d。先让数据按照时间排列，然后输入前端。只对传感器数据进行处理没有其他的操作
-继承类TrajectoryBuilderInterfaceCollatedTrajectoryBuilder 类继承于 Traj...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 21 2021 09:59:22 GMT+0800">2021-10-21</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/21/1019collator/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -548,5 +550,20 @@ AddSensorDataAddSensorData 函数为CollatedTrajectoryBuil...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

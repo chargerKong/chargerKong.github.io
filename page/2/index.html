@@ -132,6 +132,66 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/12/04/1204PoseGraph2d/">
+                        PoseGraph2D-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        PoseGraph2D文件位于mapping/internel/2d
+继承于PoseGraphInterface
+PoseGraphInterface节点: tracking_frame的位姿, 子图原点的位姿
+约束: tracking_frame与...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Dec 04 2021 18:38:29 GMT+0800">2021-12-04</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/12/04/1204PoseGraph2d/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/12/04/1204workItem-cartographer/">
+                        WorkItem与 线程池-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        WorkItem定义了一个task，他的返回类型是一个Result, 而Result只有两个变量，即，是否优化
+123456789101112struct WorkItem &#123;  enum class Result &#123;    kD...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Dec 04 2021 17:38:29 GMT+0800">2021-12-04</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/12/04/1204workItem-cartographer/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/12/03/1203%20%E5%AE%89%E8%A3%85Groot/">
                         Groot安装
                     </a>
@@ -371,64 +431,6 @@ F(x)=\min_x ||f(x)||^2那么$F(x)$的最小值也就是当$x=x_0$时，$F(x)=0$�
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8.md/">
-                        ceres使用
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        cartographer的ceres扫描匹配使用在cartographer/mapping/internal/2d/local_trajetory_builder.cc中
-ceres 调用处12345// 使用ceres进行扫描匹配ceres_sca...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 25 2021 18:38:29 GMT+0800">2021-11-25</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8.md/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/25/1125lifecycle%20intro/">
-                        node lifecycle intro
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        https://index.ros.org/p/lifecycle/
-IntroductionROS2 introduces the concept of managed nodes, also called LifecycleNodeIn the ...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 25 2021 18:38:29 GMT+0800">2021-11-25</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/25/1125lifecycle%20intro/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -559,5 +561,20 @@ IntroductionROS2 introduces the concept of managed nodes, also called LifecycleN
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

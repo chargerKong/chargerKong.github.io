@@ -132,6 +132,66 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/08/1008sensor_bridge4/">
+                        HandleLaserScan-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        上一次说道雷达如何转换为点云数据，无论是LaserScan还是多回声波雷达数据，都通过ToPointCloudWithIntensities函数进行转换，本节需要通过HandleLaserScan把点云数据进行处理。
+激光雷达首先从订阅的回调函数做过...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 08 2021 09:59:22 GMT+0800">2021-10-08</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/08/1008sensor_bridge4/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/07/1007sensor_bridge_point_cloud/">
+                        雷达转点云-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在cartographer中，有两种雷达的消息格式，一个是LaserScan，另外一个是MultiEchoLaserScan，即多回声波雷达。
+雷达消息处理流程下面是cartographer在接收到雷达消息的之后的流程示意图
+
+node类筛选数据在N...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 07 2021 09:59:22 GMT+0800">2021-10-07</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/07/1007sensor_bridge_point_cloud/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/09/29/0929%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">
                         undefined reference to `vtable for Tianboard&#39;
                     </a>
@@ -366,64 +426,6 @@ AddTrajectoy123456789101112131415161718192021222324252627282930313233343536int M
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/09/0909%E9%85%8D%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/">
-                        配置Odometry-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        翻译至https://navigation.ros.org/setup_guides/odom/setup_odom.html
-在本指南中，我们将研究如何将机器人的odometry系统与Nav2集成。首先，我们将简要介绍一下里程计，以及Nav2正确运...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 09 2021 15:59:23 GMT+0800">2021-09-09</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/09/0909%E9%85%8D%E7%BD%AE%E9%87%8C%E7%A8%8B%E8%AE%A1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/09/09/0909URDF-nav2/">
-                        配置URDF-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        翻译自https://navigation.ros.org/setup_guides/urdf/setup_urdf.html#urdf-and-the-robot-state-publisher
-在此教程中，我们会带着你用URDF手写一个双轮差速机...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 09 2021 15:59:22 GMT+0800">2021-09-09</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/09/09/0909URDF-nav2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -554,5 +556,20 @@ AddTrajectoy123456789101112131415161718192021222324252627282930313233343536int M
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -132,6 +132,64 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8.md/">
+                        ceres使用
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        cartographer的ceres扫描匹配使用在cartographer/mapping/internal/2d/local_trajetory_builder.cc中
+ceres 调用处12345// 使用ceres进行扫描匹配ceres_sca...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 25 2021 18:38:29 GMT+0800">2021-11-25</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8.md/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/25/1125lifecycle%20intro/">
+                        node lifecycle intro
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        https://index.ros.org/p/lifecycle/
+IntroductionROS2 introduces the concept of managed nodes, also called LifecycleNodeIn the ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 25 2021 18:38:29 GMT+0800">2021-11-25</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/25/1125lifecycle%20intro/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/">
                         扫描匹配-cartographer
                     </a>
@@ -369,63 +427,6 @@ Calli...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/18/1118%E5%9C%B0%E5%9B%BE%E5%9D%90%E6%A0%87%E7%B3%BB/">
-                        地图坐标系-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        ActiveSubmaps2D::AddSubmap 添加子图的过程中，需要新建一个子图（类Submap2D）然后进行添加。创建Submap2D则需要一个创建Grid2D
-在ActiveSubmaps2D::CreateGrid函数中（cartogr...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 18 2021 18:38:29 GMT+0800">2021-11-18</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/18/1118%E5%9C%B0%E5%9B%BE%E5%9D%90%E6%A0%87%E7%B3%BB/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/18/1119%20nav2-begin/">
-                        initial pose-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1ros2 topic pub -t 1 &#x2F;initialpose geometry_msgs&#x2F;msg&#x2F;PoseWithCovarianceStamped &quot;&#123;header: &#123;stamp:...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 18 2021 18:38:29 GMT+0800">2021-11-18</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/18/1119%20nav2-begin/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -556,5 +557,20 @@ Calli...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

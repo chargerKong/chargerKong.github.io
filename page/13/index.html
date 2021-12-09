@@ -132,6 +132,73 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/05/28/%E5%BB%BA%E5%9B%BE/">
+                        建图
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        当我们已知了机器人的正确的位姿了之后，就可以进行建图了。
+地图分类
+尺度地图：栅格地图就是一个尺度地图。如果场景太大的话不太合适
+
+拓扑地图：机器人领域用的多，
+​    若两点之间有连续，就链接一条边，在超大环境里面路径规划的效果
+
+语义地图：赋予...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 28 2021 18:38:29 GMT+0800">2021-05-28</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/28/%E5%BB%BA%E5%9B%BE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">
+                        前段配准
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        配准算法（二）爬山法（拟梯度法）总是朝着数值增大的方向移动
+缺陷：会陷入局部最高点
+名字来由，因为方向是固定的，不需要计算，所以是拟梯度法
+搜索时，如果所有的方向得分都小，则搜索步长减半，当减半次数大于五次，则认为收敛
+高斯牛顿优化方法爬山法的进阶！...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 28 2021 18:38:29 GMT+0800">2021-05-28</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">
                         图优化（Graph-based）
                     </a>
@@ -377,67 +444,6 @@ add_subdi...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/28/Nav2-%E8%AE%BE%E5%AE%9A%E6%8C%87%E5%8D%97/">
-                        Transformation-Navigation2设置指南
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        首次机器人设置指南翻译自https://navigation.ros.org/setup_guides/transformation/setup_transforms.html
-本节内容是一系列的指引：内容有：
-
-帮助新用户利用Navigation2...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 28 2021 16:24:35 GMT+0800">2021-04-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/28/Nav2-%E8%AE%BE%E5%AE%9A%E6%8C%87%E5%8D%97/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/04/27/Navigation%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
-                        Navigation基本概念
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Ros2Ros2是Nav2的核心中间件，不熟悉Ros2可以先看Ros2的官方文档
-Action Server就像在ROS中一样，action server是控制像导航等长期运行任务的常用方式。
-Action servers和规范化的service十分...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 27 2021 16:24:35 GMT+0800">2021-04-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/04/27/Navigation%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -568,5 +574,20 @@ Action servers和规范化的service十分...
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
