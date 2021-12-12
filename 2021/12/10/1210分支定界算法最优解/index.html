@@ -193,6 +193,7 @@
 <ul>
 <li>Candidate2D 最优解</li>
 </ul>
+<p><img src="/2021-12-11 23-24-05屏幕截图.png" alt=""></p>
 <p><img src="1210分支定界算法最优解/2021-12-11 23-24-05屏幕截图.png" alt=""> </p>
 <p>看图说明，每一层的精度都会差四倍，即分支</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 分枝 对x、y偏移进行遍历, 求出candidate的四个子节点候选解</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> x_offset : &#123;<span class="number">0</span>, half_width&#125;) &#123; <span class="comment">// 只能取0和half_width</span></span><br><span class="line">  <span class="comment">// 如果超过了界限, 就跳过</span></span><br><span class="line">  <span class="keyword">if</span> (candidate.x_index_offset + x_offset &gt;</span><br><span class="line">      search_parameters.linear_bounds[candidate.scan_index].max_x) &#123;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> y_offset : &#123;<span class="number">0</span>, half_width&#125;) &#123;</span><br><span class="line">    <span class="keyword">if</span> (candidate.y_index_offset + y_offset &gt;</span><br><span class="line">        search_parameters.linear_bounds[candidate.scan_index].max_y) &#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 候选者依次推进来, 一共4个,可以看出, 分枝定界方法的分枝是向右下角的四个子节点进行分枝</span></span><br><span class="line">    higher_resolution_candidates.<span class="built_in">emplace_back</span>(</span><br><span class="line">        candidate.scan_index, candidate.x_index_offset + x_offset,</span><br><span class="line">        candidate.y_index_offset + y_offset, search_parameters);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -209,6 +210,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/12/1212%E4%BC%98%E5%8C%96%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">优化函数调用流程-cartographer</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
