@@ -132,6 +132,65 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/12/07/1207%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">
+                        子图间约束-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        之前说到ComputeConstraintsForNode，完成了初始化全局submap的位姿，和子图间内约束。
+ComputeConstraintsForNode在文件WorkItem::Result PoseGraph2D::ComputeCon...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Dec 07 2021 18:38:29 GMT+0800">2021-12-07</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/12/07/1207%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/12/06/1206Nav2-planner%E6%8F%92%E4%BB%B6/">
+                        写一个planner插件-navigation2
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        源https://navigation.ros.org/plugin_tutorials/docs/writing_new_nav2planner_plugin.html
+
+创建一个新的Planner插件该教程会指导我们如何制作一个走直线的plann...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Dec 06 2021 18:38:29 GMT+0800">2021-12-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/12/06/1206Nav2-planner%E6%8F%92%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/12/05/1205%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">
                         子图间约束-cartographer
                     </a>
@@ -365,66 +424,6 @@ PoseGraphInterface节点: tracking_frame的位姿, 子图原点的位姿
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/02/1203gazebo%E4%BD%BF%E7%94%A8/">
-                        gazebo添加使用world
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        如何在终端使用gazebo的world文件打开终端，到相应的world目录下，直接运行
-1gazebo your_world_file.model
-有的时候会加载很久：一般情况下是此world里面需要的model文件，没有指定到gazebo_mode...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Dec 02 2021 18:38:29 GMT+0800">2021-12-02</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/12/02/1203gazebo%E4%BD%BF%E7%94%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/01/1201%E5%90%8E%E7%AB%AF%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B-cartographer/">
-                        后端调用流程-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        PoseGraph2D:AddNode调用之处：global_trajectory_builder.cc 的AddSensorData函数中.
-显示进行扫描匹配，匹配成功后把匹配后的结果加入到结点中
-1234567891011121314151617...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Dec 01 2021 18:38:29 GMT+0800">2021-12-01</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/12/01/1201%E5%90%8E%E7%AB%AF%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B-cartographer/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -555,20 +554,5 @@ PoseGraphInterface节点: tracking_frame的位姿, 子图原点的位姿
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

@@ -132,6 +132,63 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">
+                        多个tf树无法连接
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        问题报错1Could not find a connection between &#39;base_link&#39; and &#39;base_footprint&#39; because they are not part of the sa...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/26/1101%E5%A4%9A%E4%B8%AAtf%E6%A0%91%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">
+                        AddSensorData与RateTimer-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        本节介绍的函数位于cartographer/mapping/internal/collated_trajectory_builder.cc文件中
+AddSensorDataAddSensorData 函数为CollatedTrajectoryBuil...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Oct 25 2021 09:59:22 GMT+0800">2021-10-25</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/10/25/1025AddData%E5%92%8CTimeRate/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/10/22/1022%E8%AE%BE%E7%BD%AE%E5%8F%82%E6%95%B0%E5%9B%9E%E8%B0%83/">
                         参数回调 OnSetParametersCallbackHandle
                     </a>
@@ -366,63 +423,6 @@
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
-                        MapBuilder构造函数-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        MapBuilder包含前端(TrajectoryBuilders,scan to submap) 与 后端(用于查找回环的PoseGraph) 的完整的SLAM，其位置位于cartographer/mapping/map_builder.h
-本文将...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1014map_builder%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/14/1016%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%20/">
-                        传感器数据走向-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        传感器数据走向Node类的HandleLaserScanMessage函数123456789101112// 调用SensorBridge的传感器处理函数进行数据处理void Node::HandleLaserScanMessage(const in...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 14 2021 10:59:22 GMT+0800">2021-10-14</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/14/1016%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE%20/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -553,20 +553,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
