@@ -132,17 +132,47 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2021/12/15/1215%E9%87%8C%E7%A8%8B%E8%AE%A1%E5%92%8CGPS%E6%AE%8B%E5%B7%AE/">
-                        里程计和GPS残差
+                    <a href="/2021/12/17/1217%E5%90%8E%E7%AB%AF%E6%80%BB%E7%BB%93/">
+                        后端总结
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        节点与节点间在global坐标系下的相对坐标变换 与 通过里程计数据插值出的相对坐标变换 的差值作为残差项
+                        优化后的操作保存优化的变量内容位于文件mapping/internal/optimization/optimization._problem._2d.cc，solve函数中，
+这些变量全部保存在优化类OptimizationProblem2D中
+12...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Dec 17 2021 18:38:29 GMT+0800">2021-12-17</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/12/17/1217%E5%90%8E%E7%AB%AF%E6%80%BB%E7%BB%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/12/15/1215%E9%87%8C%E7%A8%8B%E8%AE%A1%E5%92%8CGPS%E6%AE%8B%E5%B7%AE/">
+                        里程计残差，GPS残差
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        优化里程计与节点的残差节点与节点间在global坐标系下的相对坐标变换 与 通过里程计数据插值出的相对坐标变换 的差值作为残差项
 
 第一种坐标变换: 相邻2个节间在global坐标系下的坐标变换
-第二种坐标变换: 再分别计算这2个节点的时间在里程计数据队列中插值得到的2个...
+第二种坐标变换: 再分别计算这2个节点的时间在里程计数...
                     
                 </div>
 
@@ -396,34 +426,6 @@ Unable to start transition 1 from...
     </div>
 
     <a href="/2021/12/08/1208%E5%A4%9A%E5%88%86%E8%BE%A8%E7%8E%87%E5%9C%B0%E5%9B%BE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/07/1207%20Nav-controller%E6%8F%92%E4%BB%B6/">
-                        写一个Controller插件-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在本教程中，我们将会使用 PurePursuitController::configure, PurePursuitController::setPlan 和 PurePursuitController::computeVelocityCommand...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Dec 07 2021 18:38:29 GMT+0800">2021-12-07</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/12/07/1207%20Nav-controller%E6%8F%92%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
