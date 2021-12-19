@@ -132,6 +132,66 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/08/1108%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E5%92%8C%E7%82%B9%E4%BA%91%E6%BB%A4%E6%B3%A2/">
+                        坐标变换和点云滤波-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        之前说到雷达会经过时间同步，和畸变校准，并且最后来到了匹配
+123456789101112   // 获取机器人当前姿态   const transform::Rigid3d gravity_alignment = transform::Rigid3...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 08 2021 18:38:29 GMT+0800">2021-11-08</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/08/1108%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E5%92%8C%E7%82%B9%E4%BA%91%E6%BB%A4%E6%B3%A2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/06/1106%E7%82%B9%E4%BA%91%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">
+                        点云时间同步-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        对雷达的同步的函数文件位于cartographer/mapping/internal/range_data_collator.cc文件中 
+同步雷达时间的类为RangeDataCollator
+首先查看一下头文件，
+构造函数对expectedsens...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 06 2021 18:38:29 GMT+0800">2021-11-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/06/1106%E7%82%B9%E4%BA%91%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">
                         点云匹配预备-cartographer
                     </a>
@@ -363,65 +423,6 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
     </div>
 
     <a href="/2021/10/29/1030blocking_queue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/29/1029OrderedMultiQueue/">
-                        OrderedMultiQueue(一)-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        类Collator是对传感器数据的处理
-他的全部操作相当于是对如下数据结构的数据进行封装
-12// Queue keys are a pair of trajectory ID and sensor identifier.OrderedMultiQu...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 29 2021 09:59:22 GMT+0800">2021-10-29</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/29/1029OrderedMultiQueue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">
-                        使用colcon_cd
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1echo &quot;source &#x2F;usr&#x2F;share&#x2F;colcon_cd&#x2F;function&#x2F;colcon_cd.sh&quot; &gt;&gt; ~&#x2F;.bashrc
-1echo &q...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Oct 28 2021 09:59:22 GMT+0800">2021-10-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

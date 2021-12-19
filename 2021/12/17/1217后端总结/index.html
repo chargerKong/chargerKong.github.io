@@ -186,7 +186,32 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新轨迹内的节点位置</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id : node_data.<span class="built_in">trajectory_ids</span>()) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Step: 根据优化后的结果对data_.trajectory_nodes的global_pose进行更新</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; node : node_data.<span class="built_in">trajectory</span>(trajectory_id)) &#123;</span><br><span class="line">    <span class="comment">// node 是 IdDataReference 类型</span></span><br><span class="line">    <span class="comment">// mutable_trajectory_node是TrajectoryNode类型</span></span><br><span class="line">    <span class="keyword">auto</span>&amp; mutable_trajectory_node = data_.trajectory_nodes.<span class="built_in">at</span>(node.id);</span><br><span class="line">    <span class="comment">// 将优化后的二维节点位姿旋转到机器人的姿态上得到global_pose</span></span><br><span class="line">    mutable_trajectory_node.global_pose =</span><br><span class="line">        transform::<span class="built_in">Embed3D</span>(node.data.global_pose_2d) * </span><br><span class="line">        transform::Rigid3d::<span class="built_in">Rotation</span>(</span><br><span class="line">            mutable_trajectory_node.constant_data-&gt;gravity_alignment);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Extrapolate all point cloud poses that were not included in the</span></span><br><span class="line">  <span class="comment">// &#x27;optimization_problem_&#x27; yet.</span></span><br><span class="line">  <span class="comment">// 推断尚未包含在“optimization_problem_”中的所有点云姿势</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 根据submap_data最后一个被优化的位姿, 计算global坐标系指向local坐标系的坐标变换</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> local_to_new_global =</span><br><span class="line">      <span class="built_in">ComputeLocalToGlobalTransform</span>(submap_data, trajectory_id);</span><br><span class="line">  <span class="comment">// 优化前的 global坐标系指向local坐标系的坐标变换</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">auto</span> local_to_old_global = <span class="built_in">ComputeLocalToGlobalTransform</span>(</span><br><span class="line">      data_.global_submap_poses_2d, trajectory_id);</span><br><span class="line">  <span class="comment">// 优化产生的改变量</span></span><br><span class="line">  <span class="keyword">const</span> transform::Rigid3d old_global_to_new_global =</span><br><span class="line">      local_to_new_global * local_to_old_global.<span class="built_in">inverse</span>();</span><br><span class="line">  <span class="comment">// 这一次优化的node的最后一个id</span></span><br><span class="line">  <span class="keyword">const</span> NodeId last_optimized_node_id =</span><br><span class="line">      std::<span class="built_in">prev</span>(node_data.<span class="built_in">EndOfTrajectory</span>(trajectory_id))-&gt;id;</span><br><span class="line">  <span class="comment">// 指向下一个没有优化的节点</span></span><br><span class="line">  <span class="keyword">auto</span> node_it =</span><br><span class="line">      std::<span class="built_in">next</span>(data_.trajectory_nodes.<span class="built_in">find</span>(last_optimized_node_id));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Step: 根据之前的位姿改变量, 对没有优化过的位姿进行校正</span></span><br><span class="line">  <span class="keyword">for</span> (; node_it != data_.trajectory_nodes.<span class="built_in">EndOfTrajectory</span>(trajectory_id);</span><br><span class="line">       ++node_it) &#123;</span><br><span class="line">    <span class="keyword">auto</span>&amp; mutable_trajectory_node = data_.trajectory_nodes.<span class="built_in">at</span>(node_it-&gt;id);</span><br><span class="line">    mutable_trajectory_node.global_pose =</span><br><span class="line">        old_global_to_new_global * mutable_trajectory_node.global_pose;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// end for trajectory_id</span></span><br></pre></td></tr></table></figure>
 <p>更新landmark和submap的位姿</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// 更新data_.landmark_nodes</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; landmark : optimization_problem_-&gt;<span class="built_in">landmark_data</span>()) &#123;</span><br><span class="line">    data_.landmark_nodes[landmark.first].global_landmark_pose = landmark.second;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更新所有submap的位姿</span></span><br><span class="line">  data_.global_submap_poses_2d = submap_data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="优化前后的不变量和改变量"><a href="#优化前后的不变量和改变量" class="headerlink" title="优化前后的不变量和改变量"></a>优化前后的不变量和改变量</h1>
+<h1 id="优化前后的不变量和改变量"><a href="#优化前后的不变量和改变量" class="headerlink" title="优化前后的不变量和改变量"></a>优化前后的不变量和改变量</h1><h2 id="不变量"><a href="#不变量" class="headerlink" title="不变量"></a>不变量</h2><ul>
+<li>第一帧子图在global坐标系下的位姿不会被优化所改变</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">problem.<span class="built_in">SetParameterBlockConstant</span>(C_submaps.<span class="built_in">at</span>(submap_id_data.id).<span class="built_in">data</span>());</span><br></pre></td></tr></table></figure>
+<p>由于优化前后第一个子图原点在global坐标系下的位姿是不会发生变化的, 所以global坐标系是不<br>会改变的</p>
+<ul>
+<li>冻结轨迹的 节点pose, 子图pose, landmark的pose 是不变的</li>
+</ul>
+<h2 id="变化量"><a href="#变化量" class="headerlink" title="变化量"></a>变化量</h2><ul>
+<li>除第一个子图外的其他子图的global坐标系下的pose</li>
+<li>所有节点在global坐标系下的pose</li>
+<li>所有landmark数据在global坐标系下的pose</li>
+<li>gps第一帧数据在global坐标系下的pose</li>
+</ul>
+<h2 id="优化有什么作用"><a href="#优化有什么作用" class="headerlink" title="优化有什么作用"></a>优化有什么作用</h2><ul>
+<li>第一个贡献 优化了位姿: 子图, 节点, landmark, gps第一帧坐标</li>
+<li>第二个贡献 预测了没有优化的节点位姿</li>
+<li>第三个贡献 ComputeLocalToGlobalTransform</li>
+</ul>
+<p>可以保证在优化之后，每一次计算从局部到全局的变化都是最新的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">NodeId <span class="title">PoseGraph2D::AddNode</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    std::shared_ptr&lt;<span class="keyword">const</span> TrajectoryNode::Data&gt; constant_data,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt;&amp; insertion_submaps)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">// 将节点在local坐标系下的坐标转成global坐标系下的坐标</span></span><br><span class="line">	<span class="function"><span class="keyword">const</span> transform::Rigid3d <span class="title">optimized_pose</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">		GetLocalToGlobalTransform(trajectory_id) * constant_data-&gt;local_pose)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>ComputeLocalToGlobalTransform() 函数是计算最后一个子图原点的global坐标指向local坐标的坐标变换, 为什么要是最后一个子图的坐标呢?</p>
+<p>local坐标系下的位姿都是相对与前一个节点的相对位姿, 时间越短, 相对位姿越准.</p>
+<p>优化后的最后一个子图位姿, 与当前节点的位姿在时间上距离最近.</p>
+<p>所以, 最后的一个优化后的子图位姿的相对坐标变换, 在时间上最接近当前节点与当前子图, 时间越短, 乘以相对坐标变换后得到的节点或者子图在global坐标系下的位姿越接近真实值</p>
+
         </div>
 
         
@@ -194,14 +219,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/12/19/1219%20cartographer%20%E4%BB%A3%E7%A0%81%E5%9B%9E%E9%A1%BE/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">cartographer代码回顾</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/12/15/1215%E9%87%8C%E7%A8%8B%E8%AE%A1%E5%92%8CGPS%E6%AE%8B%E5%B7%AE/"
+                           href="/2021/12/17/1217HandWorkQueue/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">里程计残差，GPS残差</span>
+                                <span class="post-nav-title-item">HandleWorkQueue</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -371,7 +411,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">优化后的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E4%BC%98%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">保存优化的变量内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%89%8D%E5%90%8E%E7%9A%84%E4%B8%8D%E5%8F%98%E9%87%8F%E5%92%8C%E6%94%B9%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">优化前后的不变量和改变量</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">优化后的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E4%BC%98%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">保存优化的变量内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%89%8D%E5%90%8E%E7%9A%84%E4%B8%8D%E5%8F%98%E9%87%8F%E5%92%8C%E6%94%B9%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">优化前后的不变量和改变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">不变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E5%8C%96%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">变化量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">优化有什么作用</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
