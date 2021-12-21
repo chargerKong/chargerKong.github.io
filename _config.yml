@@ -105,7 +105,8 @@ theme: keep
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/chargerKong/chargerKong.github.io
+  # repo: https://github.com/chargerKong/chargerKong.github.io
+  repo: git@github.com:chargerKong/chargerKong.github.io
 
 #repo: https://gitee.com/chargerKong/blog
 

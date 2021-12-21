@@ -1,10 +1,12 @@
 ---
-title: Navigation2设置指南
+title: Transformation-Navigation2设置指南
 date: 2021-04-28 16:24:35
 tags: Nav2
 ---
 
 # 首次机器人设置指南
+
+翻译自https://navigation.ros.org/setup_guides/transformation/setup_transforms.html
 
 本节内容是一系列的指引：内容有：
 
@@ -36,7 +38,7 @@ tags: Nav2
 
 在本指南中，我们将着眼于Nav2所需的必要转换。这些转换使Nav2能够通过将传感器和里程表等不同来源的信息转换为使用的坐标系来解释信息。下面是一个机器人的完整变换树，但我们将从一些更简单的东西开始。
 
-![../../_images/tf_full_tree.png](tf_full_tree.png)
+![../../_images/tf_full_tree.png](https://navigation.ros.org/_images/tf_full_tree.png)
 
 对于本教程，我们将首先简要介绍ROS中的转换。其次，我们将对TF2静态发布者进行简单的命令行演示，以使其实际运行。最后，我们将概述为使Nav2正常运行而需要发布的必要转换。
 
@@ -104,7 +106,7 @@ At time 0.0
 2. `odom` => `base_link`
 3. `base_link` => `base_laser` (sensor base frames)
 
-第一个变换`map`=>`odom`通常由处理定位和建图的不同ROS包(如AMCL)提供。这个转换在使用中实时更新，所以我们不会在我们的机器人的TF树中为它设置静态值，更多的是细节建议去看你使用的ROS包的文档，所有SLAM和定位的包都会提供在launch的时候提供这个变换
+第一个变换`map`=>`odom`通常由处理定位和建图的不同ROS包(如AMCL)提供。这个转换在使用中实时更新，所以我们不会在我们的机器人的TF树中为它设置静态值，更多的细节建议去看你使用的ROS包的文档，所有SLAM和定位的包都会在launch的时候提供这个变换
 
 
 

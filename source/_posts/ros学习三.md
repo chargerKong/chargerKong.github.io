@@ -1,5 +1,5 @@
 ---
-title: ros学习三
+title: ros2学习三
 date: 2021-03-28 09:59:22
 tags:
 ---
@@ -11,7 +11,7 @@ tags:
 ## 1.启动
 
 ```
-ros2 run rqt_console rqt_console 
+ros2 run rqt_console rqt_console
 ```
 
 ![../../_images/console.png](https://docs.ros.org/en/dashing/_images/console.png)

@@ -6,8 +6,6 @@ tags: ros2
 
 # ros2学习四
 
-Table of Contents
-
 ## 写一个简单的publisher和subscriber
 
 在本教程中，您将创建节点，这些节点以字符串消息的形式在主题之间相互传递信息。这里使用的例子是一个简单的“talker”和“listener”系统;一个节点发布数据，另一个节点订阅主题，以便接收数据。
@@ -313,7 +311,7 @@ int64 sum
 
 前两行是请求的参数，短划线下方是响应。
 
-### 1.1 更新package.xml和setup.py
+### object has no attribute '_parameters'1.1 更新package.xml和setup.py
 
 更新`<description>,<maintainer>,<licence>`
 

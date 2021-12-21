@@ -17,7 +17,7 @@ tags:
 利用可视化model的时候, 发现没有从base_link到前后万向轮的转换，同时通过`tf2`的工具
 
 ```
-os2 run tf2_tools view_frames 
+ros2 run tf2_tools view_frames 
 ```
 
 生成的PDF文件为
@@ -110,7 +110,33 @@ joint_state_publisher:
 
 robot_state_publisher
 
-订阅joint_state_publisher的位置，封装，发布tf
+lambda 表达式
+lambda表达式是匿名的
+
+￼
+[函数对象的参数 = &]()(->返回值类型){函数体}
+[]是不可以少的，=表示这里的参数用值拷贝使用，&表示这里的参数是通过引用的方式进行使用
+
+￼
+[node, handler, trajectory_id, topic](const typename MessageType::ConstPtr& msg) {
+            (node->*handler)(trajectory_id, topic, msg);
+          }
+前面[]表示这里需要使用的参数，是以值拷贝的方式来使用，()表示此函数需要用的参数
+
+(node->*hander)表示函数指针的使用lambda 表达式
+lambda表达式是匿名的
+
+￼
+[函数对象的参数 = &]()(->返回值类型){函数体}
+[]是不可以少的，=表示这里的参数用值拷贝使用，&表示这里的参数是通过引用的方式进行使用
+
+￼
+[node, handler, trajectory_id, topic](const typename MessageType::ConstPtr& msg) {
+            (node->*handler)(trajectory_id, topic, msg);
+          }
+前面[]表示这里需要使用的参数，是以值拷贝的方式来使用，()表示此函数需要用的参数
+
+(node->*hander)表示函数指针的使用订阅joint_state_publisher的位置，封装，发布tf
 
 
 
@@ -141,6 +167,49 @@ import open3d as o3d
 pcd = o3d.io.read_point_cloud('test.ply')
 o3d.visualization.draw_geometries([pcd])
 ```
+
+
+
+## 编译 cartographer_ros 出现 CMake Error: The following variables are used in this project, but they are set to NOTFOUND.(2021.02.22)
+
+————————————————
+版权声明：本文为CSDN博主「锡城筱凯」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/xiaokai1999/article/details/113937073
+
+ubuntu版本：20.04
+ros版本：noetic
+
+出现如下问题：
+
+CMake Error: The following variables are used in this project, but they are set to NOTFOUND.
+Please set them or make sure they are set and tested correctly in the CMake files:
+GMOCK_LIBRARY
+    linked by target "time_conversion_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "time_conversion_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "msg_conversion_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "msg_conversion_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "metrics_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "metrics_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "configuration_files_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+    linked by target "configuration_files_test" in directory /home/mckros/catkin_ws/src/cartographer_ros/cartographer_ros
+
+-- Configuring incomplete, errors occurred!
+See also "/home/mckros/catkin_ws/build/CMakeFiles/CMakeOutput.log".
+See also "/home/mckros/catkin_ws/build/CMakeFiles/CMakeError.log".
+make: *** [Makefile:4520：cmake_check_build_system] 错误 1
+Invoking "make cmake_check_build_system" failed
+
+问题提示说：没有找到GMOCK_LIBRARY包
+笔者是按照Ubuntu 18.04 安装cartographer方法安装的。
+
+问题解决：
+我尝试过使用sudo apt install google-mock安装GMOCK 但是它依旧提示上面的问题。但是我发现我使用 sudo apt install libgmock-dev，他安装了一些包，接下来catkin_make可以发现编译成功
+
+## c++ 11
+
+1.[resize()和reserver()的区别](https://blog.csdn.net/bestone0213/article/details/42876033)
+
+2.std::accumlate(start, end, 额外需要加的值)
 
 
 
