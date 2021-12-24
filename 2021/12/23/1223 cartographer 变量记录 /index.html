@@ -9,8 +9,6 @@
     
     <title>
         
-            cartographer代码回顾 |
-        
         随笔记
     </title>
     
@@ -130,7 +128,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">cartographer代码回顾</span>
+            <span class="title-hover-animation"></span>
         </div>
 
         
@@ -148,7 +146,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-12-19 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2021-12-23 18:38:29
     </span>
     
     
@@ -176,45 +174,22 @@
         
 
         <div class="article-content markdown-body">
-            <p>通过数据分发器，采用生产者-消费者模式，把cartographer算法和cartographer_ros进行分离</p>
-<p><img src="1217后端总结/2021-12-20 22-52-35屏幕截图.png" alt=""></p>
-<h1 id="Cartographer的优缺点分析"><a href="#Cartographer的优缺点分析" class="headerlink" title="Cartographer的优缺点分析"></a>Cartographer的优缺点分析</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>代码架构十分优美<br>各个模块独立性很强, 可以很方便的进行修改, 或则是单独拿出来做其他应用<br>代码鲁棒性非常高, 很少出现莫名崩掉的情况, 错误提示很好<br>代码命名非常规范, 能够清楚的根据变量名与函数名判断其代表的含义<br>总之, cartographer的代码十分值得学习与借鉴.</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p><strong>点云的预处理</strong><br>发生的拷贝次数太多<br>自适应体素滤波如果参数不好时计算量太大</p>
-<p><strong>位姿推测器</strong></p>
-<p>可能有问题的点</p>
-<ul>
-<li>计算pose的线速度与角速度时, 是采用的数据队列开始和末尾的2个数据计算的</li>
-<li>计算里程计的线速度与角速度时, 是采用的数据队列开始和末尾的2个数据计算的</li>
-<li>使用里程计, 不使用imu时, 计算里程计的线速度方向和姿态的预测时, 用的是里程计数据队列开始和末尾的2个数据的平均角速度计算的, 时间长了就不准</li>
-<li>不使用里程计, 不使用imu时, 用的是pose数据队列开始和末尾的2个数据的平均角速度计算的, 时间长了就不准</li>
-<li>添加位姿时, 没有用pose的姿态对imu<em>tracker</em>进行校准, 也没有对整体位姿预测器进行校准, 只计算了pose的线速度与角速度</li>
-<li>从代码上看, cartographer认为位姿推测器推测出来的位姿与姿态是准确的</li>
-</ul>
-<p>可能的改进建议</p>
-<ul>
-<li>pose的距离越小, 匀速模型越能代替机器人的线速度与角速度, 计算pose的线速度与角速度时, 可以考虑使用最近的2个数据进行计算</li>
-<li>里程计距离越短数据越准, 计算里程计的线速度与角速度时, 可以考虑使用最近的2个数据进<br>行计算</li>
-<li>使用里程计, 不使用imu时, 计算里程计的线速度方向时, 可以考虑使用里程计的角度进行计<br>算</li>
-<li>使用里程计, 不使用imu时, 进行姿态的预测时, 可以考虑使用里程计的角度进行预测</li>
-<li>不使用里程计, 不使用imu时, 可以考虑用最近的2个pose计算线速度与角速度</li>
-<li><p>使用pose对imu<em>tracker</em>的航向角进行校准</p>
-<p><strong>基于Ceres的扫描匹配</strong></p>
-</li>
-</ul>
-<p>可能有问题的点</p>
-<ul>
-<li>平移和旋转的残差项是逼近于先验位姿的, 当先验位姿不准确时会产生问题</li>
-</ul>
-<p>改进建议</p>
-<ul>
-<li>先将地图的权重调大, 平移旋转的权重调小, 如 1000, 1, 1, 或者 100, 1, 1</li>
-<li>调参没有作用的时候可以将平移和旋转的残差项注释掉</li>
-</ul>
-<p>当雷达频率低的时候，推荐使用gmapping和karto，都是通过里程计的tf进行位姿的预测。因为tf会对里程计发布的数据进行插值，导致了最终的tf树是一个连续时间状态的。</p>
-<p>粗匹配的方法推荐karto的扫描方法，他的计算量特别小，可以为ceres提供一个更好的先验位姿</p>
-<p><strong>后端优化</strong></p>
-<p>优化时的计算量太大, 可以根据自己需求调整参数, 或者增加计算前的过滤.</p>
-<p>在计算子图间约束的时候, 目前cartographer是根据节点个数来做的, 定位时又根据时间来决定是否进行全子图的匹配, 这部分计算的判断可以根据自己的需求增加一些, 以减少计算量</p>
+            <h1 id="通过雷达直接转过来的点云"><a href="#通过雷达直接转过来的点云" class="headerlink" title="通过雷达直接转过来的点云"></a>通过雷达直接转过来的点云</h1><p>ToPointCloudWithIntensities：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;xyzti_0, xyzti_1, xyzti_2, ... ,&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="单雷达时间同步之前的点云"><a href="#单雷达时间同步之前的点云" class="headerlink" title="单雷达时间同步之前的点云"></a>单雷达时间同步之前的点云</h1><p>TimedPointCloudData:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;time, origin, &#123;xyzt_0, xyzt_1,...,&#125;, &#123;i_0, i_1, ...&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的origin：</p>
+<ol>
+<li>求sensor_to_tracking的变换</li>
+<li>求此变换的平移</li>
+<li>平移的值就是laser在imu（tracking frame）下的坐标</li>
+</ol>
+<h1 id="C-Optional"><a href="#C-Optional" class="headerlink" title="C++ Optional"></a>C++ Optional</h1><p>定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">absl::optional&lt;common::Time&gt; last_sensor_time_;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> common::Time current_sensor_time = synchronized_data.time;    </span><br><span class="line"><span class="keyword">if</span> (last_sensor_time_.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    sensor_duration = current_sensor_time - last_sensor_time_.<span class="built_in">value</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="sensor-RangeData"><a href="#sensor-RangeData" class="headerlink" title="sensor::RangeData"></a>sensor::RangeData</h1><p>对一帧的雷达数据进行时间的同步，去畸变后，求出点在local坐标系下的坐标，存入accumulated<em>range_data</em>。</p>
+<p>根据设置存够足够多的帧数，就进行匹配</p>
 
         </div>
 
@@ -223,29 +198,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/12/23/1223%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%AF%E5%8A%A8map/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/12/17/1217%E5%90%8E%E7%AB%AF%E6%80%BB%E7%BB%93/"
+                           href="/2021/12/23/1223%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%AF%E5%8A%A8map/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">后端总结</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -415,7 +375,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cartographer%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">Cartographer的优缺点分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9B%B7%E8%BE%BE%E7%9B%B4%E6%8E%A5%E8%BD%AC%E8%BF%87%E6%9D%A5%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">通过雷达直接转过来的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E9%9B%B7%E8%BE%BE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E4%B9%8B%E5%89%8D%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">2.</span> <span class="nav-text">单雷达时间同步之前的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Optional"><span class="nav-number">3.</span> <span class="nav-text">C++ Optional</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-RangeData"><span class="nav-number">4.</span> <span class="nav-text">sensor::RangeData</span></a></li></ol>
     </div>
 </div>
         </aside>

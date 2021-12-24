@@ -9,8 +9,6 @@
     
     <title>
         
-            cartographer代码回顾 |
-        
         随笔记
     </title>
     
@@ -130,7 +128,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">cartographer代码回顾</span>
+            <span class="title-hover-animation"></span>
         </div>
 
         
@@ -148,7 +146,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-12-19 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2021-12-23 18:38:29
     </span>
     
     
@@ -157,7 +155,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
                     </li>
                 
             </ul>
@@ -176,45 +174,21 @@
         
 
         <div class="article-content markdown-body">
-            <p>通过数据分发器，采用生产者-消费者模式，把cartographer算法和cartographer_ros进行分离</p>
-<p><img src="1217后端总结/2021-12-20 22-52-35屏幕截图.png" alt=""></p>
-<h1 id="Cartographer的优缺点分析"><a href="#Cartographer的优缺点分析" class="headerlink" title="Cartographer的优缺点分析"></a>Cartographer的优缺点分析</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>代码架构十分优美<br>各个模块独立性很强, 可以很方便的进行修改, 或则是单独拿出来做其他应用<br>代码鲁棒性非常高, 很少出现莫名崩掉的情况, 错误提示很好<br>代码命名非常规范, 能够清楚的根据变量名与函数名判断其代表的含义<br>总之, cartographer的代码十分值得学习与借鉴.</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p><strong>点云的预处理</strong><br>发生的拷贝次数太多<br>自适应体素滤波如果参数不好时计算量太大</p>
-<p><strong>位姿推测器</strong></p>
-<p>可能有问题的点</p>
-<ul>
-<li>计算pose的线速度与角速度时, 是采用的数据队列开始和末尾的2个数据计算的</li>
-<li>计算里程计的线速度与角速度时, 是采用的数据队列开始和末尾的2个数据计算的</li>
-<li>使用里程计, 不使用imu时, 计算里程计的线速度方向和姿态的预测时, 用的是里程计数据队列开始和末尾的2个数据的平均角速度计算的, 时间长了就不准</li>
-<li>不使用里程计, 不使用imu时, 用的是pose数据队列开始和末尾的2个数据的平均角速度计算的, 时间长了就不准</li>
-<li>添加位姿时, 没有用pose的姿态对imu<em>tracker</em>进行校准, 也没有对整体位姿预测器进行校准, 只计算了pose的线速度与角速度</li>
-<li>从代码上看, cartographer认为位姿推测器推测出来的位姿与姿态是准确的</li>
+            <p><a class="link"   target="_blank" rel="noopener" href="https://blog.51cto.com/u_12369060/3767376" >https://blog.51cto.com/u_12369060/3767376<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="地图服务器"><a href="#地图服务器" class="headerlink" title="地图服务器"></a>地图服务器</h3><ul>
+<li>Map Server</li>
 </ul>
-<p>可能的改进建议</p>
+<p>地图服务器</p>
 <ul>
-<li>pose的距离越小, 匀速模型越能代替机器人的线速度与角速度, 计算pose的线速度与角速度时, 可以考虑使用最近的2个数据进行计算</li>
-<li>里程计距离越短数据越准, 计算里程计的线速度与角速度时, 可以考虑使用最近的2个数据进<br>行计算</li>
-<li>使用里程计, 不使用imu时, 计算里程计的线速度方向时, 可以考虑使用里程计的角度进行计<br>算</li>
-<li>使用里程计, 不使用imu时, 进行姿态的预测时, 可以考虑使用里程计的角度进行预测</li>
-<li>不使用里程计, 不使用imu时, 可以考虑用最近的2个pose计算线速度与角速度</li>
-<li><p>使用pose对imu<em>tracker</em>的航向角进行校准</p>
-<p><strong>基于Ceres的扫描匹配</strong></p>
-</li>
+<li>nav2_map_server</li>
+<li>map_server：加载地图，在“/map”主题上提供静态地图。</li>
+<li>map_saver：将地图保存到文件中（<em>ros2 run nav2_map_server map_saver_cli -f my_map</em>）</li>
 </ul>
-<p>可能有问题的点</p>
-<ul>
-<li>平移和旋转的残差项是逼近于先验位姿的, 当先验位姿不准确时会产生问题</li>
-</ul>
-<p>改进建议</p>
-<ul>
-<li>先将地图的权重调大, 平移旋转的权重调小, 如 1000, 1, 1, 或者 100, 1, 1</li>
-<li>调参没有作用的时候可以将平移和旋转的残差项注释掉</li>
-</ul>
-<p>当雷达频率低的时候，推荐使用gmapping和karto，都是通过里程计的tf进行位姿的预测。因为tf会对里程计发布的数据进行插值，导致了最终的tf树是一个连续时间状态的。</p>
-<p>粗匹配的方法推荐karto的扫描方法，他的计算量特别小，可以为ceres提供一个更好的先验位姿</p>
-<p><strong>后端优化</strong></p>
-<p>优化时的计算量太大, 可以根据自己需求调整参数, 或者增加计算前的过滤.</p>
-<p>在计算子图间约束的时候, 目前cartographer是根据节点个数来做的, 定位时又根据时间来决定是否进行全子图的匹配, 这部分计算的判断可以根据自己的需求增加一些, 以减少计算量</p>
+<h2 id="第-1-步：创建一个名为-yaml-的参数文件或在启动文件中设置相同的参数"><a href="#第-1-步：创建一个名为-yaml-的参数文件或在启动文件中设置相同的参数" class="headerlink" title="第 1 步：创建一个名为 yaml 的参数文件或在启动文件中设置相同的参数"></a>第 1 步：创建一个名为 yaml 的参数文件或在启动文件中设置相同的参数</h2><h1 id="map-server-params-yaml"><a href="#map-server-params-yaml" class="headerlink" title="map_server_params.yaml"></a>map_server_params.yaml</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">map_server:</span></span><br><span class="line">    <span class="attr">ros__parameters:</span></span><br><span class="line">        <span class="attr">frame_id:</span> <span class="string">map</span></span><br><span class="line">        <span class="attr">topic_name:</span> <span class="string">map</span></span><br><span class="line">        <span class="attr">use_sim_time:</span> <span class="literal">false</span></span><br><span class="line">        <span class="attr">yaml_filename:</span> <span class="string">maps/map.yaml</span></span><br></pre></td></tr></table></figure>
+<h2 id="第-2-步：使用作为参数传递的此文件运行地图服务器"><a href="#第-2-步：使用作为参数传递的此文件运行地图服务器" class="headerlink" title="第 2 步：使用作为参数传递的此文件运行地图服务器"></a>第 2 步：使用作为参数传递的此文件运行地图服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run nav2_map_server map_server --ros-args --params-file map_server_params.yaml</span><br></pre></td></tr></table></figure>
+<h2 id="第-3-步：通过-CLI-或启动过滤器从配置过渡到活动"><a href="#第-3-步：通过-CLI-或启动过滤器从配置过渡到活动" class="headerlink" title="第 3 步：通过 CLI 或启动过滤器从配置过渡到活动"></a>第 3 步：通过 CLI 或启动过滤器从配置过渡到活动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ros2 lifecycle set &#x2F;map_server configure</span><br><span class="line">ros2 lifecycle set &#x2F;map_server activate</span><br><span class="line">(ros2 lifecycle list &#x2F;map_server)</span><br></pre></td></tr></table></figure>
+<h2 id="示例-maps-map-yaml"><a href="#示例-maps-map-yaml" class="headerlink" title="示例 maps/map.yaml:"></a>示例 maps/map.yaml:</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">turtlebot3_world.pgm</span></span><br><span class="line"><span class="attr">resolution:</span> <span class="number">0.050000</span></span><br><span class="line"><span class="attr">origin:</span> [<span class="number">-10.000000</span>, <span class="number">-10.000000</span>, <span class="number">0.000000</span>]</span><br><span class="line"><span class="attr">negate:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">occupied_thresh:</span> <span class="number">0.65</span></span><br><span class="line"><span class="attr">free_thresh:</span> <span class="number">0.196</span></span><br></pre></td></tr></table></figure>
+<p>resolution : 地图的分辨率，米/像素<br>origin : 地图中左下角像素的二维位置姿态，如 (x, y, yaw)<br>occupied_thresh : 占用概率大于此阈值的像素被认为完全被占用。<br>free_thresh ：占用概率小于此阈值的像素被认为是完全空闲的。<br>negate : 是否应该反转</p>
 
         </div>
 
@@ -226,7 +200,7 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/12/23/1223%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%AF%E5%8A%A8map/"
+                           href="/2021/12/23/1223%20cartographer%20%E5%8F%98%E9%87%8F%E8%AE%B0%E5%BD%95%20/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
@@ -242,10 +216,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/12/17/1217%E5%90%8E%E7%AB%AF%E6%80%BB%E7%BB%93/"
+                           href="/2021/12/19/1219%20cartographer%20%E4%BB%A3%E7%A0%81%E5%9B%9E%E9%A1%BE/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">后端总结</span>
+                                <span class="post-nav-title-item">cartographer代码回顾</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -415,7 +389,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cartographer%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">Cartographer的优缺点分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map"><span class="nav-number">1.</span> <span class="nav-text">Map</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">地图服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC-1-%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BA-yaml-%E7%9A%84%E5%8F%82%E6%95%B0%E6%96%87%E4%BB%B6%E6%88%96%E5%9C%A8%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AE%E7%9B%B8%E5%90%8C%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">第 1 步：创建一个名为 yaml 的参数文件或在启动文件中设置相同的参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map-server-params-yaml"><span class="nav-number"></span> <span class="nav-text">map_server_params.yaml</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC-2-%E6%AD%A5%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E7%9A%84%E6%AD%A4%E6%96%87%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%9C%B0%E5%9B%BE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">第 2 步：使用作为参数传递的此文件运行地图服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC-3-%E6%AD%A5%EF%BC%9A%E9%80%9A%E8%BF%87-CLI-%E6%88%96%E5%90%AF%E5%8A%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E4%BB%8E%E9%85%8D%E7%BD%AE%E8%BF%87%E6%B8%A1%E5%88%B0%E6%B4%BB%E5%8A%A8"><span class="nav-number">2.</span> <span class="nav-text">第 3 步：通过 CLI 或启动过滤器从配置过渡到活动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-maps-map-yaml"><span class="nav-number">3.</span> <span class="nav-text">示例 maps&#x2F;map.yaml:</span></a></li></ol>
     </div>
 </div>
         </aside>

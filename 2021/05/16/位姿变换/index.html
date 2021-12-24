@@ -176,7 +176,7 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="二维位姿变换"><a href="#二维位姿变换" class="headerlink" title="二维位姿变换"></a>二维位姿变换</h2><p>若坐标系B在坐标系W中的坐标为</p>
+            <h1 id="二维位姿变换"><a href="#二维位姿变换" class="headerlink" title="二维位姿变换"></a>二维位姿变换</h1><p>若坐标系B在坐标系W中的坐标为</p>
 <script type="math/tex; mode=display">
 (x,y,\theta)\tag{1}</script><p>则坐标系B到坐标系W的转换矩阵为</p>
 <script type="math/tex; mode=display">
@@ -184,7 +184,7 @@
 \cos\theta & -\sin\theta &x\\
 \sin\theta & \cos\theta &y \\
 0&0&1
-\end{bmatrix}\tag{2}</script><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>切记：</p>
+\end{bmatrix}\tag{2}</script><h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>切记：</p>
 <p>A在local坐标系下的pose为A_local</p>
 <p>A在global坐标系下的pose为A_global</p>
 <p>T_localToGlobal = A_global * A_local.inverse()</p>
@@ -231,6 +231,9 @@ T_{g}^B=T^B_L*T^L_A*T^A_g</script><p>第一种用的比较普遍</p>
 <script type="math/tex; mode=display">
 r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作的乘在后边！！</p>
 <p>注意这里是矩阵的乘法，就可以得到$(0,2,1.57)$</p>
+<h1 id="tf中的坐标变换"><a href="#tf中的坐标变换" class="headerlink" title="tf中的坐标变换"></a>tf中的坐标变换</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buffer_-&gt;<span class="built_in">lookupTransform</span>(tracking_frame_, frame_id, ::ros::<span class="built_in">Time</span>(<span class="number">0.</span>),</span><br><span class="line">                              timeout)</span><br></pre></td></tr></table></figure>
+<p>假设tracking<em>frame是imu_frame, frame_id是odom，那么这样得到的变换是imu-&gt;odom, 即tracking_frame</em>到frame_id的坐标变换</p>
+<p>即odom在imu frame下的坐标，或者称为变换</p>
 
         </div>
 
@@ -431,7 +434,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">二维位姿变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">举例</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">二维位姿变换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tf%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">tf中的坐标变换</span></a></li></ol>
     </div>
 </div>
         </aside>
