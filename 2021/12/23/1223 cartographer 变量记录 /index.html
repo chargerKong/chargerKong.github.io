@@ -190,6 +190,14 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> common::Time current_sensor_time = synchronized_data.time;    </span><br><span class="line"><span class="keyword">if</span> (last_sensor_time_.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    sensor_duration = current_sensor_time - last_sensor_time_.<span class="built_in">value</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="sensor-RangeData"><a href="#sensor-RangeData" class="headerlink" title="sensor::RangeData"></a>sensor::RangeData</h1><p>对一帧的雷达数据进行时间的同步，去畸变后，求出点在local坐标系下的坐标，存入accumulated<em>range_data</em>。</p>
 <p>根据设置存够足够多的帧数，就进行匹配</p>
+<h1 id="位姿估计器"><a href="#位姿估计器" class="headerlink" title="位姿估计器"></a>位姿估计器</h1><p>到目前发现有两个位姿估计器</p>
+<ul>
+<li>LocalTrajectoryBuilder2D 里面有一个 位姿估计器</li>
+<li>Node 里面也有一个 <code>std::map&lt;int, ::cartographer::mapping::PoseExtrapolator&gt; extrapolators_;</code></li>
+</ul>
+<p>LocalTrajectoryBuilder2D中的位姿估计器，同时添加多个数据，Pose: 扫描匹配后的Pose，imu 和 odom</p>
+<p>Imu_tracker-&gt;advance的作用，是根据时间差 * 上一时刻的角速度 来获取的旋转量，然后更新到位姿和线性加速度上。</p>
+<p>Imu_tracker的AddImuLinearAccelerationObservation： 也是更新位姿和线性加速度用的</p>
 
         </div>
 
@@ -375,7 +383,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9B%B7%E8%BE%BE%E7%9B%B4%E6%8E%A5%E8%BD%AC%E8%BF%87%E6%9D%A5%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">通过雷达直接转过来的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E9%9B%B7%E8%BE%BE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E4%B9%8B%E5%89%8D%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">2.</span> <span class="nav-text">单雷达时间同步之前的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Optional"><span class="nav-number">3.</span> <span class="nav-text">C++ Optional</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-RangeData"><span class="nav-number">4.</span> <span class="nav-text">sensor::RangeData</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9B%B7%E8%BE%BE%E7%9B%B4%E6%8E%A5%E8%BD%AC%E8%BF%87%E6%9D%A5%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">通过雷达直接转过来的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E9%9B%B7%E8%BE%BE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E4%B9%8B%E5%89%8D%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">2.</span> <span class="nav-text">单雷达时间同步之前的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Optional"><span class="nav-number">3.</span> <span class="nav-text">C++ Optional</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-RangeData"><span class="nav-number">4.</span> <span class="nav-text">sensor::RangeData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">位姿估计器</span></a></li></ol>
     </div>
 </div>
         </aside>
