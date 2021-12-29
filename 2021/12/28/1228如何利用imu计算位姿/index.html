@@ -146,7 +146,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-12-23 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2021-12-28 18:38:29
     </span>
     
     
@@ -174,34 +174,30 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="通过雷达直接转过来的点云"><a href="#通过雷达直接转过来的点云" class="headerlink" title="通过雷达直接转过来的点云"></a>通过雷达直接转过来的点云</h1><p>ToPointCloudWithIntensities：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;xyzti_0, xyzti_1, xyzti_2, ... ,&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="单雷达时间同步之前的点云"><a href="#单雷达时间同步之前的点云" class="headerlink" title="单雷达时间同步之前的点云"></a>单雷达时间同步之前的点云</h1><p>TimedPointCloudData:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;time, origin, &#123;xyzt_0, xyzt_1,...,&#125;, &#123;i_0, i_1, ...&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的origin：</p>
-<ol>
-<li>求sensor_to_tracking的变换</li>
-<li>求此变换的平移</li>
-<li>平移的值就是laser在imu（tracking frame）下的坐标</li>
-</ol>
-<h1 id="C-Optional"><a href="#C-Optional" class="headerlink" title="C++ Optional"></a>C++ Optional</h1><p>定义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">absl::optional&lt;common::Time&gt; last_sensor_time_;</span><br></pre></td></tr></table></figure>
-<p>使用</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> common::Time current_sensor_time = synchronized_data.time;    </span><br><span class="line"><span class="keyword">if</span> (last_sensor_time_.<span class="built_in">has_value</span>()) &#123;</span><br><span class="line">    sensor_duration = current_sensor_time - last_sensor_time_.<span class="built_in">value</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="sensor-RangeData"><a href="#sensor-RangeData" class="headerlink" title="sensor::RangeData"></a>sensor::RangeData</h1><p>对一帧的雷达数据进行时间的同步，去畸变后，求出点在local坐标系下的坐标，存入accumulated<em>range_data</em>。</p>
-<p>根据设置存够足够多的帧数，就进行匹配</p>
-<h1 id="位姿估计器"><a href="#位姿估计器" class="headerlink" title="位姿估计器"></a>位姿估计器</h1><p>到目前发现有两个位姿估计器</p>
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>本文介绍如何通过imu的数据来求得位姿</p>
+<p>在Imu返回的数据中，包含了如下内容</p>
 <ul>
-<li>LocalTrajectoryBuilder2D 里面有一个 位姿估计器</li>
-<li>Node 里面也有一个 <code>std::map&lt;int, ::cartographer::mapping::PoseExtrapolator&gt; extrapolators_;</code></li>
+<li>angular_velocity：角速度</li>
+<li>linear_acceleration：线性加速度，包含重力加速度</li>
+<li>orientation：位姿，他是通过积分求得，不准确（为什么？）</li>
 </ul>
-<p>LocalTrajectoryBuilder2D中的位姿估计器，同时添加多个数据，Pose: 扫描匹配后的Pose，imu 和 odom</p>
-<p>Imu_tracker-&gt;advance的作用，是根据时间差 * 上一时刻的角速度 来获取的旋转量，然后更新到位姿和线性加速度上。</p>
-<p>Imu_tracker的AddImuLinearAccelerationObservation： 也是更新位姿和线性加速度用的</p>
+<p>因为他本身的不准确，因此下面介绍cartographer中是如何进行位姿的预测的</p>
+<h1 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h1><p>cartographer是计算每一个imu的数据，从而得到每一个数据所对应的位姿信息，因此称为imu_tracker，即不停的追踪每一个imu的数据。</p>
+<p>cartographer会把imu数据保存在一个imu<em>data</em>的双端队列中，会实时的裁剪，以致于不会队列不会太长</p>
+<p>再预测位姿的时候，我们通过不断的遍历imu<em>data</em>中的imu数据，做如下三个事情</p>
 <ul>
-<li>通过指数滑动平均法融合计算一下加速度，z轴为重力方向</li>
-<li>加速度是包含重力方向的，所以只要imu有所转动，重力方向可以立马感应到的，他产生的旋转差，就刚好可以补充到位姿上进行更新。</li>
+<li>来预测一下该imu数据下的位姿，顺便更新线性加速度</li>
+<li>添加线性加速度的观测，校正一下位姿，顺便更新线性加速度</li>
+<li>更新一下角速度的值</li>
 </ul>
+<h3 id="第一个事情Advance"><a href="#第一个事情Advance" class="headerlink" title="第一个事情Advance"></a>第一个事情Advance</h3><p>每一次预测，都会记录当前预测的时间，今后就作为上一次预测的时间，</p>
+<p>通过【（当前时间-上一次预测时间）* 上一次观测到的角速度 】  可以得到一个旋转量，直接把这个旋转量作用到上一次预测的位姿上，就是最新的位姿</p>
+<script type="math/tex; mode=display">
+\Delta r=w \cdot \Delta t</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上一时刻的角速度乘以时间,得到当前时刻相对于上一时刻的预测的姿态变化量,再转换成四元数</span></span><br><span class="line"> <span class="keyword">const</span> Eigen::Quaterniond rotation =</span><br><span class="line">     transform::<span class="built_in">AngleAxisVectorToRotationQuaternion</span>(</span><br><span class="line">         Eigen::<span class="built_in">Vector3d</span>(imu_angular_velocity_ * <span class="keyword">delta_t</span>));</span><br><span class="line"> <span class="comment">// 使用上一时刻的姿态 orientation_ 乘以姿态变化量, 得到当前时刻的预测出的姿态</span></span><br><span class="line"> orientation_ = (orientation_ * rotation).<span class="built_in">normalized</span>();</span><br></pre></td></tr></table></figure>
+<h3 id="第二个事情-AddImuLinearAccelerationObservation"><a href="#第二个事情-AddImuLinearAccelerationObservation" class="headerlink" title="第二个事情 AddImuLinearAccelerationObservation"></a>第二个事情 AddImuLinearAccelerationObservation</h3><p>把观测到底线性加速度的值和上一个线性加速度做一个简单的融合（指数滑动平均法），使得线性加速度更为平滑</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step: 2 求alpha, alpha=1-e^(-delta_t/10)</span></span><br><span class="line"><span class="comment">// delta_t越大, alpha越大</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> alpha = <span class="number">1.</span> - std::<span class="built_in">exp</span>(-<span class="keyword">delta_t</span> / imu_gravity_time_constant_);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Step: 3 将之前的线加速度与当前传入的线加速度进行融合, 这里采用指数滑动平均法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指数来确定权重, 因为有噪声的存在, 时间差越大, 当前的线性加速度的权重越大</span></span><br><span class="line"><span class="comment">// 这里的gravity_vector_改成线性加速度更清晰一些</span></span><br><span class="line">gravity_vector_ =</span><br><span class="line">    (<span class="number">1.</span> - alpha) * gravity_vector_ + alpha * imu_linear_acceleration;</span><br></pre></td></tr></table></figure>
+<p>再计算新的线性加速度和旧的线性加速度的一个差，相当于是看看重力方向差了多少旋转，然后把这个旋转作用到之前的位姿上进行更新，得到最新的位姿</p>
+<h3 id="第三个事情更新一下角速度的值"><a href="#第三个事情更新一下角速度的值" class="headerlink" title="第三个事情更新一下角速度的值"></a>第三个事情更新一下角速度的值</h3><p>这里只是简答的更新角速度值，不做其他操作。更新的角速度可以在预测的时候用上</p>
 
         </div>
 
@@ -210,26 +206,11 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/12/28/1228%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8imu%E8%AE%A1%E7%AE%97%E4%BD%8D%E5%A7%BF/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/12/23/1223%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%AF%E5%8A%A8map/"
+                           href="/2021/12/23/1223%20cartographer%20%E5%8F%98%E9%87%8F%E8%AE%B0%E5%BD%95%20/"
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item"></span>
@@ -402,7 +383,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9B%B7%E8%BE%BE%E7%9B%B4%E6%8E%A5%E8%BD%AC%E8%BF%87%E6%9D%A5%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">通过雷达直接转过来的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E9%9B%B7%E8%BE%BE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E4%B9%8B%E5%89%8D%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">2.</span> <span class="nav-text">单雷达时间同步之前的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Optional"><span class="nav-number">3.</span> <span class="nav-text">C++ Optional</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-RangeData"><span class="nav-number">4.</span> <span class="nav-text">sensor::RangeData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">位姿估计器</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">计算方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%BA%8B%E6%83%85Advance"><span class="nav-number">2.0.1.</span> <span class="nav-text">第一个事情Advance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E4%B8%AA%E4%BA%8B%E6%83%85-AddImuLinearAccelerationObservation"><span class="nav-number">2.0.2.</span> <span class="nav-text">第二个事情 AddImuLinearAccelerationObservation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E4%B8%AA%E4%BA%8B%E6%83%85%E6%9B%B4%E6%96%B0%E4%B8%80%E4%B8%8B%E8%A7%92%E9%80%9F%E5%BA%A6%E7%9A%84%E5%80%BC"><span class="nav-number">2.0.3.</span> <span class="nav-text">第三个事情更新一下角速度的值</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>
