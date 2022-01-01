@@ -202,6 +202,13 @@
 <li>通过指数滑动平均法融合计算一下加速度，z轴为重力方向</li>
 <li>加速度是包含重力方向的，所以只要imu有所转动，重力方向可以立马感应到的，他产生的旋转差，就刚好可以补充到位姿上进行更新。</li>
 </ul>
+<h1 id="PoseGraph2D"><a href="#PoseGraph2D" class="headerlink" title="PoseGraph2D"></a>PoseGraph2D</h1><p>在这个类中，有一个变量data_，他包含这所有后端优化的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PoseGraphData data_</span><br></pre></td></tr></table></figure>
+<h2 id="data-trajectory-nodes"><a href="#data-trajectory-nodes" class="headerlink" title="data_.trajectory_nodes"></a>data_.trajectory_nodes</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MapById&lt;NodeId, TrajectoryNode&gt; trajectory_nodes;</span><br></pre></td></tr></table></figure>
+<p>这是每一个节点的ID 对应的 轨迹和节点的信息，主要包括节点在global坐标系下的位姿, 与前端的结果</p>
+<h2 id="data-submap-data"><a href="#data-submap-data" class="headerlink" title="data_.submap_data"></a>data_.submap_data</h2><p>submap的信息</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// submap_data_ 里面,包含了所有的submap</span></span><br><span class="line">MapById&lt;SubmapId, InternalSubmapData&gt; submap_data;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存的子图的指针与属于这张子图的节点的id</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">InternalSubmapData</span> &#123;</span></span><br><span class="line">  std::shared_ptr&lt;<span class="keyword">const</span> Submap&gt; submap;</span><br><span class="line">  SubmapState state = SubmapState::kNoConstraintSearch;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// IDs of the nodes that were inserted into this map together with</span></span><br><span class="line">  <span class="comment">// constraints for them. They are not to be matched again when this submap</span></span><br><span class="line">  <span class="comment">// becomes &#x27;kFinished&#x27;.</span></span><br><span class="line">  <span class="comment">// 插入到此地图中的节点的 ID</span></span><br><span class="line">  <span class="comment">// 当此子图变为“kFinished”后, 这些节点将不再与这个地图进行匹配.</span></span><br><span class="line">  std::set&lt;NodeId&gt; node_ids;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -319,7 +326,7 @@
             
               <span>2020</span>&nbsp;-&nbsp;
             
-            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
         </div>
         
         <div class="theme-info info-item">
@@ -402,7 +409,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9B%B7%E8%BE%BE%E7%9B%B4%E6%8E%A5%E8%BD%AC%E8%BF%87%E6%9D%A5%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">通过雷达直接转过来的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E9%9B%B7%E8%BE%BE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E4%B9%8B%E5%89%8D%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">2.</span> <span class="nav-text">单雷达时间同步之前的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Optional"><span class="nav-number">3.</span> <span class="nav-text">C++ Optional</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-RangeData"><span class="nav-number">4.</span> <span class="nav-text">sensor::RangeData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">位姿估计器</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%9B%B7%E8%BE%BE%E7%9B%B4%E6%8E%A5%E8%BD%AC%E8%BF%87%E6%9D%A5%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">1.</span> <span class="nav-text">通过雷达直接转过来的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E9%9B%B7%E8%BE%BE%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E4%B9%8B%E5%89%8D%E7%9A%84%E7%82%B9%E4%BA%91"><span class="nav-number">2.</span> <span class="nav-text">单雷达时间同步之前的点云</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-Optional"><span class="nav-number">3.</span> <span class="nav-text">C++ Optional</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sensor-RangeData"><span class="nav-number">4.</span> <span class="nav-text">sensor::RangeData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">位姿估计器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PoseGraph2D"><span class="nav-number">6.</span> <span class="nav-text">PoseGraph2D</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#data-trajectory-nodes"><span class="nav-number">6.1.</span> <span class="nav-text">data_.trajectory_nodes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data-submap-data"><span class="nav-number">6.2.</span> <span class="nav-text">data_.submap_data</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
