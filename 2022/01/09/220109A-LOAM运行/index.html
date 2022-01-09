@@ -9,7 +9,7 @@
     
     <title>
         
-            LOAM论文介绍 |
+            LOAM运行 |
         
         大杂烩
     </title>
@@ -143,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">LOAM论文介绍</span>
+            <span class="title-hover-animation">LOAM运行</span>
         </div>
 
         
@@ -161,7 +161,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2022-01-06 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2022-01-09 18:38:29
     </span>
     
     
@@ -189,46 +189,11 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>回环检测消除累积误差。本文的里程计漂移小，精度高，有实时性。都可以不使用imu。slam分为两个问题</p>
-<ul>
-<li>高频低精：前端粗糙的配准</li>
-<li>高精低频：配准的精度很高</li>
-</ul>
-<p>两个方法的结合才有好的效果。</p>
-<p>雷达对光照和纹理不敏感，视觉里程计需要提取特征点，万一光照不好就不好搞。我们这累积的里程计漂移很小，所以没有加入回环检测</p>
-<p>又漂移少又算的快，是因为我们把传统的SLAM拆分为上面的两个问题。这两个问题都需要提出角点，然后进行配准。后端是一个优化问题，过程和ICP比较相似，可以实现一个高精度的实时求解</p>
-<h1 id="符号和目的"><a href="#符号和目的" class="headerlink" title="符号和目的"></a>符号和目的</h1><p>$X_{k,i}^L$: 雷达坐标系下第k次扫描中的第i个点</p>
-<p>$X_{k,i}^W$: 世界坐标系下第k次扫描中的第i个点</p>
-<p>$P_k$:第k次扫描的数据，注意时间是不同的</p>
-<p>任务：针对每一此扫描的雷达点，计算雷达的运动，建立相应的地图</p>
-<h1 id="前端里程计"><a href="#前端里程计" class="headerlink" title="前端里程计"></a>前端里程计</h1><h2 id="特征点提取"><a href="#特征点提取" class="headerlink" title="特征点提取"></a>特征点提取</h2><p>第一个事情：提取特征点，面点和角点，面点的曲率很小，角点的曲率很大，对同一个scan的所有点进行排序，选择最大的几个点作为角点。特征点要尽可能的均匀化，我们把一个scan分成六等份，每一份中取几个点。即便是在一个小区域中的点，也不可以太集中了</p>
-<p>对于不可靠的点</p>
-<ul>
-<li>面点和当前雷达比较平行，是不能要的，因为当雷达稍微移动可能就检测不到了</li>
-<li>对于遮挡面比较多的点，也需要干掉</li>
-</ul>
-<p>总结：先算曲率，判断是角点还是面点。如果点被选中了，是不是超出了最大的限制，每一个子区域都有一个上线的，周围的点是不是被选取了，保证每一个子区域的分布性。再一次判断点是不是可靠的</p>
-<h2 id="寻找匹配对"><a href="#寻找匹配对" class="headerlink" title="寻找匹配对"></a>寻找匹配对</h2><p>雷达的处理：把$t<em>k$到$t</em>{k+1}$所有的点到设置为$t<em>{k+1}$上的点。记为$\hat{P}</em>{k}$，下面需要对下一帧点云做处理，即$P_{k+1}$。</p>
-<p>下面需要找两帧雷达点云$P_{k+1}$和$\hat{P}_k$之间的匹配关系。</p>
-<p>对于新的一帧，也是找面点和角点。把新的一帧的所有点都投影到扫描开始的时刻，记录这一帧的角点和面点为$\hat{\mathcal{E}}<em>{k+1},\hat{\mathcal{H}}</em>{k+1}$。通过KDtree我们在$\hat{P}_k$中，找寻与其最近的匹配点。</p>
-<p>两个点确定一条直线，三个点确定一个面，计算角点距离线或者面的距离</p>
-<p>距离计算：</p>
-<ul>
-<li>点到线：h = 2S / d。d为两个点的距离，S 为三个点的面积，可以通过叉乘获得 </li>
-<li>点到面：体积 / 底面面积 </li>
-</ul>
-<h2 id="运动估计"><a href="#运动估计" class="headerlink" title="运动估计"></a>运动估计</h2><p>我们把每一帧之间的运动看做是一个匀速运动，因此时间的间隔是比较短的。然后其他的时间点进行插值</p>
-<p>假设t为当前时间，$t<em>{k+1}$为开始扫描的时间，$T</em>{k+1}^L$ 为在$[t_{k+1},t]$时间段的雷达坐标系的变换</p>
-<p>$t<em>i$表示$\mathcal{P}</em>{k+1}$上的点，$T<em>{(k+1,i)}^L$表示在时间段$[t</em>{k+1},t_i]$上的变换，可以通过简单的插值进行计算</p>
-<p>通过改运动估计，可以把在扫描最开始的点 转换 到对应的位置上</p>
-<p>通过LM算法，把；匹配对之间的距离设为 残差，因为要匹配，两个最好是完全重合，优化变量为$T_{k+1}^L$</p>
-<h1 id="雷达mapping"><a href="#雷达mapping" class="headerlink" title="雷达mapping"></a>雷达mapping</h1><p>里程计是帧间匹配的过程，是频率比较高的过程。</p>
-<p>雷达mapping是当前帧匹配到地图的过程，这个频率会比较低，但是精度比较高</p>
-<p>每十帧进行一次地图优化</p>
-<p>前端为了时效性，提取的点会比较少，后端的雷达匹配提取的特征点会比前端的多十倍。特征点越多，精度高，鲁棒性比较好。</p>
-<p>mapping是通过栅格，找t周围的栅格寻找匹配对，依然是用过KDtree。会计算一个协方差矩阵，计算特征值和特征向量，如果是一个边缘点，那么一个特征值会明显大于其他两个特性值。</p>
-<p>面点的：会有两个比较大的特征值，其他一个是比较小的。第三个特征向量就是面的法向量。仍然构建和前端一样 的优化问题。最后点云会通过滤波进行下采样</p>
-<p>其实帧间匹配和地图匹配的原理是一样的，不过帧间匹配是寻找两帧之间的关键点，而地图匹配是寻找地图中的匹配点。</p>
+            <p>Loam的源代码是比较乱的，所以使用的是A_LOAM, 由qintong改编的，更为友好的，功能一样的代码</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/HKUST-Aerial-Robotics/A-LOAM" >https://github.com/HKUST-Aerial-Robotics/A-LOAM<i class="fas fa-external-link-alt"></i></a></p>
+<h1 id="Ubuntu版本"><a href="#Ubuntu版本" class="headerlink" title="Ubuntu版本"></a>Ubuntu版本</h1><p>最好是18或者16，如果是20的话，会自动下载pcl-10版本太高，而导致不兼容</p>
+<h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch aloam_velodyne aloam_velodyne_HDL_64.launch</span><br></pre></td></tr></table></figure>
+<p>首先需要去<a class="link"   target="_blank" rel="noopener" href="http://www.cvlibs.net/datasets/kitti/eval_odometry.php" >KITTI Odometry dataset<i class="fas fa-external-link-alt"></i></a>下载数据集，并且已经转换为bag的包才可以</p>
 
         </div>
 
@@ -237,29 +202,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2022/01/09/220109ROS%E5%9D%90%E6%A0%87%E7%B3%BB/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/12/28/1228%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8imu%E8%AE%A1%E7%AE%97%E4%BD%8D%E5%A7%BF/"
+                           href="/2022/01/09/220109ROS%E5%9D%90%E6%A0%87%E7%B3%BB/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">如何利用imu计算位姿</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -429,7 +379,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E5%92%8C%E7%9B%AE%E7%9A%84"><span class="nav-number">2.</span> <span class="nav-text">符号和目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E9%87%8C%E7%A8%8B%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">前端里程计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%82%B9%E6%8F%90%E5%8F%96"><span class="nav-number">3.1.</span> <span class="nav-text">特征点提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E5%8C%B9%E9%85%8D%E5%AF%B9"><span class="nav-number">3.2.</span> <span class="nav-text">寻找匹配对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E5%8A%A8%E4%BC%B0%E8%AE%A1"><span class="nav-number">3.3.</span> <span class="nav-text">运动估计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%B7%E8%BE%BEmapping"><span class="nav-number">4.</span> <span class="nav-text">雷达mapping</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ubuntu%E7%89%88%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text">Ubuntu版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C"><span class="nav-number">2.</span> <span class="nav-text">运行</span></a></li></ol>
     </div>
 </div>
         </aside>
