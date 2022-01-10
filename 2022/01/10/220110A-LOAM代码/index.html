@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            A-LOAM 数据处理 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">A-LOAM 数据处理</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-01-10 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/A-LOAM/">A-LOAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h1><p>该项目主要有四个launch文件，</p>
+<ul>
+<li>kitti_helper.launch 可以把kitti数据集上的数据转换为bag包</li>
+<li>其他launch 运行三个可执行文件</li>
+</ul>
+<h1 id="可执行文件"><a href="#可执行文件" class="headerlink" title="可执行文件"></a>可执行文件</h1><p>该项目有三个可执行文件，启动每一个launch的时候都会调用，分别为ascanRegistration，alaserOdometry和alaserMapping</p>
+<p>alaserOdometry为高频低精的节点，alaserMapping为低频高精的节点。ascanRegistration是前端配准的节点。</p>
+<h1 id="ascanRegistration"><a href="#ascanRegistration" class="headerlink" title="ascanRegistration"></a>ascanRegistration</h1><p>这个主要对线特征和面特征进行提取</p>
+<p>参数：</p>
+<ul>
+<li>minimum_range: 表示什么范围内的点不用</li>
+<li>scan_line: 多少线的雷达</li>
+</ul>
+<h2 id="雷达数据预处理"><a href="#雷达数据预处理" class="headerlink" title="雷达数据预处理"></a>雷达数据预处理</h2><h3 id="转换为pcl格式的数据"><a href="#转换为pcl格式的数据" class="headerlink" title="转换为pcl格式的数据"></a>转换为pcl格式的数据</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pcl::PointCloud&lt;pcl::PointXYZ&gt; laserCloudIn;</span><br><span class="line"> <span class="comment">// convert to pcl datatype</span></span><br><span class="line"> pcl::<span class="built_in">fromROSMsg</span>(*laserCloudMsg, laserCloudIn);</span><br></pre></td></tr></table></figure>
+<h3 id="移除Nan、过滤近点"><a href="#移除Nan、过滤近点" class="headerlink" title="移除Nan、过滤近点"></a>移除Nan、过滤近点</h3><p>那些发射到天上去的，以及和发射到的墙面反射不回来的点都移除掉，距离雷达太近的点(三维上d的) 移除掉，这样车身就看不见了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pcl::<span class="built_in">removeNaNFromPointCloud</span>(laserCloudIn, laserCloudIn, indices);</span><br><span class="line"><span class="comment">// remove the point whose distance shorter than MINIMUM_RANGE</span></span><br><span class="line"><span class="comment">// height = 1 unordered pointcloud</span></span><br><span class="line"><span class="built_in">removeClosedPointCloud</span>(laserCloudIn, laserCloudIn, MINIMUM_RANGE);</span><br></pre></td></tr></table></figure>
+<h3 id="定义旋转初始和结束角度"><a href="#定义旋转初始和结束角度" class="headerlink" title="定义旋转初始和结束角度"></a>定义旋转初始和结束角度</h3><p>逆时针旋转作为正方向，所以添加负号</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cloudSize = laserCloudIn.points.<span class="built_in">size</span>();</span><br><span class="line"><span class="comment">// The laser rotates clockwise, adding - to artificially become counterclockwise</span></span><br><span class="line"><span class="keyword">float</span> startOri = -<span class="built_in">atan2</span>(laserCloudIn.points[<span class="number">0</span>].y, laserCloudIn.points[<span class="number">0</span>].x);</span><br><span class="line"><span class="keyword">float</span> endOri = -<span class="built_in">atan2</span>(laserCloudIn.points[cloudSize - <span class="number">1</span>].y,</span><br><span class="line">                      laserCloudIn.points[cloudSize - <span class="number">1</span>].x) +</span><br><span class="line">               <span class="number">2</span> * M_PI;</span><br></pre></td></tr></table></figure>
+<p>end_ori 和 start_ori在最理想的状态下，是一样的，从哪儿开始从哪儿结束，</p>
+<p>有一种情况，譬如一圈是从-179到179度，那么其实数据就不需要角度补偿</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (endOri - startOri &gt; <span class="number">3</span> * M_PI)</span><br><span class="line">&#123;</span><br><span class="line">    endOri -= <span class="number">2</span> * M_PI;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一种情况是，179度顺时针又一圈到-179度，这样的话加了2pi还不够，需要再加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">else if (endOri - startOri &lt; M_PI)</span><br><span class="line">&#123;</span><br><span class="line">    endOri +&#x3D; 2 * M_PI;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="计算scanID-第几根线"><a href="#计算scanID-第几根线" class="headerlink" title="计算scanID, 第几根线"></a>计算scanID, 第几根线</h3><p>循环遍历每一个点，通过俯仰角来计算点属于第几根线，计算水平角计算相对位置，把scanID 和 相对位置 以小数和整数的形式保存在point.intensity中</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cloudSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    point.x = laserCloudIn.points[i].x;</span><br><span class="line">    point.y = laserCloudIn.points[i].y;</span><br><span class="line">    point.z = laserCloudIn.points[i].z;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> angle = <span class="built_in">atan</span>(point.z / <span class="built_in">sqrt</span>(point.x * point.x + point.y * point.y)) * <span class="number">180</span> / M_PI;</span><br><span class="line">    <span class="keyword">int</span> scanID = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// compute the number of scans</span></span><br><span class="line">    <span class="keyword">if</span> (N_SCANS == <span class="number">16</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        scanID = <span class="built_in"><span class="keyword">int</span></span>((angle + <span class="number">15</span>) / <span class="number">2</span> + <span class="number">0.5</span>);</span><br><span class="line">        <span class="keyword">if</span> (scanID &gt; (N_SCANS - <span class="number">1</span>) || scanID &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (N_SCANS == <span class="number">32</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        scanID = <span class="built_in"><span class="keyword">int</span></span>((angle + <span class="number">92.0</span>/<span class="number">3.0</span>) * <span class="number">3.0</span> / <span class="number">4.0</span>);</span><br><span class="line">        <span class="keyword">if</span> (scanID &gt; (N_SCANS - <span class="number">1</span>) || scanID &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (N_SCANS == <span class="number">64</span>)</span><br><span class="line">    &#123;   </span><br><span class="line">        <span class="keyword">if</span> (angle &gt;= <span class="number">-8.83</span>)</span><br><span class="line">            scanID = <span class="built_in"><span class="keyword">int</span></span>((<span class="number">2</span> - angle) * <span class="number">3.0</span> + <span class="number">0.5</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            scanID = N_SCANS / <span class="number">2</span> + <span class="built_in"><span class="keyword">int</span></span>((<span class="number">-8.83</span> - angle) * <span class="number">2.0</span> + <span class="number">0.5</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// use [0 50]  &gt; 50 remove outlies </span></span><br><span class="line">        <span class="keyword">if</span> (angle &gt; <span class="number">2</span> || angle &lt; <span class="number">-24.33</span> || scanID &gt; <span class="number">50</span> || scanID &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;wrong scan number\n&quot;</span>);</span><br><span class="line">        <span class="built_in">ROS_BREAK</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//printf(&quot;angle %f scanID %d \n&quot;, angle, scanID);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> ori = -<span class="built_in">atan2</span>(point.y, point.x);</span><br><span class="line">    <span class="keyword">if</span> (!halfPassed)</span><br><span class="line">    &#123; </span><br><span class="line">        <span class="keyword">if</span> (ori &lt; startOri - M_PI / <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ori += <span class="number">2</span> * M_PI;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (ori &gt; startOri + M_PI * <span class="number">3</span> / <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ori -= <span class="number">2</span> * M_PI;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ori - startOri &gt; M_PI)</span><br><span class="line">        &#123;</span><br><span class="line">            halfPassed = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        ori += <span class="number">2</span> * M_PI;</span><br><span class="line">        <span class="keyword">if</span> (ori &lt; endOri - M_PI * <span class="number">3</span> / <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ori += <span class="number">2</span> * M_PI;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (ori &gt; endOri + M_PI / <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ori -= <span class="number">2</span> * M_PI;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> relTime = (ori - startOri) / (endOri - startOri);</span><br><span class="line">    point.intensity = scanID + scanPeriod * relTime;</span><br><span class="line">    laserCloudScans[scanID].<span class="built_in">push_back</span>(point); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把所有的点全部存入pcl::PointCloud\<PointType>::Ptr laserCloud 中，把每一个scan的雷达数据，一股脑儿全部塞入laserCloud中，并且记录下每一个scan数据的起始和结束的位置，注意这里为了计算曲率，舍弃计算每一段scan的前面的和后面的点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pcl::PointCloud&lt;PointType&gt;::<span class="function">Ptr <span class="title">laserCloud</span><span class="params">(<span class="keyword">new</span> pcl::PointCloud&lt;PointType&gt;())</span></span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N_SCANS; i++)</span><br><span class="line">&#123; </span><br><span class="line">    scanStartInd[i] = laserCloud-&gt;<span class="built_in">size</span>() + <span class="number">5</span>;</span><br><span class="line">    *laserCloud += laserCloudScans[i];</span><br><span class="line">    scanEndInd[i] = laserCloud-&gt;<span class="built_in">size</span>() - <span class="number">6</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="特征提取以及均匀化"><a href="#特征提取以及均匀化" class="headerlink" title="特征提取以及均匀化"></a>特征提取以及均匀化</h2><h3 id="计算曲率"><a href="#计算曲率" class="headerlink" title="计算曲率"></a>计算曲率</h3><p>遍历所有的点，即laserCloud，以及所有这些点的曲率，以及这些点原来的位置，索引</p>
+<p>角点：曲率比较大</p>
+<p>面点：曲率比较小</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">5</span>; i &lt; cloudSize - <span class="number">5</span>; i++)</span><br><span class="line">&#123; </span><br><span class="line">    <span class="keyword">float</span> diffX = laserCloud-&gt;points[i - <span class="number">5</span>].x + laserCloud-&gt;points[i - <span class="number">4</span>].x + laserCloud-&gt;points[i - <span class="number">3</span>].x + laserCloud-&gt;points[i - <span class="number">2</span>].x + laserCloud-&gt;points[i - <span class="number">1</span>].x - <span class="number">10</span> * laserCloud-&gt;points[i].x + laserCloud-&gt;points[i + <span class="number">1</span>].x + laserCloud-&gt;points[i + <span class="number">2</span>].x + laserCloud-&gt;points[i + <span class="number">3</span>].x + laserCloud-&gt;points[i + <span class="number">4</span>].x + laserCloud-&gt;points[i + <span class="number">5</span>].x;</span><br><span class="line">    <span class="keyword">float</span> diffY = laserCloud-&gt;points[i - <span class="number">5</span>].y + laserCloud-&gt;points[i - <span class="number">4</span>].y + laserCloud-&gt;points[i - <span class="number">3</span>].y + laserCloud-&gt;points[i - <span class="number">2</span>].y + laserCloud-&gt;points[i - <span class="number">1</span>].y - <span class="number">10</span> * laserCloud-&gt;points[i].y + laserCloud-&gt;points[i + <span class="number">1</span>].y + laserCloud-&gt;points[i + <span class="number">2</span>].y + laserCloud-&gt;points[i + <span class="number">3</span>].y + laserCloud-&gt;points[i + <span class="number">4</span>].y + laserCloud-&gt;points[i + <span class="number">5</span>].y;</span><br><span class="line">    <span class="keyword">float</span> diffZ = laserCloud-&gt;points[i - <span class="number">5</span>].z + laserCloud-&gt;points[i - <span class="number">4</span>].z + laserCloud-&gt;points[i - <span class="number">3</span>].z + laserCloud-&gt;points[i - <span class="number">2</span>].z + laserCloud-&gt;points[i - <span class="number">1</span>].z - <span class="number">10</span> * laserCloud-&gt;points[i].z + laserCloud-&gt;points[i + <span class="number">1</span>].z + laserCloud-&gt;points[i + <span class="number">2</span>].z + laserCloud-&gt;points[i + <span class="number">3</span>].z + laserCloud-&gt;points[i + <span class="number">4</span>].z + laserCloud-&gt;points[i + <span class="number">5</span>].z;</span><br><span class="line"></span><br><span class="line">    cloudCurvature[i] = diffX * diffX + diffY * diffY + diffZ * diffZ;</span><br><span class="line">    cloudSortInd[i] = i;</span><br><span class="line">    cloudNeighborPicked[i] = <span class="number">0</span>;</span><br><span class="line">    cloudLabel[i] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="角点计算cornerPointsSharp"><a href="#角点计算cornerPointsSharp" class="headerlink" title="角点计算cornerPointsSharp"></a>角点计算cornerPointsSharp</h3><p>在此之前，我们提前定义一些变量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ros::Publisher pubLaserCloud;   <span class="comment">//整体点云</span></span><br><span class="line">ros::Publisher pubCornerPointsSharp;    <span class="comment">//角点，曲率很大的点</span></span><br><span class="line">ros::Publisher pubCornerPointsLessSharp;    <span class="comment">//曲率稍微大一点的点</span></span><br><span class="line">ros::Publisher pubSurfPointsFlat;   <span class="comment">//曲率最小的面点，平坦的点</span></span><br><span class="line">ros::Publisher pubSurfPointsLessFlat;   <span class="comment">//降采样面点</span></span><br><span class="line">ros::Publisher pubRemovePoints;     <span class="comment">//剔除点</span></span><br><span class="line">std::vector&lt;ros::Publisher&gt; pubEachScan;    <span class="comment">//ros形式的一线扫描</span></span><br></pre></td></tr></table></figure>
+<p>对每一个scan进行六等分，在每一等分里面对点根据曲率的大小进行排序。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N_SCANS; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( scanEndInd[i] - scanStartInd[i] &lt; <span class="number">6</span>)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        pcl::PointCloud&lt;PointType&gt;::<span class="function">Ptr <span class="title">surfPointsLessFlatScan</span><span class="params">(<span class="keyword">new</span> pcl::PointCloud&lt;PointType&gt;)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">6</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> sp = scanStartInd[i] + (scanEndInd[i] - scanStartInd[i]) * j / <span class="number">6</span>; </span><br><span class="line">            <span class="keyword">int</span> ep = scanStartInd[i] + (scanEndInd[i] - scanStartInd[i]) * (j + <span class="number">1</span>) / <span class="number">6</span> - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            TicToc t_tmp;</span><br><span class="line">            std::<span class="built_in">sort</span> (cloudSortInd + sp, cloudSortInd + ep + <span class="number">1</span>, comp);</span><br></pre></td></tr></table></figure>
+<p>对当前区间的第一个点，加入到角点cornerPointsSharp的vector中，并且把该点周围的十个数看情况标记cloudNeighborPicked[ind + l]]  =  1; 表示该点周围的五个数范围内是有 角点了，来避免角点太集中 </p>
+<p>当该点周围的一些点差异过大，即不太连续，是特征边缘，可以不需要设置，</p>
+<p>角点标记为2；曲率稍微大的，小于角点的点标记为1</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> largestPickedNum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = ep; k &gt;= sp; k--)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> ind = cloudSortInd[k]; </span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (cloudNeighborPicked[ind] == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                    cloudCurvature[ind] &gt; <span class="number">0.1</span>)</span><br><span class="line">                &#123;</span><br><span class="line"></span><br><span class="line">                    largestPickedNum++;</span><br><span class="line">                    <span class="keyword">if</span> (largestPickedNum &lt;= <span class="number">2</span>)</span><br><span class="line">                    &#123;                        </span><br><span class="line">                        cloudLabel[ind] = <span class="number">2</span>;</span><br><span class="line">                        cornerPointsSharp.<span class="built_in">push_back</span>(laserCloud-&gt;points[ind]);</span><br><span class="line">                        cornerPointsLessSharp.<span class="built_in">push_back</span>(laserCloud-&gt;points[ind]);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (largestPickedNum &lt;= <span class="number">20</span>)</span><br><span class="line">                    &#123;                        </span><br><span class="line">                        cloudLabel[ind] = <span class="number">1</span>; </span><br><span class="line">                        cornerPointsLessSharp.<span class="built_in">push_back</span>(laserCloud-&gt;points[ind]);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    cloudNeighborPicked[ind] = <span class="number">1</span>; </span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">1</span>; l &lt;= <span class="number">5</span>; l++)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">float</span> diffX = laserCloud-&gt;points[ind + l].x - laserCloud-&gt;points[ind + l - <span class="number">1</span>].x;</span><br><span class="line">                        <span class="keyword">float</span> diffY = laserCloud-&gt;points[ind + l].y - laserCloud-&gt;points[ind + l - <span class="number">1</span>].y;</span><br><span class="line">                        <span class="keyword">float</span> diffZ = laserCloud-&gt;points[ind + l].z - laserCloud-&gt;points[ind + l - <span class="number">1</span>].z;</span><br><span class="line">                        <span class="keyword">if</span> (diffX * diffX + diffY * diffY + diffZ * diffZ &gt; <span class="number">0.05</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        cloudNeighborPicked[ind + l] = <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">-1</span>; l &gt;= <span class="number">-5</span>; l--)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">float</span> diffX = laserCloud-&gt;points[ind + l].x - laserCloud-&gt;points[ind + l + <span class="number">1</span>].x;</span><br><span class="line">                        <span class="keyword">float</span> diffY = laserCloud-&gt;points[ind + l].y - laserCloud-&gt;points[ind + l + <span class="number">1</span>].y;</span><br><span class="line">                        <span class="keyword">float</span> diffZ = laserCloud-&gt;points[ind + l].z - laserCloud-&gt;points[ind + l + <span class="number">1</span>].z;</span><br><span class="line">                        <span class="keyword">if</span> (diffX * diffX + diffY * diffY + diffZ * diffZ &gt; <span class="number">0.05</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        cloudNeighborPicked[ind + l] = <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="平坦点计算surfPointsFlat"><a href="#平坦点计算surfPointsFlat" class="headerlink" title="平坦点计算surfPointsFlat"></a>平坦点计算surfPointsFlat</h3><p>平坦点的曲率是确保可以小于0.1的，平坦的点，标志为-1</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> smallestPickedNum = <span class="number">0</span>;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> k = sp; k &lt;= ep; k++)</span><br><span class="line">         &#123;</span><br><span class="line">             <span class="keyword">int</span> ind = cloudSortInd[k];</span><br><span class="line"></span><br><span class="line">             <span class="keyword">if</span> (cloudNeighborPicked[ind] == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                 cloudCurvature[ind] &lt; <span class="number">0.1</span>)</span><br><span class="line">             &#123;</span><br><span class="line"></span><br><span class="line">                 cloudLabel[ind] = <span class="number">-1</span>; </span><br><span class="line">                 surfPointsFlat.<span class="built_in">push_back</span>(laserCloud-&gt;points[ind]);</span><br><span class="line"></span><br><span class="line">                 smallestPickedNum++;</span><br><span class="line">                 <span class="keyword">if</span> (smallestPickedNum &gt;= <span class="number">4</span>)</span><br><span class="line">                 &#123; </span><br><span class="line">                     <span class="keyword">break</span>;</span><br><span class="line">                 &#125;</span><br><span class="line"></span><br><span class="line">                 cloudNeighborPicked[ind] = <span class="number">1</span>;</span><br><span class="line">                 <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">1</span>; l &lt;= <span class="number">5</span>; l++)</span><br><span class="line">                 &#123; </span><br><span class="line">                     <span class="keyword">float</span> diffX = laserCloud-&gt;points[ind + l].x - laserCloud-&gt;points[ind + l - <span class="number">1</span>].x;</span><br><span class="line">                     <span class="keyword">float</span> diffY = laserCloud-&gt;points[ind + l].y - laserCloud-&gt;points[ind + l - <span class="number">1</span>].y;</span><br><span class="line">                     <span class="keyword">float</span> diffZ = laserCloud-&gt;points[ind + l].z - laserCloud-&gt;points[ind + l - <span class="number">1</span>].z;</span><br><span class="line">                     <span class="keyword">if</span> (diffX * diffX + diffY * diffY + diffZ * diffZ &gt; <span class="number">0.05</span>)</span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     &#125;</span><br><span class="line"></span><br><span class="line">                     cloudNeighborPicked[ind + l] = <span class="number">1</span>;</span><br><span class="line">                 &#125;</span><br><span class="line">                 <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">-1</span>; l &gt;= <span class="number">-5</span>; l--)</span><br><span class="line">                 &#123;</span><br><span class="line">                     <span class="keyword">float</span> diffX = laserCloud-&gt;points[ind + l].x - laserCloud-&gt;points[ind + l + <span class="number">1</span>].x;</span><br><span class="line">                     <span class="keyword">float</span> diffY = laserCloud-&gt;points[ind + l].y - laserCloud-&gt;points[ind + l + <span class="number">1</span>].y;</span><br><span class="line">                     <span class="keyword">float</span> diffZ = laserCloud-&gt;points[ind + l].z - laserCloud-&gt;points[ind + l + <span class="number">1</span>].z;</span><br><span class="line">                     <span class="keyword">if</span> (diffX * diffX + diffY * diffY + diffZ * diffZ &gt; <span class="number">0.05</span>)</span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                     &#125;</span><br><span class="line"></span><br><span class="line">                     cloudNeighborPicked[ind + l] = <span class="number">1</span>;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="面点计算surfPointsLessFlatScan"><a href="#面点计算surfPointsLessFlatScan" class="headerlink" title="面点计算surfPointsLessFlatScan"></a>面点计算surfPointsLessFlatScan</h3><p>只要不是角点的所有点，全部都推送到面点里面去</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = sp; k &lt;= ep; k++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (cloudLabel[k] &lt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        surfPointsLessFlatScan-&gt;<span class="built_in">push_back</span>(laserCloud-&gt;points[k]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="体素滤波surfPointsLessFlat"><a href="#体素滤波surfPointsLessFlat" class="headerlink" title="体素滤波surfPointsLessFlat"></a>体素滤波surfPointsLessFlat</h3><p>把所有的面点surfPointsLessFlatScan进行一个体素滤波，在0.2x0.2x0.2的体积方格内，只能有一个体素点，全部保存到surfPointsLessFlat中。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pcl::PointCloud&lt;PointType&gt; surfPointsLessFlatScanDS;</span><br><span class="line">pcl::VoxelGrid&lt;PointType&gt; downSizeFilter;</span><br><span class="line">downSizeFilter.<span class="built_in">setInputCloud</span>(surfPointsLessFlatScan);</span><br><span class="line">downSizeFilter.<span class="built_in">setLeafSize</span>(<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>);</span><br><span class="line">downSizeFilter.<span class="built_in">filter</span>(surfPointsLessFlatScanDS);</span><br><span class="line"></span><br><span class="line">surfPointsLessFlat += surfPointsLessFlatScanDS;</span><br></pre></td></tr></table></figure>
+<h2 id="发送数据"><a href="#发送数据" class="headerlink" title="发送数据"></a>发送数据</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sensor_msgs::PointCloud2 laserCloudOutMsg;</span><br><span class="line">pcl::<span class="built_in">toROSMsg</span>(*laserCloud, laserCloudOutMsg);</span><br><span class="line">laserCloudOutMsg.header.stamp = laserCloudMsg-&gt;header.stamp;</span><br><span class="line">laserCloudOutMsg.header.frame_id = <span class="string">&quot;/camera_init&quot;</span>;</span><br><span class="line">pubLaserCloud.<span class="built_in">publish</span>(laserCloudOutMsg);</span><br><span class="line"></span><br><span class="line">sensor_msgs::PointCloud2 cornerPointsSharpMsg;</span><br><span class="line">pcl::<span class="built_in">toROSMsg</span>(cornerPointsSharp, cornerPointsSharpMsg);</span><br><span class="line">cornerPointsSharpMsg.header.stamp = laserCloudMsg-&gt;header.stamp;</span><br><span class="line">cornerPointsSharpMsg.header.frame_id = <span class="string">&quot;/camera_init&quot;</span>;</span><br><span class="line">pubCornerPointsSharp.<span class="built_in">publish</span>(f);</span><br><span class="line"></span><br><span class="line">sensor_msgs::PointCloud2 cornerPointsLessSharpMsg;</span><br><span class="line">pcl::<span class="built_in">toROSMsg</span>(cornerPointsLessSharp, cornerPointsLessSharpMsg);</span><br><span class="line">cornerPointsLessSharpMsg.header.stamp = laserCloudMsg-&gt;header.stamp;</span><br><span class="line">cornerPointsLessSharpMsg.header.frame_id = <span class="string">&quot;/camera_init&quot;</span>;</span><br><span class="line">pubCornerPointsLessSharp.<span class="built_in">publish</span>(cornerPointsLessSharpMsg);</span><br><span class="line"></span><br><span class="line">sensor_msgs::PointCloud2 surfPointsFlat2;</span><br><span class="line">pcl::<span class="built_in">toROSMsg</span>(surfPointsFlat, surfPointsFlat2);</span><br><span class="line">surfPointsFlat2.header.stamp = laserCloudMsg-&gt;header.stamp;</span><br><span class="line">surfPointsFlat2.header.frame_id = <span class="string">&quot;/camera_init&quot;</span>;</span><br><span class="line">pubSurfPointsFlat.<span class="built_in">publish</span>(surfPointsFlat2);</span><br><span class="line"></span><br><span class="line">sensor_msgs::PointCloud2 surfPointsLessFlat2;</span><br><span class="line">pcl::<span class="built_in">toROSMsg</span>(surfPointsLessFlat, surfPointsLessFlat2);</span><br><span class="line">surfPointsLessFlat2.header.stamp = laserCloudMsg-&gt;header.stamp;</span><br><span class="line">surfPointsLessFlat2.header.frame_id = <span class="string">&quot;/camera_init&quot;</span>;</span><br><span class="line">pubSurfPointsLessFlat.<span class="built_in">publish</span>(surfPointsLessFlat2);</span><br></pre></td></tr></table></figure>
+<p>可以得到所有的topic含义即为</p>
+<ul>
+<li>/velodyne_points： 原始点云</li>
+<li>/laser_cloud_sharp：曲率最大的角点的点云</li>
+<li>/laser_cloud_less_sharp：曲率次大的角点的点云，数量会大于/laser_cloud_sharp</li>
+<li>/laser_cloud_flat：曲率最小的点的点云</li>
+<li>/laser_cloud_less_flat：除了角点之外的，经过体素滤波之后的面点</li>
+<li>laser_remove_points：被移除的点</li>
+</ul>
+<h2 id="数据处理时间"><a href="#数据处理时间" class="headerlink" title="数据处理时间"></a>数据处理时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(t_whole.toc() &gt; 100)</span><br><span class="line">    ROS_WARN(&quot;scan registration process over 100ms&quot;);</span><br></pre></td></tr></table></figure>
+<p>雷达的频率在10hz左右，所以当ROS发出警告太多的时候，就需要注意是不是有资源不够</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/01/09/220109A-LOAM%E8%BF%90%E8%A1%8C/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">LOAM运行</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">文件结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">可执行文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ascanRegistration"><span class="nav-number">3.</span> <span class="nav-text">ascanRegistration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">雷达数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E4%B8%BApcl%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">3.1.1.</span> <span class="nav-text">转换为pcl格式的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4Nan%E3%80%81%E8%BF%87%E6%BB%A4%E8%BF%91%E7%82%B9"><span class="nav-number">3.1.2.</span> <span class="nav-text">移除Nan、过滤近点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%97%8B%E8%BD%AC%E5%88%9D%E5%A7%8B%E5%92%8C%E7%BB%93%E6%9D%9F%E8%A7%92%E5%BA%A6"><span class="nav-number">3.1.3.</span> <span class="nav-text">定义旋转初始和结束角度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97scanID-%E7%AC%AC%E5%87%A0%E6%A0%B9%E7%BA%BF"><span class="nav-number">3.1.4.</span> <span class="nav-text">计算scanID, 第几根线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E4%BB%A5%E5%8F%8A%E5%9D%87%E5%8C%80%E5%8C%96"><span class="nav-number">3.2.</span> <span class="nav-text">特征提取以及均匀化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9B%B2%E7%8E%87"><span class="nav-number">3.2.1.</span> <span class="nav-text">计算曲率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E7%82%B9%E8%AE%A1%E7%AE%97cornerPointsSharp"><span class="nav-number">3.2.2.</span> <span class="nav-text">角点计算cornerPointsSharp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E5%9D%A6%E7%82%B9%E8%AE%A1%E7%AE%97surfPointsFlat"><span class="nav-number">3.2.3.</span> <span class="nav-text">平坦点计算surfPointsFlat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E7%82%B9%E8%AE%A1%E7%AE%97surfPointsLessFlatScan"><span class="nav-number">3.2.4.</span> <span class="nav-text">面点计算surfPointsLessFlatScan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E7%B4%A0%E6%BB%A4%E6%B3%A2surfPointsLessFlat"><span class="nav-number">3.2.5.</span> <span class="nav-text">体素滤波surfPointsLessFlat</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE"><span class="nav-number">3.3.</span> <span class="nav-text">发送数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4"><span class="nav-number">3.4.</span> <span class="nav-text">数据处理时间</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
