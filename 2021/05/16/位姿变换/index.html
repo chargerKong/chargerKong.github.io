@@ -198,9 +198,9 @@
 \sin\theta & \cos\theta &y \\
 0&0&1
 \end{bmatrix}\tag{2}</script><h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>切记：</p>
-<p>A在local坐标系下的pose为A_local</p>
+<p>A在local坐标系下的pose为A_local，图示为local -&gt; A</p>
 <p>A在global坐标系下的pose为A_global</p>
-<p>T_localToGlobal = A_global * A_local.inverse()</p>
+<p>T_localToGlobal = A_global * A_local.inverse()  图示为global -&gt; local</p>
 <p>假设有一个B，在local下的坐标系为B_local，则</p>
 <p>B_global = T_localToGlobal * B_local</p>
 <p>即B 在 global下的坐标</p>

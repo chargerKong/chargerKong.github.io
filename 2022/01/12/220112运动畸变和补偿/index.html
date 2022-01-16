@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            帧间里程计匹配 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">帧间里程计匹配</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-01-12 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/A-LOAM/">A-LOAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>3D 激光SLAM通过角点和面点来进行匹配，求当前帧位姿</p>
+<p>视觉SLAM是通过特征点的冲投影误差来求得当前的位姿</p>
+<h1 id="激光雷达畸变及运动补偿"><a href="#激光雷达畸变及运动补偿" class="headerlink" title="激光雷达畸变及运动补偿"></a>激光雷达畸变及运动补偿</h1><p>运动畸变是由于扫描的过程中，车体运动导致一帧数据的数据原点不一致。因此需要去校正，将其校正到任何一个点上都可以</p>
+<h2 id="如何补偿"><a href="#如何补偿" class="headerlink" title="如何补偿"></a>如何补偿</h2><p>运动补偿的目的就是把所有的点云补偿到某一个时刻，这样就可以把本身在过去 100ms 内收集的点云统一到一个时间点上去</p>
+<p>其中一个做法是补偿到起始时刻</p>
+<script type="math/tex; mode=display">
+P_{start}=T_{start\_current} * P_{current}</script><p>因此运动补偿需要知道每个点该时刻对应的位姿$T_{start_current}$, 通常有几种做法</p>
+<ol>
+<li>高频里程计，在短期内他的数据还是相对可靠</li>
+<li>imu， imu可以计算每一个点相对起始点的旋转，imu出来的平移不靠谱，畸变影响最大的还是旋转</li>
+<li>如果没有其他传感器，可以使用匀速模型假设，使用上一个帧间里程记的结果作为当前两帧之间的运动，同时假设当前帧也是匀速运动，也可以估计出每个点相对起始时刻的位姿</li>
+</ol>
+<p>在A_LOAM中，使用的就是纯雷达的模式，下面看一下，他是如何通过匀速模型假设来完成运动畸变的补偿的</p>
+<h2 id="A-LOAM代码实现"><a href="#A-LOAM代码实现" class="headerlink" title="A-LOAM代码实现"></a>A-LOAM代码实现</h2><p>假设q_last_curr 为上一帧到当前帧的坐标变换，用四元数表示。</p>
+<p>现在假设机器人是匀速模型，所以假设上一帧的坐标变换也一样适用于从当前帧到下一帧。</p>
+<p>之前我们计算了每一个点在一次scan中的相对时间，通过这个比例来计算当前帧下每一个点的位姿和平移。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Eigen::Quaterniond q_point_last = Eigen::Quaterniond::<span class="built_in">Identity</span>().<span class="built_in">slerp</span>(s, q_last_curr);</span><br><span class="line">Eigen::Vector3d t_point_last = s * t_last_curr;</span><br></pre></td></tr></table></figure>
+<p>然后进行位姿的补偿，把他补偿到最开始的地方</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Eigen::Vector3d un_point &#x3D; q_point_last * point + t_point_last;</span><br></pre></td></tr></table></figure>
+<p>把算出来的位置，重新赋值到pi上。</p>
+<p>全部代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// undistort lidar point</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TransformToStart</span><span class="params">(PointType <span class="keyword">const</span> *<span class="keyword">const</span> pi, PointType *<span class="keyword">const</span> po)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//interpolation ratio</span></span><br><span class="line">    <span class="keyword">double</span> s;</span><br><span class="line">    <span class="keyword">if</span> (DISTORTION)</span><br><span class="line">        s = (pi-&gt;intensity - <span class="built_in"><span class="keyword">int</span></span>(pi-&gt;intensity)) / SCAN_PERIOD;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        s = <span class="number">1.0</span>;</span><br><span class="line">    <span class="comment">//s = 1;</span></span><br><span class="line">    Eigen::Quaterniond q_point_last = Eigen::Quaterniond::<span class="built_in">Identity</span>().<span class="built_in">slerp</span>(s, q_last_curr);</span><br><span class="line">    Eigen::Vector3d t_point_last = s * t_last_curr;</span><br><span class="line">    <span class="function">Eigen::Vector3d <span class="title">point</span><span class="params">(pi-&gt;x, pi-&gt;y, pi-&gt;z)</span></span>;</span><br><span class="line">    Eigen::Vector3d un_point = q_point_last * point + t_point_last;</span><br><span class="line"></span><br><span class="line">    po-&gt;x = un_point.<span class="built_in">x</span>();</span><br><span class="line">    po-&gt;y = un_point.<span class="built_in">y</span>();</span><br><span class="line">    po-&gt;z = un_point.<span class="built_in">z</span>();</span><br><span class="line">    po-&gt;intensity = pi-&gt;intensity;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="帧间里程计匹配"><a href="#帧间里程计匹配" class="headerlink" title="帧间里程计匹配"></a>帧间里程计匹配</h1><p>spinonce ： 告诉所有的subscriber，把收到的消息执行一次</p>
+<p>spin：来一个调一个</p>
+<h1 id="回调函数的处理"><a href="#回调函数的处理" class="headerlink" title="回调函数的处理"></a>回调函数的处理</h1><p>在laserOdometry.cpp文件中，声明了五个消息订阅这，注册了五个回调函数，</p>
+<h2 id="cornerSharpBuf"><a href="#cornerSharpBuf" class="headerlink" title="cornerSharpBuf"></a>cornerSharpBuf</h2><p>针对角点，曲率最大的点，存进一个cornerSharpBuf，类型为<code>std::queue&lt;sensor_msgs::PointCloud2ConstPtr&gt;</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">laserCloudSharpHandler</span><span class="params">(<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr &amp;cornerPointsSharp2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mBuf.<span class="built_in">lock</span>();</span><br><span class="line">    cornerSharpBuf.<span class="built_in">push</span>(cornerPointsSharp2);</span><br><span class="line">    mBuf.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="cornerLessSharpBuf"><a href="#cornerLessSharpBuf" class="headerlink" title="cornerLessSharpBuf"></a>cornerLessSharpBuf</h2><p>针对曲率比角点稍微小一点的点，存入cornerLessSharpBuf</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">laserCloudLessSharpHandler</span><span class="params">(<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr &amp;cornerPointsLessSharp2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mBuf.<span class="built_in">lock</span>();</span><br><span class="line">    cornerLessSharpBuf.<span class="built_in">push</span>(cornerPointsLessSharp2);</span><br><span class="line">    mBuf.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="surfFlatBuf"><a href="#surfFlatBuf" class="headerlink" title="surfFlatBuf"></a>surfFlatBuf</h2><p>曲率最小的点，存入surfFlatBuf</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">laserCloudFlatHandler</span><span class="params">(<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr &amp;surfPointsFlat2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mBuf.<span class="built_in">lock</span>();</span><br><span class="line">    surfFlatBuf.<span class="built_in">push</span>(surfPointsFlat2);</span><br><span class="line">    mBuf.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="surfLessFlatBuf"><a href="#surfLessFlatBuf" class="headerlink" title="surfLessFlatBuf"></a>surfLessFlatBuf</h2><p>曲率次小的点，存入surfLessFlatBuf</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">laserCloudLessFlatHandler</span><span class="params">(<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr &amp;surfPointsLessFlat2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mBuf.<span class="built_in">lock</span>();</span><br><span class="line">    surfLessFlatBuf.<span class="built_in">push</span>(surfPointsLessFlat2);</span><br><span class="line">    mBuf.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="fullPointsBuf"><a href="#fullPointsBuf" class="headerlink" title="fullPointsBuf"></a>fullPointsBuf</h2><p>原始点云，存入fullPointsBuf</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">laserCloudFullResHandler</span><span class="params">(<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr &amp;laserCloudFullRes2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mBuf.<span class="built_in">lock</span>();</span><br><span class="line">    fullPointsBuf.<span class="built_in">push</span>(laserCloudFullRes2);</span><br><span class="line">    mBuf.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="数据队列消息处理"><a href="#数据队列消息处理" class="headerlink" title="数据队列消息处理"></a>数据队列消息处理</h2><h3 id="保证是同一帧数据"><a href="#保证是同一帧数据" class="headerlink" title="保证是同一帧数据"></a>保证是同一帧数据</h3><p>取出每一个队列的头数据的时间戳，并且和timeLaserCloudFullRes的时间做对比，不同则直接退出</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">timeCornerPointsSharp = cornerSharpBuf.<span class="built_in">front</span>()-&gt;header.stamp.<span class="built_in">toSec</span>();</span><br><span class="line">timeCornerPointsLessSharp = cornerLessSharpBuf.<span class="built_in">front</span>()-&gt;header.stamp.<span class="built_in">toSec</span>();</span><br><span class="line">timeSurfPointsFlat = surfFlatBuf.<span class="built_in">front</span>()-&gt;header.stamp.<span class="built_in">toSec</span>();</span><br><span class="line">timeSurfPointsLessFlat = surfLessFlatBuf.<span class="built_in">front</span>()-&gt;header.stamp.<span class="built_in">toSec</span>();</span><br><span class="line">timeLaserCloudFullRes = fullPointsBuf.<span class="built_in">front</span>()-&gt;header.stamp.<span class="built_in">toSec</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (timeCornerPointsSharp != timeLaserCloudFullRes ||</span><br><span class="line">    timeCornerPointsLessSharp != timeLaserCloudFullRes ||</span><br><span class="line">    timeSurfPointsFlat != timeLaserCloudFullRes ||</span><br><span class="line">    timeSurfPointsLessFlat != timeLaserCloudFullRes)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;unsync messeage!&quot;</span>);</span><br><span class="line">    <span class="built_in">ROS_BREAK</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种情况基本不会发生，因为这个是同时被发出来的</p>
+<h3 id="转PCL"><a href="#转PCL" class="headerlink" title="转PCL"></a>转PCL</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mBuf.<span class="built_in">lock</span>();</span><br><span class="line">         cornerPointsSharp-&gt;<span class="built_in">clear</span>();</span><br><span class="line">         pcl::<span class="built_in">fromROSMsg</span>(*cornerSharpBuf.<span class="built_in">front</span>(), *cornerPointsSharp);</span><br><span class="line">         cornerSharpBuf.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">         cornerPointsLessSharp-&gt;<span class="built_in">clear</span>();</span><br><span class="line">         pcl::<span class="built_in">fromROSMsg</span>(*cornerLessSharpBuf.<span class="built_in">front</span>(), *cornerPointsLessSharp);</span><br><span class="line">         cornerLessSharpBuf.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">         surfPointsFlat-&gt;<span class="built_in">clear</span>();</span><br><span class="line">         pcl::<span class="built_in">fromROSMsg</span>(*surfFlatBuf.<span class="built_in">front</span>(), *surfPointsFlat);</span><br><span class="line">         surfFlatBuf.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">         surfPointsLessFlat-&gt;<span class="built_in">clear</span>();</span><br><span class="line">         pcl::<span class="built_in">fromROSMsg</span>(*surfLessFlatBuf.<span class="built_in">front</span>(), *surfPointsLessFlat);</span><br><span class="line">         surfLessFlatBuf.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">         laserCloudFullRes-&gt;<span class="built_in">clear</span>();</span><br><span class="line">         pcl::<span class="built_in">fromROSMsg</span>(*fullPointsBuf.<span class="built_in">front</span>(), *laserCloudFullRes);</span><br><span class="line">         fullPointsBuf.<span class="built_in">pop</span>();</span><br><span class="line">         mBuf.<span class="built_in">unlock</span>();</span><br></pre></td></tr></table></figure>
+<p>计算取出当前帧的角点和面点的个数，即曲率最大和最小的点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cornerPointsSharpNum = cornerPointsSharp-&gt;points.<span class="built_in">size</span>();</span><br><span class="line"><span class="keyword">int</span> surfPointsFlatNum = surfPointsFlat-&gt;points.<span class="built_in">size</span>();</span><br></pre></td></tr></table></figure>
+<p>对每一个角点和面点我们都要形成一个约束</p>
+<h3 id="ceres步骤"><a href="#ceres步骤" class="headerlink" title="ceres步骤"></a>ceres步骤</h3><p>当残差超过0.1之后，权重就变小。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceres::LossFunction *loss_function &#x3D; new ceres::HuberLoss(0.1);</span><br></pre></td></tr></table></figure>
+<p>告诉优化变量是什么，q_parameterization是告诉他加法怎么加了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">problem.AddParameterBlock(para_q, 4, q_parameterization);</span><br><span class="line">problem.AddParameterBlock(para_t, 3);</span><br></pre></td></tr></table></figure>
+<p>寻找约束</p>
+<p>上一帧的角点们组成KDtree，寻找在KDtree中，距离当前角点最近的点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">TransformToStart</span>(&amp;(cornerPointsSharp-&gt;points[i]), &amp;pointSel);</span><br><span class="line">kdtreeCornerLast-&gt;<span class="built_in">nearestKSearch</span>(pointSel, <span class="number">1</span>, pointSearchInd, pointSearchSqDis);</span><br></pre></td></tr></table></figure>
+<p>注意KDtree 不可以找两个点，这两个点不可以在同一个scan上，也不可以太远</p>
+<p>寻找方式：暴力寻找上一帧的所有角点，但是以下情况忽略</p>
+<ul>
+<li>和第一个点在同一个scan上</li>
+<li>不在附近的scan上</li>
+</ul>
+<p>符合条件之后，计算距离，选择最近点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> closestPointInd = <span class="number">-1</span>, minPointInd2 = <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">if</span> (pointSearchSqDis[<span class="number">0</span>] &lt; DISTANCE_SQ_THRESHOLD)</span><br><span class="line">&#123;</span><br><span class="line">    closestPointInd = pointSearchInd[<span class="number">0</span>];</span><br><span class="line">    <span class="comment">// 找到上一帧中对应的点是第几根线</span></span><br><span class="line">    <span class="keyword">int</span> closestPointScanID = <span class="built_in"><span class="keyword">int</span></span>(laserCloudCornerLast-&gt;points[closestPointInd].intensity);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">double</span> minPointSqDis2 = DISTANCE_SQ_THRESHOLD;</span><br><span class="line">    <span class="comment">// search in the direction of increasing scan line</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = closestPointInd + <span class="number">1</span>; j &lt; (<span class="keyword">int</span>)laserCloudCornerLast-&gt;points.<span class="built_in">size</span>(); ++j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// if in the same scan line, continue</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in"><span class="keyword">int</span></span>(laserCloudCornerLast-&gt;points[j].intensity) &lt;= closestPointScanID)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if not in nearby scans, end the loop</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in"><span class="keyword">int</span></span>(laserCloudCornerLast-&gt;points[j].intensity) &gt; (closestPointScanID + NEARBY_SCAN))</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> pointSqDis = (laserCloudCornerLast-&gt;points[j].x - pointSel.x) *</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].x - pointSel.x) +</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].y - pointSel.y) *</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].y - pointSel.y) +</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].z - pointSel.z) *</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].z - pointSel.z);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (pointSqDis &lt; minPointSqDis2)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// find nearer point</span></span><br><span class="line">            minPointSqDis2 = pointSqDis;</span><br><span class="line">            minPointInd2 = j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> <span class="comment">// search in the direction of decreasing scan line</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = closestPointInd - <span class="number">1</span>; j &gt;= <span class="number">0</span>; --j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// if in the same scan line, continue</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in"><span class="keyword">int</span></span>(laserCloudCornerLast-&gt;points[j].intensity) &gt;= closestPointScanID)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// if not in nearby scans, end the loop</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in"><span class="keyword">int</span></span>(laserCloudCornerLast-&gt;points[j].intensity) &lt; (closestPointScanID - NEARBY_SCAN))</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> pointSqDis = (laserCloudCornerLast-&gt;points[j].x - pointSel.x) *</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].x - pointSel.x) +</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].y - pointSel.y) *</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].y - pointSel.y) +</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].z - pointSel.z) *</span><br><span class="line">            (laserCloudCornerLast-&gt;points[j].z - pointSel.z);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (pointSqDis &lt; minPointSqDis2)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// find nearer point</span></span><br><span class="line">            minPointSqDis2 = pointSqDis;</span><br><span class="line">            minPointInd2 = j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把当前的点，通过位姿变化，计算到上一帧坐标系上</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/01/16/220116vscodeROS1_launch%E8%B0%83%E8%AF%95/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">vscode 断点调试方式</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/01/10/220110A-LOAM%E4%BB%A3%E7%A0%81/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">A-LOAM 数据处理</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E7%95%B8%E5%8F%98%E5%8F%8A%E8%BF%90%E5%8A%A8%E8%A1%A5%E5%81%BF"><span class="nav-number">1.</span> <span class="nav-text">激光雷达畸变及运动补偿</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A1%A5%E5%81%BF"><span class="nav-number">1.1.</span> <span class="nav-text">如何补偿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-LOAM%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">A-LOAM代码实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%A7%E9%97%B4%E9%87%8C%E7%A8%8B%E8%AE%A1%E5%8C%B9%E9%85%8D"><span class="nav-number">2.</span> <span class="nav-text">帧间里程计匹配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">回调函数的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cornerSharpBuf"><span class="nav-number">3.1.</span> <span class="nav-text">cornerSharpBuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cornerLessSharpBuf"><span class="nav-number">3.2.</span> <span class="nav-text">cornerLessSharpBuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#surfFlatBuf"><span class="nav-number">3.3.</span> <span class="nav-text">surfFlatBuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#surfLessFlatBuf"><span class="nav-number">3.4.</span> <span class="nav-text">surfLessFlatBuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fullPointsBuf"><span class="nav-number">3.5.</span> <span class="nav-text">fullPointsBuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%98%9F%E5%88%97%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86"><span class="nav-number">3.6.</span> <span class="nav-text">数据队列消息处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E8%AF%81%E6%98%AF%E5%90%8C%E4%B8%80%E5%B8%A7%E6%95%B0%E6%8D%AE"><span class="nav-number">3.6.1.</span> <span class="nav-text">保证是同一帧数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%ACPCL"><span class="nav-number">3.6.2.</span> <span class="nav-text">转PCL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ceres%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.6.3.</span> <span class="nav-text">ceres步骤</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

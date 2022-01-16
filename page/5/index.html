@@ -145,6 +145,95 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8/">
+                        ceres使用
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        cartographer的ceres扫描匹配使用在cartographer/mapping/internal/2d/local_trajetory_builder.cc中
+ceres 调用处12345// 使用ceres进行扫描匹配ceres_sca...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 25 2021 18:38:29 GMT+0800">2021-11-25</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/25/1125ceres%E4%BD%BF%E7%94%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/">
+                        扫描匹配-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        首先还是local_trajectory_builder_2d
+可以对暴力匹配的部分单独提取出来，进行一个重定位。
+AddAccumulatedRangeData预测time时间的先验位姿，
+1234// Computes a gravity ali...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 22 2021 18:38:29 GMT+0800">2021-11-22</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/22/1122%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E5%AE%9E%E7%8E%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/22/1122Node%20lifecycle/">
+                        node lifecycle design
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        节点生命周期的管理允许对ROS系统的状态进行更大的控制。它将允许roslaunch在允许任何组件开始执行其行为之前确保所有组件已经被正确实例化。它还允许在线重启或替换节点。
+本文档最重要的概念是，管理节点表示一个已知的接口，根据一个已知的生命周期状态...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 22 2021 18:38:29 GMT+0800">2021-11-22</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/22/1122Node%20lifecycle/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/11/22/1122ROS2%20launch%20Design_2/">
                         ros2 launch 与 roslaunch异同
                     </a>
@@ -347,93 +436,6 @@ Calli...
     </div>
 
     <a href="/2021/11/18/1118%E5%9C%B0%E5%9B%BE%E5%9D%90%E6%A0%87%E7%B3%BB/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/18/1119%20nav2-begin/">
-                        initial pose-navigation2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1ros2 topic pub -t 1 &#x2F;initialpose geometry_msgs&#x2F;msg&#x2F;PoseWithCovarianceStamped &quot;&#123;header: &#123;stamp:...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 18 2021 18:38:29 GMT+0800">2021-11-18</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/18/1119%20nav2-begin/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/17/1117%20%E6%B4%BB%E8%B7%83%E5%AD%90%E5%9B%BE/">
-                        活跃子图-ActiveSubmaps2D-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        栅格地图的实现是二维激光SLAM的一个难点
-三维激光SLAM形成的点云地图不需要自己手动实现点云的数据结构, PCL中有写好的数据类型,直接调用就行. 视觉SLAM形成的点云地图也可以用PCL来实现
-唯独二维激光SLAM的栅格地图需要自己手动实现, ...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Nov 17 2021 18:38:29 GMT+0800">2021-11-17</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/17/1117%20%E6%B4%BB%E8%B7%83%E5%AD%90%E5%9B%BE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/16/1116nav2%E6%8F%92%E4%BB%B6/">
-                        navigation2 插件配置
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        本节会讨论可以基于你机器和环境的一个不同的算法
-Planner and Controller Servers¶导航算法在Nav2中通过使用运行在ROS action servers 的插件来实现—— the planner, controller a...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Nov 16 2021 18:38:29 GMT+0800">2021-11-16</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/11/16/1116nav2%E6%8F%92%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
