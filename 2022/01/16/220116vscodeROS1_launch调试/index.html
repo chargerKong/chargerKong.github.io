@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -189,16 +189,18 @@
         
 
         <div class="article-content markdown-body">
-            <p>色彩校正算法包括：色彩数据线性化、色彩距离（是一个计算方法）、非线性优化、推理校正，色彩概率空间近似、色彩空间和分布评估模型算法。</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/opencv/opencv_contrib/pull/2671" >https://github.com/opencv/opencv_contrib/pull/2671<i class="fas fa-external-link-alt"></i></a></p>
-<p>双四元数（包含球面线性插值算法、混合平滑蒙皮算法）</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/opencv/opencv/pull/19026" >https://github.com/opencv/opencv/pull/19026<i class="fas fa-external-link-alt"></i></a></p>
-<p>四元数（归一化线性插值算法，球面四边形插值算法，三次样条插值算法）</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/opencv/opencv/pull/18335" >https://github.com/opencv/opencv/pull/18335<i class="fas fa-external-link-alt"></i></a></p>
-<p>欧拉角</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/opencv/opencv/pull/19098" >https://github.com/opencv/opencv/pull/19098<i class="fas fa-external-link-alt"></i></a></p>
-<p>四元数混合运算</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/opencv/opencv/pull/18911" >https://github.com/opencv/opencv/pull/18911<i class="fas fa-external-link-alt"></i></a></p>
+            <h1 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h1><p>搜索插件ROS，c++，并安装</p>
+<p><img src="./vscode 断点调试方式/2022-01-16 23-38-13屏幕截图.png" alt=""></p>
+<p><img src="2022-01-16 23-38-13屏幕截图.png" alt=""></p>
+<h1 id="配置launch-json文件"><a href="#配置launch-json文件" class="headerlink" title="配置launch.json文件"></a>配置launch.json文件</h1><p>点击运行和调试，点击create a launch json file, 选择c++</p>
+<p>进入launch.json，点击右下角的添加配置</p>
+<p>选择ros launch，确定。配置好自己的target，为自己的launch的绝对路径</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 使用 IntelliSense 了解相关属性。 </span></span><br><span class="line">    <span class="comment">// 悬停以查看现有属性的描述。</span></span><br><span class="line">    <span class="comment">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;ROS: Launch&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;ros&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;request&quot;</span>: <span class="string">&quot;launch&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;target&quot;</span>: <span class="string">&quot;/root/catkin_ws/src/A-LOAM/launch/aloam_velodyne_HDL_32.launch&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后打好点，点击运行和调试中的开始调试，即可</p>
+<p>这是，vscode 可以帮助我们启动roslaunch文件，但是还不可以帮助我们编译</p>
+<h1 id="配置task-json"><a href="#配置task-json" class="headerlink" title="配置task.json"></a>配置task.json</h1><p>他是一个帮助编译的文件，需要的时候再搞</p>
+<h1 id="CMakeLists-txt修改"><a href="#CMakeLists-txt修改" class="headerlink" title="CMakeLists.txt修改"></a>CMakeLists.txt修改</h1><p>添加一条</p>
+<p>SET(CMAKE_BUILD_TYPE Debug)</p>
 
         </div>
 
@@ -217,7 +219,7 @@
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">c++ 演进，环境与资源-侯捷笔记</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -230,7 +232,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">帧间里程计匹配</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -246,7 +248,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -320,7 +322,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -399,7 +401,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">插件安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AElaunch-json%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">配置launch.json文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEtask-json"><span class="nav-number">3.</span> <span class="nav-text">配置task.json</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CMakeLists-txt%E4%BF%AE%E6%94%B9"><span class="nav-number">4.</span> <span class="nav-text">CMakeLists.txt修改</span></a></li></ol>
     </div>
 </div>
         </aside>

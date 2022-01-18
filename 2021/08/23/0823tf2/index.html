@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -165,6 +165,17 @@
     </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/tf2/">tf2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
@@ -178,36 +189,33 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="功能包总览"><a href="#功能包总览" class="headerlink" title="功能包总览"></a>功能包总览</h1><p>tf2可以让用用户随时追溯多个坐标系，tf2会实时的把各个坐标系之间的关系保存在一个树结构中。我们可以随时获得任何时间任何坐标系的变换</p>
+            <h1 id="功能包总览"><a href="#功能包总览" class="headerlink" title="功能包总览"></a>功能包总览</h1><p>发布静态转换对于定义机器人底座及其传感器或非移动部件之间的关系非常有用。例如，激光扫描测量在激光扫描仪的中心的时候是最好运算的</p>
+<p>本节内容分为俩部分，一部分是关于如何通过写代码的方式来发布静态变换，另一部分是在命令行使用tf2_ros中的static_transform_publisher发布静态变换</p>
+<p>tf2可以用用户随时追溯多个坐标系，tf2会实时的把各个坐标系之间的关系保存在一个树结构中。我们可以随时获得任何时间任何坐标系的变换</p>
 <h1 id="创建static-broadcaster"><a href="#创建static-broadcaster" class="headerlink" title="创建static  broadcaster"></a>创建static  broadcaster</h1><p>首先，进入工程目录的src文件夹</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 pkg create --build-type ament_python learning_tf2_py</span><br></pre></td></tr></table></figure>
 <p>在<code>src/learning_tf2_py/learning_tf2_py</code>文件夹里面，我们加入以下代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> TransformStamped</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tf2_ros.static_transform_broadcaster <span class="keyword">import</span> StaticTransformBroadcaster</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tf_transformations</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticFramePublisher</span>(<span class="params">Node</span>):</span></span><br><span class="line">   <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">   Broadcast transforms that never change.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">   This example publishes transforms from `world` to a static turtle frame.</span></span><br><span class="line"><span class="string">   The transforms are only published once at startup, and are constant for all</span></span><br><span class="line"><span class="string">   time.</span></span><br><span class="line"><span class="string">   &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, transformation</span>):</span></span><br><span class="line">      <span class="built_in">super</span>().__init__(<span class="string">&#x27;static_turtle_tf2_broadcaster&#x27;</span>)</span><br><span class="line"></span><br><span class="line">      self._tf_publisher = StaticTransformBroadcaster(self)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># Publish static transforms once at startup</span></span><br><span class="line">      self._tf_publisher.sendTransform(self.make_transforms(transformation))</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">make_transforms</span>(<span class="params">self, transformation</span>):</span></span><br><span class="line">      static_transformStamped = TransformStamped()</span><br><span class="line">      static_transformStamped.header.stamp = self.get_clock().now().to_msg()</span><br><span class="line">      static_transformStamped.header.frame_id = <span class="string">&#x27;world&#x27;</span></span><br><span class="line">      static_transformStamped.child_frame_id = sys.argv[<span class="number">1</span>]</span><br><span class="line">      static_transformStamped.transform.translation.x = <span class="built_in">float</span>(sys.argv[<span class="number">2</span>])</span><br><span class="line">      static_transformStamped.transform.translation.y = <span class="built_in">float</span>(sys.argv[<span class="number">3</span>])</span><br><span class="line">      static_transformStamped.transform.translation.z = <span class="built_in">float</span>(sys.argv[<span class="number">4</span>])</span><br><span class="line">      quat = tf_transformations.quaternion_from_euler(</span><br><span class="line">            <span class="built_in">float</span>(sys.argv[<span class="number">5</span>]), <span class="built_in">float</span>(sys.argv[<span class="number">6</span>]), <span class="built_in">float</span>(sys.argv[<span class="number">7</span>]))</span><br><span class="line">      static_transformStamped.transform.rotation.x = quat[<span class="number">0</span>]</span><br><span class="line">      static_transformStamped.transform.rotation.y = quat[<span class="number">1</span>]</span><br><span class="line">      static_transformStamped.transform.rotation.z = quat[<span class="number">2</span>]</span><br><span class="line">      static_transformStamped.transform.rotation.w = quat[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> (static_transformStamped)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">   logger = rclpy.logging.get_logger(<span class="string">&#x27;logger&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   <span class="comment"># obtain parameters from command line arguments</span></span><br><span class="line">   <span class="keyword">if</span> <span class="built_in">len</span>(sys.argv) &lt; <span class="number">8</span>:</span><br><span class="line">      logger.info(<span class="string">&#x27;Invalid number of parameters. Usage: \n&#x27;</span></span><br><span class="line">                  <span class="string">&#x27;$ ros2 run learning_tf2_py static_turtle_tf2_broadcaster&#x27;</span></span><br><span class="line">                  <span class="string">&#x27;child_frame_name x y z roll pitch yaw&#x27;</span>)</span><br><span class="line">      sys.exit(<span class="number">0</span>)</span><br><span class="line">   <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">if</span> sys.argv[<span class="number">1</span>] == <span class="string">&#x27;world&#x27;</span>:</span><br><span class="line">            logger.info(<span class="string">&#x27;Your static turtle name cannot be &quot;world&quot;&#x27;</span>)</span><br><span class="line">            sys.exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">   <span class="comment"># pass parameters and initialize node</span></span><br><span class="line">   rclpy.init()</span><br><span class="line">   node = StaticFramePublisher(sys.argv)</span><br><span class="line">   <span class="keyword">try</span>:</span><br><span class="line">      rclpy.spin(node)</span><br><span class="line">   <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">      <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">   rclpy.shutdown()</span><br></pre></td></tr></table></figure>
 <h2 id="代码审查"><a href="#代码审查" class="headerlink" title="代码审查"></a>代码审查</h2><p>现在让我们看看与将静态海龟姿势发布到 tf2 相关的代码。第一行，我们引入了TransformStamped，这为我们发布消息到tf树提供了模板</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from geometry_msgs.msg import TransformStamped</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> TransformStamped</span><br></pre></td></tr></table></figure>
 <p>下面引入了Node</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import rclpy</span><br><span class="line">from rclpy.node import Node</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br></pre></td></tr></table></figure>
 <p>tf2_ros包提供了<code>StaticTransformBroadcaster</code>使得发布静态的变换变得容易，</p>
 <p><code>tf_transformations</code>提供了从欧拉角到四元数的转换</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster</span><br><span class="line"></span><br><span class="line">import tf_transformations</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tf2_ros.static_transform_broadcaster <span class="keyword">import</span> StaticTransformBroadcaster</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tf_transformations</span><br></pre></td></tr></table></figure>
 <p><code>StaticFramePublisher</code>定义了结点名字为<code>static_turtle_tf2_broadcaster</code>，StaticTransformBroadcaster被构建，一旦程序开始，他就开始发送变换</p>
-<pre><code>  super().__init__(&#39;static_turtle_tf2_broadcaster&#39;)
-
-  self._tf_publisher = StaticTransformBroadcaster(self)
-
-  # Publish static transforms once at startup
-  self._tf_publisher.sendTransform(self.make_transforms(transformation))
-</code></pre><p>在这里，我们创建了一个 TransformStamped 对象，它将是我们将在填充后发送的消息，在给他实际的转换内容之前，还需要基于一些元数据信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">super</span>().__init__(<span class="string">&#x27;static_turtle_tf2_broadcaster&#x27;</span>)</span><br><span class="line"></span><br><span class="line">self._tf_publisher = StaticTransformBroadcaster(self)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Publish static transforms once at startup</span></span><br><span class="line">self._tf_publisher.sendTransform(self.make_transforms(transformation))</span><br></pre></td></tr></table></figure>
+<p>在这里，我们创建了一个 TransformStamped 对象，它将是我们将在填充后发送的消息，在给他实际的转换内容之前，还需要基于一些元数据信息</p>
 <ol>
 <li>我们需要给正在发布的transform一个时间戳，我们只需用当前时间标记它，get_clock().now()</li>
 <li>我们需要设置他的parent frame, 在这里是world</li>
 <li>最后我们需要设置child frame的名字</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static_transformStamped &#x3D; TransformStamped()</span><br><span class="line">static_transformStamped.header.stamp &#x3D; self.get_clock().now().to_msg()</span><br><span class="line">static_transformStamped.header.frame_id &#x3D; &#39;world&#39;</span><br><span class="line">static_transformStamped.child_frame_id &#x3D; sys.argv[1]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static_transformStamped = TransformStamped()</span><br><span class="line">static_transformStamped.header.stamp = self.get_clock().now().to_msg()</span><br><span class="line">static_transformStamped.header.frame_id = <span class="string">&#x27;world&#x27;</span></span><br><span class="line">static_transformStamped.child_frame_id = sys.argv[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
 <p>在这里我们提出了小乌龟的6D姿态（平移，旋转）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static_transformStamped.transform.translation.x &#x3D; float(sys.argv[2])</span><br><span class="line">static_transformStamped.transform.translation.y &#x3D; float(sys.argv[3])</span><br><span class="line">static_transformStamped.transform.translation.z &#x3D; float(sys.argv[4])</span><br><span class="line">quat &#x3D; tf_transformations.quaternion_from_euler(</span><br><span class="line">   float(sys.argv[5]), float(sys.argv[6]), float(sys.argv[7]))</span><br><span class="line">static_transformStamped.transform.rotation.x &#x3D; quat[0]</span><br><span class="line">static_transformStamped.transform.rotation.y &#x3D; quat[1]</span><br><span class="line">static_transformStamped.transform.rotation.z &#x3D; quat[2]</span><br><span class="line">static_transformStamped.transform.rotation.w &#x3D; quat[3]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static_transformStamped.transform.translation.x = <span class="built_in">float</span>(sys.argv[<span class="number">2</span>])</span><br><span class="line">static_transformStamped.transform.translation.y = <span class="built_in">float</span>(sys.argv[<span class="number">3</span>])</span><br><span class="line">static_transformStamped.transform.translation.z = <span class="built_in">float</span>(sys.argv[<span class="number">4</span>])</span><br><span class="line">quat = tf_transformations.quaternion_from_euler(</span><br><span class="line">   <span class="built_in">float</span>(sys.argv[<span class="number">5</span>]), <span class="built_in">float</span>(sys.argv[<span class="number">6</span>]), <span class="built_in">float</span>(sys.argv[<span class="number">7</span>]))</span><br><span class="line">static_transformStamped.transform.rotation.x = quat[<span class="number">0</span>]</span><br><span class="line">static_transformStamped.transform.rotation.y = quat[<span class="number">1</span>]</span><br><span class="line">static_transformStamped.transform.rotation.z = quat[<span class="number">2</span>]</span><br><span class="line">static_transformStamped.transform.rotation.w = quat[<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
 <p>最后我们利用sendTransform发出静态变换</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">broadcaster.sendTransform(static_transformStamped)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">broadcaster.sendTransform(static_transformStamped)</span><br></pre></td></tr></table></figure>
 <h2 id="package-xml"><a href="#package-xml" class="headerlink" title="package.xml"></a>package.xml</h2><p>添加执行依赖，打开package.xml，添加如下依赖</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;exec_depend&gt;geometry_msgs&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;rclpy&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;tf_transformations&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;tf2_ros&lt;&#x2F;exec_depend&gt;</span><br><span class="line">&lt;exec_depend&gt;turtlesim&lt;&#x2F;exec_depend&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="添加一个结点进入点"><a href="#添加一个结点进入点" class="headerlink" title="添加一个结点进入点"></a>添加一个结点进入点</h2><p>打开setup.py文件，在console_scripts下添加</p>
@@ -258,7 +266,7 @@
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">ros2_c++之pub_sub</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -271,7 +279,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">cartographer_ros之node_main.cc详解上</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -287,7 +295,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -361,7 +369,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
