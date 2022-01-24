@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            A_LOAM mapping模块 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">A_LOAM mapping模块</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-01-24 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/A-LOAM/">A_LOAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="A-LOAm-mapping模块"><a href="#A-LOAm-mapping模块" class="headerlink" title="A_LOAm mapping模块"></a>A_LOAm mapping模块</h1><p>不同于前端的 scan-to-scan 的过程， LOAM 的后端是 scan-to-map 的算法，具体来说就是把当前帧和地图进行匹配，得到更准的位姿同时也可以构建更好的地图。由于是 scan-to-map 的算法，因此计算量会明显高于 scan-to-scan 的前端，所以，后端通常处于一个低频的运行频率，但是由于 scan-to-map 的精度往往优于 scan-to-scan ，因此后端也有着比起前端来说更高的精度。</p>
+<h1 id="体素滤波"><a href="#体素滤波" class="headerlink" title="体素滤波"></a>体素滤波</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> lineRes = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">float</span> planeRes = <span class="number">0</span>;</span><br><span class="line">nh.param&lt;<span class="keyword">float</span>&gt;(<span class="string">&quot;mapping_line_resolution&quot;</span>, lineRes, <span class="number">0.4</span>);</span><br><span class="line">nh.param&lt;<span class="keyword">float</span>&gt;(<span class="string">&quot;mapping_plane_resolution&quot;</span>, planeRes, <span class="number">0.8</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;line resolution %f plane resolution %f \n&quot;</span>, lineRes, planeRes);</span><br><span class="line">downSizeFilterCorner.<span class="built_in">setLeafSize</span>(lineRes, lineRes,lineRes);</span><br><span class="line">downSizeFilterSurf.<span class="built_in">setLeafSize</span>(planeRes, planeRes, planeRes);</span><br></pre></td></tr></table></figure>
+<h1 id="订阅消息"><a href="#订阅消息" class="headerlink" title="订阅消息"></a>订阅消息</h1><h2 id="角点laser-cloud-corner-last"><a href="#角点laser-cloud-corner-last" class="headerlink" title="角点laser_cloud_corner_last"></a>角点laser_cloud_corner_last</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void laserCloudCornerLastHandler(const sensor_msgs::PointCloud2ConstPtr &amp;laserCloudCornerLast2)</span><br><span class="line">&#123;</span><br><span class="line">	mBuf.lock();</span><br><span class="line">	cornerLastBuf.push(laserCloudCornerLast2);</span><br><span class="line">	mBuf.unlock();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="面点laser-cloud-surf-last"><a href="#面点laser-cloud-surf-last" class="headerlink" title="面点laser_cloud_surf_last"></a>面点laser_cloud_surf_last</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void laserCloudSurfLastHandler(const sensor_msgs::PointCloud2ConstPtr &amp;laserCloudSurfLast2)</span><br><span class="line">&#123;</span><br><span class="line">	mBuf.lock();</span><br><span class="line">	surfLastBuf.push(laserCloudSurfLast2);</span><br><span class="line">	mBuf.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="点云velodyne-cloud-3"><a href="#点云velodyne-cloud-3" class="headerlink" title="点云velodyne_cloud_3"></a>点云velodyne_cloud_3</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void laserCloudFullResHandler(const sensor_msgs::PointCloud2ConstPtr &amp;laserCloudFullRes2)</span><br><span class="line">&#123;</span><br><span class="line">	mBuf.lock();</span><br><span class="line">	fullResBuf.push(laserCloudFullRes2);</span><br><span class="line">	mBuf.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="里程计laser-odom-to-init"><a href="#里程计laser-odom-to-init" class="headerlink" title="里程计laser_odom_to_init"></a>里程计laser_odom_to_init</h2><p>初始位姿更新，前端里程计会定时向后端发送位姿$T^{odom}<em>{current}$，但是在 mapping 模块中，我们需要的得到的位姿是$T^{map}</em>{current}$，因此mapping模块就是需要估计出odom坐标系之间的相对位姿坐标$T_{odom}^{map}$。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//receive odomtry</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">laserOdometryHandler</span><span class="params">(<span class="keyword">const</span> nav_msgs::Odometry::ConstPtr &amp;laserOdometry)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	mBuf.<span class="built_in">lock</span>();</span><br><span class="line">	odometryBuf.<span class="built_in">push</span>(laserOdometry);</span><br><span class="line">	mBuf.<span class="built_in">unlock</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// high frequence publish</span></span><br><span class="line">	Eigen::Quaterniond q_wodom_curr;</span><br><span class="line">	Eigen::Vector3d t_wodom_curr;</span><br><span class="line">	q_wodom_curr.<span class="built_in">x</span>() = laserOdometry-&gt;pose.pose.orientation.x;</span><br><span class="line">	q_wodom_curr.<span class="built_in">y</span>() = laserOdometry-&gt;pose.pose.orientation.y;</span><br><span class="line">	q_wodom_curr.<span class="built_in">z</span>() = laserOdometry-&gt;pose.pose.orientation.z;</span><br><span class="line">	q_wodom_curr.<span class="built_in">w</span>() = laserOdometry-&gt;pose.pose.orientation.w;</span><br><span class="line">	t_wodom_curr.<span class="built_in">x</span>() = laserOdometry-&gt;pose.pose.position.x;</span><br><span class="line">	t_wodom_curr.<span class="built_in">y</span>() = laserOdometry-&gt;pose.pose.position.y;</span><br><span class="line">	t_wodom_curr.<span class="built_in">z</span>() = laserOdometry-&gt;pose.pose.position.z;</span><br><span class="line"></span><br><span class="line">	Eigen::Quaterniond q_w_curr = q_wmap_wodom * q_wodom_curr;</span><br><span class="line">	Eigen::Vector3d t_w_curr = q_wmap_wodom * t_wodom_curr + t_wmap_wodom; </span><br><span class="line"></span><br><span class="line">	nav_msgs::Odometry odomAftMapped;</span><br><span class="line">	odomAftMapped.header.frame_id = <span class="string">&quot;camera_init&quot;</span>;</span><br><span class="line">	odomAftMapped.child_frame_id = <span class="string">&quot;/aft_mapped&quot;</span>;</span><br><span class="line">	odomAftMapped.header.stamp = laserOdometry-&gt;header.stamp;</span><br><span class="line">	odomAftMapped.pose.pose.orientation.x = q_w_curr.<span class="built_in">x</span>();</span><br><span class="line">	odomAftMapped.pose.pose.orientation.y = q_w_curr.<span class="built_in">y</span>();</span><br><span class="line">	odomAftMapped.pose.pose.orientation.z = q_w_curr.<span class="built_in">z</span>();</span><br><span class="line">	odomAftMapped.pose.pose.orientation.w = q_w_curr.<span class="built_in">w</span>();</span><br><span class="line">	odomAftMapped.pose.pose.position.x = t_w_curr.<span class="built_in">x</span>();</span><br><span class="line">	odomAftMapped.pose.pose.position.y = t_w_curr.<span class="built_in">y</span>();</span><br><span class="line">	odomAftMapped.pose.pose.position.z = t_w_curr.<span class="built_in">z</span>();</span><br><span class="line">	pubOdomAftMappedHighFrec.<span class="built_in">publish</span>(odomAftMapped);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先需要了解的一件事情就是地图的构成，地图通常是当前帧通过匹配得到在地图坐标系下的准确位姿之后拼接而成，如果我们保留所有的拼接的点云，此时随着时间的运行，内存很容易就吃不消了，因此考虑存储离当前帧比较近的部分地图，同时，为了便于地图更新和调整，在原始 LOAM 中，使用的是基于珊格的地图存储方式。具体来说，将整个地图分成 21×21×11 个珊格，每个珊格是一个边长 50m 的正方体，当地图逐渐累加时，珊格之外的部分就被舍弃，这样可以保证内存空间不会随着程序的运行而爆炸。</p>
+<h1 id="珊格地图的调整"><a href="#珊格地图的调整" class="headerlink" title="珊格地图的调整"></a>珊格地图的调整</h1><p>当当前位姿即将到达地图边界的时候，当前珊格地图就必须动态调整，如下图，我们以一维 case 为例</p>
+<p>当前帧即将抵达地图的左边界时，我们需要把当前帧和地图整体右移一部分，保证当前帧处于一个安全的位置</p>
+<p>这样相对移动之前，当前帧就处在一个 “ 安全的位置 ” ，然后左边会空出来一个珊格。</p>
+<p><img src="/home/kong/repo/chargerKong.github.io/source/_posts/220121ALOAMmapping/package.json" alt=""></p>
+<p><img src="/home/kong/repo/chargerKong.github.io/source/_posts/package.json" alt="">)</p>
+<h2 id="中心位置计算"><a href="#中心位置计算" class="headerlink" title="中心位置计算"></a>中心位置计算</h2><p>在实际的代码中，实际是三维的，首先需要检测目前局部地图的中心位置</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> centerCubeI = <span class="built_in"><span class="keyword">int</span></span>((t_w_curr.<span class="built_in">x</span>() + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenWidth;</span><br><span class="line"><span class="keyword">int</span> centerCubeJ = <span class="built_in"><span class="keyword">int</span></span>((t_w_curr.<span class="built_in">y</span>() + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenHeight;</span><br><span class="line"><span class="keyword">int</span> centerCubeK = <span class="built_in"><span class="keyword">int</span></span>((t_w_curr.<span class="built_in">z</span>() + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenDepth;</span><br></pre></td></tr></table></figure>
+<p>然后通过判定中心位置距离总地图的位置来进行边界调整</p>
+<h2 id="调整位置"><a href="#调整位置" class="headerlink" title="调整位置"></a>调整位置</h2><p>如果栅格地图已经触碰到边界了，那么就需要调整位置了，把当前局部地图的中心尽量往中心移动</p>
+<p>下面是一个以 i轴 （x轴）快触碰到左边的情况为例子，这样地图结构需要整体往右边挪一格 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (centerCubeI &lt; <span class="number">3</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; laserCloudHeight; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; laserCloudDepth; k++)</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="keyword">int</span> i = laserCloudWidth - <span class="number">1</span>;</span><br><span class="line">            pcl::PointCloud&lt;PointType&gt;::Ptr laserCloudCubeCornerPointer =</span><br><span class="line">                laserCloudCornerArray[i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k]; </span><br><span class="line">            pcl::PointCloud&lt;PointType&gt;::Ptr laserCloudCubeSurfPointer =</span><br><span class="line">                laserCloudSurfArray[i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k];</span><br><span class="line">            <span class="keyword">for</span> (; i &gt;= <span class="number">1</span>; i--)</span><br><span class="line">            &#123;</span><br><span class="line">                laserCloudCornerArray[i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k] =</span><br><span class="line">                    laserCloudCornerArray[i - <span class="number">1</span> + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k];</span><br><span class="line">                laserCloudSurfArray[i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k] =</span><br><span class="line">                    laserCloudSurfArray[i - <span class="number">1</span> + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k];</span><br><span class="line">            &#125;</span><br><span class="line">            laserCloudCornerArray[i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k] =</span><br><span class="line">                laserCloudCubeCornerPointer;</span><br><span class="line">            laserCloudSurfArray[i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k] =</span><br><span class="line">                laserCloudCubeSurfPointer;</span><br><span class="line">            laserCloudCubeCornerPointer-&gt;<span class="built_in">clear</span>();</span><br><span class="line">            laserCloudCubeSurfPointer-&gt;<span class="built_in">clear</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    centerCubeI++;</span><br><span class="line">    laserCloudCenWidth++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码中将三维数据映射到一维上，i从最大的开始处理，相当于一个面一个面的处理，把地图向左边移动一格。因此相对的，中心的索引是是向右移动</p>
+<h1 id="局部地图"><a href="#局部地图" class="headerlink" title="局部地图"></a>局部地图</h1><h2 id="计算局部的索引"><a href="#计算局部的索引" class="headerlink" title="计算局部的索引"></a>计算局部的索引</h2><p>以中心位置X轴方向取出5个格子，Y轴方向取出5个格子，Z轴方向取出3个格子。把这75个格子的内容作为局部地图。</p>
+<p>这里也有两个地图，和特征一样，分为线地图和面地图</p>
+<p>计算所有格子的索引，方便去laserCloudCornerArray寻找</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> laserCloudValidNum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> laserCloudSurroundNum = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 取出局部地图</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = centerCubeI - <span class="number">2</span>; i &lt;= centerCubeI + <span class="number">2</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = centerCubeJ - <span class="number">2</span>; j &lt;= centerCubeJ + <span class="number">2</span>; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = centerCubeK - <span class="number">1</span>; k &lt;= centerCubeK + <span class="number">1</span>; k++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; laserCloudWidth &amp;&amp;</span><br><span class="line">                j &gt;= <span class="number">0</span> &amp;&amp; j &lt; laserCloudHeight &amp;&amp;</span><br><span class="line">                k &gt;= <span class="number">0</span> &amp;&amp; k &lt; laserCloudDepth)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 记录索引，方便去laserCloudCornerArray寻找</span></span><br><span class="line">                laserCloudValidInd[laserCloudValidNum] = i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k;</span><br><span class="line">                laserCloudValidNum++;</span><br><span class="line">                laserCloudSurroundInd[laserCloudSurroundNum] = i + laserCloudWidth * j + laserCloudWidth * laserCloudHeight * k;</span><br><span class="line">                laserCloudSurroundNum++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="取出局部地图"><a href="#取出局部地图" class="headerlink" title="取出局部地图"></a>取出局部地图</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">laserCloudCornerFromMap-&gt;<span class="built_in">clear</span>();laserCloudSurfFromMap-&gt;<span class="built_in">clear</span>();<span class="comment">// 取出索引地图里的数据,累加局部地图for (int i = 0; i &lt; laserCloudValidNum; i++)&#123;    *laserCloudCornerFromMap += *laserCloudCornerArray[laserCloudValidInd[i]];    *laserCloudSurfFromMap += *laserCloudSurfArray[laserCloudValidInd[i]];&#125;int laserCloudCornerFromMapNum = laserCloudCornerFromMap-&gt;points.size();int laserCloudSurfFromMapNum = laserCloudSurfFromMap-&gt;points.size();</span></span><br></pre></td></tr></table></figure>
+<h1 id="对当前帧下采样"><a href="#对当前帧下采样" class="headerlink" title="对当前帧下采样"></a>对当前帧下采样</h1><p>对当前帧的线特征和面特征进行下采样</p>
+<p>对cornerLastBuf 进行下采样，此cornerLastBuf是从角点订阅laser_cloud_corner_last 的队列中pop出来的</p>
+<p>对laserCloudSurfLast下采样，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 避免局部地图太密集，下采样pcl::PointCloud&lt;PointType&gt;::Ptr laserCloudCornerStack(new pcl::PointCloud&lt;PointType&gt;());downSizeFilterCorner.setInputCloud(laserCloudCornerLast);downSizeFilterCorner.filter(*laserCloudCornerStack);int laserCloudCornerStackNum = laserCloudCornerStack-&gt;points.size();pcl::PointCloud&lt;PointType&gt;::Ptr laserCloudSurfStack(new pcl::PointCloud&lt;PointType&gt;());downSizeFilterSurf.setInputCloud(laserCloudSurfLast);downSizeFilterSurf.filter(*laserCloudSurfStack);int laserCloudSurfStackNum = laserCloudSurfStack-&gt;points.size();</span></span><br></pre></td></tr></table></figure>
+<h1 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h1><p>在前端里程记部分，我们通过当前帧的线特征和面特征分别和上一帧的线特征和面特征进行匹配，构建约束。然后进行优化求解。由于机械式激光雷达的性质，我们在寻找匹配的过程中需要注意线束相关的约束，以免构建的约束不符合实际。</p>
+<p>在后端的当前帧和地图匹配的时候，我们就需要从地图里寻找线特征和面特征的约束对，此时，由于没有了线束信息，我们就需要采取额外的操作来判断其是否符合线特征和面特征的给定约束。</p>
+<h2 id="建立局部地图KDTree"><a href="#建立局部地图KDTree" class="headerlink" title="建立局部地图KDTree"></a>建立局部地图KDTree</h2><h3 id="建立线地图和面地图"><a href="#建立线地图和面地图" class="headerlink" title="建立线地图和面地图"></a>建立线地图和面地图</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (laserCloudCornerFromMapNum &gt; <span class="number">10</span> &amp;&amp; laserCloudSurfFromMapNum &gt; <span class="number">50</span>)</span><br><span class="line">&#123;</span><br><span class="line">    TicToc t_opt;</span><br><span class="line">    TicToc t_tree;</span><br><span class="line">    <span class="comment">// 这个地方是比较耗时，建立KDTree</span></span><br><span class="line">    kdtreeCornerFromMap-&gt;<span class="built_in">setInputCloud</span>(laserCloudCornerFromMap);</span><br><span class="line">    kdtreeSurfFromMap-&gt;<span class="built_in">setInputCloud</span>(laserCloudSurfFromMap);</span><br></pre></td></tr></table></figure>
+<h2 id="线特征提取"><a href="#线特征提取" class="headerlink" title="线特征提取"></a>线特征提取</h2><p>通过 kdtree 在地图中找到 5 个最近的线特征，为了判断他们是否符合线特征的特性，我们需要对其进行特征值分解，通常来说，当上述 5 个点都在一条直线上时，他们只有一个主方向，也就是特征值是一个大特征值，以及两个小特征值，最大特征值对应的特征向量就对应着直线的方向向量。</p>
+<p>对当前帧进行循环，开始找五个最近的线特征</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; laserCloudCornerStackNum; i++)</span><br><span class="line">&#123;</span><br><span class="line">    pointOri = laserCloudCornerStack-&gt;points[i];</span><br><span class="line">    <span class="comment">//double sqrtDis = pointOri.x * pointOri.x + pointOri.y * pointOri.y + pointOri.z * pointOri.z;</span></span><br><span class="line">    <span class="comment">// 先把当前点投影到map坐标系下</span></span><br><span class="line">    <span class="built_in">pointAssociateToMap</span>(&amp;pointOri, &amp;pointSel);</span><br><span class="line">    <span class="comment">// 寻找最近的五个点</span></span><br><span class="line">    kdtreeCornerFromMap-&gt;<span class="built_in">nearestKSearch</span>(pointSel, <span class="number">5</span>, pointSearchInd, pointSearchSqDis); </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意，只有再第五个点（最远的点满足距离阈值内的时候，才可以添加残差项）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (pointSearchSqDis[<span class="number">4</span>] &lt; <span class="number">1.0</span>)</span><br><span class="line">&#123; </span><br><span class="line">    std::vector&lt;Eigen::Vector3d&gt; nearCorners;</span><br><span class="line">    <span class="function">Eigen::Vector3d <span class="title">center</span><span class="params">(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">Eigen::Vector3d <span class="title">tmp</span><span class="params">(laserCloudCornerFromMap-&gt;points[pointSearchInd[j]].x,</span></span></span><br><span class="line"><span class="function"><span class="params">                            laserCloudCornerFromMap-&gt;points[pointSearchInd[j]].y,</span></span></span><br><span class="line"><span class="function"><span class="params">                            laserCloudCornerFromMap-&gt;points[pointSearchInd[j]].z)</span></span>;</span><br><span class="line">        center = center + tmp;</span><br><span class="line">        nearCorners.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 计算五个点的均值</span></span><br><span class="line">    center = center / <span class="number">5.0</span>;</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix3d covMat = Eigen::Matrix3d::<span class="built_in">Zero</span>();</span><br><span class="line">    <span class="comment">// 构建方差</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        Eigen::Matrix&lt;<span class="keyword">double</span>, <span class="number">3</span>, <span class="number">1</span>&gt; tmpZeroMean = nearCorners[j] - center;</span><br><span class="line">        covMat = covMat + tmpZeroMean * tmpZeroMean.<span class="built_in">transpose</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">Eigen::SelfAdjointEigenSolver&lt;Eigen::Matrix3d&gt; <span class="title">saes</span><span class="params">(covMat)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// if is indeed line feature</span></span><br><span class="line">    <span class="comment">// note Eigen library sort eigenvalues in increasing order</span></span><br><span class="line">    <span class="comment">// 获得最大的特征值对应的特征向量</span></span><br><span class="line">    Eigen::Vector3d unit_direction = saes.<span class="built_in">eigenvectors</span>().<span class="built_in">col</span>(<span class="number">2</span>);</span><br><span class="line">    <span class="function">Eigen::Vector3d <span class="title">curr_point</span><span class="params">(pointOri.x, pointOri.y, pointOri.z)</span></span>;</span><br><span class="line">    <span class="comment">// 判断只有当最大的特征值大于第二大的三倍的时候，就判定是一个这五个点大致在一条线上</span></span><br><span class="line">    <span class="keyword">if</span> (saes.<span class="built_in">eigenvalues</span>()[<span class="number">2</span>] &gt; <span class="number">3</span> * saes.<span class="built_in">eigenvalues</span>()[<span class="number">1</span>])</span><br><span class="line">    &#123; </span><br><span class="line">        Eigen::Vector3d point_on_line = center;</span><br><span class="line">        Eigen::Vector3d point_a, point_b;</span><br><span class="line">        <span class="comment">// 在这个方向上获取虚拟的两个点，加入残差拟合</span></span><br><span class="line">        point_a = <span class="number">0.1</span> * unit_direction + point_on_line;</span><br><span class="line">        point_b = <span class="number">-0.1</span> * unit_direction + point_on_line;</span><br><span class="line"></span><br><span class="line">        ceres::CostFunction *cost_function = LidarEdgeFactor::<span class="built_in">Create</span>(curr_point, point_a, point_b, <span class="number">1.0</span>);</span><br><span class="line">        problem.<span class="built_in">AddResidualBlock</span>(cost_function, loss_function, parameters, parameters + <span class="number">4</span>);</span><br><span class="line">        corner_num++;	</span><br><span class="line">    &#125;							</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="面特征提取"><a href="#面特征提取" class="headerlink" title="面特征提取"></a>面特征提取</h2><p>同样首先通过 kdtree 在地图中找到最近的面特征，原则上面特征也可以使用特征值分解的方式，选出最小特征值对应的特征向量及平面的法向量，不过代码里选用的是平面拟合的方式：</p>
+<p>我们知道平面方程为$Ax+By+Cz+D=0$，考虑到等式的形式，可以进一步写成$Ax+By+Cz+1=0$,也就是三个未知数，五个方程，写成矩阵的形式就是一个 5×3 大小的矩阵。求出结果之后，我们还需要对结果进行校验，来观察其是否符合平面约束，具体就是分别求出 5 个点到求出平面的距离，如果太远，则说明该平面拟合不成功。</p>
+<h3 id="在面地图中找最近的五个点"><a href="#在面地图中找最近的五个点" class="headerlink" title="在面地图中找最近的五个点"></a><strong>在面地图中找最近的五个点</strong></h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> surf_num = <span class="number">0</span>;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; laserCloudSurfStackNum; i++)&#123;    pointOri = laserCloudSurfStack-&gt;points[i];    <span class="comment">//double sqrtDis = pointOri.x * pointOri.x + pointOri.y * pointOri.y + pointOri.z * pointOri.z;    pointAssociateToMap(&amp;pointOri, &amp;pointSel);    kdtreeSurfFromMap-&gt;nearestKSearch(pointSel, 5, pointSearchInd, pointSearchSqDis);</span></span><br></pre></td></tr></table></figure>
+<h3 id="求平面方程"><a href="#求平面方程" class="headerlink" title="求平面方程"></a>求平面方程</h3><p>构建五个点方程组，并求解得到norm，注意这个norm的解为上面提到的A,B,C，刚好就是平面的法向量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Eigen::Matrix&lt;<span class="keyword">double</span>, <span class="number">5</span>, <span class="number">3</span>&gt; matA0;</span><br><span class="line">Eigen::Matrix&lt;<span class="keyword">double</span>, <span class="number">5</span>, <span class="number">1</span>&gt; matB0 = <span class="number">-1</span> * Eigen::Matrix&lt;<span class="keyword">double</span>, <span class="number">5</span>, <span class="number">1</span>&gt;::<span class="built_in">Ones</span>();</span><br><span class="line"><span class="keyword">if</span> (pointSearchSqDis[<span class="number">4</span>] &lt; <span class="number">1.0</span>)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">matA0</span>(j, <span class="number">0</span>) = laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].x;</span><br><span class="line">        <span class="built_in">matA0</span>(j, <span class="number">1</span>) = laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].y;</span><br><span class="line">        <span class="built_in">matA0</span>(j, <span class="number">2</span>) = laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].z;</span><br><span class="line">        <span class="comment">//////printf(&quot; pts %f %f %f &quot;, matA0(j, 0), matA0(j, 1), matA0(j, 2));</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// find the norm of plane</span></span><br><span class="line">    Eigen::Vector3d norm = matA0.<span class="built_in">colPivHouseholderQr</span>().<span class="built_in">solve</span>(matB0);</span><br><span class="line">							</span><br></pre></td></tr></table></figure>
+<h3 id="判断点到面的距离"><a href="#判断点到面的距离" class="headerlink" title="判断点到面的距离"></a>判断点到面的距离</h3><p>点到面的公式</p>
+<script type="math/tex; mode=display">
+d = \frac{|Ax_0+By_0+Cz_0+1|}{\sqrt{A^2+B^2+C^2}}=\left|\frac{Ax_0}{\sqrt{A^2+B^2+C^2}}+\frac{By_0}{\sqrt{A^2+B^2+C^2}}+\frac{Cz_0}{\sqrt{A^2+B^2+C^2}}+\frac{1}{\sqrt{A^2+B^2+C^2}}\right|</script><p>如果最远的点距离平面的距离大于0.2，则判断该面拟合的不好，就放弃添加约束</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> planeValid = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// if OX * n &gt; 0.2, then plane is not fit well</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">fabs</span>(<span class="built_in">norm</span>(<span class="number">0</span>) * laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].x +</span><br><span class="line">             <span class="built_in">norm</span>(<span class="number">1</span>) * laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].y +</span><br><span class="line">             <span class="built_in">norm</span>(<span class="number">2</span>) * laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].z + negative_OA_dot_norm) &gt; <span class="number">0.2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        planeValid = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加残差块"><a href="#添加残差块" class="headerlink" title="添加残差块"></a>添加残差块</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Eigen::Vector3d <span class="title">curr_point</span><span class="params">(pointOri.x, pointOri.y, pointOri.z)</span></span>;</span><br><span class="line"><span class="keyword">if</span> (planeValid)</span><br><span class="line">&#123;</span><br><span class="line">    ceres::CostFunction *cost_function = LidarPlaneNormFactor::<span class="built_in">Create</span>(curr_point, norm, negative_OA_dot_norm);</span><br><span class="line">    problem.<span class="built_in">AddResidualBlock</span>(cost_function, loss_function, parameters, parameters + <span class="number">4</span>);</span><br><span class="line">    surf_num++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="地图位姿更新"><a href="#地图位姿更新" class="headerlink" title="地图位姿更新"></a>地图位姿更新</h1><p>我们通过第三节的地图优化，求出了当前帧在地图坐标系下的最优位姿$T^{map}_{curret}$，mapping模块需要知道的是实时的map坐标系和odom坐标系之间的变换，因此更新</p>
+<script type="math/tex; mode=display">
+T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><h1 id="地图的更新"><a href="#地图的更新" class="headerlink" title="地图的更新"></a>地图的更新</h1><p>在之前我们对栅格地图进行了调整，部分内容空出，现在需要对这一部分空出的内容进行填充</p>
+<h2 id="填充角点点云"><a href="#填充角点点云" class="headerlink" title="填充角点点云"></a>填充角点点云</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; laserCloudCornerStackNum; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">pointAssociateToMap</span>(&amp;laserCloudCornerStack-&gt;points[i], &amp;pointSel);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cubeI = <span class="built_in"><span class="keyword">int</span></span>((pointSel.x + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenWidth;</span><br><span class="line">    <span class="keyword">int</span> cubeJ = <span class="built_in"><span class="keyword">int</span></span>((pointSel.y + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenHeight;</span><br><span class="line">    <span class="keyword">int</span> cubeK = <span class="built_in"><span class="keyword">int</span></span>((pointSel.z + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenDepth;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pointSel.x + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeI--;</span><br><span class="line">    <span class="keyword">if</span> (pointSel.y + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeJ--;</span><br><span class="line">    <span class="keyword">if</span> (pointSel.z + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeK--;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cubeI &gt;= <span class="number">0</span> &amp;&amp; cubeI &lt; laserCloudWidth &amp;&amp;</span><br><span class="line">        cubeJ &gt;= <span class="number">0</span> &amp;&amp; cubeJ &lt; laserCloudHeight &amp;&amp;</span><br><span class="line">        cubeK &gt;= <span class="number">0</span> &amp;&amp; cubeK &lt; laserCloudDepth)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> cubeInd = cubeI + laserCloudWidth * cubeJ + laserCloudWidth * laserCloudHeight * cubeK;</span><br><span class="line">        laserCloudCornerArray[cubeInd]-&gt;<span class="built_in">push_back</span>(pointSel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="填充面点点云"><a href="#填充面点点云" class="headerlink" title="填充面点点云"></a>填充面点点云</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; laserCloudSurfStackNum; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">pointAssociateToMap</span>(&amp;laserCloudSurfStack-&gt;points[i], &amp;pointSel);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cubeI = <span class="built_in"><span class="keyword">int</span></span>((pointSel.x + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenWidth;</span><br><span class="line">    <span class="keyword">int</span> cubeJ = <span class="built_in"><span class="keyword">int</span></span>((pointSel.y + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenHeight;</span><br><span class="line">    <span class="keyword">int</span> cubeK = <span class="built_in"><span class="keyword">int</span></span>((pointSel.z + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenDepth;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pointSel.x + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeI--;</span><br><span class="line">    <span class="keyword">if</span> (pointSel.y + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeJ--;</span><br><span class="line">    <span class="keyword">if</span> (pointSel.z + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeK--;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cubeI &gt;= <span class="number">0</span> &amp;&amp; cubeI &lt; laserCloudWidth &amp;&amp;</span><br><span class="line">        cubeJ &gt;= <span class="number">0</span> &amp;&amp; cubeJ &lt; laserCloudHeight &amp;&amp;</span><br><span class="line">        cubeK &gt;= <span class="number">0</span> &amp;&amp; cubeK &lt; laserCloudDepth)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> cubeInd = cubeI + laserCloudWidth * cubeJ + laserCloudWidth * laserCloudHeight * cubeK;</span><br><span class="line">        laserCloudSurfArray[cubeInd]-&gt;<span class="built_in">push_back</span>(pointSel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="发布数据"><a href="#发布数据" class="headerlink" title="发布数据"></a>发布数据</h1><h2 id="发布topiclaser-cloud-surround-局部地图"><a href="#发布topiclaser-cloud-surround-局部地图" class="headerlink" title="发布topiclaser_cloud_surround 局部地图"></a>发布topiclaser_cloud_surround 局部地图</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 局部地图每五帧发布一次</span></span><br><span class="line"><span class="comment">//publish surround map for every 5 frame</span></span><br><span class="line"><span class="keyword">if</span> (frameCount % <span class="number">5</span> == <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">    laserCloudSurround-&gt;<span class="built_in">clear</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; laserCloudSurroundNum; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> ind = laserCloudSurroundInd[i];</span><br><span class="line">        *laserCloudSurround += *laserCloudCornerArray[ind];</span><br><span class="line">        *laserCloudSurround += *laserCloudSurfArray[ind];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sensor_msgs::PointCloud2 laserCloudSurround3;</span><br><span class="line">    pcl::<span class="built_in">toROSMsg</span>(*laserCloudSurround, laserCloudSurround3);</span><br><span class="line">    laserCloudSurround3.header.stamp = ros::<span class="built_in">Time</span>().<span class="built_in">fromSec</span>(timeLaserOdometry);</span><br><span class="line">    laserCloudSurround3.header.frame_id = <span class="string">&quot;camera_init&quot;</span>;</span><br><span class="line">    pubLaserCloudSurround.<span class="built_in">publish</span>(laserCloudSurround3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="发布topic-laser-cloud-map-全部地图"><a href="#发布topic-laser-cloud-map-全部地图" class="headerlink" title="发布topic laser_cloud_map 全部地图"></a>发布topic laser_cloud_map 全部地图</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全量地图每20帧发布一次</span></span><br><span class="line"><span class="keyword">if</span> (frameCount % <span class="number">20</span> == <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">    pcl::PointCloud&lt;PointType&gt; laserCloudMap;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4851</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        laserCloudMap += *laserCloudCornerArray[i];</span><br><span class="line">        laserCloudMap += *laserCloudSurfArray[i];</span><br><span class="line">    &#125;</span><br><span class="line">    sensor_msgs::PointCloud2 laserCloudMsg;</span><br><span class="line">    pcl::<span class="built_in">toROSMsg</span>(laserCloudMap, laserCloudMsg);</span><br><span class="line">    laserCloudMsg.header.stamp = ros::<span class="built_in">Time</span>().<span class="built_in">fromSec</span>(timeLaserOdometry);</span><br><span class="line">    laserCloudMsg.header.frame_id = <span class="string">&quot;camera_init&quot;</span>;</span><br><span class="line">    pubLaserCloudMap.<span class="built_in">publish</span>(laserCloudMsg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ALOAM-总结"><a href="#ALOAM-总结" class="headerlink" title="ALOAM 总结"></a>ALOAM 总结</h1><p>两个部分</p>
+<ul>
+<li>高频里程计：当前帧和前一帧进行高速匹配</li>
+<li>低频里程计：当期帧和前几帧通过变换组成的地图进行匹配</li>
+</ul>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/01/24/220124LOAMmapping/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/01/17/220117tf2%E4%BB%8B%E7%BB%8D/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tf2 介绍</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#A-LOAm-mapping%E6%A8%A1%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">A_LOAm mapping模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%93%E7%B4%A0%E6%BB%A4%E6%B3%A2"><span class="nav-number">2.</span> <span class="nav-text">体素滤波</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">订阅消息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%92%E7%82%B9laser-cloud-corner-last"><span class="nav-number">3.1.</span> <span class="nav-text">角点laser_cloud_corner_last</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E7%82%B9laser-cloud-surf-last"><span class="nav-number">3.2.</span> <span class="nav-text">面点laser_cloud_surf_last</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E4%BA%91velodyne-cloud-3"><span class="nav-number">3.3.</span> <span class="nav-text">点云velodyne_cloud_3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8C%E7%A8%8B%E8%AE%A1laser-odom-to-init"><span class="nav-number">3.4.</span> <span class="nav-text">里程计laser_odom_to_init</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8F%8A%E6%A0%BC%E5%9C%B0%E5%9B%BE%E7%9A%84%E8%B0%83%E6%95%B4"><span class="nav-number">4.</span> <span class="nav-text">珊格地图的调整</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E5%BF%83%E4%BD%8D%E7%BD%AE%E8%AE%A1%E7%AE%97"><span class="nav-number">4.1.</span> <span class="nav-text">中心位置计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">调整位置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E5%9C%B0%E5%9B%BE"><span class="nav-number">5.</span> <span class="nav-text">局部地图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%80%E9%83%A8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">5.1.</span> <span class="nav-text">计算局部的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E5%87%BA%E5%B1%80%E9%83%A8%E5%9C%B0%E5%9B%BE"><span class="nav-number">5.2.</span> <span class="nav-text">取出局部地图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E5%BD%93%E5%89%8D%E5%B8%A7%E4%B8%8B%E9%87%87%E6%A0%B7"><span class="nav-number">6.</span> <span class="nav-text">对当前帧下采样</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="nav-number">7.</span> <span class="nav-text">特征提取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B1%80%E9%83%A8%E5%9C%B0%E5%9B%BEKDTree"><span class="nav-number">7.1.</span> <span class="nav-text">建立局部地图KDTree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%BA%BF%E5%9C%B0%E5%9B%BE%E5%92%8C%E9%9D%A2%E5%9C%B0%E5%9B%BE"><span class="nav-number">7.1.1.</span> <span class="nav-text">建立线地图和面地图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="nav-number">7.2.</span> <span class="nav-text">线特征提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="nav-number">7.3.</span> <span class="nav-text">面特征提取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E9%9D%A2%E5%9C%B0%E5%9B%BE%E4%B8%AD%E6%89%BE%E6%9C%80%E8%BF%91%E7%9A%84%E4%BA%94%E4%B8%AA%E7%82%B9"><span class="nav-number">7.3.1.</span> <span class="nav-text">在面地图中找最近的五个点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E5%B9%B3%E9%9D%A2%E6%96%B9%E7%A8%8B"><span class="nav-number">7.3.2.</span> <span class="nav-text">求平面方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E7%82%B9%E5%88%B0%E9%9D%A2%E7%9A%84%E8%B7%9D%E7%A6%BB"><span class="nav-number">7.3.3.</span> <span class="nav-text">判断点到面的距离</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%AE%8B%E5%B7%AE%E5%9D%97"><span class="nav-number">7.4.</span> <span class="nav-text">添加残差块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E4%BD%8D%E5%A7%BF%E6%9B%B4%E6%96%B0"><span class="nav-number">8.</span> <span class="nav-text">地图位姿更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%B0%E5%9B%BE%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="nav-number">9.</span> <span class="nav-text">地图的更新</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A1%AB%E5%85%85%E8%A7%92%E7%82%B9%E7%82%B9%E4%BA%91"><span class="nav-number">9.1.</span> <span class="nav-text">填充角点点云</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A1%AB%E5%85%85%E9%9D%A2%E7%82%B9%E7%82%B9%E4%BA%91"><span class="nav-number">9.2.</span> <span class="nav-text">填充面点点云</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE"><span class="nav-number">10.</span> <span class="nav-text">发布数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83topiclaser-cloud-surround-%E5%B1%80%E9%83%A8%E5%9C%B0%E5%9B%BE"><span class="nav-number">10.1.</span> <span class="nav-text">发布topiclaser_cloud_surround 局部地图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83topic-laser-cloud-map-%E5%85%A8%E9%83%A8%E5%9C%B0%E5%9B%BE"><span class="nav-number">10.2.</span> <span class="nav-text">发布topic laser_cloud_map 全部地图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALOAM-%E6%80%BB%E7%BB%93"><span class="nav-number">11.</span> <span class="nav-text">ALOAM 总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
