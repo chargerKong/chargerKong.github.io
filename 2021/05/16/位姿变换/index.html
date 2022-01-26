@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -236,9 +236,9 @@ T_{g}^B=T^B_L*T^L_A*T^A_g</script><p>第一种用的比较普遍</p>
 <p>即：第一次转换$p_a=(1,1,1.57)$，第二次转换$p_b=(1,1,0)$</p>
 <p>首先，定义$x$轴为0度，那么，毫无疑问，A点应该是如下图所示</p>
 <p><img src="IMG_20210809_221146.jpg" alt=""></p>
-<p><img src="位姿变换/IMG_20210809_221146.jpg" alt=""></p>
+<p><img src="位姿变换/IMG_20210809_221146.jpg" style="zoom: 25%;" /></p>
 <p>注意，这里A是点是旋转了90度的，因此，针对于点A来说，他的坐标系应该是如下图所示</p>
-<p><img src="位姿变换/IMG_20210809_221205.jpg" alt=""></p>
+<p><img src="位姿变换/IMG_20210809_221205.jpg" style="zoom:25%;" /></p>
 <p>因此，按照这个坐标系再移动$(1,1)$，就会得到原来坐标系下的$(0,2,1.57)$</p>
 <p>如果做两次变换，则只需要简单的计算</p>
 <script type="math/tex; mode=display">
@@ -247,6 +247,10 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
 <h1 id="tf中的坐标变换"><a href="#tf中的坐标变换" class="headerlink" title="tf中的坐标变换"></a>tf中的坐标变换</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buffer_-&gt;<span class="built_in">lookupTransform</span>(tracking_frame_, frame_id, ::ros::<span class="built_in">Time</span>(<span class="number">0.</span>),</span><br><span class="line">                              timeout)</span><br></pre></td></tr></table></figure>
 <p>假设tracking<em>frame是imu_frame, frame_id是odom，那么这样得到的变换是imu-&gt;odom, 即tracking_frame</em>到frame_id的坐标变换</p>
 <p>即odom在imu frame下的坐标，或者称为变换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buffer_-&gt;lookupTransform(target, source, ::ros::Time(0.),</span><br><span class="line">                              timeout)</span><br></pre></td></tr></table></figure>
+<p>出来的结果为$T_{target}^{source} $，即target指向source的</p>
+<h1 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h1><p>$T_{target}^{source}$ 箭头指向 target-&gt;source， 念为source到target的变换，也是source在target下的坐标</p>
+<p>若一个点p通过旋转加平移得到点B，则这个旋转平移的变换为$T_p^B$</p>
 
         </div>
 
@@ -265,7 +269,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">ros1代码学习</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -278,7 +282,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">CMake实践</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -294,7 +298,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -368,7 +372,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -447,7 +451,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">二维位姿变换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tf%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">tf中的坐标变换</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">二维位姿变换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tf%E4%B8%AD%E7%9A%84%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">tf中的坐标变换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%84%E5%88%99"><span class="nav-number">3.</span> <span class="nav-text">规则</span></a></li></ol>
     </div>
 </div>
         </aside>
@@ -496,20 +500,5 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
