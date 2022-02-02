@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                首页
+                                HOME
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                归档
+                                ARCHIVES
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                标签
+                                TAGS
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                关于
+                                ABOUT
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">首页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">归档</a>
+                       href="/archives">ARCHIVES</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">标签</a>
+                       href="/tags">TAGS</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">关于</a>
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -241,9 +241,9 @@ T_{global}^{map}=T_{global}^{odom} \cdot T^{map}_{odom}</script><p>先通过前�
 d = \frac{|Ax_0+By_0+Cz_0+1|}{\sqrt{A^2+B^2+C^2}}=\left|\frac{Ax_0}{\sqrt{A^2+B^2+C^2}}+\frac{By_0}{\sqrt{A^2+B^2+C^2}}+\frac{Cz_0}{\sqrt{A^2+B^2+C^2}}+\frac{1}{\sqrt{A^2+B^2+C^2}}\right|</script><p>如果最远的点距离平面的距离大于0.2，则判断该面拟合的不好，就放弃添加约束</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> planeValid = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// if OX * n &gt; 0.2, then plane is not fit well</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">fabs</span>(<span class="built_in">norm</span>(<span class="number">0</span>) * laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].x +</span><br><span class="line">             <span class="built_in">norm</span>(<span class="number">1</span>) * laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].y +</span><br><span class="line">             <span class="built_in">norm</span>(<span class="number">2</span>) * laserCloudSurfFromMap-&gt;points[pointSearchInd[j]].z + negative_OA_dot_norm) &gt; <span class="number">0.2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        planeValid = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="添加残差块"><a href="#添加残差块" class="headerlink" title="添加残差块"></a>添加残差块</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Eigen::Vector3d <span class="title">curr_point</span><span class="params">(pointOri.x, pointOri.y, pointOri.z)</span></span>;</span><br><span class="line"><span class="keyword">if</span> (planeValid)</span><br><span class="line">&#123;</span><br><span class="line">    ceres::CostFunction *cost_function = LidarPlaneNormFactor::<span class="built_in">Create</span>(curr_point, norm, negative_OA_dot_norm);</span><br><span class="line">    problem.<span class="built_in">AddResidualBlock</span>(cost_function, loss_function, parameters, parameters + <span class="number">4</span>);</span><br><span class="line">    surf_num++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="地图位姿更新"><a href="#地图位姿更新" class="headerlink" title="地图位姿更新"></a>地图位姿更新</h1><p>我们通过第三节的地图优化，求出了当前帧在地图坐标系下的最优位姿$T^{map}_{curret}$，mapping模块需要知道的是实时的map坐标系和odom坐标系之间的变换，因此更新</p>
+<h1 id="地图位姿更新"><a href="#地图位姿更新" class="headerlink" title="地图位姿更新"></a>地图位姿更新</h1><p>我们通过第三节的地图优化，求出了当前帧在地图坐标系下的最优位姿$T^{laser}_{map}$，mapping模块需要知道的是实时的map坐标系和odom坐标系之间的变换，因此更新</p>
 <script type="math/tex; mode=display">
-T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transformUpdate</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	q_wmap_wodom = q_w_curr * q_wodom_curr.<span class="built_in">inverse</span>();</span><br><span class="line">	t_wmap_wodom = t_w_curr - q_wmap_wodom * t_wodom_curr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+T_{map}^{odom}=T^{laser}_{map}\cdot (T^{laser}_{odom})^{-1}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transformUpdate</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	q_wmap_wodom = q_w_curr * q_wodom_curr.<span class="built_in">inverse</span>();</span><br><span class="line">	t_wmap_wodom = t_w_curr - q_wmap_wodom * t_wodom_curr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="地图的更新"><a href="#地图的更新" class="headerlink" title="地图的更新"></a>地图的更新</h1><p>在之前我们对栅格地图进行了调整，部分内容空出，现在需要对这一部分空出的内容进行填充。</p>
 <p>注意，地图所有的点分为角点和面点，一共分为了25x25x11的格子上，每一个格子都是点云，现在把他平铺，放进了两个数组中laserCloudCornerArray[i]和laserCloudSurfArray[i]中</p>
 <h2 id="填充角点点云"><a href="#填充角点点云" class="headerlink" title="填充角点点云"></a>填充角点点云</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; laserCloudCornerStackNum; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">pointAssociateToMap</span>(&amp;laserCloudCornerStack-&gt;points[i], &amp;pointSel);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cubeI = <span class="built_in"><span class="keyword">int</span></span>((pointSel.x + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenWidth;</span><br><span class="line">    <span class="keyword">int</span> cubeJ = <span class="built_in"><span class="keyword">int</span></span>((pointSel.y + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenHeight;</span><br><span class="line">    <span class="keyword">int</span> cubeK = <span class="built_in"><span class="keyword">int</span></span>((pointSel.z + <span class="number">25.0</span>) / <span class="number">50.0</span>) + laserCloudCenDepth;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pointSel.x + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeI--;</span><br><span class="line">    <span class="keyword">if</span> (pointSel.y + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeJ--;</span><br><span class="line">    <span class="keyword">if</span> (pointSel.z + <span class="number">25.0</span> &lt; <span class="number">0</span>)</span><br><span class="line">        cubeK--;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cubeI &gt;= <span class="number">0</span> &amp;&amp; cubeI &lt; laserCloudWidth &amp;&amp;</span><br><span class="line">        cubeJ &gt;= <span class="number">0</span> &amp;&amp; cubeJ &lt; laserCloudHeight &amp;&amp;</span><br><span class="line">        cubeK &gt;= <span class="number">0</span> &amp;&amp; cubeK &lt; laserCloudDepth)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> cubeInd = cubeI + laserCloudWidth * cubeJ + laserCloudWidth * laserCloudHeight * cubeK;</span><br><span class="line">        laserCloudCornerArray[cubeInd]-&gt;<span class="built_in">push_back</span>(pointSel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -256,9 +256,10 @@ T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure 
 <li>高频里程计：当前帧和前一帧进行高速匹配</li>
 <li>低频里程计：当期帧和前几帧通过变换组成的地图进行匹配</li>
 </ul>
-<p>高频 前端 发布全局坐标系下 odom的坐标变换$T_{g}^{odom}$，</p>
-<p>低频，基于前端给出的里程计的结果，先乘以$T<em>{odom}^{map}$，得到一个较为粗略的$T</em>{g}^{map}$(q_w_curr，t_w_curr)，然后利用线特征和面特征建立约束来优化此变量。</p>
-<p>反过来求解$T_{odom}^{map}$校正，用于下一次估计。</p>
+<p>​                                                                                                                                                                              </p>
+<p>高频 前端 发布下 odom下的laser的坐标变换$T_{odom}^{laser}$，</p>
+<p>低频，基于前端给出的里程计的结果，先乘以$T<em>{map}^{odom}$，得到一个较为粗略的$T</em>{map}^{laser}$(q_w_curr，t_w_curr)，然后利用线特征和面特征建立约束来优化此变量。</p>
+<p>反过来求解$T_{map}^{laser}$校正，用于下一次估计。</p>
 
         </div>
 
@@ -270,14 +271,14 @@ T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure 
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/01/24/220124LOAMmapping/"
+                           href="/2022/01/26/220129Lego-LOAM/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
-                                <span class="post-nav-item">上一篇</span>
+                                <span class="post-nav-title-item">Lego-LOAM介绍</span>
+                                <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
@@ -290,7 +291,7 @@ T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure 
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">tf2 介绍</span>
-                                <span class="post-nav-item">下一篇</span>
+                                <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -306,7 +307,7 @@ T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure 
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;评论</i>
+        <i class="fas fa-comments">&nbsp;Comments</i>
     </div>
     
 
@@ -380,7 +381,7 @@ T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure 
         </div>
         
         <div class="theme-info info-item">
-            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -508,5 +509,20 @@ T_{odom}^{map}=T^{map}_{current}\cdot (T^{odom}_{current})^{-1}</script><figure 
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

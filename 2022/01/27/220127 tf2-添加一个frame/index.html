@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            添加一个frame tf2-ros2 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">添加一个frame tf2-ros2</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-01-27 15:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/tf2/">tf2</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>在之前的教程中，我们完成了如何写一个broadcaster和一个监听者，该教程会介绍如何向tf树中添加一个固定的或者是动态变化的frame。事实上，添加一个frame的过程非常像创建一个tf2 broadcaser的过程，下面我们会说明一些额外的关于添加frame的特点。</p>
+<h1 id="tf2-树"><a href="#tf2-树" class="headerlink" title="tf2 树"></a>tf2 树</h1><p>tf2构建的是框架的树形结构，因此在框架结构中不允许出现闭合循环。这意味着一棵树可以有多个子节点，但是只能有一个父节点。目前我们的tf2树有三个节点，两个turtle frame 和一个 world frame.如果我们要添加一个frame ，那么我们就需要让三者之一成为父节点</p>
+<p><img src="https://docs.ros.org/en/foxy/_images/turtlesim_frames.png" alt="../../_images/turtlesim_frames.png"></p>
+<h1 id="写一个fixed-frame的boardcaster"><a href="#写一个fixed-frame的boardcaster" class="headerlink" title="写一个fixed frame的boardcaster"></a>写一个fixed frame的boardcaster</h1><p>下面我们会添加一个新的frame，名字为carrot1，它的父节点为turtle1，他会作为第二个乌龟的目标去追踪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros&#x2F;geometry_tutorials&#x2F;ros2&#x2F;turtle_tf2_py&#x2F;turtle_tf2_py&#x2F;fixed_frame_tf2_broadcaster.py</span><br></pre></td></tr></table></figure>
+<p>打开文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> TransformStamped</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tf2_ros <span class="keyword">import</span> TransformBroadcaster</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FixedFrameBroadcaster</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">      <span class="built_in">super</span>().__init__(<span class="string">&#x27;fixed_frame_tf2_broadcaster&#x27;</span>)</span><br><span class="line">      self.br = TransformBroadcaster(self)</span><br><span class="line">      self.timer = self.create_timer(<span class="number">0.1</span>, self.broadcast_timer_callback)</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">broadcast_timer_callback</span>(<span class="params">self</span>):</span></span><br><span class="line">      t = TransformStamped()</span><br><span class="line">      t.header.stamp = self.get_clock().now().to_msg()</span><br><span class="line">      t.header.frame_id = <span class="string">&#x27;turtle1&#x27;</span></span><br><span class="line">      t.child_frame_id = <span class="string">&#x27;carrot1&#x27;</span></span><br><span class="line">      t.transform.translation.x = <span class="number">0.0</span></span><br><span class="line">      t.transform.translation.y = <span class="number">2.0</span></span><br><span class="line">      t.transform.translation.z = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.x = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.y = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.z = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.w = <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">      self.br.sendTransform(t)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">   rclpy.init()</span><br><span class="line">   node = FixedFrameBroadcaster()</span><br><span class="line">   <span class="keyword">try</span>:</span><br><span class="line">      rclpy.spin(node)</span><br><span class="line">   <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">      <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">   rclpy.shutdown()</span><br></pre></td></tr></table></figure>
+<p>这一段代码和写一个broadcaser非常类似，唯一不同的是，这里的transform是固定的，不要忘记去完善setup.py</p>
+<p>注意，from的frame都是在父节点，就是tf树上面的点，to的结点都是子节点。定义的变换都是相对于父节点，比如这里，子节点相对于父节点在y轴上偏差2m。</p>
+<h2 id="代码审查"><a href="#代码审查" class="headerlink" title="代码审查"></a>代码审查</h2><p>下面看一下关键行的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">t = TransformStamped()</span><br><span class="line">t.header.stamp = self.get_clock().now().to_msg()</span><br><span class="line">t.header.frame_id = <span class="string">&#x27;turtle1&#x27;</span></span><br><span class="line">t.child_frame_id = <span class="string">&#x27;carrot1&#x27;</span></span><br><span class="line">t.transform.translation.x = <span class="number">0.0</span></span><br><span class="line">t.transform.translation.y = <span class="number">2.0</span></span><br><span class="line">t.transform.translation.z = <span class="number">0.0</span></span><br></pre></td></tr></table></figure>
+<p>这里我们创建了一个transform，他的父节点为turtle1，并且距离父节点y轴2米的距离</p>
+<h2 id="launch文件"><a href="#launch文件" class="headerlink" title="launch文件"></a>launch文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ament_index_python.packages <span class="keyword">import</span> get_package_share_directory</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> IncludeLaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.launch_description_sources <span class="keyword">import</span> PythonLaunchDescriptionSource</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> launch_ros.actions <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">   demo_nodes = IncludeLaunchDescription(</span><br><span class="line">      PythonLaunchDescriptionSource([os.path.join(</span><br><span class="line">            get_package_share_directory(<span class="string">&#x27;learning_tf2_py&#x27;</span>), <span class="string">&#x27;launch&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;/turtle_tf2_demo.launch.py&#x27;</span>]),</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">      demo_nodes,</span><br><span class="line">      Node(</span><br><span class="line">            package=<span class="string">&#x27;learning_tf2_py&#x27;</span>,</span><br><span class="line">            executable=<span class="string">&#x27;fixed_frame_tf2_broadcaster&#x27;</span>,</span><br><span class="line">            name=<span class="string">&#x27;fixed_broadcaster&#x27;</span>,</span><br><span class="line">      ),</span><br><span class="line">   ])</span><br></pre></td></tr></table></figure>
+<h2 id="build-and-run"><a href="#build-and-run" class="headerlink" title="build and run"></a>build and run</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch learning_tf2_py turtle_tf2_fixed_frame_demo.launch.py</span><br></pre></td></tr></table></figure>
+<p>你应该看见carrot1</p>
+<p><img src="https://docs.ros.org/en/foxy/_images/turtlesim_frames_carrot.png" alt="../../_images/turtlesim_frames_carrot.png"></p>
+<h2 id="结果检查"><a href="#结果检查" class="headerlink" title="结果检查"></a>结果检查</h2><p>如果你使用键盘移动了一个乌龟，你会发现这和原来的结果并没有任何的不同。虽然我们添加了一个frame，但是这个新增的frame并没有对其他的frame产生任何的影响。</p>
+<p>因此如果我们想要让第二个乌龟发生改变，我们可以通过修改原来文件中的一个参数，我们可以通过如下设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def generate_launch_description():</span><br><span class="line">   demo_nodes &#x3D; IncludeLaunchDescription(</span><br><span class="line">      ...,</span><br><span class="line">      launch_arguments&#x3D;&#123;&#39;target_frame&#39;: &#39;carrot1&#39;&#125;.items(),</span><br><span class="line">      )</span><br></pre></td></tr></table></figure>
+<p>这样，可以让turtle2跟着carrot1跑</p>
+<p>等价的，我们也可以去修改target_frame</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch learning_tf2_py turtle_tf2_fixed_frame_demo.launch.py target_frame:&#x3D;carrot1</span><br></pre></td></tr></table></figure>
+<p>这样，他会去查询carrto1在turtle2坐标系上的相对位置，turtle2会去追踪carrot1</p>
+<h1 id="写一个动态的frame-broadcaster"><a href="#写一个动态的frame-broadcaster" class="headerlink" title="写一个动态的frame broadcaster"></a>写一个动态的frame broadcaster</h1><p>我们在之前创建了一个固定的frame，他和父节点的关系不会改变，已知在父节点y轴方向2米处。但是，如果您想发布一个非固定的 frame，您可以编boardcaseter程序来随时间改变frame。让我们改变我们的carrto1 frame，使它随着时间相对于turtle1 frame发生变化。现在输入以下命令下载以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros&#x2F;geometry_tutorials&#x2F;ros2&#x2F;turtle_tf2_py&#x2F;turtle_tf2_py&#x2F;dynamic_frame_tf2_broadcaster.py</span><br></pre></td></tr></table></figure>
+<p>打开文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> geometry_msgs.msg <span class="keyword">import</span> TransformStamped</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> rclpy</span><br><span class="line"><span class="keyword">from</span> rclpy.node <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tf2_ros <span class="keyword">import</span> TransformBroadcaster</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DynamicFrameBroadcaster</span>(<span class="params">Node</span>):</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">      <span class="built_in">super</span>().__init__(<span class="string">&#x27;dynamic_frame_tf2_broadcaster&#x27;</span>)</span><br><span class="line">      self.br = TransformBroadcaster(self)</span><br><span class="line">      self.timer = self.create_timer(<span class="number">0.1</span>, self.broadcast_timer_callback)</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">broadcast_timer_callback</span>(<span class="params">self</span>):</span></span><br><span class="line">      seconds, _ = self.get_clock().now().seconds_nanoseconds()</span><br><span class="line">      x = seconds * math.pi</span><br><span class="line"></span><br><span class="line">      t = TransformStamped()</span><br><span class="line">      t.header.stamp = self.get_clock().now().to_msg()</span><br><span class="line">      t.header.frame_id = <span class="string">&#x27;turtle1&#x27;</span></span><br><span class="line">      t.child_frame_id = <span class="string">&#x27;carrot1&#x27;</span></span><br><span class="line">      t.transform.translation.x = <span class="number">10</span> * math.sin(x)</span><br><span class="line">      t.transform.translation.y = <span class="number">10</span> * math.cos(x)</span><br><span class="line">      t.transform.translation.z = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.x = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.y = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.z = <span class="number">0.0</span></span><br><span class="line">      t.transform.rotation.w = <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">      self.br.sendTransform(t)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">   rclpy.init()</span><br><span class="line">   node = DynamicFrameBroadcaster()</span><br><span class="line">   <span class="keyword">try</span>:</span><br><span class="line">      rclpy.spin(node)</span><br><span class="line">   <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">      <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">   rclpy.shutdown()</span><br></pre></td></tr></table></figure>
+<h2 id="代码审查-1"><a href="#代码审查-1" class="headerlink" title="代码审查"></a>代码审查</h2><p>现在我们不再固定y轴为2.0，利用sin和cos函数实时改变转换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">seconds, _ = self.get_clock().now().seconds_nanoseconds()</span><br><span class="line">x = seconds * math.pi</span><br><span class="line">...</span><br><span class="line">t.transform.translation.x = <span class="number">10</span> * math.sin(x)</span><br><span class="line">t.transform.translation.y = <span class="number">10</span> * math.cos(x)</span><br></pre></td></tr></table></figure>
+<h2 id="launch-文件"><a href="#launch-文件" class="headerlink" title="launch 文件"></a>launch 文件</h2><p>新建文件turtle_tf2_dynamic_frame_demo.launch.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ament_index_python.packages <span class="keyword">import</span> get_package_share_directory</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> IncludeLaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.launch_description_sources <span class="keyword">import</span> PythonLaunchDescriptionSource</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> launch_ros.actions <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">   demo_nodes = IncludeLaunchDescription(</span><br><span class="line">      PythonLaunchDescriptionSource([os.path.join(</span><br><span class="line">            get_package_share_directory(<span class="string">&#x27;learning_tf2_py&#x27;</span>), <span class="string">&#x27;launch&#x27;</span>),</span><br><span class="line">            <span class="string">&#x27;/turtle_tf2_demo.launch.py&#x27;</span>]),</span><br><span class="line">      launch_arguments=&#123;<span class="string">&#x27;target_frame&#x27;</span>: <span class="string">&#x27;carrot1&#x27;</span>&#125;.items(),</span><br><span class="line">      )</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">      demo_nodes,</span><br><span class="line">      Node(</span><br><span class="line">            package=<span class="string">&#x27;learning_tf2_py&#x27;</span>,</span><br><span class="line">            executable=<span class="string">&#x27;dynamic_frame_tf2_broadcaster&#x27;</span>,</span><br><span class="line">            name=<span class="string">&#x27;dynamic_broadcaster&#x27;</span>,</span><br><span class="line">      ),</span><br><span class="line">   ])</span><br></pre></td></tr></table></figure>
+<h2 id="build-and-run-1"><a href="#build-and-run-1" class="headerlink" title="build and run"></a>build and run</h2><p><img src="https://docs.ros.org/en/foxy/_images/carrot_dynamic.png" alt="../../_images/carrot_dynamic.png"></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/01/30/220130%20tf2%20and%20time/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tf2 and time</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/01/26/220129Lego-LOAM/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Lego-LOAM介绍</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tf2-%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">tf2 树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AAfixed-frame%E7%9A%84boardcaster"><span class="nav-number">2.</span> <span class="nav-text">写一个fixed frame的boardcaster</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">2.1.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#launch%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">launch文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-and-run"><span class="nav-number">2.3.</span> <span class="nav-text">build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E6%A3%80%E6%9F%A5"><span class="nav-number">2.4.</span> <span class="nav-text">结果检查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E5%8A%A8%E6%80%81%E7%9A%84frame-broadcaster"><span class="nav-number">3.</span> <span class="nav-text">写一个动态的frame broadcaster</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5-1"><span class="nav-number">3.1.</span> <span class="nav-text">代码审查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#launch-%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">launch 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-and-run-1"><span class="nav-number">3.3.</span> <span class="nav-text">build and run</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

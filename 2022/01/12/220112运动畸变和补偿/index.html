@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                首页
+                                HOME
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                归档
+                                ARCHIVES
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                标签
+                                TAGS
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                关于
+                                ABOUT
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">首页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">归档</a>
+                       href="/archives">ARCHIVES</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">标签</a>
+                       href="/tags">TAGS</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">关于</a>
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -270,18 +270,11 @@ P_{start}=T_{start\_current} * P_{current}</script><p>因此运动补偿需要�
 <p>点到面的距离：</p>
 <script type="math/tex; mode=display">
 h = |边向量|\cdot \cos<边向量，高向量>=边向量 \cdot 高向量 / |高向量|</script><p>其中，高向量 = 底边向量a $\times$ 底边向量b，注意是叉乘</p>
-<h2 id="更新优化的里程计"><a href="#更新优化的里程计" class="headerlink" title="更新优化的里程计"></a>更新优化的里程计</h2><p><font color="red">在ceres优化中，我们的优化方向为 扫描开始=q<em>last_curr*扫描结束 + t_last_curr， q_last_curr 和t_last_curr 组成的T 为从当前点到上一帧的变换$T</em>{now}^{last}$，现在我们需要更新里程计，需要从当前点到向后的变换</font></p>
-<script type="math/tex; mode=display">
-T_{last}^{now}=
-\begin{bmatrix}
-R & t\\
-0 & 1 \\
-\end{bmatrix}^{-1}
-=
-\begin{bmatrix}
-R^{T} & -R^Tt\\
-0 & 1 \\
-\end{bmatrix}</script><p>现在需要把它作用到之前的旋转和平移上，假设之前的从0到n-1时刻的位姿变换为$T_0^{n-1}$，那么$T_0^n$为</p>
+<h2 id="更新优化的里程计"><a href="#更新优化的里程计" class="headerlink" title="更新优化的里程计"></a>更新优化的里程计</h2><font color="red">在ceres优化中，我们的优化方向为 扫描开始=q_last_curr*扫描结束 + t_last_curr， q_last_curr 和t_last_curr 组成的T 为从当前点到上一帧的变换$T_{now}^{last}$，从上一帧到当前帧的位移就是$T_{now}^{last}$中表示的位移，也就是雷达坐标系的位移</font>
+
+
+
+<p>现在需要把它作用到之前的旋转和平移上，假设之前的从0到n-1时刻的位姿变换为$T_0^{n-1}$，那么$T_0^n$为</p>
 <script type="math/tex; mode=display">
 T_0^n=T_0^{n-1}T_{n-1}^n=
 \begin{bmatrix}
@@ -299,6 +292,7 @@ R^{n-1}_0R^{n}_{n-1} & R^{n-1}_0t_{n-1}^n+t_{n-1}^n\\
 <script type="math/tex; mode=display">
 t_0^n=R^{n-1}_0t_{n-1}^n+t_{0}^{n-1}\\
 R_0^n=R^{n-1}_0R^{n}_{n-1}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t_w_curr = t_w_curr + q_w_curr * t_last_curr;</span><br><span class="line">q_w_curr = q_w_curr * q_last_curr;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，此变换为$T<em>{odom}^{laser}$，是odom -&gt; laser的变换。可以通过$T</em>{odom}^{laser} T_{laser}^{P}$ 计算出原本在laser下的点，通过坐标变换得到odom下的坐标点</p>
 <h1 id="发布里程计和路径"><a href="#发布里程计和路径" class="headerlink" title="发布里程计和路径"></a>发布里程计和路径</h1><h2 id="发布laser-odom-to-init"><a href="#发布laser-odom-to-init" class="headerlink" title="发布laser_odom_to_init"></a>发布laser_odom_to_init</h2><p>他表示目前当前时刻，激光雷达和odom之间的里程计</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// publish odometry</span></span><br><span class="line">nav_msgs::Odometry laserOdometry;</span><br><span class="line">laserOdometry.header.frame_id = <span class="string">&quot;camera_init&quot;</span>;</span><br><span class="line">laserOdometry.child_frame_id = <span class="string">&quot;/laser_odom&quot;</span>;</span><br><span class="line">laserOdometry.header.stamp = ros::<span class="built_in">Time</span>().<span class="built_in">fromSec</span>(timeSurfPointsLessFlat);</span><br><span class="line">laserOdometry.pose.pose.orientation.x = q_w_curr.<span class="built_in">x</span>();</span><br><span class="line">laserOdometry.pose.pose.orientation.y = q_w_curr.<span class="built_in">y</span>();</span><br><span class="line">laserOdometry.pose.pose.orientation.z = q_w_curr.<span class="built_in">z</span>();</span><br><span class="line">laserOdometry.pose.pose.orientation.w = q_w_curr.<span class="built_in">w</span>();</span><br><span class="line">laserOdometry.pose.pose.position.x = t_w_curr.<span class="built_in">x</span>();</span><br><span class="line">laserOdometry.pose.pose.position.y = t_w_curr.<span class="built_in">y</span>();</span><br><span class="line">laserOdometry.pose.pose.position.z = t_w_curr.<span class="built_in">z</span>();</span><br><span class="line">pubLaserOdometry.<span class="built_in">publish</span>(laserOdometry);</span><br></pre></td></tr></table></figure>
 <h2 id="发布laser-odom-path"><a href="#发布laser-odom-path" class="headerlink" title="发布laser_odom_path"></a>发布laser_odom_path</h2><p>发布里程计轨迹，路径</p>
@@ -321,7 +315,7 @@ R_0^n=R^{n-1}_0R^{n}_{n-1}</script><figure class="highlight c++"><table><tr><td 
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">c++ 演进，环境与资源-侯捷笔记</span>
-                                <span class="post-nav-item">上一篇</span>
+                                <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
@@ -334,7 +328,7 @@ R_0^n=R^{n-1}_0R^{n}_{n-1}</script><figure class="highlight c++"><table><tr><td 
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">A-LOAM 数据处理</span>
-                                <span class="post-nav-item">下一篇</span>
+                                <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -350,7 +344,7 @@ R_0^n=R^{n-1}_0R^{n}_{n-1}</script><figure class="highlight c++"><table><tr><td 
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;评论</i>
+        <i class="fas fa-comments">&nbsp;Comments</i>
     </div>
     
 
@@ -424,7 +418,7 @@ R_0^n=R^{n-1}_0R^{n}_{n-1}</script><figure class="highlight c++"><table><tr><td 
         </div>
         
         <div class="theme-info info-item">
-            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -552,5 +546,20 @@ R_0^n=R^{n-1}_0R^{n}_{n-1}</script><figure class="highlight c++"><table><tr><td 
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
