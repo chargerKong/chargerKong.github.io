@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            LIOSAM介绍 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">LIOSAM介绍</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-02-02 12:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>LIOSAM相对于LOAM和Lego-LOAm的代码可读性比较好，功能也比较全。可以方便的去拓展</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>我们提出了一个基于GTSAM优化库的 紧耦合的雷达惯性里程计。它是一个高精度，实时的轨迹估计和地图构建。LIOSAM有多个传感器，他基于因子图，把我们相对观测（两帧之间的观测）和绝对观测（GPS），包括回环的结果，都作为一个因子，统一到框架中去。</p>
+<p>IMU可以做运动补偿（点云畸变），也可以为雷达odometry提供一个比较好的初值。获得的雷达里程计反过来会估计IMU的零偏，这就是紧耦合的表现。、</p>
+<p>为了保证实时的同时保证好的表现，在后端优化中，我们没有拿当前帧和整个地图匹配，而是边缘化了老的帧。这样的Scan匹配（没有和全局的匹配而是和部分的匹配）很好的提升了实时的性能。</p>
+<p>作者在船上（大场景），手持（小场景）和小车上（中场景）都得到了不错的效果</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>LOAM的局限性：它的地图保存为全局体素地图，难以实现闭环检测并且难以和其他的绝对观测（例如GPS）配合。 大场景下会有一些累积漂移</p>
+<p>本文提出的可以很好的解决上述的问题。 </p>
+<p>步骤</p>
+<ul>
+<li>利用IMU的数据做了点云的运动补偿</li>
+<li>运动补偿后，估计的运动可以提供一个比较好的初值</li>
+<li>得到的里程计反过来校准imu的零偏</li>
+<li>在全局的因子图中，有效的实现了传感器融合，利用雷达和IMU的数据，还可以使用GPS和指南针的朝向</li>
+<li>从不同的传感器之间的因子，放入因子图，实现一个联合的优化，得到一个最佳的估计状态</li>
+<li>滑窗思想：巴拉巴拉</li>
+</ul>
+<p>重要的贡献</p>
+<ul>
+<li>提供了紧耦合的惯性里程计的优化</li>
+<li>局部滑窗的思想，保证雷达的配准，保证实时性和性能</li>
+<li>此框架是有广泛的验证的，不同的场景下，不同的平台和环境下都做了大量的实验，都比较优秀</li>
+</ul>
+<p>EKF是一个松耦合融合方法 </p>
+<p>纯滤波的方式不好加入回环</p>
+<p>LIO-Mapping： 实时性不好，跑的有点慢</p>
+<h1 id="算法介绍"><a href="#算法介绍" class="headerlink" title="算法介绍"></a>算法介绍</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>$W:$世界坐标系</p>
+<p>$B$：机器人坐标系，以及IMU坐标系。这样的做法（他俩都是B坐标系）在紧耦合里面是比较常见的</p>
+<p>机器人的状态由下面经典的15个状态量来表示</p>
+<script type="math/tex; mode=display">
+x = [R^T,    p^T,v^T,b^T]^T \tag{1}</script><p>其中，R是旋转矩阵$SO(3)$，p表示位置，v表示速度，b是IMU零漂。变换from B to W 可以表示为$T=[R;p]$</p>
+<p>下面的总览图表示算法的总体过程。系统接受的数据有</p>
+<ul>
+<li><p>3D雷达</p>
+</li>
+<li><p>IMU</p>
+</li>
+<li><p>可选gps</p>
+</li>
+</ul>
+<p>使用传感器的观测来估计当前机器人的位姿，可以容易的建模为最大后验的问题。我们利用因子图对其建模，效果好于贝叶斯网络，这里有一个假设，所有的传感器的噪声都是符合高斯分布的。然后就可以把他作为一个最小二乘法来计算</p>
+<p><img src="2022-02-03 18-11-05屏幕截图.png" alt=""></p>
+<p><img src="220202LIOSAM简介/2022-02-03 18-11-05屏幕截图.png" alt=""></p>
+<p>我们引入了四种不同类型的因子，同时还有一个待优化的变量。这里就是机器人的状态量$(1)$，包括速度和位置等。这四个factor为</p>
+<ul>
+<li>IMU preintegration factors</li>
+<li>lidar odometry factors</li>
+<li>GPS factors</li>
+<li>loop closure factors</li>
+</ul>
+<p>注意不是所有的观测都是关键帧，只有是关键帧的时候才会被加入到因子图中，因此当 当前帧被判定为一个关键帧的时候，它就会作为一个新的状态量$x$加入到因子图中。一旦因子图发生了变化，我们就可以使用增量的ISAM2的一个方式去优化，具体是通过GTSAM来优化的</p>
+<h2 id="IMU-预积分因子"><a href="#IMU-预积分因子" class="headerlink" title="IMU 预积分因子"></a>IMU 预积分因子</h2><p>IMU可以测量的两个量，加速度和角速度分别是由如下式子计算出来的</p>
+<p><img src="2022-02-03 18-41-10屏幕截图.png" alt=""></p>
+<p><img src="220202LIOSAM简介/2022-02-03 18-41-10屏幕截图.png" alt=""></p>
+<p>其中  $b_t^w$和 $b_t^a$是零偏， $n_t^a$和$n_t^w$表示噪声。$R_t^{BW}$表示从W到B的变换，即把world的加速度转移到自己的身上。下面我们用上面的结果可以对运动做出估计</p>
+<p>在$t+\Delta t$时刻，它的三个状态量为</p>
+<p><img src="2022-02-03 18-44-12屏幕截图.png" alt=""></p>
+<p><img src="220202LIOSAM简介/2022-02-03 18-44-12屏幕截图.png" alt=""></p>
+<p> 下面使用IMU预积分方法来获得相对的运动，相对的状态量结果为</p>
+<p><img src="2022-02-03 18-51-59屏幕截图.png" alt=""></p>
+<p><img src="220202LIOSAM简介/2022-02-03 18-51-59屏幕截图.png" alt=""></p>
+<p>IMU预积分会提供两帧之间的运动关系</p>
+<h2 id="Lidar-Odometry-因子"><a href="#Lidar-Odometry-因子" class="headerlink" title="Lidar Odometry 因子"></a>Lidar Odometry 因子</h2><p>和LOAM类似</p>
+<h2 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h2><p>GPS不是频繁添加的，只有置信度的时候，才会加入</p>
+<h2 id="回环检测"><a href="#回环检测" class="headerlink" title="回环检测"></a>回环检测</h2><p>回环检测 用于 高度累积的漂移是很不错的。 GPS的高度信息不太好，实际只用x和y</p>
+<p>对比LOAM，清晰度更高</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/01/30/220130%20tf2%20and%20time/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tf2 and time</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">算法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E8%A7%88"><span class="nav-number">3.1.</span> <span class="nav-text">总览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMU-%E9%A2%84%E7%A7%AF%E5%88%86%E5%9B%A0%E5%AD%90"><span class="nav-number">3.2.</span> <span class="nav-text">IMU 预积分因子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lidar-Odometry-%E5%9B%A0%E5%AD%90"><span class="nav-number">3.3.</span> <span class="nav-text">Lidar Odometry 因子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPS"><span class="nav-number">3.4.</span> <span class="nav-text">GPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B"><span class="nav-number">3.5.</span> <span class="nav-text">回环检测</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

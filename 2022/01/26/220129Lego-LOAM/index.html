@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -190,16 +190,20 @@
 
         <div class="article-content markdown-body">
             <h1 id="框架介绍"><a href="#框架介绍" class="headerlink" title="框架介绍"></a>框架介绍</h1><p>LeGo-LOAM 是 Tixiao Shan 提出的一种基于 LOAM 的改进版本，其主要是为了实现小车在多变地形下的定位和建图，其针对前端和后端都做了一系列的改进，具体来说</p>
-<h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><ol>
+<h2 id="数据处理过程"><a href="#数据处理过程" class="headerlink" title="数据处理过程"></a>数据处理过程</h2><ol>
 <li>对地面点进行分类和提取，避免一些一场边缘点的提取</li>
 <li>应用了一个简单的点云聚类算法，剔除了一些可能的 outlier</li>
 <li>两步迭代求解前端帧间里程记，不影响精度的情况下减轻计算负载，保障了嵌入式平台的实时性</li>
 </ol>
+<p>注意：一般情况下实际应用中没人会这么做的，可以用其他的传感器，精度更高</p>
 <p><img src="220129Lego-LOAM/2022-01-29 21-59-21屏幕截图.png" alt=""></p>
 <p><img src="2022-01-29 21-59-21屏幕截图.png" alt=""></p>
 <p>各模块topic 的发布和订阅关系</p>
 <p><img src="2022-01-29 21-58-42屏幕截图.png" alt=""></p>
 <p><img src="220129Lego-LOAM/2022-01-29 21-58-42屏幕截图.png" alt=""></p>
+<h1 id="两步优化的帧间里程记"><a href="#两步优化的帧间里程记" class="headerlink" title="两步优化的帧间里程记"></a>两步优化的帧间里程记</h1><p>和原始 LOAM （或者 A-LOAM ）一样，通过前后两帧点云来估计两帧之间的运动，从而累加得到前端里程记的输出，和上述方法使用线面约束同时优化六自由度帧间位姿不同， LeGO-LOAM 的前端分成两个步骤，每个步骤估计三自由度的变量</p>
+<h2 id="第一步-利用地面点优化"><a href="#第一步-利用地面点优化" class="headerlink" title="第一步 利用地面点优化"></a>第一步 利用地面点优化</h2><p>地面点更符合面特征的性质，因此，地面点的优化问题就使用点到面的约束来构建，同时我们注意到，地面点之间的约束对 x ， y 和 yaw 这三个自由度是不能观的。换句话说，当这三个自由度的值发生变化时，点到面的残差不会发生显著变化，所以，地面点之间的优化只会对 pitch ， roll 以及 z 进行约束和优化</p>
+<h2 id="第二步-利用角点优化"><a href="#第二步-利用角点优化" class="headerlink" title="第二步 利用角点优化"></a>第二步 利用角点优化</h2><p>第一部优化完 pitch 、 roll 以及 z 之后，我们仍需对另外三个自由度的变量进行估计，此时，我们选用提取的角点进行优化，由于多线激光雷达提取的角点通常是垂直的边缘特征，因此，这些特征对 x 、 y 以及yaw 有着比较好的能观性，通过角点的优化结合上地面点的结果可以得到六自由度的帧间优化结果。</p>
 <h1 id="代码介绍"><a href="#代码介绍" class="headerlink" title="代码介绍"></a>代码介绍</h1><h2 id="imageProjection"><a href="#imageProjection" class="headerlink" title="imageProjection"></a>imageProjection</h2><p>订阅话题</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> string pointCloudTopic = <span class="string">&quot;/velodyne_points&quot;</span>;</span><br><span class="line"></span><br><span class="line">subLaserCloud = nh.subscribe&lt;sensor_msgs::PointCloud2&gt;(pointCloudTopic, <span class="number">1</span>, &amp;ImageProjection::cloudHandler, <span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
 <h3 id="消息类型转换"><a href="#消息类型转换" class="headerlink" title="消息类型转换"></a>消息类型转换</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copyPointCloud</span><span class="params">(<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr&amp; laserCloudMsg)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    cloudHeader = laserCloudMsg-&gt;header;</span><br><span class="line">    <span class="comment">// cloudHeader.stamp = ros::Time::now(); // Ouster lidar users may need to uncomment this line</span></span><br><span class="line">    pcl::<span class="built_in">fromROSMsg</span>(*laserCloudMsg, *laserCloudIn);</span><br><span class="line">    <span class="comment">// Remove Nan points</span></span><br><span class="line">    std::vector&lt;<span class="keyword">int</span>&gt; indices;</span><br><span class="line">    pcl::<span class="built_in">removeNaNFromPointCloud</span>(*laserCloudIn, *laserCloudIn, indices);</span><br><span class="line">    <span class="comment">// have &quot;ring&quot; channel in the cloud</span></span><br><span class="line">    <span class="keyword">if</span> (useCloudRing == <span class="literal">true</span>)&#123;</span><br><span class="line">        pcl::<span class="built_in">fromROSMsg</span>(*laserCloudMsg, *laserCloudInRing);</span><br><span class="line">        <span class="keyword">if</span> (laserCloudInRing-&gt;is_dense == <span class="literal">false</span>) &#123;</span><br><span class="line">            <span class="built_in">ROS_ERROR</span>(<span class="string">&quot;Point cloud is not in dense format, please remove NaN points first!&quot;</span>);</span><br><span class="line">            ros::<span class="built_in">shutdown</span>();</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -260,7 +264,7 @@
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">添加一个frame tf2-ros2</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -273,7 +277,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">A_LOAM mapping模块</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -289,7 +293,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -363,7 +367,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -442,7 +446,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">框架介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">1.1.</span> <span class="nav-text">前端</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">代码介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#imageProjection"><span class="nav-number">2.1.</span> <span class="nav-text">imageProjection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.1.1.</span> <span class="nav-text">消息类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E5%BC%80%E5%A7%8B%E7%BB%93%E6%9D%9F%E8%A7%92%E5%BA%A6"><span class="nav-number">2.1.2.</span> <span class="nav-text">寻找开始结束角度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E6%8A%95%E5%BD%B1"><span class="nav-number">2.1.3.</span> <span class="nav-text">点云投影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E9%9D%A2%E7%A7%BB%E9%99%A4"><span class="nav-number">2.1.4.</span> <span class="nav-text">地面移除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%BE%E5%87%BA%E5%9C%B0%E9%9D%A2%E7%82%B9%EF%BC%8C%E6%A0%87%E8%AE%B0%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">找出地面点，标记标志位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E4%B8%8D%E5%8F%82%E4%B8%8E%E7%89%B9%E5%BE%81%E8%AE%A1%E7%AE%97%E7%9A%84%E7%82%B9"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">记录不参与特征计算的点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ground-cloud%E5%8F%91%E5%B8%83-%E5%9C%B0%E9%9D%A2%E7%82%B9%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.4.3.</span> <span class="nav-text">ground_cloud发布:地面点数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E5%88%86%E5%89%B2"><span class="nav-number">2.1.5.</span> <span class="nav-text">点云分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E7%82%B9%E4%BA%91"><span class="nav-number">2.1.6.</span> <span class="nav-text">发布点云</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E9%87%8D%E7%BD%AE"><span class="nav-number">2.1.7.</span> <span class="nav-text">参数重置</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">框架介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">数据处理过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E6%AD%A5%E4%BC%98%E5%8C%96%E7%9A%84%E5%B8%A7%E9%97%B4%E9%87%8C%E7%A8%8B%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">两步优化的帧间里程记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E5%88%A9%E7%94%A8%E5%9C%B0%E9%9D%A2%E7%82%B9%E4%BC%98%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">第一步 利用地面点优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E5%88%A9%E7%94%A8%E8%A7%92%E7%82%B9%E4%BC%98%E5%8C%96"><span class="nav-number">2.2.</span> <span class="nav-text">第二步 利用角点优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">代码介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#imageProjection"><span class="nav-number">3.1.</span> <span class="nav-text">imageProjection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.1.1.</span> <span class="nav-text">消息类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E5%BC%80%E5%A7%8B%E7%BB%93%E6%9D%9F%E8%A7%92%E5%BA%A6"><span class="nav-number">3.1.2.</span> <span class="nav-text">寻找开始结束角度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E6%8A%95%E5%BD%B1"><span class="nav-number">3.1.3.</span> <span class="nav-text">点云投影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E9%9D%A2%E7%A7%BB%E9%99%A4"><span class="nav-number">3.1.4.</span> <span class="nav-text">地面移除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%BE%E5%87%BA%E5%9C%B0%E9%9D%A2%E7%82%B9%EF%BC%8C%E6%A0%87%E8%AE%B0%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="nav-number">3.1.4.1.</span> <span class="nav-text">找出地面点，标记标志位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E4%B8%8D%E5%8F%82%E4%B8%8E%E7%89%B9%E5%BE%81%E8%AE%A1%E7%AE%97%E7%9A%84%E7%82%B9"><span class="nav-number">3.1.4.2.</span> <span class="nav-text">记录不参与特征计算的点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ground-cloud%E5%8F%91%E5%B8%83-%E5%9C%B0%E9%9D%A2%E7%82%B9%E6%95%B0%E6%8D%AE"><span class="nav-number">3.1.4.3.</span> <span class="nav-text">ground_cloud发布:地面点数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%E5%88%86%E5%89%B2"><span class="nav-number">3.1.5.</span> <span class="nav-text">点云分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E7%82%B9%E4%BA%91"><span class="nav-number">3.1.6.</span> <span class="nav-text">发布点云</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E9%87%8D%E7%BD%AE"><span class="nav-number">3.1.7.</span> <span class="nav-text">参数重置</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>
