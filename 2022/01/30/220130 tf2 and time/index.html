@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                首页
+                                HOME
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                归档
+                                ARCHIVES
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                标签
+                                TAGS
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                关于
+                                ABOUT
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">首页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">归档</a>
+                       href="/archives">ARCHIVES</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">标签</a>
+                       href="/tags">TAGS</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">关于</a>
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -189,8 +189,24 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在之前的教程中，我们通过tf2的广播者和监听者对小乌龟案例进行了研究，我们还学习了如何向一个tf树添加一个frame。现在我们来学习一下<code>lookup_transform</code>  函数中的 timeout参数，他可以在此时间等待想要寻求的变换，超出时间则会抛出异常。这个工具可以用来监听以不同速率发布的转换，或者那些网络不可靠且延迟不可忽略的传入源。</p>
-<p>本教程将教你如何使用lookup_transform函数中的timeout来查询tf2树中的有效的变换</p>
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在之前的教程中，我们通过tf2的广播者和监听者对小乌龟案例进行了研究，我们还学习了如何向一个tf树添加一个frame。该tf树会随着时间而变化，并且 tf2 会为每个转换存储一个时间快照（默认情况下最多 10 秒）。 到目前为止，我们使用 lookupTransform() 函数来访问该 tf2 树中最新的可用转换，而不知道该转换是在什么时间记录的。 本教程将教您如何在特定时间进行转换。</p>
+<h2 id="1-tf2-and-time"><a href="#1-tf2-and-time" class="headerlink" title="1 tf2 and time"></a>1 tf2 and time</h2><p>打开之前的文件 <code>turtle_tf2_listener.cpp</code>，查看一下函数 <code>lookupTransform()</code>的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">transformStamped &#x3D; tf_buffer_-&gt;lookupTransform(</span><br><span class="line">   toFrameRel,</span><br><span class="line">   fromFrameRel,</span><br><span class="line">   tf2::TimePointZero);</span><br></pre></td></tr></table></figure>
+<p><code>tf2::TimePointZero</code>表示的是查询tf树中最近的一次变换。现在我们改变这一行为查询当前时刻的变换,<code>this-&gt;get_clock()-&gt;now()</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rclcpp::Time now = <span class="keyword">this</span>-&gt;<span class="built_in">get_clock</span>()-&gt;<span class="built_in">now</span>();</span><br><span class="line">transformStamped = tf_buffer_-&gt;<span class="built_in">lookupTransform</span>(</span><br><span class="line">   toFrameRel,</span><br><span class="line">   fromFrameRel,</span><br><span class="line">   now);</span><br></pre></td></tr></table></figure>
+<p>现在我们再一次去运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch learning_tf2_cpp turtle_tf2_demo.launch.py</span><br></pre></td></tr></table></figure>
+<p>我们会发现如下的错误提示</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [<span class="number">1629873136.345688064</span>] [listener]: Could <span class="keyword">not</span> transform turtle1 to turtle2: Lookup would require extrapolation into the future.  Requested time <span class="number">1629873136.345539</span> but the latest data is at time <span class="number">1629873136.338804</span>, when looking up transform from frame [turtle1] to frame [turtle2]</span><br></pre></td></tr></table></figure>
+<p>这里的提醒为，当前时刻请求的数据暂无</p>
+<p>要了解为什么会发生这种情况，我们需要了解缓冲区的工作原理。 首先，每个listener都有一个缓冲区，该缓冲区存储来自不同 tf2 广播器的所有坐标变换。 其次，当广播者发送一个转换时，转换进入缓冲区需要一些时间（通常是几毫秒）。 因此，当您在“现在”时间请求帧变换时，您应该等待几毫秒以使该信息到达。</p>
+<h2 id="2-Wait-for-transforms"><a href="#2-Wait-for-transforms" class="headerlink" title="2 Wait for transforms"></a>2 Wait for transforms</h2><p>tf2 提供了一个工具，它可以等待一段时间，保证在等待这一段时间内不报错。这只需要在 <code>lookupTransform()</code>添加一个<code>timeout</code>参数即可，为了修复上述错误，我们把代码改为如下形式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rclcpp::Time now = <span class="keyword">this</span>-&gt;<span class="built_in">get_clock</span>()-&gt;<span class="built_in">now</span>();</span><br><span class="line">transformStamped = tf_buffer_-&gt;<span class="built_in">lookupTransform</span>(</span><br><span class="line">   toFrameRel,</span><br><span class="line">   fromFrameRel,</span><br><span class="line">   now,</span><br><span class="line">   <span class="number">50</span>ms);</span><br></pre></td></tr></table></figure>
+<p> <code>lookupTransform()</code> 函数接受四个参数，最后一个是可选的参数，它将阻塞直到等待它超时的时间。</p>
+<h2 id="3-Checking-the-results"><a href="#3-Checking-the-results" class="headerlink" title="3 Checking the results"></a>3 Checking the results</h2><p>现在我们再一次运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch learning_tf2_cpp turtle_tf2_demo.launch.py</span><br></pre></td></tr></table></figure>
+<p>您应该注意到，lookupTransform() 实际上会阻塞，直到两个海龟之间的转换变得可用（这通常需要几毫秒）。 一旦超时（在这种情况下为 50 毫秒），只有在转换仍然不可用时才会引发异常。 </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在本教程中，您学习了如何在特定时间戳获取转换，以及如何在使用 lookupTransform() 函数时等待转换在 tf2 树上可用。 </p>
 
         </div>
 
@@ -209,7 +225,7 @@
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">LIOSAM介绍</span>
-                                <span class="post-nav-item">上一篇</span>
+                                <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
@@ -222,7 +238,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">添加一个frame tf2-ros2</span>
-                                <span class="post-nav-item">下一篇</span>
+                                <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -238,7 +254,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;评论</i>
+        <i class="fas fa-comments">&nbsp;Comments</i>
     </div>
     
 
@@ -312,7 +328,7 @@
         </div>
         
         <div class="theme-info info-item">
-            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -391,7 +407,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-tf2-and-time"><span class="nav-number">1.1.</span> <span class="nav-text">1 tf2 and time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Wait-for-transforms"><span class="nav-number">1.2.</span> <span class="nav-text">2 Wait for transforms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Checking-the-results"><span class="nav-number">1.3.</span> <span class="nav-text">3 Checking the results</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol>
     </div>
 </div>
         </aside>
@@ -440,20 +456,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

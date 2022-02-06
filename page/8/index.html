@@ -59,7 +59,7 @@
                             <a class="active"
                                href="/"
                             >
-                                首页
+                                HOME
                             </a>
                         </li>
                     
@@ -67,7 +67,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                归档
+                                ARCHIVES
                             </a>
                         </li>
                     
@@ -75,7 +75,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                标签
+                                TAGS
                             </a>
                         </li>
                     
@@ -83,7 +83,7 @@
                             <a class=""
                                href="/about"
                             >
-                                关于
+                                ABOUT
                             </a>
                         </li>
                     
@@ -104,22 +104,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class="active"
-                       href="/">首页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">归档</a>
+                       href="/archives">ARCHIVES</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">标签</a>
+                       href="/tags">TAGS</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">关于</a>
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -139,6 +139,66 @@
                 
                     <div class="home-content-container fade-in-down-animation">
     <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">
+                        点云匹配预备-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        上节说到，在global_traject_builder 中会进行AddSensorData 加入转化为点云的雷达扫描数据
+第一步即，扫描匹配，in GlobalTrajectoryBuilder类的AddSensorData中
+1234// 进行扫...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 06 2021 18:38:29 GMT+0800">2021-11-06</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/06/1105%E7%82%B9%E4%BA%91%E5%8C%B9%E9%85%8D%E9%A2%84%E5%A4%87/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">
+                        cartographer-数据分发小结
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在处理数据之前，cartographer需要进行数据分发器的创建，然后数据的处理
+数据分发器的创建整一个数据分发器的建立就是AddTrajectory的过程，最后需要达到如下效果
+针对每一个轨迹下的每一个topic, 即QueueKey, 绑定一个回...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
+        
+        
+    </div>
+
+    <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
         
             <li class="home-article-item">
 
@@ -166,7 +226,7 @@
         
     </div>
 
-    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -195,7 +255,7 @@ global_trajectory_builder.h文件在global_t...
         
     </div>
 
-    <a href="/2021/11/05/1105%20global_trajectory_builder/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/11/05/1105%20global_trajectory_builder/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -224,7 +284,7 @@ global_trajectory_builder.h文件在global_t...
         
     </div>
 
-    <a href="/2021/11/03/1103%20c++%20explicit/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/11/03/1103%20c++%20explicit/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -254,7 +314,7 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
         
     </div>
 
-    <a href="/2021/11/01/1101c++%20%E6%97%B6%E9%97%B4/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/11/01/1101c++%20%E6%97%B6%E9%97%B4/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -283,7 +343,7 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
         
     </div>
 
-    <a href="/2021/10/29/1029OrderMutiQueue2/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/10/29/1029OrderMutiQueue2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -315,7 +375,7 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
         
     </div>
 
-    <a href="/2021/10/29/1030blocking_queue/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/10/29/1030blocking_queue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -345,7 +405,7 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
         
     </div>
 
-    <a href="/2021/10/29/1029OrderedMultiQueue/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/10/29/1029OrderedMultiQueue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -374,64 +434,7 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
         
     </div>
 
-    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/27/1027sensor_collate/">
-                        sensor_collate-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        sensor_collator的创建map_builder.cc文件：MapBuilder的构造函数
-1234567891011121314MapBuilder::MapBuilder(const proto::MapBuilderOptions&a...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 27 2021 09:59:22 GMT+0800">2021-10-27</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/27/1027sensor_collate/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">
-                        ros2 launch 使用记录说明
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        IncludeLaunchDescriptioncondition、launch_arguments12345678910111213141516171819202122232425262728from launch import LaunchDes...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 26 2021 09:59:22 GMT+0800">2021-10-26</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/10/26/1026launch%20%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%E2%80%99/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2021/10/28/1028%E4%BD%BF%E7%94%A8colcon_cd/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -443,13 +446,13 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
     
         <a class="prev btn"
            href="/page/7/"
-        >上一页</a>
+        >Prev</a>
     
 
     
         <a class="next btn"
            href="/page/9/"
-        >下一页</a>
+        >Next</a>
     
 </div>
 
@@ -474,7 +477,7 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
         </div>
         
         <div class="theme-info info-item">
-            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -566,20 +569,5 @@ C++11 std::chrono库详解所谓的详解只不过是参考www.cplusplus.com的�
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
