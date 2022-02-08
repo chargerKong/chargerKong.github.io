@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -170,7 +170,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/tf2/">tf2</a>&nbsp;
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/tf2/">tf2</a>&nbsp;
                     </li>
                 
             </ul>
@@ -204,7 +208,7 @@
 </li>
 </ol>
 <h1 id="lookupTransform-的高级应用"><a href="#lookupTransform-的高级应用" class="headerlink" title="lookupTransform 的高级应用"></a>lookupTransform 的高级应用</h1><p>为了向 tf2 提出这个特定问题，我们将使用一个高级 API，它使我们能够明确说明何时获取指定的转换。 这是通过调用lookupTransform() 方法来完成的。 您的代码现在看起来像这样：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rclcpp::Time now = <span class="keyword">this</span>-&gt;<span class="built_in">get_clock</span>()-&gt;<span class="built_in">now</span>();</span><br><span class="line">rclcpp::Time when = now - rclcpp::<span class="built_in">Duration</span>(<span class="number">5</span>, <span class="number">0</span>);</span><br><span class="line">transformStamped = tf_buffer_-&gt;<span class="built_in">lookupTransform</span>(</span><br><span class="line">    toFrameRel,</span><br><span class="line">    now,</span><br><span class="line">    fromFrameRel,</span><br><span class="line">    when,</span><br><span class="line">    <span class="string">&quot;world&quot;</span>,</span><br><span class="line">    <span class="number">50</span>ms);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rclcpp::Time now = <span class="keyword">this</span>-&gt;<span class="built_in">get_clock</span>()-&gt;<span class="built_in">now</span>();</span><br><span class="line">rclcpp::Time when = now - rclcpp::<span class="built_in">Duration</span>(<span class="number">5</span>, <span class="number">0</span>);</span><br><span class="line">transformStamped = tf_buffer_-&gt;<span class="built_in">lookupTransform</span>(</span><br><span class="line">    toFrameRel,</span><br><span class="line">    now,</span><br><span class="line">    fromFrameRel,</span><br><span class="line">    when,</span><br><span class="line">        <span class="string">&quot;world&quot;</span>,</span><br><span class="line">    <span class="number">50</span>ms);</span><br></pre></td></tr></table></figure>
 <p>这个高级的API有六个参数需要指定</p>
 <ol>
 <li>Target frame</li>
@@ -227,15 +231,30 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/02/07/220207%20liosam%E9%A2%84%E7%A7%AF%E5%88%86/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">imu预积分代码解析</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/04/220204IMU%E9%80%89%E5%9E%8B/"
+                           href="/2022/02/06/220207%20launch%20substitution/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">IMU选型</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-title-item">在launch中使用substitutions</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -251,7 +270,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -325,7 +344,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -453,5 +472,20 @@
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

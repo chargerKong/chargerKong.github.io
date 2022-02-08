@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            在launch中使用substitutions |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">在launch中使用substitutions</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-02-06 12:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ros2/">ros2</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/launch/">launch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>Launch文件用于启动节点，服务以及执行进程。这一些行为会涉及到参数，不同的参数会有不同的行为。在描述可重用的启动文件时，可以在参数中使用替换以提供更大的灵活性。Substitutions是仅在执行启动描述期间计算的变量，可用于获取特定信息，如启动配置、环境变量，或用于计算任意Python表达式。</p>
+<h1 id="前提准备"><a href="#前提准备" class="headerlink" title="前提准备"></a>前提准备</h1><p>你需要创建一个类型为<code>ament_cmake</code>的<code>launch_tutorial</code>包</p>
+<h1 id="使用substitutions"><a href="#使用substitutions" class="headerlink" title="使用substitutions"></a>使用substitutions</h1><h2 id="1-Parent-launch-文件"><a href="#1-Parent-launch-文件" class="headerlink" title="1. Parent launch 文件"></a>1. Parent launch 文件</h2><p>首先我们会创建一个launch文件，他会通过适当的参数来调用其他文件，下面我们在launch文件夹下创建example_main.launch.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> launch_ros.substitutions <span class="keyword">import</span> FindPackageShare</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> IncludeLaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.launch_description_sources <span class="keyword">import</span> PythonLaunchDescriptionSource</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> PathJoinSubstitution, TextSubstitution</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">    colors = &#123;</span><br><span class="line">        <span class="string">&#x27;background_r&#x27;</span>: <span class="string">&#x27;200&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">        IncludeLaunchDescription(</span><br><span class="line">            PythonLaunchDescriptionSource([</span><br><span class="line">                PathJoinSubstitution([</span><br><span class="line">                    FindPackageShare(<span class="string">&#x27;launch_tutorial&#x27;</span>),</span><br><span class="line">                    <span class="string">&#x27;launch&#x27;</span>,</span><br><span class="line">                    <span class="string">&#x27;example_substitutions.launch.py&#x27;</span></span><br><span class="line">                ])</span><br><span class="line">            ]),</span><br><span class="line">            launch_arguments=&#123;</span><br><span class="line">                <span class="string">&#x27;turtlesim_ns&#x27;</span>: <span class="string">&#x27;turtlesim2&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;use_provided_red&#x27;</span>: <span class="string">&#x27;True&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;new_background_r&#x27;</span>: TextSubstitution(text=<span class="built_in">str</span>(colors[<span class="string">&#x27;background_r&#x27;</span>]))</span><br><span class="line">            &#125;.items()</span><br><span class="line">        )</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<p>在example_main.launch.py文件中，<code>FindPackageShare</code> substitution 用于寻找launch_tutorial包的share文件夹，<code>PathJoinSubstitution</code>则用于组合目录</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PathJoinSubstitution([</span><br><span class="line">    FindPackageShare(<span class="string">&#x27;launch_tutorial&#x27;</span>),</span><br><span class="line">    <span class="string">&#x27;launch&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;example_substitutions.launch.py&#x27;</span></span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p> <code>launch_arguments</code> 字典被传入到<code>IncludeLaunchDescription</code>中， <code>TextSubstitution</code> substitution 用于定义new_background_r 的值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">launch_arguments=&#123;</span><br><span class="line">    <span class="string">&#x27;turtlesim_ns&#x27;</span>: <span class="string">&#x27;turtlesim2&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;use_provided_red&#x27;</span>: <span class="string">&#x27;True&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;new_background_r&#x27;</span>: TextSubstitution(text=<span class="built_in">str</span>(colors[<span class="string">&#x27;background_r&#x27;</span>]))</span><br><span class="line">&#125;.items()</span><br></pre></td></tr></table></figure>
+<h2 id="2-Substitutions-example-launch-file"><a href="#2-Substitutions-example-launch-file" class="headerlink" title="2 Substitutions example launch file"></a>2 Substitutions example launch file</h2><p>在同一个文件下创建文件 <code>example_substitutions.launch.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> launch_ros.actions <span class="keyword">import</span> Node</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> launch <span class="keyword">import</span> LaunchDescription</span><br><span class="line"><span class="keyword">from</span> launch.actions <span class="keyword">import</span> DeclareLaunchArgument, ExecuteProcess, TimerAction</span><br><span class="line"><span class="keyword">from</span> launch.conditions <span class="keyword">import</span> IfCondition</span><br><span class="line"><span class="keyword">from</span> launch.substitutions <span class="keyword">import</span> LaunchConfiguration, PythonExpression</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_launch_description</span>():</span></span><br><span class="line">    turtlesim_ns = LaunchConfiguration(<span class="string">&#x27;turtlesim_ns&#x27;</span>)</span><br><span class="line">    use_provided_red = LaunchConfiguration(<span class="string">&#x27;use_provided_red&#x27;</span>)</span><br><span class="line">    new_background_r = LaunchConfiguration(<span class="string">&#x27;new_background_r&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    turtlesim_ns_launch_arg = DeclareLaunchArgument(</span><br><span class="line">        <span class="string">&#x27;turtlesim_ns&#x27;</span>,</span><br><span class="line">        default_value=<span class="string">&#x27;turtlesim1&#x27;</span></span><br><span class="line">    )</span><br><span class="line">    use_provided_red_launch_arg = DeclareLaunchArgument(</span><br><span class="line">        <span class="string">&#x27;use_provided_red&#x27;</span>,</span><br><span class="line">        default_value=<span class="string">&#x27;False&#x27;</span></span><br><span class="line">    )</span><br><span class="line">    new_background_r_launch_arg = DeclareLaunchArgument(</span><br><span class="line">        <span class="string">&#x27;new_background_r&#x27;</span>,</span><br><span class="line">        default_value=<span class="string">&#x27;200&#x27;</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    turtlesim_node = Node(</span><br><span class="line">        package=<span class="string">&#x27;turtlesim&#x27;</span>,</span><br><span class="line">        namespace=turtlesim_ns,</span><br><span class="line">        executable=<span class="string">&#x27;turtlesim_node&#x27;</span>,</span><br><span class="line">        name=<span class="string">&#x27;sim&#x27;</span></span><br><span class="line">    )</span><br><span class="line">    spawn_turtle = ExecuteProcess(</span><br><span class="line">        cmd=[[</span><br><span class="line">            <span class="string">&#x27;ros2 service call &#x27;</span>,</span><br><span class="line">            turtlesim_ns,</span><br><span class="line">            <span class="string">&#x27;/spawn &#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;turtlesim/srv/Spawn &#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;&quot;&#123;x: 2, y: 2, theta: 0.2&#125;&quot;&#x27;</span></span><br><span class="line">        ]],</span><br><span class="line">        shell=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line">    change_background_r = ExecuteProcess(</span><br><span class="line">        cmd=[[</span><br><span class="line">            <span class="string">&#x27;ros2 param set &#x27;</span>,</span><br><span class="line">            turtlesim_ns,</span><br><span class="line">            <span class="string">&#x27;/sim background_r &#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;120&#x27;</span></span><br><span class="line">        ]],</span><br><span class="line">        shell=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line">    change_background_r_conditioned = ExecuteProcess(</span><br><span class="line">        condition=IfCondition(</span><br><span class="line">            PythonExpression([</span><br><span class="line">                new_background_r,</span><br><span class="line">                <span class="string">&#x27; == 200&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27; and &#x27;</span>,</span><br><span class="line">                use_provided_red</span><br><span class="line">            ])</span><br><span class="line">        ),</span><br><span class="line">        cmd=[[</span><br><span class="line">            <span class="string">&#x27;ros2 param set &#x27;</span>,</span><br><span class="line">            turtlesim_ns,</span><br><span class="line">            <span class="string">&#x27;/sim background_r &#x27;</span>,</span><br><span class="line">            new_background_r</span><br><span class="line">        ]],</span><br><span class="line">        shell=<span class="literal">True</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> LaunchDescription([</span><br><span class="line">        turtlesim_ns_launch_arg,</span><br><span class="line">        use_provided_red_launch_arg,</span><br><span class="line">        new_background_r_launch_arg,</span><br><span class="line">        turtlesim_node,</span><br><span class="line">        spawn_turtle,</span><br><span class="line">        change_background_r,</span><br><span class="line">        TimerAction(</span><br><span class="line">            period=<span class="number">2.0</span>,</span><br><span class="line">            actions=[change_background_r_conditioned],</span><br><span class="line">        )</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<p>在文件example_substitutions.launch.py中，定义了<code>turtlesim_ns</code>, <code>use_provided_red</code>, 和 <code>new_background_r</code> 的launch configurations 。它们用于在上述变量中存储launch参数的值，并将它们传递给所需的action。这些LaunchConfiguration substitutions允许我们在launch的任何部分来获得launch参数的值。</p>
+<p>DeclareLaunchArgument用于定义可以从上面的启动文件或控制台传递的启动参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">turtlesim_ns = LaunchConfiguration(<span class="string">&#x27;turtlesim_ns&#x27;</span>)</span><br><span class="line">use_provided_red = LaunchConfiguration(<span class="string">&#x27;use_provided_red&#x27;</span>)</span><br><span class="line">new_background_r = LaunchConfiguration(<span class="string">&#x27;new_background_r&#x27;</span>)</span><br><span class="line"></span><br><span class="line">turtlesim_ns_launch_arg = DeclareLaunchArgument(</span><br><span class="line">    <span class="string">&#x27;turtlesim_ns&#x27;</span>,</span><br><span class="line">    default_value=<span class="string">&#x27;turtlesim1&#x27;</span></span><br><span class="line">)</span><br><span class="line">use_provided_red_launch_arg = DeclareLaunchArgument(</span><br><span class="line">    <span class="string">&#x27;use_provided_red&#x27;</span>,</span><br><span class="line">    default_value=<span class="string">&#x27;False&#x27;</span></span><br><span class="line">)</span><br><span class="line">new_background_r_launch_arg = DeclareLaunchArgument(</span><br><span class="line">    <span class="string">&#x27;new_background_r&#x27;</span>,</span><br><span class="line">    default_value=<span class="string">&#x27;200&#x27;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>节点的turtlesim_node的<code>namespace</code>被指定为<code>turtlesim_ns</code>，此substitutions之前已定义过</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">turtlesim_node = Node(</span><br><span class="line">    package=<span class="string">&#x27;turtlesim&#x27;</span>,</span><br><span class="line">    namespace=turtlesim_ns,</span><br><span class="line">    executable=<span class="string">&#x27;turtlesim_node&#x27;</span>,</span><br><span class="line">    name=<span class="string">&#x27;sim&#x27;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h1 id="Launching-example"><a href="#Launching-example" class="headerlink" title="Launching example"></a>Launching example</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch launch_tutorial example_main.launch.py</span><br></pre></td></tr></table></figure>
+<h1 id="修改launch参数"><a href="#修改launch参数" class="headerlink" title="修改launch参数"></a>修改launch参数</h1><p>在修改之前，我们需要知道可以修改什么参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch launch_tutorial example_substitutions.launch.py --show-args</span><br></pre></td></tr></table></figure>
+<p>这可以返回有什么参数，并且有什么默认值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Arguments (pass arguments as &#39;&lt;name&gt;:&#x3D;&lt;value&gt;&#39;):</span><br><span class="line"></span><br><span class="line">    &#39;turtlesim_ns&#39;:</span><br><span class="line">        no description given</span><br><span class="line">        (default: &#39;turtlesim1&#39;)</span><br><span class="line"></span><br><span class="line">    &#39;use_provided_red&#39;:</span><br><span class="line">        no description given</span><br><span class="line">        (default: &#39;False&#39;)</span><br><span class="line"></span><br><span class="line">    &#39;new_background_r&#39;:</span><br><span class="line">        no description given</span><br><span class="line">        (default: &#39;200&#39;)</span><br></pre></td></tr></table></figure>
+<p>现在我们可以修改参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch launch_tutorial example_substitutions.launch.py turtlesim_ns:&#x3D;&#39;turtlesim3&#39; use_provided_red:&#x3D;&#39;True&#39; new_background_r:&#x3D;200</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/02/06/220206%20tf2%20Time%20travel/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Time travel with tf2</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/02/04/220204IMU%E9%80%89%E5%9E%8B/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">IMU选型</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">前提准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8substitutions"><span class="nav-number">3.</span> <span class="nav-text">使用substitutions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Parent-launch-%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">1. Parent launch 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Substitutions-example-launch-file"><span class="nav-number">3.2.</span> <span class="nav-text">2 Substitutions example launch file</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Launching-example"><span class="nav-number">4.</span> <span class="nav-text">Launching example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9launch%E5%8F%82%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">修改launch参数</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
