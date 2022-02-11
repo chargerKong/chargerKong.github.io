@@ -26,7 +26,7 @@
     KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
     KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
   </script>
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 
 <body>
@@ -205,8 +205,8 @@
 <p>roslaunch的设计是为了通过组合来适应复杂的ROS架构:先编写一个简单的系统，然后与其他简单的系统结合，形成更复杂的系统。在roslaunch中，这通过几个机制表现出来:</p>
 <ul>
 <li>include： 可以引入其他的launch文件，然后给一个namespace</li>
-<li>group：可以把一些node结点组合在一起，并且给一个一样的remapping</li>
-<li>machine：？</li>
+<li>group：可以把一些node结点组合在一起，并且给一个一样的name remapping</li>
+<li>machine：允许为多个机器人使用相同的节点，只要给出不同的名字即可</li>
 </ul>
 <p>roslaunch还包括一些工具来帮助你的launch具有可移植性，你可以利用\<env>标签来指定环境变量，<code>$(find pkg)</code>来寻找ROS的包目录，在include标签内使用<code>$(env ENVIRONMENT_VARIABLE)</code>语法</p>
 <p>从这一点来看，roslaunch在ROS 1中还有以下的目的:</p>
@@ -216,7 +216,7 @@
 <li>使用group将设置应用到节点/进程/include的launch文件集合中</li>
 <li>还要使用带有名称空间的组来形成层次结构</li>
 <li>通过抽象操作系统概念(例如环境变量)实现可移植性</li>
-<li>文件系统的定位</li>
+<li>文件系统的定位（例：使用<code>$(find &lt;package_name&gt;)</code>）</li>
 </ul>
 <p>这些已经包括了大部分的roslaunch的特点，也差不多就是它的设计目的。下面我们要讨论ROS2的launch系统和ROS1的不同以及改进的地方</p>
 <h1 id="ROS2的不同"><a href="#ROS2的不同" class="headerlink" title="ROS2的不同"></a>ROS2的不同</h1><p>ROS2的launch系统的其中一个目的是要实现出ROS1的launch系统的特性，但是由于ROS2的架构改变，一些特性、术语需要修改</p>
