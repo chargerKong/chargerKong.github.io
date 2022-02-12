@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                首页
+                                HOME
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                归档
+                                ARCHIVES
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                标签
+                                TAGS
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                关于
+                                ABOUT
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">首页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">归档</a>
+                       href="/archives">ARCHIVES</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">标签</a>
+                       href="/tags">TAGS</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">关于</a>
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -191,7 +191,7 @@
         <div class="article-content markdown-body">
             <h2 id="主成分分析（PCA）"><a href="#主成分分析（PCA）" class="headerlink" title="主成分分析（PCA）"></a>主成分分析（PCA）</h2><p>输入：m个中心化的n维向量，$\tilde{X}=[\tilde{x}_1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m$。 </p>
 <p>输出：k个n维向量，代表着m个里面最主要的k个。</p>
-<p>结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特征值第二大的特征向量，以此类推</p>
+<p>结论: 第一个为$\tilde{X}$对应特征值最大的特征向量，第二个为$\tilde{X}$对应特征值第二大的特征向量，以此类推1</p>
 <h3 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h3><p>现在有m个n维向量，n维是用列来表示，$\tilde{X}=[\tilde{x}<em>1,\tilde{x}_2,…,\tilde{x}_m], \tilde{x}_i=x_i-\overline{x},i=1,…,m,$         $\overline{x}=\frac{1}{m}\Sigma</em>{i=1}^mx_i$</p>
 <p>PCA是获取投影到某一方向上$z$方差的最大值为目标，因为要尽可能多的呈现出所有的样本，代表样本的最主要成分，设某一维度信息投影到z轴的值为$\alpha_i=\tilde{x}^T_iz, i=1,2,…m$, 则投影的方差为</p>
 <script type="math/tex; mode=display">
@@ -413,7 +413,7 @@ a^TA=
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">octree</span>
-                                <span class="post-nav-item">上一篇</span>
+                                <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
@@ -427,7 +427,7 @@ a^TA=
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;评论</i>
+        <i class="fas fa-comments">&nbsp;Comments</i>
     </div>
     
 
@@ -501,7 +501,7 @@ a^TA=
         </div>
         
         <div class="theme-info info-item">
-            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -629,5 +629,20 @@ a^TA=
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
