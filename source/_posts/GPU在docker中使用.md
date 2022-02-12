@@ -1,7 +1,7 @@
 ---
 title: GPU在docker中使用
 date: 2021-07-02 16:24:35
-tags: GPU, docker
+tags: [GPU, docker]
 ---
 
 首先自己的机器上需要有GPU，在附加驱动中可以查看

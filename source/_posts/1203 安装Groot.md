@@ -1,7 +1,7 @@
 ---
 title: Groot安装
 date: 2021-12-03 18:38:29
-tags: gazebo, ros2
+tags: [gazebo, ros2]
 ---
 
 # 安装Groot

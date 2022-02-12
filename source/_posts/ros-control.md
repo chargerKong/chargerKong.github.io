@@ -1,7 +1,7 @@
 ---
 title: ros控制机器人
 date: 2021-04-14 10:11:26
-tags:
+tags: gazebo
 ---
 
 

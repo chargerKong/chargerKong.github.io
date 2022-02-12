@@ -1,7 +1,7 @@
 ---
 title: ros2 launch 与 roslaunch异同
 date: 2021-11-22 18:38:29
-tags: ros2
+tags: [ros2, launch]
 ---
 
 原文（https://design.ros2.org/articles/roslaunch.html）
@@ -20,8 +20,8 @@ ROS1的roslaunch主要有以下作用
 roslaunch的设计是为了通过组合来适应复杂的ROS架构:先编写一个简单的系统，然后与其他简单的系统结合，形成更复杂的系统。在roslaunch中，这通过几个机制表现出来:
 
 - include： 可以引入其他的launch文件，然后给一个namespace
-- group：可以把一些node结点组合在一起，并且给一个一样的remapping
-- machine：？
+- group：可以把一些node结点组合在一起，并且给一个一样的name remapping
+- machine：允许为多个机器人使用相同的节点，只要给出不同的名字即可
 
 roslaunch还包括一些工具来帮助你的launch具有可移植性，你可以利用\<env>标签来指定环境变量，`$(find pkg)`来寻找ROS的包目录，在include标签内使用`$(env ENVIRONMENT_VARIABLE)`语法
 
@@ -32,7 +32,7 @@ roslaunch还包括一些工具来帮助你的launch具有可移植性，你可�
 - 使用group将设置应用到节点/进程/include的launch文件集合中
 - 还要使用带有名称空间的组来形成层次结构
 - 通过抽象操作系统概念(例如环境变量)实现可移植性
-- 文件系统的定位
+- 文件系统的定位（例：使用`$(find <package_name>)`）
 
 这些已经包括了大部分的roslaunch的特点，也差不多就是它的设计目的。下面我们要讨论ROS2的launch系统和ROS1的不同以及改进的地方
 

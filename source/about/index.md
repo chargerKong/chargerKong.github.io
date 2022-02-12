@@ -47,6 +47,30 @@ date: 2021-04-28 14:32:30
 
 
 
+## 教育背景
+
+2017-2020	华北电力大学		计算数学
+
+- 获国家奖学金
+- 优秀研究生
+
+2013-2017	浙江农林大学	信息与计算科学
+
+- 每年排名均为，1/54
+- 获校长奖学金
+- 第七届全国大学生数学竞赛一等
+- 省级优秀毕业生
+
+
+
+## 技能
+
+涉猎过前端，后端，nlp,  cv, 熟悉c++, 熟练Python。
+
+熟悉机器人SLAM，ROS2
+
+
+
 ## 软著
 
 时变抛物蛋白中孤子动力学行为的模拟软件
@@ -55,30 +79,14 @@ date: 2021-04-28 14:32:30
 
 证书号：软著登字第1453899号
 
-
-
 ## 工作
 
 - OpenCV 核心模块 [四元数 ](https://github.com/opencv/opencv/blob/master/modules/core/include/opencv2/core/quaternion.hpp)作者
 
 - OpenCV 核心模块 [双四元数 ](https://github.com/opencv/opencv/blob/master/modules/core/include/opencv2/core/dualquaternion.hpp)作者
-- [仿真移动扫地机器人](https://github.com/chargerKong/robot_simulation)，对应文档[在此](http://chargerkong.github.io/)
-
-
 
 ## 随便玩玩
 
-3D旋转[页面](https://47.94.109.91)，包含2048小游戏玩玩，github[代码](https://github.com/chargerKong/3Dpage-online-game-2048)
+- 3D旋转[页面](https://47.94.109.91)，包含2048小游戏玩玩，github[代码](https://github.com/chargerKong/3Dpage-online-game-2048)
 
-
-
-## 教育背景
-
-2017-2020	华北电力大学		计算数学
-
-- 获国家奖学金
-
-2013-2017	浙江农林大学	信息与计算科学
-
-- 获校长奖学金，第七届全国大学生数学竞赛一等
-
+- [仿真机器人](https://github.com/chargerKong/robot_simulation)，对应文档[在此](http://chargerkong.github.io/)

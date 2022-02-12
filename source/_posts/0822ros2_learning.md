@@ -1,7 +1,7 @@
 ---
 title: ros2_c++之pub_sub
 date: 2021-08-23 09:59:22
-tags:
+tags: ros2
 
 ---
 

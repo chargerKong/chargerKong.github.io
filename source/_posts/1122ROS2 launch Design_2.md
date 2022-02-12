@@ -1,7 +1,7 @@
 ---
 title: ros2 launch 与 roslaunch异同
 date: 2021-11-22 18:38:29
-tags: ros2
+tags: [ros2, launch]
 ---
 
 launch系统可以分开进行讨论，大致可以分为如下

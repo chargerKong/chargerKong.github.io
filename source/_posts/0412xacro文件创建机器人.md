@@ -1,7 +1,7 @@
 ---
 title: xacro文件创建机器人
 date: 2021-04-12 09:59:22
-tags:
+tags: gazebo
 ---
 
 # 在Gazebo中使用URDF

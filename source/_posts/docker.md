@@ -113,6 +113,8 @@ root@0123ce188bd8:/#
 
 ![](rep_create.png)
 
+![](./docker/rep_create.png)
+
 ### 建立自己的镜像
 
 在[Docker Hub](https://hub.docker.com/search?q=&type=image)上有镜像仓库，我们可以基于这些仓库进行继续环境搭建，譬如下载一个ubuntu

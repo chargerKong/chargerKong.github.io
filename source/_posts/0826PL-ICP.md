@@ -1,7 +1,7 @@
 ---
 title: PL-ICP
 date: 2021-08-24 15:59:22
-tags: 激光slam
+tags: 激光SLAM
 ---
 
 # PL-ICP思想

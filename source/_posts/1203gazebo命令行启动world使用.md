@@ -1,7 +1,7 @@
 ---
 title: gazebo添加使用world
 date: 2021-12-02 18:38:29
-tags: gazebo, ros2
+tags: [gazebo, ros2]
 ---
 
 # 如何在终端使用gazebo的world文件

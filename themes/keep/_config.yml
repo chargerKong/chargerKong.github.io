@@ -2,7 +2,7 @@
 #  Your basic info
 # ---------------------------------------------------------------------------------------
 base_info:
-  title: 随笔记
+  title: 大杂烩
   author: Kong Liangqian
   url: https://chargerKong.github.io/
 
@@ -71,7 +71,7 @@ menu:
   Home: /
   Archives: /archives
   # Categories: /categories
-  # Tags: /tags
+  Tags: /tags
   # Links: /links
   About: /about
   # Changelog: /changelog
