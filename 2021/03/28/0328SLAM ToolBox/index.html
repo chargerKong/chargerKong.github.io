@@ -9,7 +9,7 @@
     
     <title>
         
-            IMLS-ICP |
+            ros学习三 |
         
         大杂烩
     </title>
@@ -143,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">IMLS-ICP</span>
+            <span class="title-hover-animation">ros学习三</span>
         </div>
 
         
@@ -161,7 +161,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-06-09 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2021-03-28 09:59:22
     </span>
     
     
@@ -178,13 +178,33 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="查看Path数据"><a href="#查看Path数据" class="headerlink" title="查看Path数据"></a>查看Path数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show nav_msgs&#x2F;msg&#x2F;Path</span><br></pre></td></tr></table></figure>
-<p>返回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># An array of poses that represents a Path for a robot to follow.</span><br><span class="line"></span><br><span class="line"># Indicates the frame_id of the path.</span><br><span class="line">std_msgs&#x2F;Header header</span><br><span class="line"></span><br><span class="line"># Array of poses to follow.</span><br><span class="line">geometry_msgs&#x2F;PoseStamped[] poses</span><br></pre></td></tr></table></figure>
-<h3 id="查看header的数据结构"><a href="#查看header的数据结构" class="headerlink" title="查看header的数据结构"></a>查看header的数据结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 interface show std_msgs&#x2F;msg&#x2F;Header</span><br></pre></td></tr></table></figure>
-<p>返回</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Standard metadata for higher-level stamped data types.</span><br><span class="line"># This is generally used to communicate timestamped data</span><br><span class="line"># in a particular coordinate frame.</span><br><span class="line"></span><br><span class="line"># Two-integer timestamp that is expressed as seconds and nanoseconds.</span><br><span class="line">builtin_interfaces&#x2F;Time stamp</span><br><span class="line"></span><br><span class="line"># Transform frame with which this data is associated.</span><br><span class="line">string frame_id</span><br></pre></td></tr></table></figure>
-<h2 id="Python的点云显示"><a href="#Python的点云显示" class="headerlink" title="Python的点云显示"></a>Python的点云显示</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> open3d <span class="keyword">as</span> o3d</span><br><span class="line"></span><br><span class="line">pc_view = o3d.geometry.PointCloud()</span><br><span class="line">pc_view.points = o3d.utility.Vector3dVector(np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]]))</span><br><span class="line">o3d.visualization.draw_geometries([pc_view])</span><br></pre></td></tr></table></figure>
+            <h1 id="SLAM-Toolbox"><a href="#SLAM-Toolbox" class="headerlink" title="SLAM  Toolbox"></a>SLAM  Toolbox</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>这个项目包含了做任何其他可用的SLAM库的大多数事情的能力，这将包括：</p>
+<ul>
+<li><p>普通的2D SLAM移动机器人希望(开始，地图，保存pgm文件)有一些很好的内置工具，比如<strong>保存地图</strong></p>
+</li>
+<li><p>随时继续优化、重新映射或继续映射已保存(序列化)的姿态图</p>
+</li>
+<li><p>终身映射:加载一个保存的姿态图继续映射在一个空间，同时也从新添加的扫描删除多余的信息</p>
+</li>
+<li><p>一种基于姿态图的优化定位模式。可选运行定位模式，没有预先地图的“激光雷达里程测量”模式与本地环路闭包</p>
+</li>
+<li><p>同步和异步映射模式</p>
+</li>
+<li><p>运动学地图合并(正在使用弹性图形操作合并技术)</p>
+</li>
+<li><p>基于插件的优化求解器与新的优化谷歌Ceres基于插件</p>
+</li>
+<li><p>RVIZ插件用于与工具交互</p>
+</li>
+<li><p>RVIZ中的图形操作工具，用于在映射期间操作节点和连接</p>
+</li>
+<li><p>映射序列化和无损数据存储</p>
+</li>
+<li>…</li>
+</ul>
+<p>如果要在实际生产机器人上运行，我建议使用snap: slam-toolbox，它进行了优化，速度提高了大约10倍。对于其他不需要在机器人上的开发人员级别的工具（rviz插件等），您需要安装deb / source。</p>
+<p>该包的基准映射构建速度为5倍+实时，最高可达约30000平方英尺，3倍实时，最高可达60,000平方英尺。据我所知，在同步模式下构建(例如，处理所有扫描，不考虑延迟)，最大的面积是20万平方英尺。在异步模式下可以构建更大的空间。</p>
+<p>LifeLong mapping是一种能够完全或部分映射空间的概念，随着时间的推移，当您继续与空间交互时，可以细化然后更新该地图。 我们的方法既可以实现这一点，也允许在云上运行应用程序，以及在共享空间中与许多机器人进行建图（云分布式建图）。 尽管Slam Toolbox也可以用于空间的即取即拍建图，并将该地图保存为.pgm文件，和传统的做法一样，将地图存储在其中，但它还允许您无损地保存姿势图和元数据以供以后重新加载 使用相同或不同的机器人，并继续把整个空间映射为地图</p>
 
         </div>
 
@@ -196,13 +216,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/06/16/%E6%9D%8E%E4%BB%A3%E6%95%B0/"
+                           href="/2021/03/28/ros%E5%AD%A6%E4%B9%A0%E4%B8%89/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">SLAM之李代数</span>
+                                <span class="post-nav-title-item">ros2学习三</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -212,10 +232,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/05/30/%E5%9C%B0%E5%9B%BE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+                           href="/2021/03/27/ros%E5%AD%A6%E4%B9%A0%E4%BA%8C/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">栅格地图属性含义</span>
+                                <span class="post-nav-title-item">ros2学习二</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -385,7 +405,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BPath%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">查看Path数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bheader%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">查看header的数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python%E7%9A%84%E7%82%B9%E4%BA%91%E6%98%BE%E7%A4%BA"><span class="nav-number">2.</span> <span class="nav-text">Python的点云显示</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SLAM-Toolbox"><span class="nav-number">1.</span> <span class="nav-text">SLAM  Toolbox</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
@@ -434,20 +454,5 @@
 
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
