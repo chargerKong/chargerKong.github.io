@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            惯性测量单元简介及预积分 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">惯性测量单元简介及预积分</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-02-04 12:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="IMU-器件介绍及选型建议"><a href="#IMU-器件介绍及选型建议" class="headerlink" title="IMU 器件介绍及选型建议"></a>IMU 器件介绍及选型建议</h1><p>IMU是惯性测量单元，包括一个三轴的加速度计以及一个三轴的陀螺仪，分别测量出物体的加速度和角速度，不受周围环境结构，光照等外界因素影响 ; 同时，通常 IMU 的输出频率在 100-1000hz 之间，远高于相机或者激光雷达的输出频率，一方面可以提高整体系统的输出频率，另一方面，可以在视觉或者激光短期失效的时候提供一段时间的位姿推算。</p>
+<p>在大多数的LIO（雷达惯性里程计）或者VIO（视觉惯性里程计）中，关于IMU输出的建模方式为</p>
+<script type="math/tex; mode=display">
+a=R_{bw}(a_t-g)+b_a+n_a\\
+w=w_t+b_w+n_w</script><p>$a,w$的读数都是在imu坐标系下，$a_t-g$是在世界坐标系下，需要转下</p>
+<p>即输出的加速度计和陀螺仪的数据受零偏以及高斯白噪声的影响，因此，紧耦合的 LIO 或者 VIO 都会实时估计 IMU 的零偏，以实现 IMU 数据的最大利用率。</p>
+<p>然而，实际的 IMU 数据并没有这么理想，除了零偏和高斯白噪声，还有可能受到刻度误差，尺度因子轴向偏差等影响，然而，如果把这些因素都通过建模的方式考虑进来，就显得过于复杂，因此，通常的做法是在 IMU 选型的时候就最大化避免上述误差的影响。也就是说，我们选择 IMU 型号时除了关注价格（当然价格很多时候也是非常重要甚至是决定性的因素），还需要关心其出厂标定情况，是否做过温度补偿之类）</p>
+<p>关于更多 IMU 相关的内容可以参考秦永元的《惯性导航》</p>
+<p>一个带IMU的紧耦合的框架，肯定少不了预积分，预积分的处理是少不了，它就是一个积分而已。但是他对于积分的这个过程，和正常的积分也不太一样。他积分的结果对连续两帧之间的状态没有关系。在这里是使用的GTSAM的接口，VISMONO是自己手写的，可以去查看一下</p>
+<h1 id="IMU-状态转移方程"><a href="#IMU-状态转移方程" class="headerlink" title="IMU 状态转移方程"></a>IMU 状态转移方程</h1><p>IMU可以获得当前时刻的角速度和加速度值，通过该值可以对系统状态（位置，速度，姿态）进行推算连续时间两个关键帧 $b_k,b_{k+1}$ 之间的状态传递公式如下</p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 10-43-58.png" alt=""></p>
+<p>这里的P是世界坐标系下的</p>
+<p><img src="Screenshot from 2022-02-22 10-43-58.png" alt=""></p>
+<p>考虑到我们接受的传感器数据都是离散形式的，因此，我们实际应用时是使用离散形式进行状态传播的</p>
+<p>每当收到一帧新的 imu 数据后，系统状态变化为：</p>
+<p><img src="Screenshot from 2022-02-22 10-49-38.png" alt=""></p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 10-49-38.png" alt=""></p>
+<p>最后这个q乘的是一个四元数，第一个实部已经是1了，下面的因为$\delta t$是非常小的，接近于0了。因此他的模长接近于1.</p>
+<h1 id="IMU-预积分"><a href="#IMU-预积分" class="headerlink" title="IMU 预积分"></a>IMU 预积分</h1><h2 id="为什么需要预积分"><a href="#为什么需要预积分" class="headerlink" title="为什么需要预积分"></a>为什么需要预积分</h2><p>从第二节可以发现，当 k 时刻的状态发生变化时，则通过 imu 积分得到的 k+1 时刻的状态也会发生相应的变化，而在基于滑窗的后端优化或者因子图的优化中，对一些状态量进行调整是必然发生的，此时，如果每次状态发生调整时imu的积分过程都会重新执行一遍，则实时性必然无法得到保证，因此，预积分理论就是为解决这个问题而提出的，其核心思想就是对 IMU 积分的结果和上一时刻系统的状态无关，这样，当系统状态在优化过程中发生调整的时候，就不需要对下一时刻的系统状态重新积分。</p>
+<h2 id="如何进行预积分"><a href="#如何进行预积分" class="headerlink" title="如何进行预积分"></a>如何进行预积分</h2><p>参考上一节连续时间 IMU 积分的公式，等号两边同时乘上$R^{b_k}_w$即可，即                                                                                                                                                        </p>
+<p><img src="Screenshot from 2022-02-22 11-23-01.png" alt=""></p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 11-23-01.png" style="zoom: 80%;" /></p>
+<p>上面三个变量即预积分量，我们可以发现这三个预积分量都和 k 时刻或 k+1 时刻状态无关，因此当 k 时刻状态发生变化时，我们不需要将 IMU 的数据重新积分。</p>
+<p>第一个式子，我们有k时刻的姿态$R_w^{b_k}$, k+1时刻的位置，包括k时刻的速度等等状态量，所以第一个式子中的预积分量会对相邻两帧之间造成一定的约束。</p>
+<p>假如</p>
+<script type="math/tex; mode=display">
+R_w^{b_k}p_{b_{k+1}}^w-R_w^{b_k}(p_{b_{k}}^w+ v_{b_k}^w-g^w\Delta t_k^2)</script><p>和预积分量$\alpha^{b_k}_{b_{k+1}}$相差太远，则应该做出相应的调整，使得两边的值差不多，这就是预积分量对其产生的约束 </p>
+<h2 id="关于零偏的建模"><a href="#关于零偏的建模" class="headerlink" title="关于零偏的建模"></a>关于零偏的建模</h2><p>通常来说， IMU 的零偏会随着时间的变化而偏移，因此为了系统的准确性，零偏也是系统的优化变量之一，此时我们注意到预积分量虽然和两帧的具体位姿和速度等状态量无关，但是和零偏相关，因此，当零偏作为优化变量被优化后，预积分量也会发生相应的变化，那么此时我们是否需要重新积分呢？如果重新积分，预积分的意义不就失去了吗？</p>
+<p>为了避免零偏的变化导致预积分量重新积分，考虑到通常零偏的变化在短时间（ 100ms ）非常小，因此，我们可以使用一阶泰勒展开来进行近似，具体为</p>
+<p><img src="Screenshot from 2022-02-22 12-41-10.png" alt=""></p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 12-41-10.png" alt=""></p>
+<p>这里预积分量关于零偏的雅克比矩阵会在预积分计算的时候一并计算，因此，当零偏被优化调整之后，只需要根据事先计算好的雅克比矩阵对预积分量进行更新即可。</p>
+<h2 id="离散时间的预积分更新"><a href="#离散时间的预积分更新" class="headerlink" title="离散时间的预积分更新"></a>离散时间的预积分更新</h2><p>同样，实际系统是离散的 IMU 数据，我们的目的是得到两个关键帧（视觉 or lidar ）之间的预积分结果，而我们获得的 IMU 数据是离散的，因此，常见的做法就是每收到一帧新的 IMU 数据更新一次预积分量，同样，这是一个求和而非连续积分的过程</p>
+<p>当收到新的 IMU 数据后，预积分量更新公式如下</p>
+<p><img src="Screenshot from 2022-02-22 12-55-43.png" alt=""></p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 12-55-43.png" alt=""></p>
+<p>更新方程同样遵循基本的经典物理运动学公式</p>
+<p>该公式从imu坐标系转换到b_k坐标系</p>
+<h1 id="预积分在优化问题中的建模"><a href="#预积分在优化问题中的建模" class="headerlink" title="预积分在优化问题中的建模"></a>预积分在优化问题中的建模</h1><p>由前面几节内容可知，预积分量约束相邻两帧的状态量（位置、速度、姿态），同时考虑到 IMU 的零偏的性质，即短时间内变换速率比较缓慢，<strong>因此可以认为两帧之间的零偏不变，不能差太远</strong>。这个也就是约束两帧的零偏变化</p>
+<p>同时，在 slam 问题中， IMU 预积分约束通常会和其他传感器的约束一起构建一个优化问题</p>
+<p>只有一个IMU约束的话肯定是不够的，虽然他对帧间来说还是靠谱的，但是对于全局来说只有他一个是不够的，IMu累积积分的结果肯定会漂掉、所以要和其他的传感器进行融合</p>
+<h2 id="视觉-VIO-中预积分和视觉的优化建模"><a href="#视觉-VIO-中预积分和视觉的优化建模" class="headerlink" title="视觉 VIO 中预积分和视觉的优化建模"></a>视觉 VIO 中预积分和视觉的优化建模</h2><p><img src="Screenshot from 2022-02-22 15-12-43.png" alt=""></p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 15-12-43.png" alt=""></p>
+<p>这里黄色代表 IMU 预积分，可以看到其只对相邻帧发生约束，五角星代表视觉地图点，同一 个地图点可以通过重投影误差对多个关键帧的位姿形成约束</p>
+<h2 id="LIO-SAM中预积分和-lidar-位姿的优化建模"><a href="#LIO-SAM中预积分和-lidar-位姿的优化建模" class="headerlink" title="LIO-SAM中预积分和 lidar 位姿的优化建模"></a>LIO-SAM中预积分和 lidar 位姿的优化建模</h2><p><img src="Screenshot from 2022-02-22 15-14-09.png" alt=""></p>
+<p><img src="220204惯性测量单元简介及预积分/Screenshot from 2022-02-22 15-14-09.png" style="zoom:50%;" /></p>
+<p>如图，蓝色圆圈代表关键帧位姿，蓝色矩形代表关键帧速度和零偏，橙色矩形代表 IMU 预积分约束，可以看到，它可以约束相邻帧的位姿、速度和零偏，绿色矩形代表 lidar 里程记的帧间约束，其约束相邻两帧的位置和姿态。</p>
+<ul>
+<li>IMU约束：速度和零偏</li>
+<li>雷达约束：姿态</li>
+</ul>
+<p>这里涉及到论文中所提及的 lidar odom 因子和预积分因子，也就是预积分节点因子图的优化模型。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/02/06/220207%20launch%20substitution/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">在launch中使用substitutions</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/02/02/220202LIOSAM%E7%AE%80%E4%BB%8B/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">LIOSAM介绍</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IMU-%E5%99%A8%E4%BB%B6%E4%BB%8B%E7%BB%8D%E5%8F%8A%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.</span> <span class="nav-text">IMU 器件介绍及选型建议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IMU-%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E6%96%B9%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">IMU 状态转移方程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IMU-%E9%A2%84%E7%A7%AF%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">IMU 预积分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E9%A2%84%E7%A7%AF%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">为什么需要预积分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E9%A2%84%E7%A7%AF%E5%88%86"><span class="nav-number">3.2.</span> <span class="nav-text">如何进行预积分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E9%9B%B6%E5%81%8F%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="nav-number">3.3.</span> <span class="nav-text">关于零偏的建模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E6%97%B6%E9%97%B4%E7%9A%84%E9%A2%84%E7%A7%AF%E5%88%86%E6%9B%B4%E6%96%B0"><span class="nav-number">3.4.</span> <span class="nav-text">离散时间的预积分更新</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E7%A7%AF%E5%88%86%E5%9C%A8%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%E4%B8%AD%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="nav-number">4.</span> <span class="nav-text">预积分在优化问题中的建模</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E8%A7%89-VIO-%E4%B8%AD%E9%A2%84%E7%A7%AF%E5%88%86%E5%92%8C%E8%A7%86%E8%A7%89%E7%9A%84%E4%BC%98%E5%8C%96%E5%BB%BA%E6%A8%A1"><span class="nav-number">4.1.</span> <span class="nav-text">视觉 VIO 中预积分和视觉的优化建模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LIO-SAM%E4%B8%AD%E9%A2%84%E7%A7%AF%E5%88%86%E5%92%8C-lidar-%E4%BD%8D%E5%A7%BF%E7%9A%84%E4%BC%98%E5%8C%96%E5%BB%BA%E6%A8%A1"><span class="nav-number">4.2.</span> <span class="nav-text">LIO-SAM中预积分和 lidar 位姿的优化建模</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
