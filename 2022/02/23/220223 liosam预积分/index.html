@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            imu预积分代码解析 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">imu预积分代码解析</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-02-23 12:59:22
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>LIOSAM一共四个src文件，本节我们要讨论的文件为<code>imuPreintegration.cpp</code>，</p>
+<h1 id="函数入口"><a href="#函数入口" class="headerlink" title="函数入口"></a>函数入口</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ros::<span class="built_in">init</span>(argc, argv, <span class="string">&quot;roboat_loam&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    IMUPreintegration ImuP;</span><br><span class="line"></span><br><span class="line">    TransformFusion TF;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ROS_INFO</span>(<span class="string">&quot;\033[1;32m----&gt; IMU Preintegration Started.\033[0m&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="function">ros::MultiThreadedSpinner <span class="title">spinner</span><span class="params">(<span class="number">4</span>)</span></span>;</span><br><span class="line">    spinner.<span class="built_in">spin</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数首先进入的是IMUPreintegration的默认构造函数</p>
+<h2 id="IMUPreintegration构造函数"><a href="#IMUPreintegration构造函数" class="headerlink" title="IMUPreintegration构造函数"></a>IMUPreintegration构造函数</h2><p>该构造函数订阅了两条消息</p>
+<ul>
+<li>IMU 的topic：回调函数为IMUPreintegration::imuHandler</li>
+<li>Odometry：回调函数为IMUPreintegration::odometryHandler。 该Odom来自于mapping模块</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">IMUPreintegration</span>()</span><br><span class="line">&#123;</span><br><span class="line">    subImu      = nh.subscribe&lt;sensor_msgs::Imu&gt;  (imuTopic,                   <span class="number">2000</span>, &amp;IMUPreintegration::imuHandler,      <span class="keyword">this</span>, ros::<span class="built_in">TransportHints</span>().<span class="built_in">tcpNoDelay</span>());</span><br><span class="line">    subOdometry = nh.subscribe&lt;nav_msgs::Odometry&gt;(<span class="string">&quot;lio_sam/mapping/odometry_incremental&quot;</span>, <span class="number">5</span>,    &amp;IMUPreintegration::odometryHandler, <span class="keyword">this</span>, ros::<span class="built_in">TransportHints</span>().<span class="built_in">tcpNoDelay</span>());</span><br><span class="line"></span><br><span class="line">    pubImuOdometry = nh.advertise&lt;nav_msgs::Odometry&gt; (odomTopic+<span class="string">&quot;_incremental&quot;</span>, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">    boost::shared_ptr&lt;gtsam::PreintegrationParams&gt; p = gtsam::PreintegrationParams::<span class="built_in">MakeSharedU</span>(imuGravity);</span><br><span class="line">    p-&gt;accelerometerCovariance  = gtsam::Matrix33::<span class="built_in">Identity</span>(<span class="number">3</span>,<span class="number">3</span>) * <span class="built_in">pow</span>(imuAccNoise, <span class="number">2</span>); <span class="comment">// acc white noise in continuous</span></span><br><span class="line">    p-&gt;gyroscopeCovariance      = gtsam::Matrix33::<span class="built_in">Identity</span>(<span class="number">3</span>,<span class="number">3</span>) * <span class="built_in">pow</span>(imuGyrNoise, <span class="number">2</span>); <span class="comment">// gyro white noise in continuous</span></span><br><span class="line">    p-&gt;integrationCovariance    = gtsam::Matrix33::<span class="built_in">Identity</span>(<span class="number">3</span>,<span class="number">3</span>) * <span class="built_in">pow</span>(<span class="number">1e-4</span>, <span class="number">2</span>); <span class="comment">// error committed in integrating position from velocities</span></span><br><span class="line">    gtsam::<span class="function">imuBias::ConstantBias <span class="title">prior_imu_bias</span><span class="params">((gtsam::Vector(<span class="number">6</span>) &lt;&lt; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).finished())</span></span>;; <span class="comment">// assume zero initial bias</span></span><br><span class="line"></span><br><span class="line">    priorPoseNoise  = gtsam::noiseModel::Diagonal::<span class="built_in">Sigmas</span>((gtsam::<span class="built_in">Vector</span>(<span class="number">6</span>) &lt;&lt; <span class="number">1e-2</span>, <span class="number">1e-2</span>, <span class="number">1e-2</span>, <span class="number">1e-2</span>, <span class="number">1e-2</span>, <span class="number">1e-2</span>).<span class="built_in">finished</span>()); <span class="comment">// rad,rad,rad,m, m, m</span></span><br><span class="line">    priorVelNoise   = gtsam::noiseModel::Isotropic::<span class="built_in">Sigma</span>(<span class="number">3</span>, <span class="number">1e4</span>); <span class="comment">// m/s</span></span><br><span class="line">    priorBiasNoise  = gtsam::noiseModel::Isotropic::<span class="built_in">Sigma</span>(<span class="number">6</span>, <span class="number">1e-3</span>); <span class="comment">// 1e-2 ~ 1e-3 seems to be good</span></span><br><span class="line">    correctionNoise = gtsam::noiseModel::Diagonal::<span class="built_in">Sigmas</span>((gtsam::<span class="built_in">Vector</span>(<span class="number">6</span>) &lt;&lt; <span class="number">0.05</span>, <span class="number">0.05</span>, <span class="number">0.05</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>).<span class="built_in">finished</span>()); <span class="comment">// rad,rad,rad,m, m, m</span></span><br><span class="line">    correctionNoise2 = gtsam::noiseModel::Diagonal::<span class="built_in">Sigmas</span>((gtsam::<span class="built_in">Vector</span>(<span class="number">6</span>) &lt;&lt; <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>).<span class="built_in">finished</span>()); <span class="comment">// rad,rad,rad,m, m, m</span></span><br><span class="line">    noiseModelBetweenBias = (gtsam::<span class="built_in">Vector</span>(<span class="number">6</span>) &lt;&lt; imuAccBiasN, imuAccBiasN, imuAccBiasN, imuGyrBiasN, imuGyrBiasN, imuGyrBiasN).<span class="built_in">finished</span>();</span><br><span class="line">    </span><br><span class="line">    imuIntegratorImu_ = <span class="keyword">new</span> gtsam::<span class="built_in">PreintegratedImuMeasurements</span>(p, prior_imu_bias); <span class="comment">// setting up the IMU integration for IMU message thread</span></span><br><span class="line">    imuIntegratorOpt_ = <span class="keyword">new</span> gtsam::<span class="built_in">PreintegratedImuMeasurements</span>(p, prior_imu_bias); <span class="comment">// setting up the IMU integration for optimization        </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="imuHandler"><a href="#imuHandler" class="headerlink" title="imuHandler"></a>imuHandler</h3><p>该回调函数会把接收到的imu数据全部转换到lidar坐标系上，并且把收到的消息传入到两个队列中，一个用于预积分和位姿的优化，一个用于更新最新imu状态。</p>
+<p>只有在odometry 的回调函数处理过后doneFirstOpt才会true。下面先看，在设置为true之前会发生什么</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">imuHandler</span><span class="params">(<span class="keyword">const</span> sensor_msgs::Imu::ConstPtr&amp; imu_raw)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">      <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line"><span class="comment">// 把imu转换到lidar坐标系上 </span></span><br><span class="line">      sensor_msgs::Imu thisImu = <span class="built_in">imuConverter</span>(*imu_raw);</span><br><span class="line"></span><br><span class="line">      imuQueOpt.<span class="built_in">push_back</span>(thisImu);</span><br><span class="line">      imuQueImu.<span class="built_in">push_back</span>(thisImu);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 只有odometry handler之后才会true</span></span><br><span class="line">      <span class="keyword">if</span> (doneFirstOpt == <span class="literal">false</span>)</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">double</span> imuTime = <span class="built_in">ROS_TIME</span>(&amp;thisImu);</span><br><span class="line">      <span class="keyword">double</span> dt = (lastImuT_imu &lt; <span class="number">0</span>) ? (<span class="number">1.0</span> / <span class="number">500.0</span>) : (imuTime - lastImuT_imu);</span><br><span class="line">      lastImuT_imu = imuTime;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// integrate this single imu message</span></span><br><span class="line">      imuIntegratorImu_-&gt;<span class="built_in">integrateMeasurement</span>(gtsam::<span class="built_in">Vector3</span>(thisImu.linear_acceleration.x, thisImu.linear_acceleration.y, thisImu.linear_acceleration.z),</span><br><span class="line">                                              gtsam::<span class="built_in">Vector3</span>(thisImu.angular_velocity.x,    thisImu.angular_velocity.y,    thisImu.angular_velocity.z), dt);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// predict odometry</span></span><br><span class="line">      gtsam::NavState currentState = imuIntegratorImu_-&gt;<span class="built_in">predict</span>(prevStateOdom, prevBiasOdom);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// publish odometry</span></span><br><span class="line">      nav_msgs::Odometry odometry;</span><br><span class="line">      odometry.header.stamp = thisImu.header.stamp;</span><br><span class="line">      odometry.header.frame_id = odometryFrame;</span><br><span class="line">      odometry.child_frame_id = <span class="string">&quot;odom_imu&quot;</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// transform imu pose to ldiar</span></span><br><span class="line">      gtsam::Pose3 imuPose = gtsam::<span class="built_in">Pose3</span>(currentState.<span class="built_in">quaternion</span>(), currentState.<span class="built_in">position</span>());</span><br><span class="line">      gtsam::Pose3 lidarPose = imuPose.<span class="built_in">compose</span>(imu2Lidar);</span><br><span class="line"></span><br><span class="line">      odometry.pose.pose.position.x = lidarPose.<span class="built_in">translation</span>().<span class="built_in">x</span>();</span><br><span class="line">      odometry.pose.pose.position.y = lidarPose.<span class="built_in">translation</span>().<span class="built_in">y</span>();</span><br><span class="line">      odometry.pose.pose.position.z = lidarPose.<span class="built_in">translation</span>().<span class="built_in">z</span>();</span><br><span class="line">      odometry.pose.pose.orientation.x = lidarPose.<span class="built_in">rotation</span>().<span class="built_in">toQuaternion</span>().<span class="built_in">x</span>();</span><br><span class="line">      odometry.pose.pose.orientation.y = lidarPose.<span class="built_in">rotation</span>().<span class="built_in">toQuaternion</span>().<span class="built_in">y</span>();</span><br><span class="line">      odometry.pose.pose.orientation.z = lidarPose.<span class="built_in">rotation</span>().<span class="built_in">toQuaternion</span>().<span class="built_in">z</span>();</span><br><span class="line">      odometry.pose.pose.orientation.w = lidarPose.<span class="built_in">rotation</span>().<span class="built_in">toQuaternion</span>().<span class="built_in">w</span>();</span><br><span class="line">      </span><br><span class="line">      odometry.twist.twist.linear.x = currentState.<span class="built_in">velocity</span>().<span class="built_in">x</span>();</span><br><span class="line">      odometry.twist.twist.linear.y = currentState.<span class="built_in">velocity</span>().<span class="built_in">y</span>();</span><br><span class="line">      odometry.twist.twist.linear.z = currentState.<span class="built_in">velocity</span>().<span class="built_in">z</span>();</span><br><span class="line">      odometry.twist.twist.angular.x = thisImu.angular_velocity.x + prevBiasOdom.<span class="built_in">gyroscope</span>().<span class="built_in">x</span>();</span><br><span class="line">      odometry.twist.twist.angular.y = thisImu.angular_velocity.y + prevBiasOdom.<span class="built_in">gyroscope</span>().<span class="built_in">y</span>();</span><br><span class="line">      odometry.twist.twist.angular.z = thisImu.angular_velocity.z + prevBiasOdom.<span class="built_in">gyroscope</span>().<span class="built_in">z</span>();</span><br><span class="line">      pubImuOdometry.<span class="built_in">publish</span>(odometry);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="odometryHandler"><a href="#odometryHandler" class="headerlink" title="odometryHandler"></a>odometryHandler</h3><h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><p>odometry的回调函数是最重要的回调函数，步骤为</p>
+<ol>
+<li><p>取出里程计的位置和方向</p>
+</li>
+<li><p>判断里程计是否退化，这个会在后端中说明，什么时候会退化，退化的精度会下降</p>
+</li>
+<li><p>这帧雷达的pose转为gtsam</p>
+</li>
+<li><p>第一次进入，初始化系统：</p>
+<p>​    4.1 GTSAM初始化</p>
+<p>​    4.2 添加先验约束</p>
+<p>​    4.3 添加实际的状态量</p>
+<p>​    4.4 更新isam优化器</p>
+<p>​    4.5 预积分接口重置</p>
+</li>
+<li><p>加入imu数据，自动实现预积分量的更新以及协方差矩阵的更新</p>
+</li>
+<li></li>
+<li><p>失败检测（速度大于30，零偏太大）</p>
+</li>
+<li><p>根据最新的imu状态进行传播</p>
+</li>
+</ol>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ol>
+<li>取出里程计的位置和方向</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> p_x = odomMsg-&gt;pose.pose.position.x;</span><br><span class="line"><span class="keyword">float</span> p_y = odomMsg-&gt;pose.pose.position.y;</span><br><span class="line"><span class="keyword">float</span> p_z = odomMsg-&gt;pose.pose.position.z;</span><br><span class="line"><span class="keyword">float</span> r_x = odomMsg-&gt;pose.pose.orientation.x;</span><br><span class="line"><span class="keyword">float</span> r_y = odomMsg-&gt;pose.pose.orientation.y;</span><br><span class="line"><span class="keyword">float</span> r_z = odomMsg-&gt;pose.pose.orientation.z;</span><br><span class="line"><span class="keyword">float</span> r_w = odomMsg-&gt;pose.pose.orientation.w;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断里程计是否退化，这个会在后端中说明，什么时候会退化，退化的精度会下降</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> degenerate = (<span class="keyword">int</span>)odomMsg-&gt;pose.covariance[<span class="number">0</span>] == <span class="number">1</span> ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>这帧雷达的pose转为gtsam</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gtsam::Pose3 lidarPose = gtsam::<span class="built_in">Pose3</span>(gtsam::Rot3::<span class="built_in">Quaternion</span>(r_w, r_x, r_y, r_z), gtsam::<span class="built_in">Point3</span>(p_x, p_y, p_z));</span><br></pre></td></tr></table></figure>
+<ol>
+<li>初始化系统</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0. initialize system</span></span><br><span class="line"><span class="keyword">if</span> (systemInitialized == <span class="literal">false</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">resetOptimization</span>();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    void resetOptimization()</span></span><br><span class="line"><span class="comment">    &#123;</span></span><br><span class="line"><span class="comment">        // GTSAM 初始化</span></span><br><span class="line"><span class="comment">        gtsam::ISAM2Params optParameters;</span></span><br><span class="line"><span class="comment">        optParameters.relinearizeThreshold = 0.1;</span></span><br><span class="line"><span class="comment">        optParameters.relinearizeSkip = 1;</span></span><br><span class="line"><span class="comment">        optimizer = gtsam::ISAM2(optParameters);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        gtsam::NonlinearFactorGraph newGraphFactors;</span></span><br><span class="line"><span class="comment">        graphFactors = newGraphFactors;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        gtsam::Values NewGraphValues;</span></span><br><span class="line"><span class="comment">        graphValues = NewGraphValues;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// pop old IMU message</span></span><br><span class="line">    <span class="keyword">while</span> (!imuQueOpt.<span class="built_in">empty</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">ROS_TIME</span>(&amp;imuQueOpt.<span class="built_in">front</span>()) &lt; currentCorrectionTime - <span class="keyword">delta_t</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            lastImuT_opt = <span class="built_in">ROS_TIME</span>(&amp;imuQueOpt.<span class="built_in">front</span>());</span><br><span class="line">            imuQueOpt.<span class="built_in">pop_front</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>下面的内容为</p>
+<p>gtsam::NonlinearFactorGraph <strong>graphFactor</strong>：</p>
+<ul>
+<li>添加先验速度约束</li>
+<li>添加先验零偏约束</li>
+<li>添加先验位置约束</li>
+</ul>
+<p>gtsam::Values <strong>graphValue</strong></p>
+<ul>
+<li>插入位置</li>
+<li>插入速度</li>
+<li>插入零偏</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// initial pose</span></span><br><span class="line">    <span class="comment">// 把雷达的位姿转移到imu坐标系下</span></span><br><span class="line">    prevPose_ = lidarPose.<span class="built_in">compose</span>(lidar2Imu);</span><br><span class="line">    <span class="comment">// X(0)表示第一个位姿，有一个先验的约束。约束内容为，lidar到imu下的prevPose_这么一个位姿</span></span><br><span class="line">    <span class="comment">// 该约束的权重，置信度为priorPoseNoise，越小代表置信度越高</span></span><br><span class="line">    <span class="function">gtsam::PriorFactor&lt;gtsam::Pose3&gt; <span class="title">priorPose</span><span class="params">(X(<span class="number">0</span>), prevPose_, priorPoseNoise)</span></span>;</span><br><span class="line">    <span class="comment">// 约束加入到因子图中</span></span><br><span class="line">    graphFactors.<span class="built_in">add</span>(priorPose);</span><br><span class="line">    <span class="comment">// initial velocity</span></span><br><span class="line">    <span class="comment">// 不知道初始速度为多少，随意设置了一个0，置信度是非常大的</span></span><br><span class="line">    prevVel_ = gtsam::<span class="built_in">Vector3</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="function">gtsam::PriorFactor&lt;gtsam::Vector3&gt; <span class="title">priorVel</span><span class="params">(V(<span class="number">0</span>), prevVel_, priorVelNoise)</span></span>;</span><br><span class="line">    graphFactors.<span class="built_in">add</span>(priorVel);</span><br><span class="line">    <span class="comment">// initial bias</span></span><br><span class="line">    prevBias_ = gtsam::imuBias::<span class="built_in">ConstantBias</span>();</span><br><span class="line">    <span class="function">gtsam::PriorFactor&lt;gtsam::imuBias::ConstantBias&gt; <span class="title">priorBias</span><span class="params">(B(<span class="number">0</span>), prevBias_, priorBiasNoise)</span></span>;</span><br><span class="line">    graphFactors.<span class="built_in">add</span>(priorBias);</span><br><span class="line">    <span class="comment">// 添加完约束，需要添加实际的状态量</span></span><br><span class="line">    <span class="comment">// add values</span></span><br><span class="line">    graphValues.<span class="built_in">insert</span>(<span class="built_in">X</span>(<span class="number">0</span>), prevPose_);</span><br><span class="line">    graphValues.<span class="built_in">insert</span>(<span class="built_in">V</span>(<span class="number">0</span>), prevVel_);</span><br><span class="line">    graphValues.<span class="built_in">insert</span>(<span class="built_in">B</span>(<span class="number">0</span>), prevBias_);</span><br><span class="line">    <span class="comment">// optimize once</span></span><br><span class="line">    <span class="comment">// 把优化和约束一起送到优化器中</span></span><br><span class="line">    optimizer.<span class="built_in">update</span>(graphFactors, graphValues);</span><br><span class="line">    <span class="comment">// 进入优化器之后保存约束和状态量的变量就清零</span></span><br><span class="line">    graphFactors.<span class="built_in">resize</span>(<span class="number">0</span>);</span><br><span class="line">    graphValues.<span class="built_in">clear</span>();</span><br><span class="line">    <span class="comment">// 预积分的接口，使用零偏进行初始化</span></span><br><span class="line">    imuIntegratorImu_-&gt;<span class="built_in">resetIntegrationAndSetBias</span>(prevBias_);</span><br><span class="line">    imuIntegratorOpt_-&gt;<span class="built_in">resetIntegrationAndSetBias</span>(prevBias_);</span><br><span class="line"></span><br><span class="line">    key = <span class="number">1</span>;</span><br><span class="line">    systemInitialized = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/02/22/220222%E5%9B%A0%E5%AD%90%E5%9B%BEGTSAM/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">因子图及GTSAM库介绍</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%85%A5%E5%8F%A3"><span class="nav-number">1.</span> <span class="nav-text">函数入口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IMUPreintegration%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">IMUPreintegration构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#imuHandler"><span class="nav-number">1.1.1.</span> <span class="nav-text">imuHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#odometryHandler"><span class="nav-number">1.1.2.</span> <span class="nav-text">odometryHandler</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
