@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -218,7 +218,10 @@
 </li>
 <li><p>加入imu数据，自动实现预积分量的更新以及协方差矩阵的更新</p>
 </li>
-<li></li>
+<li><p>添加ImuFactor，零偏约束</p>
+</li>
+<li><p>添加雷达的位姿约束</p>
+</li>
 <li><p>失败检测（速度大于30，零偏太大）</p>
 </li>
 <li><p>根据最新的imu状态进行传播</p>
@@ -240,8 +243,8 @@
 <li>初始化系统</li>
 </ol>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0. initialize system</span></span><br><span class="line"><span class="keyword">if</span> (systemInitialized == <span class="literal">false</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">resetOptimization</span>();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    void resetOptimization()</span></span><br><span class="line"><span class="comment">    &#123;</span></span><br><span class="line"><span class="comment">        // GTSAM 初始化</span></span><br><span class="line"><span class="comment">        gtsam::ISAM2Params optParameters;</span></span><br><span class="line"><span class="comment">        optParameters.relinearizeThreshold = 0.1;</span></span><br><span class="line"><span class="comment">        optParameters.relinearizeSkip = 1;</span></span><br><span class="line"><span class="comment">        optimizer = gtsam::ISAM2(optParameters);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        gtsam::NonlinearFactorGraph newGraphFactors;</span></span><br><span class="line"><span class="comment">        graphFactors = newGraphFactors;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        gtsam::Values NewGraphValues;</span></span><br><span class="line"><span class="comment">        graphValues = NewGraphValues;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// pop old IMU message</span></span><br><span class="line">    <span class="keyword">while</span> (!imuQueOpt.<span class="built_in">empty</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">ROS_TIME</span>(&amp;imuQueOpt.<span class="built_in">front</span>()) &lt; currentCorrectionTime - <span class="keyword">delta_t</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            lastImuT_opt = <span class="built_in">ROS_TIME</span>(&amp;imuQueOpt.<span class="built_in">front</span>());</span><br><span class="line">            imuQueOpt.<span class="built_in">pop_front</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<p>下面的内容为</p>
-<p>gtsam::NonlinearFactorGraph <strong>graphFactor</strong>：</p>
+<p>下面的内容为，添加因子图的信息</p>
+<p>gtsam::NonlinearFactorGraph <strong>graphFactor： 类别为：gtsam::PriorFactor<gtsam::Pose3> </strong></p>
 <ul>
 <li>添加先验速度约束</li>
 <li>添加先验零偏约束</li>
@@ -254,6 +257,28 @@
 <li>插入零偏</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// initial pose</span></span><br><span class="line">    <span class="comment">// 把雷达的位姿转移到imu坐标系下</span></span><br><span class="line">    prevPose_ = lidarPose.<span class="built_in">compose</span>(lidar2Imu);</span><br><span class="line">    <span class="comment">// X(0)表示第一个位姿，有一个先验的约束。约束内容为，lidar到imu下的prevPose_这么一个位姿</span></span><br><span class="line">    <span class="comment">// 该约束的权重，置信度为priorPoseNoise，越小代表置信度越高</span></span><br><span class="line">    <span class="function">gtsam::PriorFactor&lt;gtsam::Pose3&gt; <span class="title">priorPose</span><span class="params">(X(<span class="number">0</span>), prevPose_, priorPoseNoise)</span></span>;</span><br><span class="line">    <span class="comment">// 约束加入到因子图中</span></span><br><span class="line">    graphFactors.<span class="built_in">add</span>(priorPose);</span><br><span class="line">    <span class="comment">// initial velocity</span></span><br><span class="line">    <span class="comment">// 不知道初始速度为多少，随意设置了一个0，置信度是非常大的</span></span><br><span class="line">    prevVel_ = gtsam::<span class="built_in">Vector3</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="function">gtsam::PriorFactor&lt;gtsam::Vector3&gt; <span class="title">priorVel</span><span class="params">(V(<span class="number">0</span>), prevVel_, priorVelNoise)</span></span>;</span><br><span class="line">    graphFactors.<span class="built_in">add</span>(priorVel);</span><br><span class="line">    <span class="comment">// initial bias</span></span><br><span class="line">    prevBias_ = gtsam::imuBias::<span class="built_in">ConstantBias</span>();</span><br><span class="line">    <span class="function">gtsam::PriorFactor&lt;gtsam::imuBias::ConstantBias&gt; <span class="title">priorBias</span><span class="params">(B(<span class="number">0</span>), prevBias_, priorBiasNoise)</span></span>;</span><br><span class="line">    graphFactors.<span class="built_in">add</span>(priorBias);</span><br><span class="line">    <span class="comment">// 添加完约束，需要添加实际的状态量</span></span><br><span class="line">    <span class="comment">// add values</span></span><br><span class="line">    graphValues.<span class="built_in">insert</span>(<span class="built_in">X</span>(<span class="number">0</span>), prevPose_);</span><br><span class="line">    graphValues.<span class="built_in">insert</span>(<span class="built_in">V</span>(<span class="number">0</span>), prevVel_);</span><br><span class="line">    graphValues.<span class="built_in">insert</span>(<span class="built_in">B</span>(<span class="number">0</span>), prevBias_);</span><br><span class="line">    <span class="comment">// optimize once</span></span><br><span class="line">    <span class="comment">// 把优化和约束一起送到优化器中</span></span><br><span class="line">    optimizer.<span class="built_in">update</span>(graphFactors, graphValues);</span><br><span class="line">    <span class="comment">// 进入优化器之后保存约束和状态量的变量就清零</span></span><br><span class="line">    graphFactors.<span class="built_in">resize</span>(<span class="number">0</span>);</span><br><span class="line">    graphValues.<span class="built_in">clear</span>();</span><br><span class="line">    <span class="comment">// 预积分的接口，使用零偏进行初始化</span></span><br><span class="line">    imuIntegratorImu_-&gt;<span class="built_in">resetIntegrationAndSetBias</span>(prevBias_);</span><br><span class="line">    imuIntegratorOpt_-&gt;<span class="built_in">resetIntegrationAndSetBias</span>(prevBias_);</span><br><span class="line"></span><br><span class="line">    key = <span class="number">1</span>;</span><br><span class="line">    systemInitialized = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>加入imu数据</li>
+</ol>
+<p><strong>imuIntegratorOpt_-&gt;integrateMeasurement</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (!imuQueOpt.<span class="built_in">empty</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// pop and integrate imu data that is between two optimizations</span></span><br><span class="line">    sensor_msgs::Imu *thisImu = &amp;imuQueOpt.<span class="built_in">front</span>();</span><br><span class="line">    <span class="keyword">double</span> imuTime = <span class="built_in">ROS_TIME</span>(thisImu);</span><br><span class="line">    <span class="comment">// imu时间上小于当前odom消息都取出来</span></span><br><span class="line">    <span class="keyword">if</span> (imuTime &lt; currentCorrectionTime - <span class="keyword">delta_t</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 俩imu之差</span></span><br><span class="line">        <span class="keyword">double</span> dt = (lastImuT_opt &lt; <span class="number">0</span>) ? (<span class="number">1.0</span> / <span class="number">500.0</span>) : (imuTime - lastImuT_opt);</span><br><span class="line">        <span class="comment">// 调用预积分接口把imu数据送进去处理</span></span><br><span class="line">        imuIntegratorOpt_-&gt;<span class="built_in">integrateMeasurement</span>(</span><br><span class="line">            gtsam::<span class="built_in">Vector3</span>(thisImu-&gt;linear_acceleration.x, thisImu-&gt;linear_acceleration.y, thisImu-&gt;linear_acceleration.z),</span><br><span class="line">            gtsam::<span class="built_in">Vector3</span>(thisImu-&gt;angular_velocity.x,    thisImu-&gt;angular_velocity.y,    thisImu-&gt;angular_velocity.z), dt);</span><br><span class="line"></span><br><span class="line">        lastImuT_opt = imuTime;</span><br><span class="line">        imuQueOpt.<span class="built_in">pop_front</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>加ImuFactor，零偏约束</li>
+</ol>
+<p>graphFactors 因子图因子添加</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add imu factor to graph</span></span><br><span class="line"><span class="keyword">const</span> gtsam::PreintegratedImuMeasurements&amp; preint_imu = <span class="keyword">dynamic_cast</span>&lt;<span class="keyword">const</span> gtsam::PreintegratedImuMeasurements&amp;&gt;(*imuIntegratorOpt_);</span><br><span class="line"><span class="comment">// 预积分他会对多个状态进行约束，包括相邻两帧的位姿、速度和零偏</span></span><br><span class="line"><span class="comment">// 上一帧的速度和位姿，当前帧的速度和位姿还有上一帧的零偏</span></span><br><span class="line"><span class="function">gtsam::ImuFactor <span class="title">imu_factor</span><span class="params">(X(key - <span class="number">1</span>), V(key - <span class="number">1</span>), X(key), V(key), B(key - <span class="number">1</span>), preint_imu)</span></span>;</span><br><span class="line"><span class="comment">// 加入因子图 </span></span><br><span class="line">graphFactors.<span class="built_in">add</span>(imu_factor);</span><br><span class="line"><span class="comment">// add imu bias between factor</span></span><br><span class="line">graphFactors.<span class="built_in">add</span>(gtsam::BetweenFactor&lt;gtsam::imuBias::ConstantBias&gt;(<span class="built_in">B</span>(key - <span class="number">1</span>), <span class="built_in">B</span>(key), gtsam::imuBias::<span class="built_in">ConstantBias</span>(),</span><br><span class="line">                                                                    gtsam::noiseModel::Diagonal::<span class="built_in">Sigmas</span>(<span class="built_in">sqrt</span>(imuIntegratorOpt_-&gt;<span class="built_in">deltaTij</span>()) * noiseModelBetweenBias)));</span><br><span class="line"><span class="comment">// 以上添加完预积分的约束</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>添加雷达的位姿约束，设定因子图的初值</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add pose factor</span></span><br><span class="line"><span class="comment">// 转换到IMU坐标系下</span></span><br><span class="line">gtsam::Pose3 curPose = lidarPose.<span class="built_in">compose</span>(lidar2Imu);</span><br><span class="line"><span class="comment">// 作为先验因子，如果是退化的话，置信度小一点</span></span><br><span class="line"><span class="function">gtsam::PriorFactor&lt;gtsam::Pose3&gt; <span class="title">pose_factor</span><span class="params">(X(key), curPose, degenerate ? correctionNoise2 : correctionNoise)</span></span>;</span><br><span class="line">graphFactors.<span class="built_in">add</span>(pose_factor);</span><br><span class="line"><span class="comment">// insert predicted values</span></span><br><span class="line"><span class="comment">// 结合预积分的结果，对当前帧的位姿进行预测</span></span><br><span class="line">gtsam::NavState propState_ = imuIntegratorOpt_-&gt;<span class="built_in">predict</span>(prevState_, prevBias_);</span><br><span class="line"><span class="comment">// 预测量作为初始值插入因子图中</span></span><br><span class="line">graphValues.<span class="built_in">insert</span>(<span class="built_in">X</span>(key), propState_.<span class="built_in">pose</span>());</span><br><span class="line">graphValues.<span class="built_in">insert</span>(<span class="built_in">V</span>(key), propState_.<span class="built_in">v</span>());</span><br><span class="line">graphValues.<span class="built_in">insert</span>(<span class="built_in">B</span>(key), prevBias_);</span><br><span class="line"> <span class="comment">// optimize</span></span><br><span class="line"><span class="comment">// 优化两次，两次调整会得到一个好的结果</span></span><br><span class="line">optimizer.<span class="built_in">update</span>(graphFactors, graphValues);</span><br><span class="line">optimizer.<span class="built_in">update</span>();</span><br><span class="line">graphFactors.<span class="built_in">resize</span>(<span class="number">0</span>);</span><br><span class="line">graphValues.<span class="built_in">clear</span>();</span><br><span class="line"><span class="comment">// Overwrite the beginning of the preintegration for the next step.</span></span><br><span class="line">gtsam::Values result = optimizer.<span class="built_in">calculateEstimate</span>();</span><br><span class="line"><span class="comment">// 获取优化后的当前状态作为当前帧的最佳估计</span></span><br><span class="line">prevPose_  = result.at&lt;gtsam::Pose3&gt;(<span class="built_in">X</span>(key));</span><br><span class="line">prevVel_   = result.at&lt;gtsam::Vector3&gt;(<span class="built_in">V</span>(key));</span><br><span class="line">prevState_ = gtsam::<span class="built_in">NavState</span>(prevPose_, prevVel_);</span><br><span class="line">prevBias_  = result.at&lt;gtsam::imuBias::ConstantBias&gt;(<span class="built_in">B</span>(key));</span><br><span class="line"><span class="comment">// Reset the optimization preintegration object.</span></span><br><span class="line"><span class="comment">// 当前约束任务已经完成，预积分约束复位</span></span><br><span class="line">imuIntegratorOpt_-&gt;<span class="built_in">resetIntegrationAndSetBias</span>(prevBias_);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>失败检测</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// check optimization</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">failureDetection</span>(prevVel_, prevBias_))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">resetParams</span>();</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>根据最新的imu状态进行传播</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// repropogate</span></span><br><span class="line"><span class="keyword">if</span> (!imuQueImu.<span class="built_in">empty</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// reset bias use the newly optimized bias</span></span><br><span class="line">    imuIntegratorImu_-&gt;<span class="built_in">resetIntegrationAndSetBias</span>(prevBiasOdom);</span><br><span class="line">    <span class="comment">// integrate imu message from the beginning of this optimization</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (<span class="keyword">int</span>)imuQueImu.<span class="built_in">size</span>(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        sensor_msgs::Imu *thisImu = &amp;imuQueImu[i];</span><br><span class="line">        <span class="keyword">double</span> imuTime = <span class="built_in">ROS_TIME</span>(thisImu);</span><br><span class="line">        <span class="keyword">double</span> dt = (lastImuQT &lt; <span class="number">0</span>) ? (<span class="number">1.0</span> / <span class="number">500.0</span>) :(imuTime - lastImuQT);</span><br><span class="line"></span><br><span class="line">        imuIntegratorImu_-&gt;<span class="built_in">integrateMeasurement</span>(gtsam::<span class="built_in">Vector3</span>(thisImu-&gt;linear_acceleration.x, thisImu-&gt;linear_acceleration.y, thisImu-&gt;linear_acceleration.z),</span><br><span class="line">                                                gtsam::<span class="built_in">Vector3</span>(thisImu-&gt;angular_velocity.x,    thisImu-&gt;angular_velocity.y,    thisImu-&gt;angular_velocity.z), dt);</span><br><span class="line">        lastImuQT = imuTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -270,7 +295,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">因子图及GTSAM库介绍</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -286,7 +311,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -360,7 +385,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -486,6 +511,23 @@
     
 </div>
 
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>
