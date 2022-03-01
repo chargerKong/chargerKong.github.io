@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -192,6 +192,7 @@
             <p>在cartographer中，有两种雷达的消息格式，一个是LaserScan，另外一个是MultiEchoLaserScan，即多回声波雷达。</p>
 <h1 id="雷达消息处理流程"><a href="#雷达消息处理流程" class="headerlink" title="雷达消息处理流程"></a>雷达消息处理流程</h1><p>下面是cartographer在接收到雷达消息的之后的流程示意图</p>
 <p><img src="Screenshot from 2021-10-07 18-32-56.png" alt=""></p>
+<p><img src="1007sensor_bridge_point_cloud/Screenshot from 2021-10-07 18-32-56.png" alt=""></p>
 <h2 id="node类筛选数据"><a href="#node类筛选数据" class="headerlink" title="node类筛选数据"></a>node类筛选数据</h2><p>在Node类中，会定义订阅者Node::HandleLaserScanMessage来处理雷达消息的处理，通过配置文件里配置的采样频率，来判定此帧数据要不要处理，不要处理的直接的return</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Node::HandleMultiEchoLaserScanMessage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> trajectory_id, <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> sensor_msgs::MultiEchoLaserScan::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (!sensor_samplers_.<span class="built_in">at</span>(trajectory_id).rangefinder_sampler.<span class="built_in">Pulse</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  map_builder_bridge_.<span class="built_in">sensor_bridge</span>(trajectory_id)</span><br><span class="line">      -&gt;<span class="built_in">HandleMultiEchoLaserScanMessage</span>(sensor_id, msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Node::HandleLaserScanMessage</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> trajectory_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  <span class="keyword">const</span> std::string&amp; sensor_id,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  <span class="keyword">const</span> sensor_msgs::LaserScan::ConstPtr&amp; msg)</span> </span>&#123;</span><br><span class="line">  <span class="function">absl::MutexLock <span class="title">lock</span><span class="params">(&amp;mutex_)</span></span>;</span><br><span class="line">  <span class="comment">// 根据配置,是否将传感器数据跳过</span></span><br><span class="line">  <span class="keyword">if</span> (!sensor_samplers_.<span class="built_in">at</span>(trajectory_id).rangefinder_sampler.<span class="built_in">Pulse</span>()) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  map_builder_bridge_.<span class="built_in">sensor_bridge</span>(trajectory_id)</span><br><span class="line">      -&gt;<span class="built_in">HandleLaserScanMessage</span>(sensor_id, msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -256,14 +257,14 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/10/08/1008sensor_bridge4/"
+                           href="/2021/10/08/1008sensor_bridge%E7%82%B9%E4%BA%91%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">HandleLaserScan-cartographer</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-title-item">点云数据处理 HandleLaserScan-cartographer</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -276,7 +277,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">undefined reference to `vtable for Tianboard&#39;</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -292,7 +293,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -366,7 +367,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>

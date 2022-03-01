@@ -9,7 +9,7 @@
     
     <title>
         
-            ros2学习四 |
+            ros2 pub sub |
         
         大杂烩
     </title>
@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -143,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">ros2学习四</span>
+            <span class="title-hover-animation">ros2 pub sub</span>
         </div>
 
         
@@ -189,7 +189,7 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="ros2学习四"><a href="#ros2学习四" class="headerlink" title="ros2学习四"></a>ros2学习四</h1><h2 id="写一个简单的publisher和subscriber"><a href="#写一个简单的publisher和subscriber" class="headerlink" title="写一个简单的publisher和subscriber"></a>写一个简单的publisher和subscriber</h2><p>在本教程中，您将创建节点，这些节点以字符串消息的形式在主题之间相互传递信息。这里使用的例子是一个简单的“talker”和“listener”系统;一个节点发布数据，另一个节点订阅主题，以便接收数据。</p>
+            <h2 id="写一个简单的publisher和subscriber"><a href="#写一个简单的publisher和subscriber" class="headerlink" title="写一个简单的publisher和subscriber"></a>写一个简单的publisher和subscriber</h2><p>在本教程中，您将创建节点，这些节点以字符串消息的形式在主题之间相互传递信息。这里使用的例子是一个简单的“talker”和“listener”系统;一个节点发布数据，另一个节点订阅主题，以便接收数据。</p>
 <h2 id="1-创建一个package"><a href="#1-创建一个package" class="headerlink" title="1.创建一个package"></a>1.创建一个package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source ros2_dashing&#x2F;install&#x2F;setup.bash </span><br><span class="line">cd dev_ws&#x2F;src&#x2F;</span><br><span class="line">ros2 pkg create --build-type ament_python py_pubsub</span><br></pre></td></tr></table></figure>
 <h2 id="2-写publisher的一个node"><a href="#2-写publisher的一个node" class="headerlink" title="2. 写publisher的一个node"></a>2. 写publisher的一个node</h2><p>下载一个example talker。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ros2&#x2F;examples&#x2F;foxy&#x2F;rclpy&#x2F;topics&#x2F;minimal_publisher&#x2F;examples_rclpy_minimal_publisher&#x2F;publisher_member_function.py</span><br></pre></td></tr></table></figure>
@@ -342,14 +342,14 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/02/ros2%E5%AD%A6%E4%B9%A0%E4%BA%94/"
+                           href="/2021/04/02/ros2%20action%20interface/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros2学习五</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-title-item">ros2 action interface</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -358,11 +358,11 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/03/28/ros%E5%AD%A6%E4%B9%A0%E4%B8%89/"
+                           href="/2021/03/28/0328SLAM%20ToolBox/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">ros2学习三</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-title-item">ros学习三</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -378,7 +378,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -452,7 +452,7 @@
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -531,7 +531,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ros2%E5%AD%A6%E4%B9%A0%E5%9B%9B"><span class="nav-number">1.</span> <span class="nav-text">ros2学习四</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84publisher%E5%92%8Csubscriber"><span class="nav-number">1.1.</span> <span class="nav-text">写一个简单的publisher和subscriber</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AApackage"><span class="nav-number">1.2.</span> <span class="nav-text">1.创建一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%99publisher%E7%9A%84%E4%B8%80%E4%B8%AAnode"><span class="nav-number">1.3.</span> <span class="nav-text">2. 写publisher的一个node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%A7%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1.代码审视</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2添加依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3%E7%82%B9"><span class="nav-number">1.3.3.</span> <span class="nav-text">2.3 添加入口点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%9F%A5%E7%9C%8Bsetup-cfg"><span class="nav-number">1.3.4.</span> <span class="nav-text">2.4 查看setup.cfg</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%99%E4%B8%80%E4%B8%AAsubscriber%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.</span> <span class="nav-text">3.写一个subscriber节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E5%AE%A1%E8%A7%86%E4%BB%A3%E7%A0%81"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.1审视代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AAentry-point"><span class="nav-number">1.4.2.</span> <span class="nav-text">3.2 添加一个entry point</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-build-and-run"><span class="nav-number">1.5.</span> <span class="nav-text">4.build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Summary"><span class="nav-number">1.6.</span> <span class="nav-text">5.Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">1.7.</span> <span class="nav-text">写一个简单的客户端和服务端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AApackage"><span class="nav-number">1.8.</span> <span class="nav-text">1. 建立一个package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#object-has-no-attribute-%E2%80%98-parameters%E2%80%991-1-%E6%9B%B4%E6%96%B0package-xml%E5%92%8Csetup-py"><span class="nav-number">1.8.1.</span> <span class="nav-text">object has no attribute ‘_parameters’1.1 更新package.xml和setup.py</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%99%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%8A%82%E7%82%B9"><span class="nav-number">1.9.</span> <span class="nav-text">2.写服务端节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">1.9.1.</span> <span class="nav-text">2.1代码审查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%B7%BB%E5%8A%A0%E5%90%AF%E5%8A%A8%E9%A1%B9"><span class="nav-number">1.9.2.</span> <span class="nav-text">2.2 添加启动项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%99%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">1.10.</span> <span class="nav-text">3.写客户端代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">1.10.1.</span> <span class="nav-text">3.1 代码审查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%B7%BB%E5%8A%A0entry-point"><span class="nav-number">1.11.</span> <span class="nav-text">3.2 添加entry point</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-build-and-run-1"><span class="nav-number">1.12.</span> <span class="nav-text">4.build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Summary-1"><span class="nav-number">1.13.</span> <span class="nav-text">5.Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.</span> <span class="nav-text">自定义接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AApackage"><span class="nav-number">2.1.</span> <span class="nav-text">1.新建一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89definition"><span class="nav-number">2.2.</span> <span class="nav-text">2.自定义definition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-CMakeLists"><span class="nav-number">2.3.</span> <span class="nav-text">3.CMakeLists</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-package-xml"><span class="nav-number">2.4.</span> <span class="nav-text">4.package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-build"><span class="nav-number">2.5.</span> <span class="nav-text">5.build</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A1%AE%E5%AE%9Amsg%E5%92%8Csrv%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">2.6.</span> <span class="nav-text">6.确定msg和srv的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%8B%E6%96%B0%E7%9A%84interface"><span class="nav-number">2.7.</span> <span class="nav-text">7 测试一下新的interface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%88%A9%E7%94%A8pub-sub%E6%9D%A5%E6%B5%8B%E8%AF%95Num-msg"><span class="nav-number">2.7.1.</span> <span class="nav-text">7.1 利用pub&#x2F;sub来测试Num.msg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E9%80%9A%E8%BF%87service-client-%E6%9D%A5%E6%B5%8B%E8%AF%95-AddThreeInts-srv"><span class="nav-number">2.7.2.</span> <span class="nav-text">7.2 通过service&#x2F;client 来测试 AddThreeInts.srv</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">2.8.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84publisher%E5%92%8Csubscriber"><span class="nav-number">1.</span> <span class="nav-text">写一个简单的publisher和subscriber</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AApackage"><span class="nav-number">2.</span> <span class="nav-text">1.创建一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%99publisher%E7%9A%84%E4%B8%80%E4%B8%AAnode"><span class="nav-number">3.</span> <span class="nav-text">2. 写publisher的一个node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%A7%86"><span class="nav-number">3.1.</span> <span class="nav-text">2.1.代码审视</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9"><span class="nav-number">3.2.</span> <span class="nav-text">2.2添加依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3%E7%82%B9"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 添加入口点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%9F%A5%E7%9C%8Bsetup-cfg"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 查看setup.cfg</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%99%E4%B8%80%E4%B8%AAsubscriber%E8%8A%82%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">3.写一个subscriber节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E5%AE%A1%E8%A7%86%E4%BB%A3%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text">3.1审视代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AAentry-point"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 添加一个entry point</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-build-and-run"><span class="nav-number">5.</span> <span class="nav-text">4.build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Summary"><span class="nav-number">6.</span> <span class="nav-text">5.Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">7.</span> <span class="nav-text">写一个简单的客户端和服务端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AApackage"><span class="nav-number">8.</span> <span class="nav-text">1. 建立一个package</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#object-has-no-attribute-%E2%80%98-parameters%E2%80%991-1-%E6%9B%B4%E6%96%B0package-xml%E5%92%8Csetup-py"><span class="nav-number">8.1.</span> <span class="nav-text">object has no attribute ‘_parameters’1.1 更新package.xml和setup.py</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%86%99%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%8A%82%E7%82%B9"><span class="nav-number">9.</span> <span class="nav-text">2.写服务端节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">9.1.</span> <span class="nav-text">2.1代码审查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%B7%BB%E5%8A%A0%E5%90%AF%E5%8A%A8%E9%A1%B9"><span class="nav-number">9.2.</span> <span class="nav-text">2.2 添加启动项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%86%99%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">10.</span> <span class="nav-text">3.写客户端代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-number">10.1.</span> <span class="nav-text">3.1 代码审查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%B7%BB%E5%8A%A0entry-point"><span class="nav-number">11.</span> <span class="nav-text">3.2 添加entry point</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-build-and-run-1"><span class="nav-number">12.</span> <span class="nav-text">4.build and run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Summary-1"><span class="nav-number">13.</span> <span class="nav-text">5.Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3"><span class="nav-number"></span> <span class="nav-text">自定义接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AApackage"><span class="nav-number">1.</span> <span class="nav-text">1.新建一个package</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89definition"><span class="nav-number">2.</span> <span class="nav-text">2.自定义definition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-CMakeLists"><span class="nav-number">3.</span> <span class="nav-text">3.CMakeLists</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-package-xml"><span class="nav-number">4.</span> <span class="nav-text">4.package.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-build"><span class="nav-number">5.</span> <span class="nav-text">5.build</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%A1%AE%E5%AE%9Amsg%E5%92%8Csrv%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">6.</span> <span class="nav-text">6.确定msg和srv的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%8B%E6%96%B0%E7%9A%84interface"><span class="nav-number">7.</span> <span class="nav-text">7 测试一下新的interface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%88%A9%E7%94%A8pub-sub%E6%9D%A5%E6%B5%8B%E8%AF%95Num-msg"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 利用pub&#x2F;sub来测试Num.msg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-%E9%80%9A%E8%BF%87service-client-%E6%9D%A5%E6%B5%8B%E8%AF%95-AddThreeInts-srv"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 通过service&#x2F;client 来测试 AddThreeInts.srv</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">8.</span> <span class="nav-text">Summary</span></a></li></ol>
     </div>
 </div>
         </aside>

@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -203,11 +203,19 @@
 <p>T_localToGlobal = A_global * A_local.inverse()  图示为global -&gt; local</p>
 <p>假设有一个B，在local下的坐标系为B_local，则</p>
 <p>B_global = T_localToGlobal * B_local</p>
-<p>即B 在 global下的坐标  $T<em>{ref}^{tar}=T^B</em>{g}$，箭头指向global-&gt;B， 也称为B to global的变换</p>
+<blockquote>
+<p>即B 在 global下的坐标  $T_{ref}^{tar}=T^B_{g}$，箭头指向global-&gt;B， 也称为B to global的变换</p>
 <script type="math/tex; mode=display">
 T_{g}^B=T^A_g * T^L_A* T^B_L</script><p>或者</p>
 <script type="math/tex; mode=display">
 T_{g}^B=T^B_L*T^L_A*T^A_g</script><p>第一种用的比较普遍</p>
+</blockquote>
+<p>上面暂时不看，是和下边反着的，自己弄清除就好</p>
+<p>念法：</p>
+<p>lidar到imu的变换， $T^{lidar}_{imu}$，该lidar到imu的变换 乘以 点在lidar下的坐标为点在imu下的坐标</p>
+<script type="math/tex; mode=display">
+T^{lidar}_{imu}*T_{lidar}^{p}=T_{imu}^P</script><p>ROS 调用：</p>
+<p>lookupTransform(imu,  lidar)</p>
 <p><strong>例一</strong></p>
 <p>假设没有旋转，只考虑平移。B在W中的坐标为$(1,1)$，即上述的(1)为</p>
 <script type="math/tex; mode=display">
@@ -246,7 +254,7 @@ T_{g}^B=T^B_L*T^L_A*T^A_g</script><p>第一种用的比较普遍</p>
 r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作的乘在后边！！</p>
 <p>注意这里是矩阵的乘法，就可以得到$(0,2,1.57)$</p>
 <h1 id="tf中的坐标变换"><a href="#tf中的坐标变换" class="headerlink" title="tf中的坐标变换"></a>tf中的坐标变换</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buffer_-&gt;<span class="built_in">lookupTransform</span>(tracking_frame_, frame_id, ::ros::<span class="built_in">Time</span>(<span class="number">0.</span>),</span><br><span class="line">                              timeout)</span><br></pre></td></tr></table></figure>
-<p>假设tracking<em>frame是imu_frame, frame_id是odom，那么这样得到的变换是imu-&gt;odom, 即tracking_frame</em>到frame_id的坐标变换</p>
+<p>假设tracking_frame是imu_frame, frame_id是odom，那么这样得到的变换是imu-&gt;odom, 即tracking_frame_到frame_id的坐标变换</p>
 <p>即odom在imu frame下的坐标，或者称为变换</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buffer_-&gt;lookupTransform(target, source, ::ros::Time(0.),</span><br><span class="line">                              timeout)</span><br></pre></td></tr></table></figure>
 <p>出来的结果为$T_{target}^{source} $，即target指向source的</p>
@@ -270,7 +278,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
                             </span>
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">ros1代码学习</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
                     </div>
@@ -283,7 +291,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">CMake实践</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -299,7 +307,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -373,7 +381,7 @@ r2v(v2r(p_a)*v2r(p_b))</script><p>需要注意这里的乘法顺序，后操作�
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
