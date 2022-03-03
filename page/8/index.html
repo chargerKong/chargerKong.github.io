@@ -145,6 +145,90 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/11/15/1115ImuTracker/">
+                        ImuTracker-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        ImuTracker 的主要作用是根据 IMU的角速度和线性加速度进行位姿的预测，IMU原本给出的位姿是通过积分得出的，不准确的
+头文件ImuTracker 的主要作用是根据 IMU的角速度和线性加速度进行位姿的预测，IMU原本给出的位姿是通过积分得...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 15 2021 18:38:29 GMT+0800">2021-11-15</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/11/15/1115ImuTracker/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/11/15/1115%E4%BD%8D%E5%A7%BF%E6%8E%A8%E6%B5%8B%E5%99%A8%E4%BA%8C/">
+                        位姿推测器-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        AddPose对整个位姿估计器进行校准，本身估计器就是IMU加上里程计进行预测，预测肯定就有不准的情况，因此需要校准。就需要整个匹配后的Pose进行校准
+首先是IMU_tracker 没有初始化则初始化
+把Pose加入到
+12// 在timed_po...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Nov 15 2021 18:38:29 GMT+0800">2021-11-15</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/11/15/1115%E4%BD%8D%E5%A7%BF%E6%8E%A8%E6%B5%8B%E5%99%A8%E4%BA%8C/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/11/14/1114%E4%BD%8D%E5%A7%BF%E6%8E%A8%E6%B5%8B%E5%99%A8%E4%B8%80/">
                         位姿推测器-cartographer
                     </a>
@@ -461,90 +545,6 @@ CreatePoseExtra...
     </div>
 
     <a href="/2021/11/05/1105%20cartographer%E5%B0%8F%E7%BB%93/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">
-                        std::tie 如何返回多个值
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        假设有两个变量，需要赋值
-12NodeOptions node_options;TrajectoryOptions trajectory_options;
-我们可以一次性通过std::tie 进行赋值
-12std::tie(node_options,...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/c/">c++</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/11/05/1105%20%E5%A6%82%E4%BD%95%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E5%80%BCstd::tie/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/11/05/1105%20global_trajectory_builder/">
-                        global_trajectory_builder-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        处理排好序的数据，为什么是排好序？在数据分发dispatch的时候，通过寻找it-&gt;second.queue.Peek();来找到时间最老的一个数据，因此是排好序的。
-global_trajectory_builder.h文件在global_t...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 05 2021 18:38:29 GMT+0800">2021-11-05</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/11/05/1105%20global_trajectory_builder/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

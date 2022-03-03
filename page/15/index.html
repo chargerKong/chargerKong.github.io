@@ -145,6 +145,97 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/">
+                        回环检测
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        回环检测与建图
+回环检测和词袋意义
+VO和后端都存在误差
+SLAM的建图和定位和耦合的，误差将会累计
+
+Loop Closing步骤
+检测回环的发生
+计算回环修选帧和当前帧的运动
+验证回环是否成立
+闭环
+
+如何检测回环的发生?比较空间上相近的帧：基于...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jul 21 2021 15:59:22 GMT+0800">2021-07-21</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E6%BF%80%E5%85%89SLAM/">激光SLAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/07/21/0721%E5%9B%9E%E7%8E%AF%E6%A3%80%E6%B5%8B/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/07/20/0720BAL/">
+                        BAL(bundle adjustment large)
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        BAL数据集解释12345678910&lt;num_cameras&gt; &lt;num_points&gt; &lt;num_observations&gt;&lt;camera_index_1&gt; &lt;point_index_1&gt...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Jul 20 2021 15:59:22 GMT+0800">2021-07-20</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E5%90%8E%E7%AB%AF/">后端</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/07/20/0720BAL/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/07/19/0719g2o/">
                         G20
                     </a>
@@ -485,67 +576,6 @@ D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_
     </div>
 
     <a href="/2021/06/16/%E6%9D%8E%E4%BB%A3%E6%95%B0/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/30/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-                        激光雷达数据处理
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        激光雷达的数据处理机器人在运动的时候会导致激光雷达的数据发生畸变，畸变的话，匹配就可能导致匹配出错，基本上就会是导致匹配出错，错误的数据匹配肯定得到错误的位姿。
-如果没有去畸变的话，基本上就不能可以建图，因为前段的匹配是很差的。
-概念介绍激光雷达传感...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 30 2021 23:24:35 GMT+0800">2021-05-30</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/05/30/%E6%BF%80%E5%85%89%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/30/orbslam2%E7%BC%96%E8%AF%91/">
-                        修改orbslam2 OpenCV版本
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        修改CMakeLists修改主工程下的CMakeLists.txt以及Thirdparty/g2o/CMakeLists.txt
-131 find_package(OpenCV)
-把后面的3.0.0和QUIET去掉
-修改cv.h 头文件打开文件inc...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 30 2021 16:24:35 GMT+0800">2021-05-30</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/05/30/orbslam2%E7%BC%96%E8%AF%91/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

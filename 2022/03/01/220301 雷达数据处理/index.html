@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            雷达数据处理 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">雷达数据处理</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-03-01 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <ul>
+<li><p>消息回调接受数据</p>
+</li>
+<li><p>经过sample过滤</p>
+</li>
+<li><p>转换为点云，形式</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+TimedPointCloud  \\ 
+std::vector<float>  
+\end{bmatrix}
+=
+\begin{bmatrix}
+[x_0,y_0,z_0,t_0] &[x_1,y_1,z_1,t_1]&...&[x_n,y_n,z_n,0]  \\ 
+intensity[0] & intensity[1] &...&intensity[n]  
+\end{bmatrix}</script><p>点云最后一个点的时间为0，以此往前是负数，每一个点云还配有一个time。用于记录最后一个点的时间戳</p>
+</li>
+<li><p>将雷达转换为几段，处理每一段雷达的时间，要求最后一个点的时间为0，并且存好相应的时间。通常为1段</p>
+</li>
+<li><p>把点云坐标转换到tracking_frame下, 并记录在tracking下，原来的点云位置，作为原点，记录点云</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TimedPointCloudData</span> &#123;</span></span><br><span class="line">  common::Time time;        <span class="comment">// 点云最后一个点的时间</span></span><br><span class="line">  Eigen::Vector3f origin;   <span class="comment">// 以tracking_frame_到雷达坐标系的坐标变换为原点</span></span><br><span class="line">  TimedPointCloud ranges;   <span class="comment">// 数据点的集合, 每个数据点包含xyz与time, time是负的</span></span><br><span class="line">  <span class="comment">// &#x27;intensities&#x27; has to be same size as &#x27;ranges&#x27;, or empty.</span></span><br><span class="line">  std::vector&lt;<span class="keyword">float</span>&gt; intensities; <span class="comment">// 空的</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加入数据分发器中，准备数据分发</p>
+</li>
+<li><p>数据分发：找到时间time最早的队列中的数据，pop数据。传入各个回调函数</p>
+</li>
+<li><p>传入函数CollatedTrajectoryBuilder::HandleCollatedSensorData，即就是回调函数</p>
+</li>
+<li><p>进入全局轨迹建立器，globaltrajectoryBuilder，往里面添加数据并处理</p>
+</li>
+<li><p>多雷达点云同步，根据start和end点，重新生成一个点云，新点云的数据格式</p>
+<p>合并步骤:</p>
+<ol>
+<li>把点云添加到时间同步的map中</li>
+<li>找start, end=min(最近雷达1数据，最近雷达2数据)</li>
+<li>合并start到end的雷达数据，生成新点云，注意按照时间排序，返回</li>
+<li>第二次处理数据，若时间同步的map中有之前相应key数据没有处理完，首先处理。start=end,end=点云最后一个点的时间戳</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TimedPointCloudOriginData</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">RangeMeasurement</span> &#123;</span></span><br><span class="line">    TimedRangefinderPoint point_time;   <span class="comment">// 带时间戳的单个数据点的坐标 xyz</span></span><br><span class="line">    <span class="keyword">float</span> intensity;                    <span class="comment">// 强度值</span></span><br><span class="line">    <span class="keyword">size_t</span> origin_index;                <span class="comment">// 属于第几个origins的点</span></span><br><span class="line">  &#125;;</span><br><span class="line">  common::Time time;                    <span class="comment">// 点云的时间</span></span><br><span class="line">  std::vector&lt;Eigen::Vector3f&gt; origins; <span class="comment">// 点云是由几个点云组成, 每个点云的原点</span></span><br><span class="line">  std::vector&lt;RangeMeasurement&gt; ranges; <span class="comment">// 数据点的集合</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>点云的运动畸变去除，根据位姿估计器估计每一个点的位姿，把每一个点从tracking frame变换到local slam坐标系下，并将转换成功的点云放入accumulated_range_data_中，它的数据结构为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RangeData</span> &#123;</span></span><br><span class="line">  Eigen::Vector3f origin;</span><br><span class="line">  PointCloud returns;</span><br><span class="line">  PointCloud misses; <span class="comment">// 都是local坐标系下的坐标</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>点云坐标转换到local坐标系下，并且做体素滤波，and裁剪z轴</p>
+</li>
+<li><p>扫描匹配</p>
+<ul>
+<li>time时刻位姿预测</li>
+<li>粗匹配，相关性扫描匹配</li>
+</ul>
+</li>
+<li><p>先进行LocalTrajectoryBuilder扫描匹配, 然后将扫描匹配的结果当做节点插入到后端的位姿图中</p>
+</li>
+<li></li>
+</ul>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/03/03/220303%20Optional_c++/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">absl::optional 使用</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/02/27/220227%20liosam-transform/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">transform类</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
