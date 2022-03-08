@@ -236,7 +236,7 @@ intensity[0] & intensity[1] &...&intensity[n]
 </li>
 </ul>
 <ul>
-<li><p>点云坐标转换到local坐标系下，并且做体素滤波，and裁剪z轴</p>
+<li><p>点云坐标转换到local坐标系下，并且做体素滤波，and裁剪z轴data_</p>
 </li>
 <li><p>扫描匹配</p>
 <ul>
@@ -249,7 +249,7 @@ intensity[0] & intensity[1] &...&intensity[n]
 <li><p>把该位姿下的点云插入子图中</p>
 </li>
 <li><p>返回数据，数据格式内容</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">InsertionResult</span> &#123;</span></span><br><span class="line">  std::shared_ptr&lt;<span class="keyword">const</span> TrajectoryNode::Data&gt; constant_data;</span><br><span class="line">  std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; insertion_submaps; <span class="comment">// 最多只有2个子图的指针</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">insertion_submaps  <span class="class"><span class="keyword">struct</span> <span class="title">InsertionResult</span> &#123;</span></span><br><span class="line">    std::shared_ptr&lt;<span class="keyword">const</span> TrajectoryNode::Data&gt; constant_data;</span><br><span class="line">    std::vector&lt;std::shared_ptr&lt;<span class="keyword">const</span> Submap2D&gt;&gt; insertion_submaps; <span class="comment">// 最多只有2个子图的指针</span></span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
 <p>其中,constant_data的数据内容为 时间戳，重力对齐方向的变换，体素滤波过后的点云和local slam下的位姿</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Data</span> &#123;</span></span><br><span class="line">    common::Time time;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Transform to approximately gravity align the tracking frame as</span></span><br><span class="line">    <span class="comment">// determined by local SLAM.</span></span><br><span class="line">    Eigen::Quaterniond gravity_alignment;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Used for loop closure in 2D: voxel filtered returns in the</span></span><br><span class="line">    <span class="comment">// &#x27;gravity_alignment&#x27; frame.</span></span><br><span class="line">    sensor::PointCloud filtered_gravity_aligned_point_cloud;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Used for loop closure in 3D.</span></span><br><span class="line">    sensor::PointCloud high_resolution_point_cloud;</span><br><span class="line">    sensor::PointCloud low_resolution_point_cloud;</span><br><span class="line">    Eigen::VectorXf rotational_scan_matcher_histogram;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The node pose in the local SLAM frame.</span></span><br><span class="line">    transform::Rigid3d local_pose;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
 </li>
@@ -273,10 +273,17 @@ intensity[0] & intensity[1] &...&intensity[n]
 </li>
 <li><p>添加后端节点以及添加后端的子图，计算约束</p>
 <ul>
-<li></li>
+<li>把插入的子图的global pose加入到优化问题（optimization_problem_）中</li>
+<li>把节点加入到优化问题中</li>
+<li>计算子图内约束<ul>
+<li>子图内约束</li>
+<li>子图间约束</li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+<p>后端：所有的submap数据都保存在data_.submap中</p>
 
         </div>
 
@@ -524,23 +531,6 @@ intensity[0] & intensity[1] &...&intensity[n]
     
 </div>
 
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>
