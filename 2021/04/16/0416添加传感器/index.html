@@ -165,6 +165,17 @@
     </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/gazebo/">gazebo</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
@@ -189,6 +200,7 @@
 <h3 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build --packages-select robot_description</span><br><span class="line">ros2 launch robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
 <p>可以看见在gazebo的场景中间出现一个和之前一模一样的机器人</p>
 <p><img src="origon_robot.png" alt=""></p>
+<p><img src="0416添加传感器/origon_robot.png" alt=""></p>
 <h2 id="添加传感器"><a href="#添加传感器" class="headerlink" title="添加传感器"></a>添加传感器</h2><h3 id="修改my-robot-xacro"><a href="#修改my-robot-xacro" class="headerlink" title="修改my_robot.xacro"></a>修改my_robot.xacro</h3><p>根据现在的文件结构模式，我们期望再导入一个xacro，直接调用里面的宏就可以加入一个传感器，即</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;mbot&quot;</span> <span class="attr">xmlns:xacro</span>=<span class="string">&quot;http://www.ros.org/wiki/xacro&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 导入机器人 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">&quot;$(find robot_description)/my_robot_base.xacro&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:my_robot_base</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 导入雷达 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">&quot;$(find robot_description)/my_robot_lidar.xacro&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:my_robot_lidar</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 添加雷达和机器人的joint --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;lidar_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;fixed&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;$&#123;base_radius-lidar_radius&#125; 0 $&#123;base_length+wheel_radius/3&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;lidar_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">robot</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>因为在文件<code>my_robot_lidar.xacro</code>中是不会有机器人的标签属性，因此将雷达和机器人的属性全部导入之后，在这里添加雷达传感器和机器人的一个joint关系，下面开始定义雷达传感器的xacro文件</p>
@@ -258,13 +270,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2021/04/20/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
+                           href="/2021/04/16/%E6%B7%BB%E5%8A%A0%E4%BC%A0%E6%84%9F%E5%99%A8/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">知识点记录</span>
+                                <span class="post-nav-title-item">添加传感器</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -274,10 +286,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/04/16/0416%E6%B7%BB%E5%8A%A0%E4%BC%A0%E6%84%9F%E5%99%A8/"
+                           href="/2021/04/14/ros-control/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">添加传感器</span>
+                                <span class="post-nav-title-item">ros控制机器人</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
