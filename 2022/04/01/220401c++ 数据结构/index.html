@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            数据结构 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">数据结构</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-04-01 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/c/">c++</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h1><p>数组长度，下面的情况，数组长度只有在程序运行的 时候才可以确定，在编译的时候是不确定的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> len = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (len &lt; <span class="number">10</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> num[len];</span><br><span class="line">	len ++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，边长的数组是不可以初始化的</p>
+<h2 id="数组赋值"><a href="#数组赋值" class="headerlink" title="数组赋值"></a>数组赋值</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> array1[<span class="number">4</span>] = &#123;<span class="number">9</span>，<span class="number">8</span>，<span class="number">7</span>，<span class="number">6</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> array2[<span class="number">4</span>];</span><br><span class="line">array2 = array1; <span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+<p>在声明的时候array2的地址已经确定了，数组的等号赋值就是首地址的赋值，数组的地址是不允许更改的</p>
+<p>下边是数组的存储方式，每一个小格子就是一个字节，9 8 7 6分别占了连续的四个字节</p>
+<p><img src="Screenshot from 2022-04-01 11-05-14.png" alt=""></p>
+<p><img src="220401c++ 数据结构/Screenshot from 2022-04-01 11-05-14.png" alt=""></p>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>在数组的操作中，是不会有越界检查的，如果越界了没有警告没有错误</li>
+<li>数组在这里不是一个对象，他就是一块连续的内存。大小是不知道的<ul>
+<li>读写效果高，都不检查边界了</li>
+<li>缺点是容易出错</li>
+</ul>
+</li>
+</ul>
+<h2 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h2><p>未知长度二维数组传参，要带上列的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void init_2d_array(float mat[][], size_t rows, size_t cols) &#x2F;&#x2F;错误</span><br><span class="line">void init_2d_array(float mat[][3], size_t rows, size_t cols) &#x2F;&#x2F;正确</span><br></pre></td></tr></table></figure>
+<p>虽然是二维数组，他还是要保存到一维内存上，下面图片对应此mat</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> mat[<span class="number">2</span>][<span class="number">3</span>] = &#123;&#123;<span class="number">11</span>,<span class="number">12</span>,<span class="number">13</span>&#125;, &#123;<span class="number">14</span>,<span class="number">15</span>,<span class="number">16</span>&#125;&#125;;</span><br></pre></td></tr></table></figure>
+<p>!(Screenshot from 2022-04-01 11-22-01.png)</p>
+<p><img src="220401c++ 数据结构/Screenshot from 2022-04-01 11-22-01.png" alt=""></p>
+<p>如果不告诉一列有多少个元素，那么他就不知道，第几个元素开始是第二行</p>
+<p>所以传递<code>float mat[][3]</code>的时候需要告诉一个3，它才知道第二行从哪儿开始</p>
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><h2 id="array-style-字符串"><a href="#array-style-字符串" class="headerlink" title="array-style 字符串"></a>array-style 字符串</h2><p>数组的元素类型是char， 个数是16个。这16个元素的数组初始化为下面五个字符，后面的都被会置0.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char rabbit[16] &#x3D; &#123;&#39;P&#39;, &#39;e&#39;, &#39;t&#39;, &#39;t&#39;, &#39;r&#39;&#125;;</span><br></pre></td></tr></table></figure>
+<p>下面是一个不好的字符串, 字符串需要以\0结束. ‘\0’的就是0. 该标志符表示字符串到此结束，否则打印该字符串会一直打印下去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char bad_pig[4] &#x3D; &#123;&#39;a&#39;, &#39;b&#39;, &#39;d&#39;, &#39;d&#39;&#125;;</span><br><span class="line">&#x2F;&#x2F; cout &lt;&lt; bad_pig  &#x2F;&#x2F; 会出现无限个字符的打印，相当于越界了，因为找不到\0</span><br><span class="line">strlen(bad_pig) &#x2F;&#x2F; 可能程序会崩溃掉</span><br></pre></td></tr></table></figure>
+<p>一个好的是需要加一个\0,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char bad_pig[5] &#x3D; &#123;&#39;a&#39;, &#39;b&#39;, &#39;d&#39;, &#39;d&#39;, &#39;\0&#39;&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面这种定义字符串的方式很恶心，太麻烦了</p>
+<h2 id="常量字符串"><a href="#常量字符串" class="headerlink" title="常量字符串"></a>常量字符串</h2><p>这种定义就方便多了</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> rabbit[] = <span class="string">&quot;Peter&quot;</span>;</span><br><span class="line">char name3[] = &#x27;ABCD&#x27;;</span><br></pre></td></tr></table></figure>
+<p>下面是name3的地址分布</p>
+<p><img src="Screenshot from 2022-04-02 23-56-39.png" alt=""></p>
+<p><img src="220401c++ 数据结构/Screenshot from 2022-04-02 23-56-39.png" alt=""></p>
+<h2 id="字符串拷贝"><a href="#字符串拷贝" class="headerlink" title="字符串拷贝"></a>字符串拷贝</h2><h3 id="strcpy"><a href="#strcpy" class="headerlink" title="strcpy"></a>strcpy</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">strcpy</span><span class="params">(<span class="keyword">char</span>* dest, <span class="keyword">const</span> <span class="keyword">char</span>* src)</span></span></span><br></pre></td></tr></table></figure>
+<p>表示拷贝src到dest中，但是如果dest的长度不够，小于src的，他依然会进行拷贝，会向后溢出字符，是很危险的</p>
+<h3 id="strncpy"><a href="#strncpy" class="headerlink" title="strncpy"></a>strncpy</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">strncpy</span><span class="params">(<span class="keyword">char</span>* dest, <span class="keyword">const</span> <span class="keyword">char</span>* src, <span class="keyword">size_t</span> count)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>一般，count会设置为两个字符串的最小值，就不会出现这种问题</p>
+<h3 id="strcat"><a href="#strcat" class="headerlink" title="strcat"></a>strcat</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">strcat</span><span class="params">(<span class="keyword">char</span>* dest, <span class="keyword">const</span> <span class="keyword">char</span>* src)</span></span></span><br></pre></td></tr></table></figure>
+<p>把src接到dest的后面，同样也有strcpy的问题。所以也有一个strncat</p>
+<h3 id="strncat"><a href="#strncat" class="headerlink" title="strncat"></a>strncat</h3><h3 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">strcmp</span> <span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *lhs, <span class="keyword">const</span> <span class="keyword">char</span> *rhs)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>相同返回0， 会把lhs的第一个值减去rhs的第一个值作为返回值</p>
+<h2 id="string对象"><a href="#string对象" class="headerlink" title="string对象"></a>string对象</h2><p>std::string使用起来更方便，无须使用strcat，只需要+ 号就行</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::string str1 = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">std::string str2 = <span class="string">&quot;world&quot;</span>;</span><br><span class="line">std::string str3 = str1 + <span class="string">&quot;,&quot;</span> + str2;</span><br><span class="line"></span><br><span class="line">cout &lt;&lt; (str1 &lt; str2) &lt;&lt; endl;</span><br><span class="line">cout &lt;&lt; str1.<span class="built_in">length</span>() &lt;&lt; endl</span><br></pre></td></tr></table></figure>
+<h1 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span>&#123;</span></span><br><span class="line">	<span class="keyword">char</span> name[<span class="number">4</span>];</span><br><span class="line">	<span class="keyword">int</span> born;</span><br><span class="line">    <span class="keyword">bool</span> male;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">stu</span>;</span></span><br><span class="line">stu.age = <span class="number">2000</span>;</span><br><span class="line"><span class="built_in">strcpy</span>(stu.name, <span class="string">&quot;yu&quot;</span>);</span><br><span class="line">stu.male = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">stu</span> =</span> &#123;<span class="string">&quot;yu&quot;</span>, <span class="number">2000</span>, ture&#125; <span class="comment">// 第二种初始化方式，注意C的语法结构就需要额外加一个struct</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span> <span class="title">stus</span>[100];</span><span class="comment">//初始化一个数组，类型为student</span></span><br><span class="line">stus[<span class="number">50</span>].born = <span class="number">2002</span>; <span class="comment">//第五十个的出生日期</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="Screenshot from 2022-04-04 23-53-14.png" alt=""></p>
+<p><img src="220401c++ 数据结构/Screenshot from 2022-04-04 23-53-14.png" alt=""></p>
+<h2 id="结构体内存对齐"><a href="#结构体内存对齐" class="headerlink" title="结构体内存对齐"></a>结构体内存对齐</h2><p>结构体在内存中存在数据对齐，方便寄存器的读写</p>
+<p>下面看一个例子</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Stu1</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">bool</span> male;</span><br><span class="line">	<span class="keyword">char</span> label;</span><br><span class="line">	<span class="keyword">float</span> weight;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Stu2</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> id;</span><br><span class="line">	<span class="keyword">bool</span> male;</span><br><span class="line">	<span class="keyword">float</span> weight;</span><br><span class="line">	<span class="keyword">char</span> label;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面两个结构体的sizeof(Stu1)和sizeof(Stu2)分别是12个字节和16个字节</p>
+<p>因为需要对齐0，4，8，12，让寄存器的速写更快，所以weight会在第八位进行对齐，Stu2中的label放在12位，后面三位继续补齐</p>
+<p><img src="Screenshot from 2022-04-05 00-03-07.png" alt=""></p>
+<p><img src="220401c++ 数据结构/Screenshot from 2022-04-05 00-03-07.png" alt=""></p>
+<p>在c++中，结构体和类几乎是一样的，除了public和private可以定位除外</p>
+<h1 id="联合体Union"><a href="#联合体Union" class="headerlink" title="联合体Union"></a>联合体Union</h1><p>定义方式和结构体一样，所有的成员享有相同的内存，长度可以不同。Union返回的sizeof大小为最大的那个成员</p>
+<h1 id="enum"><a href="#enum" class="headerlink" title="enum"></a>enum</h1><p>enum的声明和上面的一样。他提供了一个可以替代const的不可变符号。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">color</span> &#123;</span>WHITE, BLACK, RED, GREEN, BLUE, YELLOW, NUM_COLORS&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">datatype</span> &#123;</span>TYPE_INT8=<span class="number">1</span>, TYPE_INT16=<span class="number">2</span>, TYPE_INT32=<span class="number">4</span>, TYPE_INT64=<span class="number">8</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="enum-union-struct-举例"><a href="#enum-union-struct-举例" class="headerlink" title="enum, union, struct 举例"></a>enum, union, struct 举例</h1><p>下面的例子，把enum和Union定义在一个结构体中，把不同类型的数据放入Union省下了空间</p>
+<p>计算l1范数的时候会根据传入的数据结构类型计算范数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">color</span> &#123;</span>WHITE, BLACK, RED, GREEN, BLUE, YELLOW, NUM_COLORS&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">datatype</span> &#123;</span>TYPE_INT8=<span class="number">1</span>, TYPE_INT16=<span class="number">2</span>, TYPE_INT32=<span class="number">4</span>, TYPE_INT64=<span class="number">8</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span>&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">datatype</span> <span class="title">type</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">        std::<span class="keyword">int8_t</span> data8[<span class="number">3</span>];</span><br><span class="line">        std::<span class="keyword">int16_t</span> data16[<span class="number">3</span>];</span><br><span class="line">        std::<span class="keyword">int32_t</span> data32[<span class="number">3</span>];</span><br><span class="line">        std::<span class="keyword">int64_t</span> data64[<span class="number">3</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">datawidth</span><span class="params">(struct Point pt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">size_t</span>(pt.type) * <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int64_t</span> <span class="title">l1norm</span><span class="params">(struct Point pt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int64_t</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span>(pt.type)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in"><span class="keyword">case</span></span> (TYPE_INT8): </span><br><span class="line">            result = <span class="built_in">abs</span>(pt.data8[<span class="number">0</span>]) + <span class="built_in">abs</span>(pt.data8[<span class="number">1</span>]) + <span class="built_in">abs</span>(pt.data8[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="built_in"><span class="keyword">case</span></span> (TYPE_INT16): </span><br><span class="line">            result = <span class="built_in">abs</span>(pt.data16[<span class="number">0</span>]) + <span class="built_in">abs</span>(pt.data16[<span class="number">1</span>]) + <span class="built_in">abs</span>(pt.data16[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="built_in"><span class="keyword">case</span></span> (TYPE_INT32): </span><br><span class="line">            result = <span class="built_in">abs</span>(pt.data32[<span class="number">0</span>]) + <span class="built_in">abs</span>(pt.data32[<span class="number">1</span>]) + <span class="built_in">abs</span>(pt.data32[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="built_in"><span class="keyword">case</span></span> (TYPE_INT64): </span><br><span class="line">            result = <span class="built_in">abs</span>(pt.data64[<span class="number">0</span>]) + <span class="built_in">abs</span>(pt.data64[<span class="number">1</span>]) + <span class="built_in">abs</span>(pt.data64[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">color</span> <span class="title">pen_color</span> =</span> RED;</span><br><span class="line">    pen_color = <span class="built_in">color</span>(<span class="number">3</span>); <span class="comment">//convert int to enum</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;We have &quot;</span> &lt;&lt; NUM_COLORS &lt;&lt; <span class="string">&quot; pens.&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//pen_color += 1; //error!</span></span><br><span class="line">    <span class="keyword">int</span> color_index = pen_color;</span><br><span class="line">    color_index += <span class="number">1</span>;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;color_index = &quot;</span> &lt;&lt; color_index &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//declaration and initialization</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Point</span> <span class="title">point1</span> =</span> &#123;.type=TYPE_INT8, .data8=&#123;<span class="number">-2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;&#125;;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Point</span> <span class="title">point2</span> =</span> &#123;.type=TYPE_INT32, .data32=&#123;<span class="number">1</span>,<span class="number">-2</span>,<span class="number">3</span>&#125;&#125;;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Data width = &quot;</span> &lt;&lt; <span class="built_in">datawidth</span>(point1) &lt;&lt; endl; <span class="comment">// 3</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Data width = &quot;</span> &lt;&lt; <span class="built_in">datawidth</span>(point2) &lt;&lt; endl; <span class="comment">// 12</span></span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;L1 norm = &quot;</span> &lt;&lt; <span class="built_in">l1norm</span>(point1) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;L1 norm = &quot;</span> &lt;&lt; <span class="built_in">l1norm</span>(point2) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/04/01/220401c++%20loops%20and%20branch/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">loops and 条件语句</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Array"><span class="nav-number">1.</span> <span class="nav-text">Array</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E8%B5%8B%E5%80%BC"><span class="nav-number">1.1.</span> <span class="nav-text">数组赋值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="nav-number">1.2.</span> <span class="nav-text">二维数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.</span> <span class="nav-text">字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#array-style-%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.1.</span> <span class="nav-text">array-style 字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.2.</span> <span class="nav-text">常量字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.3.</span> <span class="nav-text">字符串拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#strcpy"><span class="nav-number">2.3.1.</span> <span class="nav-text">strcpy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strncpy"><span class="nav-number">2.3.2.</span> <span class="nav-text">strncpy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strcat"><span class="nav-number">2.3.3.</span> <span class="nav-text">strcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strncat"><span class="nav-number">2.3.4.</span> <span class="nav-text">strncat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strcmp"><span class="nav-number">2.3.5.</span> <span class="nav-text">strcmp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.4.</span> <span class="nav-text">string对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">3.</span> <span class="nav-text">结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90"><span class="nav-number">3.1.</span> <span class="nav-text">结构体内存对齐</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%81%94%E5%90%88%E4%BD%93Union"><span class="nav-number">4.</span> <span class="nav-text">联合体Union</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#enum"><span class="nav-number">5.</span> <span class="nav-text">enum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#enum-union-struct-%E4%B8%BE%E4%BE%8B"><span class="nav-number">6.</span> <span class="nav-text">enum, union, struct 举例</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
