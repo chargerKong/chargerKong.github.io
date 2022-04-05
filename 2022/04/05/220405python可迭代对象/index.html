@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            Python 可迭代对象与迭代器 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Python 可迭代对象与迭代器</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2022-04-05 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Python/">Python</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="定义一个可迭代对象"><a href="#定义一个可迭代对象" class="headerlink" title="定义一个可迭代对象"></a>定义一个可迭代对象</h1><p>Python中的Iterable译为可迭代对象，在一个类中，只要定义了一个<code>__iter__</code>，那么他就是一个可迭代对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable, Iterator  </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span>                                                                                                                                               </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;entered iter&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(A(), Iterable)) <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<p>一个可迭代对象可以通过for 循环触发迭代，for循环一个对象，就是运行他的<code>__iter__</code>，在上述文件后添加如下内容，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = A()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">	<span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+<p>运行结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">entered iter</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;test.py&quot;, line 13, in &lt;module&gt;</span><br><span class="line">    for i in a:</span><br><span class="line">TypeError: iter() returned non-iterator of type &#39;NoneType&#39;</span><br></pre></td></tr></table></figure>
+<p>注意，entered iter已经被打印了</p>
+<p>但是报错了，报错的内容为<code>iter</code>函数（iter() 调用的就是<code>__iter__</code>）返回的内容不是一个迭代器，也就是说，for循环的操作是，通过<code>__iter__</code> 函数返回一个迭代器，然后开始逐个输出迭代器中的内容</p>
+<p>我们尝试返回一个迭代器，我们知道，一个list是可以被for循环输出的，因此，一个list的<code>__iter__</code>返回的内容必然是一个可以迭代出list中内容的迭代器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable, Iterator  </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span>                                                                                                                                               </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;entered iter&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].__iter__()</span><br><span class="line">a = A()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">	<span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<h1 id="定义一个迭代器"><a href="#定义一个迭代器" class="headerlink" title="定义一个迭代器"></a>定义一个迭代器</h1><p>在一个类中，只要定义了一个<code>__iter__</code>，那么他就是一个可迭代对象，是一个可以通过for 关键字来触发<code>__iter__</code>函数运行的可迭代对象。</p>
+<p>虽然他是一个可以被for触发的一个可迭代对象，但是目前还不知道迭代的内容是什么，所以我们需要定义迭代的内容，这就是迭代器</p>
+<p>上面我们知道<code>__iter__</code>返回的内容需要是一个迭代器，只要一个类中定义<code>__next__</code>方法，他就是一个迭代器，因此我们需要在<code>__iter__</code>中返回自己即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable, Iterator  </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>():</span>                                                                                                                                               </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;entered iter&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__next__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    	</span><br><span class="line">a = A()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">	<span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+<p>输出是内容是，无穷无尽的1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>这说明，for的确是先调用<code>__iter__</code>，然后再调用<code>__next__</code>。</p>
+<p>想要让循环停止，需要给一个判定条件，抛出<code>StopIteration</code>异常，即可</p>
+<h1 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h1><p>通过上面迭代器的定义可知，写一个迭代器还是比较复杂的，需要定义两个魔法函数，有一种特殊的迭代器，他叫生成器，他的写法就十分的简单</p>
+<p>在函数中，把return 改为yield 即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonacci</span>(<span class="params">n</span>):</span> <span class="comment"># 生成器函数 - 斐波那契</span></span><br><span class="line">    a, b, counter = <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> (counter &gt; n): </span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">yield</span> a</span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        counter += <span class="number">1</span></span><br><span class="line">f = fibonacci(<span class="number">10</span>) <span class="comment"># f 是一个迭代器，由生成器返回生成</span></span><br><span class="line"><span class="built_in">print</span>(f.__next__()) <span class="comment"># 或者使用next(f)，返回0</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>fibonacci(10)</code>不会直接运行，每调用一次next，函数就执行到yield把值返回。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/04/01/220401c++%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">数据结构</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">定义一个可迭代对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">定义一个迭代器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">生成器</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
