@@ -59,7 +59,7 @@
                             <a class="active"
                                href="/"
                             >
-                                首页
+                                HOME
                             </a>
                         </li>
                     
@@ -67,7 +67,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                归档
+                                ARCHIVES
                             </a>
                         </li>
                     
@@ -75,7 +75,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                标签
+                                TAGS
                             </a>
                         </li>
                     
@@ -83,7 +83,7 @@
                             <a class=""
                                href="/about"
                             >
-                                关于
+                                ABOUT
                             </a>
                         </li>
                     
@@ -104,22 +104,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class="active"
-                       href="/">首页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">归档</a>
+                       href="/archives">ARCHIVES</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">标签</a>
+                       href="/tags">TAGS</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">关于</a>
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -139,6 +139,47 @@
                 
                     <div class="home-content-container fade-in-down-animation">
     <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/08/220408c++%E5%87%BD%E6%95%B0/">
+                        c++函数重载，模板，指针
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        函数重载可以针对不同的参数列表定义多个同名的函数，如果只是函数名不同是不可以被重载的
+123456789int sum (int, int) &#123;    ...&#125;;double sum(double, double) &#123; ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 08 2022 18:38:29 GMT+0800">2022-04-08</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/08/220408c++%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
         
             <li class="home-article-item">
 
@@ -182,7 +223,7 @@
         
     </div>
 
-    <a href="/2022/04/06/220406%20%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/06/220406%20%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -193,7 +234,7 @@
 
                 <h3 class="home-article-title">
                     <a href="/2022/04/06/220406%E7%94%B3%E8%AF%B7%E5%86%85%E5%AD%98C%20style/">
-                        C风格：内存申请
+                        内存申请与释放
                     </a>
                 </h3>
 
@@ -226,7 +267,54 @@
         
     </div>
 
-    <a href="/2022/04/06/220406%E7%94%B3%E8%AF%B7%E5%86%85%E5%AD%98C%20style/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/06/220406%E7%94%B3%E8%AF%B7%E5%86%85%E5%AD%98C%20style/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/06/220407%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82/">
+                        c++函数传参
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        函数传参有两种形式
+
+传值
+传引用
+
+传递值参数传入，进行了一次拷贝，拷贝到了x里面，然后+10，最后返回，返回的过程也是对x的一次拷贝，所以一共俩次拷贝
+所以对num1不会有任何的影响
+123456789int foo(int x) &#123; ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 18:38:29 GMT+0800">2022-04-06</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/06/220407%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -267,7 +355,7 @@
         
     </div>
 
-    <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -309,7 +397,7 @@
         
     </div>
 
-    <a href="/2022/04/01/220401c++%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/01/220401c++%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -353,7 +441,7 @@
         
     </div>
 
-    <a href="/2022/04/01/220401c++%20loops%20and%20branch/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/04/01/220401c++%20loops%20and%20branch/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -399,7 +487,7 @@
         
     </div>
 
-    <a href="/2022/03/22/220322c++%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/22/220322c++%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -440,7 +528,7 @@ gimbal lock 万向锁：他锁的是三维旋转的其中一个维度。如果�
         
     </div>
 
-    <a href="/2022/03/14/220314%20gimbal%20lock/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/14/220314%20gimbal%20lock/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -483,103 +571,7 @@ gimbal lock 万向锁：他锁的是三维旋转的其中一个维度。如果�
         
     </div>
 
-    <a href="/2022/03/03/220303%20Optional_c++/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/03/01/220301%20%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-                        雷达数据处理
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        
-消息回调接受数据
-
-经过sample过滤
-
-转换为点云，形式
-
-\begin{bmatrix}
-TimedPointCloud  \\ 
-std::vector  
-\end{bmatrix}
-=
-\begin{bmatrix}
-[x_0,y_0,...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 01 2022 18:38:29 GMT+0800">2022-03-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/03/01/220301%20%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/27/220227%20liosam-transform/">
-                        transform类
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        这个类相比于IMU预积分类简单一点，输出最后的IMU位姿推算。
-使用IMU最新的增量补偿到回环的里程计上面去，得到一个全局最优下的状态
-订阅的topic 
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 27 2022 12:59:22 GMT+0800">2022-02-27</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/27/220227%20liosam-transform/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2022/03/03/220303%20Optional_c++/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
@@ -593,7 +585,7 @@ std::vector
     
         <a class="next btn"
            href="/page/2/"
-        >下一页</a>
+        >Next</a>
     
 </div>
 
@@ -618,7 +610,7 @@ std::vector
         </div>
         
         <div class="theme-info info-item">
-            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
@@ -708,23 +700,6 @@ std::vector
     
 </div>
 
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>
