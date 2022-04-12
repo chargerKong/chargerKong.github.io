@@ -145,6 +145,48 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/01/09/220109A-LOAM%E8%BF%90%E8%A1%8C/">
+                        LOAM运行
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        Loam的源代码是比较乱的，所以使用的是A_LOAM, 由qintong改编的，更为友好的，功能一样的代码
+https://github.com/HKUST-Aerial-Robotics/A-LOAM
+Ubuntu版本最好是18或者16，如果是20...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Jan 09 2022 18:38:29 GMT+0800">2022-01-09</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/A-LOAM/">A-LOAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/01/09/220109A-LOAM%E8%BF%90%E8%A1%8C/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/01/09/220110%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/">
                         synaptic软件
                     </a>
@@ -532,49 +574,6 @@ Handleworkqueue 流程
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/13/1213%E4%BC%98%E5%8C%96%E7%B1%BBsolve/">
-                        残差项构建-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        之前介绍了四种构建位姿的方式：
-
-节点 通过 GetLocalToGlobalTransform * constant_data-&gt;local_pose 进行global下位姿的计算
-子图 通过对前一个子图到后一个子图的坐标变换进行累计, 得到...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Dec 13 2021 18:38:29 GMT+0800">2021-12-13</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/12/13/1213%E4%BC%98%E5%8C%96%E7%B1%BBsolve/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -703,6 +702,23 @@ Handleworkqueue 流程
     
 </div>
 
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>

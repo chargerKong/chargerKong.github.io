@@ -145,6 +145,47 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/">
+                        定时发布数据-Node类-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        定时器定义调用Node的构造函数的时候，顺便定义了发布者，可查看node.cc文件Node::Node。submaplist_publisher即为一个::ros::Publisher
+12345678910111213141516171819202...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Sep 05 2021 15:59:22 GMT+0800">2021-09-05</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/09/05/0905%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
                         数据处理-Node类-cartographer
                     </a>
@@ -514,52 +555,6 @@ C++ 的类有四类特殊成员函数，它们分别是：默认...
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/24/0826PL-ICP/">
-                        PL-ICP
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        PL-ICP思想之前所介绍的ICP是两帧点云之间点和点之间的匹配，实际情况中，激光点是对实际环境中的曲面进行离散采样，因此，
-
-点和点之间的匹配是不合理的
-
-激光点不是最重要的，重要的是隐藏在激光点中的曲面
-
-最好的误差尺度为当前激光点到实际曲面的距...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Aug 24 2021 15:59:22 GMT+0800">2021-08-24</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E6%BF%80%E5%85%89SLAM/">激光SLAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/08/24/0826PL-ICP/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -688,6 +683,23 @@ C++ 的类有四类特殊成员函数，它们分别是：默认...
     
 </div>
 
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>

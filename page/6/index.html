@@ -145,6 +145,47 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/12/07/1207%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">
+                        子图间约束-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        之前说到ComputeConstraintsForNode，完成了初始化全局submap的位姿，和子图间内约束。
+ComputeConstraintsForNode在文件WorkItem::Result PoseGraph2D::ComputeCon...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Dec 07 2021 18:38:29 GMT+0800">2021-12-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/12/07/1207%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/12/06/1206Nav2-planner%E6%8F%92%E4%BB%B6/">
                         写一个planner插件-navigation2
                     </a>
@@ -519,53 +560,6 @@ ceres 怎么用对于一个优化问题，通常是求能使得一些平方和�
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/02/1203gazebo%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%AF%E5%8A%A8world%E4%BD%BF%E7%94%A8/">
-                        gazebo添加使用world
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        如何在终端使用gazebo的world文件打开终端，到相应的world目录下，直接运行
-1gazebo your_world_file.model
-有的时候会加载很久：一般情况下是此world里面需要的model文件，没有指定到gazebo_mode...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Dec 02 2021 18:38:29 GMT+0800">2021-12-02</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/gazebo/">gazebo</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/ros2/">ros2</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/12/02/1203gazebo%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%90%AF%E5%8A%A8world%E4%BD%BF%E7%94%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -694,6 +688,23 @@ ceres 怎么用对于一个优化问题，通常是求能使得一些平方和�
     
 </div>
 
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>
