@@ -9,7 +9,7 @@
     
     <title>
         
-            c++函数重载，模板，指针 |
+            c++结构体和类 |
         
         大杂烩
     </title>
@@ -143,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">c++函数重载，模板，指针</span>
+            <span class="title-hover-animation">c++结构体和类</span>
         </div>
 
         
@@ -161,7 +161,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2022-04-12 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2022-04-13 18:38:29
     </span>
     
     
@@ -189,35 +189,23 @@
         
 
         <div class="article-content markdown-body">
-            <p>越简洁越好。</p>
-<ul>
-<li><p>优化代码一定要考虑到内存，如果程序有大量的内存读写，可能内存读写影响了效率</p>
-<p>如果内存读写地址都是连续的，就比较方便。</p>
-</li>
-<li><p>避免内存拷贝，随之代码会变得较为复杂</p>
-</li>
-<li><p>循环中尽可能不要打印</p>
-</li>
-<li><p>查表法，比如三角函数，在低端cpu上，计算三角函数是比较慢的，只要精度不高，我们就可以搞一个哈希表</p>
-</li>
-<li><p>SIMD指令和OPENMP</p>
-</li>
+            <p>结构体存在连续的内存上，在做指针操作的时候有可能出错</p>
+<p>c++内存申请的时候还需要做多一步，即调用构造函数，他不像是C语言里面的结构体，申请完了就是原始的内存，</p>
+<p>删除类对象的时候。比如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student *class1 = <span class="keyword">new</span> Students[<span class="number">3</span>]&#123;</span><br><span class="line">	&#123;<span class="string">&quot;Tom&quot;</span>, <span class="number">2000</span>, <span class="literal">true</span>&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Bob&quot;</span>, <span class="number">1994</span>, False&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>删除的时候需要用[]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete []class1</span><br></pre></td></tr></table></figure>
+<p>如果仅仅是使用了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete class1</span><br></pre></td></tr></table></figure>
+<p>他只会调用第一个元素的析构函数，其他元素的析构函数不会调用</p>
+<h1 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h1><ul>
+<li>可以访问类中所有对象</li>
+<li>不是类的成员函数</li>
 </ul>
-<h1 id="SIMD"><a href="#SIMD" class="headerlink" title="SIMD"></a>SIMD</h1><p>一个指令可以处理多个数据</p>
-<p><img src="Screenshot from 2022-04-12 10-52-01.png" alt=""></p>
-<p><img src="220412加速代码/Screenshot from 2022-04-12 10-52-01.png" alt=""></p>
-<p>上述不同的CPU有不同的指令，可以完成上述的SIMD操作，因此跨平台就比较麻烦，不同的平台都要重新写一遍，所以维护起来比较麻烦</p>
-<p>OpenCV实现了一套 Universal intrinsics，可以针对不同的平台采取不同的指令集，下面图片中三链接是老师写的如何使用OpenCV的指令</p>
-<p><img src="Screenshot from 2022-04-12 10-56-05.png" alt=""></p>
-<p><img src="220412加速代码/Screenshot from 2022-04-12 10-56-05.png" alt=""></p>
-<h1 id="OpenMP"><a href="#OpenMP" class="headerlink" title="OpenMP"></a>OpenMP</h1><p>SIMD在运行的时候都是在一个CPU内核上运行，现在的CPU基本上都是多核的</p>
-<p>所以当我们跑起来的时候会发现，其中一个核是100%的，但是其他核却是空闲的，此时CPU的计算能力就没有被利用充分</p>
-<p>OpenMD可以任务分配给其他的核。假设我们有一个for循环，循环1000次。执行一下以下操作就可以加速</p>
-<p><img src="Screenshot from 2022-04-12 11-01-23.png" alt=""></p>
-<p>注意，不是只写一个progma就可以了，我们把任务拆到其他核的时候是有代价的，是需要花时间的。</p>
-<p>如果拆开后，任务很简单，仅仅就是一个加法的话，提速不明显，比如两个for循环的时候，我们应该把prama放到外面，这样的任务比较重。</p>
-<p><img src="Screenshot from 2022-04-12 11-06-44.png" alt=""></p>
-<p>第二个注意，循环体里面不能有相互依赖，在写的时候是有冲突的。因此需要先破除依赖才可以执行</p>
+<p>比如在写&lt;&lt; 运算符重载的时候，我们不可以进入&lt;&lt;所在的类中直接添加函数啊，这个是标准库中的类。所以此时友元函数就派上了用场</p>
+<h1 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 隐式类型转换</span></span><br><span class="line"><span class="function"><span class="keyword">operator</span> <span class="title">int</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    do_something;</span><br><span class="line">    <span class="keyword">return</span> a_num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 显式类型转换,如果添加了这，就说明一定要显式的调用</span></span><br><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">float</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    do_something;</span><br><span class="line">    <span class="keyword">return</span> a_float;</span><br><span class="line">&#125;</span><br><span class="line">your_type t1;</span><br><span class="line"><span class="keyword">int</span> m = t1; <span class="comment">// 隐</span></span><br><span class="line"><span class="keyword">float</span> n = <span class="built_in"><span class="keyword">float</span></span>(t1); <span class="comment">//显</span></span><br></pre></td></tr></table></figure>
+<p>注意</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">your_type t2 &#x3D; 80; &#x2F;&#x2F;这里调用的构造函数</span><br><span class="line"></span><br><span class="line">your_type t3;</span><br><span class="line">t3 &#x3D; 80; &#x2F;&#x2F; 这里调用的是&#x3D;号运算符</span><br><span class="line"></span><br><span class="line">your_type &amp;operator&#x3D;(int m) &#123;</span><br><span class="line">	do;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -229,13 +217,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2022/04/13/220413%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E7%B1%BB/"
+                           href="/2022/04/15/220415%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8D%B1%E9%99%A9%E6%80%A7/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">c++结构体和类</span>
+                                <span class="post-nav-title-item">c++ 默认函数的危险性</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -245,7 +233,7 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/04/08/220408c++%E5%87%BD%E6%95%B0/"
+                           href="/2022/04/12/220412%E5%8A%A0%E9%80%9F%E4%BB%A3%E7%A0%81/"
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item">c++函数重载，模板，指针</span>
@@ -418,7 +406,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SIMD"><span class="nav-number">1.</span> <span class="nav-text">SIMD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenMP"><span class="nav-number">2.</span> <span class="nav-text">OpenMP</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">友元函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.</span> <span class="nav-text">类型转换</span></a></li></ol>
     </div>
 </div>
         </aside>

@@ -145,6 +145,94 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/01/12/220112%E8%BF%90%E5%8A%A8%E7%95%B8%E5%8F%98%E5%92%8C%E8%A1%A5%E5%81%BF/">
+                        帧间里程计匹配
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        3D 激光SLAM通过角点和面点来进行匹配，求当前帧位姿
+视觉SLAM是通过特征点的冲投影误差来求得当前的位姿
+激光雷达畸变及运动补偿运动畸变是由于扫描的过程中，车体运动导致一帧数据的数据原点不一致。因此需要去校正，将其校正到任何一个点上都可以
+如何...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jan 12 2022 18:38:29 GMT+0800">2022-01-12</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/A-LOAM/">A-LOAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/01/12/220112%E8%BF%90%E5%8A%A8%E7%95%B8%E5%8F%98%E5%92%8C%E8%A1%A5%E5%81%BF/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/01/10/220110A-LOAM%E4%BB%A3%E7%A0%81/">
+                        A-LOAM 数据处理
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        文件结构该项目主要有四个launch文件，
+
+kitti_helper.launch 可以把kitti数据集上的数据转换为bag包
+其他launch 运行三个可执行文件
+
+可执行文件该项目有三个可执行文件，启动每一个launch的时候都会调用，分别为...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jan 10 2022 18:38:29 GMT+0800">2022-01-10</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/A-LOAM/">A-LOAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/01/10/220110A-LOAM%E4%BB%A3%E7%A0%81/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/01/09/220109A-LOAM%E8%BF%90%E8%A1%8C/">
                         LOAM运行
                     </a>
@@ -485,91 +573,6 @@ Cartographer的优缺点分析优点代码架构十分优美各个模块独立�
     </div>
 
     <a href="/2021/12/17/1217%E5%90%8E%E7%AB%AF%E6%80%BB%E7%BB%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/17/1217HandWorkQueue/">
-                        HandleWorkQueue
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在之前我们讲解了RunOptimization 函数，他添加了基于ceres的problem，并添加了五种残差进行优化，并且把优化结果保存在了相应的优化类的data中。
-Handleworkqueue 流程
-把新计算的约束添加到data_.const...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Dec 17 2021 18:38:29 GMT+0800">2021-12-17</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/12/17/1217HandWorkQueue/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/15/1215%E9%87%8C%E7%A8%8B%E8%AE%A1%E5%92%8CGPS%E6%AE%8B%E5%B7%AE/">
-                        里程计残差，GPS残差
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        优化里程计与节点的残差节点与节点间在global坐标系下的相对坐标变换 与 通过里程计数据插值出的相对坐标变换 的差值作为残差项
-
-第一种坐标变换: 相邻2个节间在global坐标系下的坐标变换
-第二种坐标变换: 再分别计算这2个节点的时间在里程计数...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Dec 15 2021 18:38:29 GMT+0800">2021-12-15</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/12/15/1215%E9%87%8C%E7%A8%8B%E8%AE%A1%E5%92%8CGPS%E6%AE%8B%E5%B7%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

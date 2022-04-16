@@ -145,6 +145,88 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/09/07/0907tf2-nav2/">
+                        里程计介绍-navigation2
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        里程计(odometry)介绍翻译内容为：https://navigation.ros.org/setup_guides/odom/setup_odom.html#odometry-introduction
+里程计系统根据机器人的运动提供了机器人的姿...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Sep 07 2021 15:59:22 GMT+0800">2021-09-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/navigation2/">navigation2</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/09/07/0907tf2-nav2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">
+                        服务介绍-Node类-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在构造Node类的时候，cartographer也声明了一些服务。
+123456789101112131415// Step: 2 声明发布对应名字的ROS服务, 并将服务的发布器放入到vector容器中service_servers_.push_b...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 06 2021 15:59:22 GMT+0800">2021-09-06</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/09/06/0906%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/09/05/0905%E5%AE%9A%E6%97%B6%E5%8F%91%E5%B8%83%E6%95%B0%E6%8D%AE/">
                         定时发布数据-Node类-cartographer
                     </a>
@@ -464,93 +546,6 @@ C++ 的类有四类特殊成员函数，它们分别是：默认...
     </div>
 
     <a href="/2021/08/28/0828Node/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/">
-                        cartographer参数读取过程下
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在参数读取上中，我们说到了，lua的配置参数最后会通过std::tie传到两个变量中，分别是
-
-类为NodeOptions的变量 node_options
-类为TrajectoryOptions的变量trajectory_options
-
-下面我们具...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Aug 26 2021 15:59:22 GMT+0800">2021-08-26</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/08/26/0826%E5%8F%82%E6%95%B0%E8%AF%BB%E5%8F%96/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/08/24/0824%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">
-                        cartographer参数读取过程上
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        配置参数对于用户来说是十分重要的，本文简单介绍lua参数在代码中的参数运行流程
-打开node_main.cc，在这里关于参数配置的内容有
-12345678NodeOptions node_options;TrajectoryOptions traje...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Aug 24 2021 15:59:22 GMT+0800">2021-08-24</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/08/24/0824%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

@@ -145,6 +145,93 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/03/22/220322c++%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                        数据类型
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        编译分开编译链接1g++ -c main.cpp
+-c 表示只编译，生成一个目标文件 main.o
+1g++ -c mul.cpp
+-c 表示只编译，生成一个目标文件 mul.o
+1g++ main.o mul.o -o mul
+表示链接
+一次性编译...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 22 2022 18:38:29 GMT+0800">2022-03-22</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/22/220322c++%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/03/14/220314%20gimbal%20lock/">
+                        最好的gimbal lock讲解
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        https://krasjet.github.io/quaternion/bonus_gimbal_lock.pdf
+gimbal lock 万向锁：他锁的是三维旋转的其中一个维度。如果某一个维度的旋转恰好和其他维度重合了，那么其中一个维度的旋转就失...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Mar 14 2022 18:38:29 GMT+0800">2022-03-14</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/math/">math</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/14/220314%20gimbal%20lock/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/03/03/220303%20Optional_c++/">
                         absl::optional 使用
                     </a>
@@ -500,87 +587,6 @@ imu消息
     </div>
 
     <a href="/2022/02/06/220207%20launch%20substitution/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/04/220204%E6%83%AF%E6%80%A7%E6%B5%8B%E9%87%8F%E5%8D%95%E5%85%83%E7%AE%80%E4%BB%8B%E5%8F%8A%E9%A2%84%E7%A7%AF%E5%88%86/">
-                        惯性测量单元简介及预积分
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        IMU 器件介绍及选型建议IMU是惯性测量单元，包括一个三轴的加速度计以及一个三轴的陀螺仪，分别测量出物体的加速度和角速度，不受周围环境结构，光照等外界因素影响 ; 同时，通常 IMU 的输出频率在 100-1000hz 之间，远高于相机或者激光雷达...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Feb 04 2022 12:59:22 GMT+0800">2022-02-04</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/04/220204%E6%83%AF%E6%80%A7%E6%B5%8B%E9%87%8F%E5%8D%95%E5%85%83%E7%AE%80%E4%BB%8B%E5%8F%8A%E9%A2%84%E7%A7%AF%E5%88%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/02/220202LIOSAM%E7%AE%80%E4%BB%8B/">
-                        LIOSAM介绍
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        LIOSAM相对于LOAM和Lego-LOAm的代码可读性比较好，功能也比较全。可以方便的去拓展
-摘要我们提出了一个基于GTSAM优化库的 紧耦合的雷达惯性里程计。它是一个高精度，实时的轨迹估计和地图构建。LIOSAM有多个传感器，他基于因子图，把我...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Feb 02 2022 12:59:22 GMT+0800">2022-02-02</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/02/220202LIOSAM%E7%AE%80%E4%BB%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
