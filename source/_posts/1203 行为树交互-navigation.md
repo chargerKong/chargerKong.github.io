@@ -1,7 +1,7 @@
 ---
 title: Groot-与行为树交互
 date: 2021-12-03 18:38:29
-tags: navigation
+tags: navigation2
 ---
 
 Groot是BehaviorTree.CPP库的配套应用程序，用于创建、编辑和可视化行为树。行为树被深入集成到Nav2中，作为在复杂的导航和自治堆栈中编排任务服务器逻辑的主要方法。行为树，简称BTs，由许多完成不同任务和控制逻辑流的节点组成，类似于有限状态机，但以树的结构构成。这些节点的类型有: Action, Condition, Control, 或者 Decorator，在 [Navigation Concepts](https://navigation.ros.org/concepts/index.html#concepts) 和 [BehaviorTree.CPP](https://github.com/BehaviorTree/BehaviorTree.CPP).中有更详细的描述。

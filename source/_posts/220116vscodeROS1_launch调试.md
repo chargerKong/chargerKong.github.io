@@ -52,3 +52,4 @@ tags: vscode
 添加一条
 
 SET(CMAKE_BUILD_TYPE Debug)
+

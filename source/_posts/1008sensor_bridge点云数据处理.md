@@ -1,5 +1,5 @@
 ---
-title: HandleLaserScan-cartographer
+title: 点云数据处理 HandleLaserScan-cartographer
 date: 2021-10-08 09:59:22
 tags: cartographer
 ---
@@ -40,7 +40,13 @@ HandleLaserScan的形参分别为
 
 # HandleLaserScan
 
-HandleLaserScan 函数主要根据参数配置，将一帧点云数据分成几段来处理，并且更新没一段点云的时间，保证每一段点云的最后一个点的时间为0。
+HandleLaserScan 函数主要根据参数配置，将一帧点云数据分成几段来处理，并且更新每一段点云的时间，保证每一段点云的最后一个点的时间为0。
+
+分为几段的意思：0到90度为一段，90到180度为一段，180到270度为一段，270到360为一段。
+
+每一段分别送入下一个函数进行处理
+
+
 
 最后将点云的坐标系从雷达坐标系转换到tracking frame中
 
@@ -144,11 +150,18 @@ void SensorBridge::HandleLaserScan(
 carto::sensor::TimedPointCloud subdivision(
 points.points.begin() + start_index, points.points.begin() + end_index);
 if (start_index == end_index) {
-continue;
+    continue;
 }
 ```
 
 ### 时间处理
+
+对每一段的点云设置步骤，有两步
+
+- 点云末尾的点 time=0
+- 更新末尾点的时间戳
+
+
 
 下面是分段点云的处理，
 

@@ -1,7 +1,7 @@
 ---
-title: python学习-typing
+title: typing
 date: 2021-04-07 16:24:35
-tags: python
+tags: Python
 ---
 
 ```

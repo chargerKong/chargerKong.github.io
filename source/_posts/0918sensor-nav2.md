@@ -1,7 +1,7 @@
 ---
 title: 配置sensors-navigation2
 date: 2021-09-18 15:59:23
-tags: nav2
+tags: navigation2
 ---
 
 # 配置传感器

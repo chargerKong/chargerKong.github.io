@@ -1,10 +1,8 @@
 ---
-title: ros学习一
+title: ros2 topic
 date: 2021-03-26 16:24:35
 tags: ros2
 ---
-
-## ros2 记录
 
 ## 错误记录
 

@@ -4,8 +4,6 @@ date: 2021-12-07 18:38:29
 tags: navigation2
 ---
 
-
-
 在本教程中，我们将会使用 `PurePursuitController::configure`, `PurePursuitController::setPlan` 和 `PurePursuitController::computeVelocityCommands`.
 
 # 创建一个新插件

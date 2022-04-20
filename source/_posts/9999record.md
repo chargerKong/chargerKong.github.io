@@ -1,7 +1,7 @@
 ---
-title: 错误记录
+title: ROS2 报错
 date: 2021-04-12 09:59:22
-tags:
+tags: 错误记录
 ---
 
  

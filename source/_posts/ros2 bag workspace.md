@@ -1,7 +1,7 @@
 ---
-title: ros2学习三
+title: ros2 bag workspace
 date: 2021-03-28 09:59:22
-tags:
+tags: ros2
 ---
 
 # Using rqt_console

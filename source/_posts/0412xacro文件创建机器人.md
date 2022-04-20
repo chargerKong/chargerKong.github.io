@@ -32,7 +32,7 @@ SDF优势:
 
 - 用于解析xml格式的机器人模型
 
-  
+  ![](link_sample.png)
 
   ![](xacro文件创建机器人/link_sample.png)
 
@@ -76,26 +76,26 @@ SDF优势:
 example1.urdf
 
 ```xml
-     <link name="base_link">
-        <visual>
-            <origin xyz="0 0 0.08" rpy="0 0 0"/>
-            <geometry>
-                <cylinder length="0.1" radius="0.20"/>
-            </geometry>
-        </visual>
-        <collision>
-            <origin xyz="0 0 0.08" rpy="0 0 0"/>
-            <geometry>
-                <cylinder length="0.1" radius="0.20"/>
-            </geometry>
-        </collision>
-        <inertial>
-            <mass value="20" />                                                                                                                                                      
-            <inertia ixx="0.24" ixy = "0" ixz = "0"
-                     iyy="0.24" iyz = "0"
-                     izz="0.4" />
-        </inertial>
-    </link>
+<link name="base_link">
+    <visual>
+        <origin xyz="0 0 0.08" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="0.1" radius="0.20"/>
+        </geometry>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0.08" rpy="0 0 0"/>
+        <geometry>
+            <cylinder length="0.1" radius="0.20"/>
+        </geometry>
+    </collision>
+    <inertial>
+        <mass value="20" />                                                                                                                                                      
+        <inertia ixx="0.24" ixy = "0" ixz = "0"
+                 iyy="0.24" iyz = "0"
+                 izz="0.4" />
+    </inertial>
+</link>
 ```
 
 说明：
@@ -787,6 +787,8 @@ ros2 launch robot_description gazebo_empty_world.launch.py
 
 ![](xacro文件创建机器人/two_wheel.png)
 
+![](two_wheel.png)
+
 
 
 ### 定义万向轮
@@ -826,5 +828,7 @@ ros2 launch robot_description gazebo_empty_world.launch.py
 ```
 
 最后可以看见如下的机器人在模型中
+
+![](robot_finish.png)
 
 ![](xacro文件创建机器人/robot_finish.png)

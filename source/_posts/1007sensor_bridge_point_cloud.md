@@ -14,6 +14,8 @@ tags: cartographer
 
 ![](Screenshot from 2021-10-07 18-32-56.png)
 
+![](1007sensor_bridge_point_cloud/Screenshot from 2021-10-07 18-32-56.png)
+
 
 
 ## node类筛选数据

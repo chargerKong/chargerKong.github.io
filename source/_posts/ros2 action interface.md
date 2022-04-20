@@ -1,10 +1,8 @@
 ---
-title: ros2学习五
+title: ros2 action interface
 date: 2021-04-02 09:59:22
 tags: ros2
 ---
-
-# ros2学习五
 
 # ROS2接口扩展
 

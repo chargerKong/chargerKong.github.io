@@ -1,7 +1,7 @@
 ---
 title: 配置URDF-navigation2
 date: 2021-09-09 15:59:22
-tags: nav2
+tags: navigation2
 ---
 
 翻译自https://navigation.ros.org/setup_guides/urdf/setup_urdf.html#urdf-and-the-robot-state-publisher

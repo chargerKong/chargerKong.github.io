@@ -1,10 +1,8 @@
 ---
-title: ros2学习四
+title: ros2 pub sub
 date: 2021-04-01 09:59:22
 tags: ros2
 ---
-
-# ros2学习四
 
 ## 写一个简单的publisher和subscriber
 

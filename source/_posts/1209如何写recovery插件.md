@@ -1,7 +1,7 @@
 ---
 title: 如何写recovery插件-navigation
 date: 2021-12-09 18:38:29
-tags: navigation
+tags: navigation2
 ---
 
 # 写一个recovery插件

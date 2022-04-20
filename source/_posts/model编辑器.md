@@ -1,7 +1,7 @@
 ---
 title: model编辑器
 date: 2021-04-08 11:01:52
-tags:
+tags: gazebo
 ---
 
 通过Model编辑器，我们可以在图形用户界面（GUI）中构造简单的模型。对于更复杂的模型，您将需要学习如何编写SDF文件，或者urdf文件。但是现在，我们可以在Gazebo GUI中做所有事情！

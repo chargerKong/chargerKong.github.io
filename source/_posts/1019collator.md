@@ -214,6 +214,8 @@ void CollatedTrajectoryBuilder::HandleCollatedSensorData(
 
 下面是对时间的一些处理
 
+rate_timers_ 维护着一个队列，一次Pulse，他就把此数据加入到队列中，并且删除时间老于kSensorDataRatesLoggingPeriodSeconds 的数据
+
 ```c++
   // 对数据队列进行更新
   it->second.Pulse(data->GetTime());
