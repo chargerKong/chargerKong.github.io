@@ -220,7 +220,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb)</span><br></pre></td></tr></table></figure>
 <p>和上面的一样，只要输入backtrace就会有一个回溯的信息</p>
 <p>这些回溯需要花费一些时间来习惯阅读，但是通常，从底部开始，然后沿着堆栈向上，直到您看到它崩溃的那一行为止。 然后，您可以推断出其崩溃的原因。 完成GDB的操作后，键入quit，它将退出会话并杀死仍在运行的所有进程。 它可能会询问您是否要结束一些线程，输入yes</p>
-<h2 id="From-Nav2-Bringup（再看）"><a href="#From-Nav2-Bringup（再看）" class="headerlink" title="From Nav2 Bringup（再看）"></a>From Nav2 Bringup（再看）</h2><p>使用多个节点的启动文件略有不同，因此您可以与您的GDB会话交互，而不会被同一终端中的其他日志所困扰。出于这个原因，在处理更大的启动文件时，最好选择您感兴趣的特定服务器并单独启动它。</p>
+<h2 id="From-Nav2-Bringup"><a href="#From-Nav2-Bringup" class="headerlink" title="From Nav2 Bringup"></a>From Nav2 Bringup</h2><p>使用多个节点的启动文件略有不同，因此您可以与您的GDB会话交互，而不会被同一终端中的其他日志所困扰。出于这个原因，在处理更大的启动文件时，最好选择您感兴趣的特定服务器并单独启动它。</p>
 <p>因此，对于这种情况，当您看到想要调查的崩溃时，最好将此服务器与其他服务器分开。</p>
 <p>如果你的服务器正在从一个嵌套的启动文件(例如，一个包含的启动文件的启动文件)启动，你可能要做以下事情:</p>
 <ul>
@@ -440,7 +440,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#From-a-Node"><span class="nav-number">1.</span> <span class="nav-text">From a Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-a-Launch-File"><span class="nav-number">2.</span> <span class="nav-text">From a Launch File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-Nav2-Bringup%EF%BC%88%E5%86%8D%E7%9C%8B%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">From Nav2 Bringup（再看）</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#From-a-Node"><span class="nav-number">1.</span> <span class="nav-text">From a Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-a-Launch-File"><span class="nav-number">2.</span> <span class="nav-text">From a Launch File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#From-Nav2-Bringup"><span class="nav-number">3.</span> <span class="nav-text">From Nav2 Bringup</span></a></li></ol>
     </div>
 </div>
         </aside>

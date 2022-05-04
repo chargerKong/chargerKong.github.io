@@ -221,6 +221,8 @@
 <p>在默认赋值函数，首先内存释放，然后重新申请一个内存，不要和之前的冲突即可</p>
 <h2 id="软拷贝"><a href="#软拷贝" class="headerlink" title="软拷贝"></a>软拷贝</h2><p>参考引用计数。申请内存的时候再额外申请四个字节，作为计数使用，一个变量指向这一块内存的时候，计数就+1</p>
 <p>当引用计数为0的时候，内存自动释放</p>
+<h1 id="默认delete-避免上述问题"><a href="#默认delete-避免上述问题" class="headerlink" title="默认delete 避免上述问题"></a>默认delete 避免上述问题</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MyString</span>(<span class="keyword">const</span> MyString&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">MyString &amp;<span class="keyword">operator</span>=(<span class="keyword">const</span> MyString) = <span class="keyword">delete</span>;</span><br></pre></td></tr></table></figure>
+<p>这就告诉编译器，我不需要这个默认生成的拷贝构造函数和默认赋值，来防止发生上述的为问题 </p>
 
         </div>
 
@@ -228,6 +230,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2022/04/16/220416c++%20%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%BB%A7%E6%89%BF/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">c++ 模板和继承</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -406,7 +423,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8D%B1%E9%99%A9%E6%80%A7%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">默认函数的危险性举例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">类定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">类使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%B1%E9%99%A9%E8%A7%A3%E5%86%B3"><span class="nav-number">2.</span> <span class="nav-text">危险解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%87%8D%E6%96%B0%E7%94%B3%E8%AF%B7"><span class="nav-number">2.1.</span> <span class="nav-text">内存重新申请</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.2.</span> <span class="nav-text">软拷贝</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8D%B1%E9%99%A9%E6%80%A7%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">默认函数的危险性举例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">类定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">类使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%B1%E9%99%A9%E8%A7%A3%E5%86%B3"><span class="nav-number">2.</span> <span class="nav-text">危险解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%87%8D%E6%96%B0%E7%94%B3%E8%AF%B7"><span class="nav-number">2.1.</span> <span class="nav-text">内存重新申请</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.2.</span> <span class="nav-text">软拷贝</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4delete-%E9%81%BF%E5%85%8D%E4%B8%8A%E8%BF%B0%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">默认delete 避免上述问题</span></a></li></ol>
     </div>
 </div>
         </aside>

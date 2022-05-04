@@ -145,6 +145,102 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/05/04/220504%20torch%E7%89%88%E6%9C%AC/">
+                        NoneType object has no attribute origin
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        该错误来自于
+1from torch_geometric.data import InMemoryDataset
+原因在于pytorch和torch_geometric的版本不正确，下面是正确的版本
+12345678torch            ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed May 04 2022 18:38:29 GMT+0800">2022-05-04</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/python/">python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/pytorch/">pytorch</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/05/04/220504%20torch%E7%89%88%E6%9C%AC/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/16/220416c++%20%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%BB%A7%E6%89%BF/">
+                        c++ 模板和继承
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        新建一个指针的时候，如果没有决定好指向什么位置，一定要赋予初始0或者null.
+否则在释放的时候，无法确定该指针是不是随机产生出来的。
+类构造类的构造函数执行顺序
+
+父类的构造函数
+自己的构造函数
+
+析构函数和上述是返的
+如何控制类访问的成员 ，默认...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Apr 16 2022 18:38:29 GMT+0800">2022-04-16</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/16/220416c++%20%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%BB%A7%E6%89%BF/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/04/15/220415%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8D%B1%E9%99%A9%E6%80%A7/">
                         c++ 默认函数的危险性
                     </a>
@@ -496,92 +592,6 @@ c++内存申请的时候还需要做多一步，即调用构造函数，他不�
     </div>
 
     <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/01/220401c++%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        数据结构
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Array数组长度，下面的情况，数组长度只有在程序运行的 时候才可以确定，在编译的时候是不确定的
-123456int len = 1;while (len &lt; 10)&#123;	int num[len];	len ++;&#125;
-注意，边...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 18:38:29 GMT+0800">2022-04-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/c/">c++</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/01/220401c++%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/01/220401c++%20loops%20and%20branch/">
-                        loops and 条件语句
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        三目运算符转换1factor &#x3D; isPositive ? 1 : -1;
-等价于
-1234if (isPositive)	factor &#x3D; 1else	factor &#x3D; -1
-等价于
-1factor &#x3D; is...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 01 2022 18:38:29 GMT+0800">2022-04-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/c/">c++</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/01/220401c++%20loops%20and%20branch/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

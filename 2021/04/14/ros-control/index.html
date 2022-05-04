@@ -216,7 +216,7 @@
 <p>在<code>gazebo_ros_joint_state_publisher</code>中，我们发布了四个joint的状态，即他们的tf变换，这个信息将会在rviz中的显示里面用到。</p>
 <p>此时，我们再一次启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
-<p><img src="subscribe.png" alt=""></p>
+<p><img src="ros-control/subscribe.png" alt=""></p>
 <p>可以看见，<code>differential_drive_controller</code>已经开始订阅了<code>\cmd_vel</code>topic，可以通过如下方式查看此topic的数据结构</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic list -t</span><br></pre></td></tr></table></figure>
 <p>返回的内容应该包含如下一条</p>
@@ -251,11 +251,11 @@
 <p>这里选择单独编译这个包，<code>--symlink-install</code>表示在之后改变代码的时候，无需再一次编译</p>
 <h3 id="运行节点"><a href="#运行节点" class="headerlink" title="运行节点"></a>运行节点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 run teleop_key_control teleop_key_control</span><br></pre></td></tr></table></figure>
 <p>出现如下信息则说明，程序已经准备完毕</p>
-<p><img src="node_start.png" alt=""></p>
+<p><img src="ros-control/node_start.png" alt=""></p>
 <p>此时按下<code>i,j,k.l</code>，在终端会返回</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [1618554843.483519335] [robot_publisher]: </span><br><span class="line">we are ready, please press </span><br><span class="line">  i</span><br><span class="line">j k l</span><br><span class="line">to  control the robot and press s to stop the robot</span><br><span class="line">                          </span><br><span class="line">[INFO] [1618554948.329805806] [robot_publisher]: publish x:0.0， z:-1.0</span><br><span class="line">[INFO] [1618554948.736472114] [robot_publisher]: publish x:1.0， z:0.0</span><br><span class="line">[INFO] [1618554949.951230725] [robot_publisher]: publish x:0.0， z:1.0</span><br><span class="line">[INFO] [1618554950.393064298] [robot_publisher]: publish x:1.0， z:0.0</span><br><span class="line">[INFO] [1618554950.823001403] [robot_publisher]: publish x:0.0， z:1.0</span><br><span class="line">[INFO] [1618554952.271946683] [robot_publisher]: publish x:0.0， z:-1.0</span><br><span class="line">[INFO] [1618554952.609704862] [robot_publisher]: publish x:0.0， z:1.0</span><br><span class="line">[INFO] [1618554952.957432100] [robot_publisher]: publish x:-1.0， z:0.0</span><br><span class="line">[INFO] [1618554957.612637394] [robot_publisher]: publish x:0.0， z:0.0</span><br></pre></td></tr></table></figure>
 <p>同时在gazebo中，机器人也会有移动的效果</p>
-<p><img src="robot_move.png" alt=""></p>
+<p><img src="ros-control/robot_move.png" alt=""></p>
 
         </div>
 

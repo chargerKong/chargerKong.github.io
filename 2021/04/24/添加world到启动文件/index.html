@@ -165,6 +165,17 @@
     </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/robot-simulation/">robot_simulation</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
@@ -201,7 +212,7 @@
 <h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build --packages-select robot_description --symlink-install</span><br></pre></td></tr></table></figure>
 <p>记得source一下bash</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_lab_world.launch.py</span><br></pre></td></tr></table></figure>
-<p><img src="world.png" alt=""></p>
+<p><img src="添加world到启动文件/world.png" alt=""></p>
 <h1 id="launch文件分析（gazebo）"><a href="#launch文件分析（gazebo）" class="headerlink" title="launch文件分析（gazebo）"></a>launch文件分析（gazebo）</h1><h3 id="generate-launch-description"><a href="#generate-launch-description" class="headerlink" title="generate_launch_description"></a>generate_launch_description</h3><p> launch文件启动会从这个函数开始运行</p>
 <p>返回一个<code>LaunchDescription</code>，整个函数可以接收一个列表，列表内的元素可以为</p>
 <ul>

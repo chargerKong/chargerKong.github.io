@@ -199,7 +199,6 @@
 <p>我们使用了<code>&lt;xacro:include filename=...&gt;</code>来导入一个文件，find后面跟上我们的包名，下面一行表示调用文件中的宏，就是我们所定义的机器人</p>
 <h3 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">colcon build --packages-select robot_description</span><br><span class="line">ros2 launch robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
 <p>可以看见在gazebo的场景中间出现一个和之前一模一样的机器人</p>
-<p><img src="origon_robot.png" alt=""></p>
 <p><img src="0416添加传感器/origon_robot.png" alt=""></p>
 <h2 id="添加传感器"><a href="#添加传感器" class="headerlink" title="添加传感器"></a>添加传感器</h2><h3 id="修改my-robot-xacro"><a href="#修改my-robot-xacro" class="headerlink" title="修改my_robot.xacro"></a>修改my_robot.xacro</h3><p>根据现在的文件结构模式，我们期望再导入一个xacro，直接调用里面的宏就可以加入一个传感器，即</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">robot</span> <span class="attr">name</span>=<span class="string">&quot;mbot&quot;</span> <span class="attr">xmlns:xacro</span>=<span class="string">&quot;http://www.ros.org/wiki/xacro&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 导入机器人 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">&quot;$(find robot_description)/my_robot_base.xacro&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:my_robot_base</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 导入雷达 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">&quot;$(find robot_description)/my_robot_lidar.xacro&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:my_robot_lidar</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 添加雷达和机器人的joint --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">&quot;lidar_joint&quot;</span> <span class="attr">type</span>=<span class="string">&quot;fixed&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">&quot;$&#123;base_radius-lidar_radius&#125; 0 $&#123;base_length+wheel_radius/3&#125;&quot;</span> <span class="attr">rpy</span>=<span class="string">&quot;0 0 0&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">parent</span> <span class="attr">link</span>=<span class="string">&quot;base_link&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">child</span> <span class="attr">link</span>=<span class="string">&quot;lidar_link&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">robot</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -226,7 +225,7 @@
 <p>运行节点</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
 <p>在启动的gazebo场景中，我们应该可以看见</p>
-<p><img src="lidar_finish.png" alt=""></p>
+<p><img src="0416添加传感器/lidar_finish.png" alt=""></p>
 <p>打开另外一个终端，可以查看topic信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 topic list -t</span><br></pre></td></tr></table></figure>
 <p>返回</p>
@@ -236,28 +235,28 @@
 <h2 id="rviz数据显示"><a href="#rviz数据显示" class="headerlink" title="rviz数据显示"></a>rviz数据显示</h2><p>到目前，我们可以通过gazebo把仿真的数据通过topic的形式进行发布，下面将其发布的雷达数据进行可视化。</p>
 <h3 id="gazebo显示"><a href="#gazebo显示" class="headerlink" title="gazebo显示"></a>gazebo显示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">source install&#x2F;local_setup.bash</span><br><span class="line">ros2 launch robot_description gazebo_empty_world.launch.py</span><br></pre></td></tr></table></figure>
 <p>为了显示雷达的数据信息，我们通过场景中上方的工具栏随意添加几个物体</p>
-<p><img src="object.png" alt=""></p>
+<p><img src="0416添加传感器/object.png" alt=""></p>
 <h3 id="rviz显示"><a href="#rviz显示" class="headerlink" title="rviz显示"></a>rviz显示</h3><p>打开另外一个终端</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rviz2</span><br></pre></td></tr></table></figure>
 <p>在左上方display选项卡中，找到<code>Global Options</code>，将里面的<code>Fix Frame</code>选择为<code>base link</code></p>
-<p><img src="fixed_frame.png" alt=""></p>
+<p><img src="0416添加传感器/fixed_frame.png" alt=""></p>
 <p>在此选项卡的左下角，点击<code>Add</code>按钮，在弹出的新窗口中选择<code>LaserScan</code>，点击<code>OK</code></p>
-<p><img src="addlaserscan.png" alt=""></p>
+<p><img src="0416添加传感器/addlaserscan.png" alt=""></p>
 <p>此时在<code>Displays</code>下面会出现一个红色的<code>LaserScan</code>，点击<code>LaserScan</code>，把他订阅的<code>topic</code>改为我们之前通过gazebo发布的<code>/gazebo_ros_head_hokuyo_controlle/out</code>，为了使雷达数据更为明显，调整<code>size</code>为0.1</p>
-<p><img src="laserscanrviz.png" alt=""></p>
+<p><img src="0416添加传感器/laserscanrviz.png" alt=""></p>
 <p>为了让机器人在<code>rviz</code>中显示，点击左下角的Add，点击<code>RobotModel</code>， 并设置<code>RobotModel</code>下的<code>Description Topic</code>为<code>robot_description</code></p>
-<p><img src="robot_display.png" alt=""></p>
+<p><img src="0416添加传感器/robot_display.png" alt=""></p>
 <p>则应该看到一个机器人显示在Rviz中（无颜色）</p>
 <h3 id="设置rviz"><a href="#设置rviz" class="headerlink" title="设置rviz"></a>设置rviz</h3><p>为了避免每一次进入rviz 都要重新点add键，我们可以在rviz的左上角<code>file -&gt; save Config as</code>将其保存在项目的<code>rviz</code>文件夹下，名为<code>rviz.rviz</code>下一次启动可以直接调用此配置文件，首先进入配置文件夹，然后启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rviz2 rviz.rviz</span><br></pre></td></tr></table></figure>
 <h3 id="移动机器人"><a href="#移动机器人" class="headerlink" title="移动机器人"></a>移动机器人</h3><p>我们首先在gazebo中添加一些物体在机器人的周围</p>
-<p><img src="robot_zhangai.png" alt=""></p>
+<p><img src="0416添加传感器/robot_zhangai.png" alt=""></p>
 <p>在rviz中点击Add按钮添加LaserScan，并调整size</p>
 <p>新开一个终端，打开我们之前写的键盘控制节点，让机器人旋转</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;dev_ws</span><br><span class="line">source &#x2F;install&#x2F;local_setup.bash</span><br></pre></td></tr></table></figure>
-<p><img src="control_robot.png" alt=""></p>
+<p><img src="0416添加传感器/control_robot.png" alt=""></p>
 <p>机器人在gazebo中会原地旋转，同时扫描周围的物体，同时在rviz中，我们也应该看到雷达数据的实时更新</p>
-<p><img src="gazebo_rviz.gif" alt=""></p>
+<p><img src="0416添加传感器/gazebo_rviz.gif" alt=""></p>
 <p>但是我们会发现一个问题，在gazebo中，是我们所预期的，机器人在转动，但是在rviz中，缺是物体在转动。这是因为我们选择了机器人本身的base_link作为固定的坐标系而导致的，这时我们需要修改固定的坐标系为odom。世界坐标系即可</p>
 
         </div>
