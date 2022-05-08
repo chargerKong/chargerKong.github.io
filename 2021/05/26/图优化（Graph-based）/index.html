@@ -165,6 +165,17 @@
     </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%BF%80%E5%85%89SLAM%EF%BC%8C%E8%A7%86%E8%A7%89SLAM/">激光SLAM，视觉SLAM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
@@ -195,7 +206,7 @@
 <li>调整回环的误差，即观测和预测之间的误差最小！非线性最小二乘优化</li>
 </ul>
 <h2 id="图的构建—-帧间边"><a href="#图的构建—-帧间边" class="headerlink" title="图的构建— 帧间边"></a>图的构建— 帧间边</h2><ul>
-<li>里程计测量从$x<em>i$到$x</em>{i+1}$的关系</li>
+<li>里程计测量从$x_i$到$x_{i+1}$的关系</li>
 <li>相邻节点之间的位姿关系可以有里程计、IMU、帧间匹配计算得到</li>
 </ul>
 <p>回环检测:</p>
@@ -236,13 +247,13 @@ x=x+\Delta x^*</script><p>向g2o、ceres等等库整体的主干流程都是符�
 <h3 id="在图优化SLAM-中的应用"><a href="#在图优化SLAM-中的应用" class="headerlink" title="在图优化SLAM 中的应用"></a>在图优化SLAM 中的应用</h3><h4 id="误差函数"><a href="#误差函数" class="headerlink" title="误差函数"></a>误差函数</h4><ul>
 <li>观测值为匹配计算得到节点i和节点j的相对位姿，$Z_{ij}^\prime$</li>
 <li>预测值为里程积分得到的当前节点i和节点j的相对位姿，$Z_{ij}$</li>
-<li>求两个位姿之间的相对位姿$e<em>{ij}(x)=T2V(Z</em>{ij}^{-1}Z^\prime_{ij})$</li>
+<li>求两个位姿之间的相对位姿$e_{ij}(x)=T2V(Z_{ij}^{-1}Z^\prime_{ij})$</li>
 </ul>
 <p>预测值</p>
 <p>已知$X_i$和$X_j$为两个位置的位姿。那么预测值应该是（也是先表示$X_i$先做反变换，然后变换到$X_j$上去）</p>
 <script type="math/tex; mode=display">
-Z_{ij}=X_i^{-1}X_j</script><p>若$X<em>i=\begin{bmatrix}R_i&amp;t_i\0&amp;1\end{bmatrix}$，则$Z</em>{ij}=\begin{bmatrix}R_i^TR_j&amp;R_i^T(t_j-t_i)\0 &amp;1\end{bmatrix}$。</p>
-<p>那么如果求向量则为$z<em>{ij}=T2V(Z</em>{ij})=\left( R_i^T(t_j-t_i),\theta_j-\theta_i \right)^T$</p>
+Z_{ij}=X_i^{-1}X_j</script><p>若$X_i=\begin{bmatrix}R_i&amp;t_i\\0&amp;1\end{bmatrix}$，则$Z_{ij}=\begin{bmatrix}R_i^TR_j&amp;R_i^T(t_j-t_i)\\0 &amp;1\end{bmatrix}$。</p>
+<p>那么如果求向量则为$z_{ij}=T2V(Z_{ij})=\left( R_i^T(t_j-t_i),\theta_j-\theta_i \right)^T$</p>
 <p>现在去求它和观测值的一个相对位姿。因此结果为</p>
 <script type="math/tex; mode=display">
 e_{ij}(x)=\begin{bmatrix}R^T_{ij}(R_i^T(t_j-t_i)-t_{ij}\\\theta_j-\theta_i-\theta_{ij}\end{bmatrix}</script><p>这也就是求从预测值和观测值的一个位姿变换，也可以求相应的jacobian矩阵</p>

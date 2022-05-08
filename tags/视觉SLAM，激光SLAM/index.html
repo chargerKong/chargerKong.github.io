@@ -9,7 +9,7 @@
     
     <title>
         
-            知识点记录 |
+            标签: 视觉SLAM，激光SLAM |
         
         大杂烩
     </title>
@@ -74,7 +74,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class=""
+                            <a class="active"
                                href="/tags"
                             >
                                 标签
@@ -115,7 +115,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class=""
+                    <a class="active"
                        href="/tags">标签</a>
                 </li>
             
@@ -140,153 +140,42 @@
 
                 
                     <div class="fade-in-down-animation">
-    <div class="article-content-container">
-
-        <div class="article-title">
-            <span class="title-hover-animation">知识点记录</span>
+    <div class="tag-container">
+        <div class="tag-name"><i class="fas fa-tag"></i>&nbsp;视觉SLAM，激光SLAM
         </div>
-
-        
-            <div class="article-header">
-                <div class="avatar">
-                    <img src="/images/wuwuwu.jpg">
-                </div>
-                <div class="info">
-                    <div class="author">
-                        <span class="name">Kong Liangqian</span>
-                        
-                            <span class="author-label">Lv6</span>
-                        
-                    </div>
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-20 10:23:20
-    </span>
-    
-    
-
-    
-    
-    
-    
-</div>
-
-                    </div>
-                </div>
-            </div>
-        
-
-        <div class="article-content markdown-body">
-            <h2 id="2021-6-1"><a href="#2021-6-1" class="headerlink" title="2021.6.1"></a>2021.6.1</h2><p>一、坐标系乘以相应坐标是相同的，例如</p>
-<script type="math/tex; mode=display">
-[e_1,e_2,e_3][a_1,b_1c_1]^T=[e_4,e_5,e_6][a_2,b_2,c_2]^T</script><p>左右结果都是一个向量，在任何一个坐标系下，向量是不会变化的。不同的坐标系只是从不同的方向分出了多少的投影！！</p>
-<h2 id="2021-6-2"><a href="#2021-6-2" class="headerlink" title="2021.6.2"></a>2021.6.2</h2><p>欧拉角的万向锁（Gimbal lock）</p>
-<ul>
-<li>欧拉角的奇异性问题</li>
-<li>特定值的时候，旋转自由度减一</li>
-</ul>
-<p>因为在垂直旋转90度后，两个轴重合了，转哪个都行，存在奇异</p>
-<h2 id="2021-6-17-2021-6-23-外出！？"><a href="#2021-6-17-2021-6-23-外出！？" class="headerlink" title="2021.6.17-2021.6.23 外出！？"></a>2021.6.17-2021.6.23 外出！？</h2>
-        </div>
-
-        
-
-        
-            <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/04/20/%E4%BF%AE%E6%94%B9%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%96%E8%A7%82/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">修改机器人外观</span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
-                
-                
-                    <div class="article-next">
-                        <a class="next"
-                           rel="next"
-                           href="/2021/04/16/0416%E6%B7%BB%E5%8A%A0%E4%BC%A0%E6%84%9F%E5%99%A8/"
-                        >
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">添加传感器</span>
-                                <span class="post-nav-item">下一篇</span>
-                            </span>
-                            <span class="right arrow-icon flex-center">
-                              <i class="fas fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </div>
-                
-            </div>
-        
-
-        
-            <div class="comment-container">
-                <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;评论</i>
-    </div>
-    
-
-        
+        <div class="tag-post-list">
             
-    <div id="gitalk-container"></div>
-    <script 
-            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
-    <script >
-
-        function loadGitalk() {
-            let __gitalk__pathname = decodeURI(location.pathname);
-            const __gitalk__pathnameLength = __gitalk__pathname.length;
-            const __gitalk__pathnameMaxLength = 50;
-            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
-                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
-            }
-
-            try {
-                Gitalk && new Gitalk({
-                    clientID: '79f544d13d21b2fcc133',
-                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
-                    repo: 'hexo-site-comment',
-                    owner: 'chargerKong',
-                    admin: ['chargerKong'],
-                    id: __gitalk__pathname,
-                    language: 'ch'
-                }).render('gitalk-container');
-
-            } catch (e) {
-                window.Gitalk = null;
-            }
-        }
-
-        if ('false') {
-            const loadGitalkTimeout = setTimeout(() => {
-                loadGitalk();
-                clearTimeout(loadGitalkTimeout);
-            }, 1000);
-        } else {
-            window.addEventListener('DOMContentLoaded', loadGitalk);
-        }
-    </script>
-
-
-
-        
+<div class="archive-list-container">
+    
+        <section class="archive-item">
+            <div class="archive-item-header">
+                <span class="archive-year">2021</span>
+                <span class="archive-year-post-count">[1]</span>
+            </div>
+            <ul class="article-list">
+                
+                    <li class="article-item">
+                        <a class="article-title"
+                           href="/2021/07/19/0719g2o/"
+                        >G20</a>
+                        <span class="article-date">07-19</span>
+                    </li>
+                
+            </ul>
+        </section>
     
 </div>
 
-            </div>
-        
+        </div>
+    </div>
+
+    <div class="tag-paginator">
+        <div class="paginator">
+    
+
+    
+</div>
+
     </div>
 </div>
 
@@ -317,27 +206,6 @@
         </div>
     </div>
 
-    
-        <div class="post-tools">
-            <div class="post-tools-container">
-    <ul class="tools-list">
-        <!-- TOC aside toggle -->
-        
-            <li class="tools-item page-aside-toggle">
-                <i class="fas fa-outdent"></i>
-            </li>
-        
-
-        <!-- go comment -->
-        
-            <li class="go-comment">
-                <i class="fas fa-comment"></i>
-            </li>
-        
-    </ul>
-</div>
-
-        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -384,14 +252,6 @@
     </div>
 
     
-        <aside class="page-aside">
-            <div class="post-toc-wrap">
-    <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-6-1"><span class="nav-number">1.</span> <span class="nav-text">2021.6.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-6-2"><span class="nav-number">2.</span> <span class="nav-text">2021.6.2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-6-17-2021-6-23-%E5%A4%96%E5%87%BA%EF%BC%81%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">2021.6.17-2021.6.23 外出！？</span></a></li></ol>
-    </div>
-</div>
-        </aside>
-    
 
     <div class="image-viewer-container">
     <img src="">
@@ -423,14 +283,6 @@
 
 
 <div class="post-scripts">
-    
-        
-<script src="/js/left-side-toggle.js"></script>
-
-<script src="/js/libs/anime.min.js"></script>
-
-<script src="/js/toc.js"></script>
-
     
 </div>
 
