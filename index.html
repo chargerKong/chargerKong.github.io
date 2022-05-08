@@ -200,15 +200,9 @@
 
                 <div class="home-article-content markdown-body">
                     
-                        Planning规划路径，预测模块把感知模块的输出即检测的车辆和行人，作为输入，基于此来预测车辆和行人在未来几秒内的行为，然后把行为交给planning模块
-预测的输出：
-
-轨迹：
-热力图：不好被下游所消化
-
-运动预测的挑战：
-
-长时间长距离的运动预...
+                        1 预测的作用假如自动驾驶中缺少预测模块，整个车的灵活性就会变的较差，牺牲灵活性来保证安全性
+预测的作用：保证安全性的同时，增加灵活性和驾驶体验
+2 预测的几个方面如何在输入表征中表示动态的物体和静态的场景，怎么样在输出表征可以表示精确可行的预测结果...
                     
                 </div>
 
@@ -727,23 +721,6 @@ c++内存申请的时候还需要做多一步，即调用构造函数，他不�
     
 </div>
 
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>

@@ -189,58 +189,91 @@
         
 
         <div class="article-content markdown-body">
-            <p>Planning规划路径，预测模块把感知模块的输出即检测的车辆和行人，作为输入，基于此来预测车辆和行人在未来几秒内的行为，然后把行为交给planning模块</p>
-<p>预测的输出：</p>
-<ul>
-<li>轨迹：</li>
-<li>热力图：不好被下游所消化</li>
-</ul>
-<p>运动预测的挑战：</p>
-<ul>
-<li>长时间长距离的运动预测</li>
-<li>地图场景中其他物体对该物体的影响</li>
-<li>不确定性和多模态性</li>
-</ul>
-<p>机器学习based Prediction</p>
-<p><img src="Screenshot from 2022-05-06 00-29-57.png" alt=""></p>
-<p><img src="220505预测总览/Screenshot from 2022-05-06 00-29-57.png" alt=""></p>
-<p>上面的问题：</p>
-<p>Rasterizer: 虽然渲染到2维平面很容易，但是细节很难表示出来，比如告示牌多长多宽？</p>
-<p>CNN：适合于局部的特征提取    </p>
-<p>HD map使用vectorNet表示为 向量，用向量抽象场景</p>
-<p><img src="Screenshot from 2022-05-06 00-33-02.png" alt=""></p>
-<p><img src="220505预测总览/Screenshot from 2022-05-06 00-33-02.png" alt=""></p>
-<p>于是，上述的过程就变成了</p>
-<p><img src="Screenshot from 2022-05-06 00-34-44.png" alt=""></p>
-<p><img src="220505预测总览/Screenshot from 2022-05-06 00-34-44.png" alt=""></p>
-<p>预测器中，需要回归出一条轨迹，自动驾驶的预测问题有不确定性，因此预测一条轨迹是不合理的</p>
-<p>这里轨迹预测器改用了TNT，优点如下</p>
-<ul>
-<li>监督学习</li>
-<li>具有可解释性</li>
-<li>选取target的时候会根据道路发送改变</li>
-</ul>
-<p>一共分为三步</p>
-<p>预测target，规划点到target的轨迹，打分极大值抑制</p>
-<h2 id="1-预测的作用"><a href="#1-预测的作用" class="headerlink" title="1 预测的作用"></a>1 预测的作用</h2><p>假如自动驾驶中缺少预测模块，整个车的灵活性就会变的较差，牺牲灵活性来保证安全性</p>
+            <h2 id="1-预测的作用"><a href="#1-预测的作用" class="headerlink" title="1 预测的作用"></a>1 预测的作用</h2><p>假如自动驾驶中缺少预测模块，整个车的灵活性就会变的较差，牺牲灵活性来保证安全性</p>
 <p>预测的作用：保证安全性的同时，增加灵活性和驾驶体验</p>
-<h2 id="2-预测的几个方面"><a href="#2-预测的几个方面" class="headerlink" title="2 预测的几个方面"></a>2 预测的几个方面</h2><h3 id="2-1-输入表征"><a href="#2-1-输入表征" class="headerlink" title="2.1 输入表征"></a>2.1 输入表征</h3><p>如何在输入表征中表示动态的物体和静态的场景，怎么样在输出表征可以表示精确可行的预测结果</p>
+<h2 id="2-预测的几个方面"><a href="#2-预测的几个方面" class="headerlink" title="2 预测的几个方面"></a>2 预测的几个方面</h2><p>如何在输入表征中表示动态的物体和静态的场景，怎么样在输出表征可以表示精确可行的预测结果。下面从主流的learning-based的处理方式来介绍。最后给出宋博提出的基于learning-based和model-based的预测框架设计</p>
+<h3 id="2-1-输入表征"><a href="#2-1-输入表征" class="headerlink" title="2.1 输入表征"></a>2.1 输入表征</h3><p>如何在输入表征中表示动态的物体和静态的场景</p>
+<p>每一个个体的运动，都会有交互信息的影响，交互包括如下两方面</p>
+<ul>
+<li>个体与场景的交互，交通场景通常包括车道线，车道边界，交通灯这样的语义信息</li>
+<li>个体和个体的交互，每一个机动车和非机动车的交互</li>
+</ul>
+<p>如何用输入信息把这些东西进行建模</p>
+<p><img src="Screenshot from 2022-05-08 20-51-49.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 20-51-49.png" alt=""></p>
 <p>VectorNet，把道路信息向量化</p>
-<h2 id="典型的架构"><a href="#典型的架构" class="headerlink" title="典型的架构"></a>典型的架构</h2><p>更改为</p>
-<p>Model-based的生成器，可以删除那些不可行的轨迹，留下可行的轨迹集合</p>
-<p>+</p>
-<p>learning-based的评估器，对场景所有历史观测序列进行建模，对轨迹集合进行打分，选子集作为预测结果</p>
-<p>上述的可行性包含运动可行性和环境可行性</p>
-<p>有环境约束，规范解空间</p>
-<p>传统的预测仅由历史来推测轨迹，和下游的自车规划是相互解耦的。这像是一个从静态的观察者给出的解决方式</p>
+<h3 id="2-2-输出表征"><a href="#2-2-输出表征" class="headerlink" title="2.2 输出表征"></a>2.2 输出表征</h3><p>怎么样在输出表征可以表示精确可行的预测结果. S</p>
+<p>输出表征决定每一个预测轨迹是如何生成的，现有的大部分工作都聚焦于如何产生未来轨迹的多峰分布上。多峰指相同的车即使在相同的历史轨迹状态下，也有产生不同的行为。我们希望在输出中能给出不同行为层面下的轨迹预测，并且给出不同轨迹的一个预测概率</p>
+<p>左边是利用神经网络直接给出回归一个未来的轨迹；</p>
+<p>右边是先利用锚点轨迹进行分类，然后在分类的基础上进行一个偏移量的回归</p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 20-57-45.png" alt=""></p>
+<p><img src="Screenshot from 2022-05-08 20-57-45.png" alt=""></p>
+<p>在最近的一些工作中，为了提高输出结果的可行性</p>
+<p>像coverNet直接在固定的轨迹集合上面进行分类，使得预测轨迹对于车辆而言大概率是可行的。或者像是TNT，把预测任务拆解成了多阶段的任务</p>
+<p><img src="Screenshot from 2022-05-08 21-01-11.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 21-01-11.png" alt=""></p>
+<h3 id="2-3-问题分析"><a href="#2-3-问题分析" class="headerlink" title="2.3 问题分析"></a>2.3 问题分析</h3><p>以上基本上都是考虑了三点要素：个体，环境和交互。然后把他们放在神经网络里以一定的方式做信息融合，最终输出</p>
+<p>通过位置点回归或者在预先定义的轨迹集上面做分类，来输出最终的预测轨迹</p>
+<p><img src="Screenshot from 2022-05-08 21-03-46.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 21-03-46.png" alt=""></p>
+<p>红车会和其他的车辆做隐含的交互，还有一些限制会对未来轨迹筛选，比如卡车的转弯半径就大于小汽车，在环境层面上，受到限速和驾驶区域，交通灯影响等</p>
+<p>系统层面上，我们希望有如下效果</p>
+<ul>
+<li>我们希望预测模块可以处理潜在的不完善跟踪的情况，在多个预测车中，可能有一个预测的观测时间不足或者中间出现遮挡的情况，我们希望在不完善的跟踪下依然有一个相对稳定的预测输出结果</li>
+<li>有的预测轨迹会有运动学的限制的，很多轨迹是不可能出现的，并且他们的出现会对下游产生额外的负担</li>
+<li>训练数据中会不可避免的出现数据不平衡的问题，如U型转弯，在数据集中可能只有很少的一部分，我们希望在需要U型转弯的时候，依然可以产生这样的轨迹</li>
+</ul>
+<p><img src="Screenshot from 2022-05-08 21-31-06.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 21-31-06.png" alt=""></p>
+<p>对于右上角这样的基于learning-based的网络，是很难施加由环境和行人等的约束的。因此提出一个新的架构模型</p>
+<p>基于model-based的方法生成一个轨迹生成器，这样的生成器可以在施加约束的情况下，提供轨迹目标可能的轨迹集合，然后把这样的基于经验的，interaction的部分交给learning -base部分来完成。</p>
+<p>这样我们即利用了数据驱动的交互式训练，也同时基于模型的规划部分添加了运行学和环境的硬性约束</p>
+<h2 id="3-PRIME"><a href="#3-PRIME" class="headerlink" title="3. PRIME"></a>3. PRIME</h2><p>左边是一个基于model-based的轨迹生成器，后边是对各个轨迹进行打分，并且从中选择一个轨迹子集作为我们的一个预测结果</p>
+<p><img src="Screenshot from 2022-05-08 21-44-29.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 21-44-29.png" alt=""></p>
+<h3 id="3-1-框架流程"><a href="#3-1-框架流程" class="headerlink" title="3.1 框架流程"></a>3.1 框架流程</h3><p>蓝色框表示整个基于模型的部分，在这里，假设有高精地图和历史跟踪序列。通过在高精地图中，通过目标车辆的未来路径进行一个简单的深度优先搜索，并且对搜索结果做一些剪枝策略，我们就得到了预测目标可能抵达的路径集合P，然后利用轨迹生成器基于路径搜索结果作为参考线，来对目标车辆的可行轨迹进行采样，可行性指的是运动可行性和环境可行性</p>
+<p><img src="Screenshot from 2022-05-08 21-51-28.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 21-51-28.png" alt=""></p>
+<p>现在我们有历史序列S，可达路径P和可行路径T这三个集合就作为场景上下文的基础描述，传入神经网络进行一个独立的编码。之后利用基于Attention的模块，来对环境和个体之间的交互进行建模，最后，把每一个未来的轨迹，他对应的特征向量连接到一起，传入到全连接层里面进行打分。最终根据分数输出，还有他对应的概率。</p>
+<p>我们网络从常见预测方法中的生成轨迹，退为了从可行轨迹中挑选预测结果，所以这是轻量级的网络。这样的预测轨迹不可行度为0%。</p>
+<h3 id="3-2-PRIME-优点"><a href="#3-2-PRIME-优点" class="headerlink" title="3.2 PRIME 优点"></a>3.2 PRIME 优点</h3><ul>
+<li><p>精确，可解释性强（（暂未体现？），我们知道每一条蓝色轨迹是如何生成的 </p>
+<p><img src="Screenshot from 2022-05-08 22-49-59.png" alt=""></p>
+</li>
+</ul>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 22-49-59.png" alt=""></p>
+<ul>
+<li>更为鲁棒，在实际场景中不可避免的会遇到观测目标时间不足问题，中间出现遮挡的情况。通过数据增强的方法重新训练了两个对比模型，</li>
+<li>具备可行性保证的预测结果，对于下游的规划是更有意义的，会有助于自车规划的灵活性和安全性保证 </li>
+</ul>
+<h2 id="4-预测模块的系统设计"><a href="#4-预测模块的系统设计" class="headerlink" title="4. 预测模块的系统设计"></a>4. 预测模块的系统设计</h2><p>下面先说一下他车预测和自车规划的关联</p>
+<p>为了达到实时的驾驶表现，很多车辆的运动规划期都采用了基于采样的方法。在自车规划的过程中，预测模块涉及到的作用是传入周边各个物体的未来预测，以便于更精确的做 最优规划轨迹的选择，这样传统的预测方式，只是基于上游的追踪信息，和下游的自车规划是相互解耦的，仅有历史来预测轨迹的方式，这像是一个从静态的观察者给出的解决方式</p>
+<p>然而我们的自动驾驶汽车，也是作为动态参与者，它的运动情况也会影响其他车辆的未来轨迹，从而造成不同的未来状态</p>
+<p><img src="Screenshot from 2022-05-08 23-22-23.png" alt="">\</p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 23-22-23.png" alt=""></p>
 <p>预测和规划应该是耦合的，而不是分开的</p>
+<p>通过将自身的规划过程合并如预测框架，探索一个预测规划耦合的系统实现。</p>
+<p><img src="Screenshot from 2022-05-08 23-24-53.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 23-24-53.png" alt=""></p>
 <p>我们需要知道，当自车做出了这样的行为后，他车如何和我们做出交互</p>
 <p>自车的规划过程，也可以启发他车的预测，提高灵活性</p>
-<h3 id="以规划启发的预测"><a href="#以规划启发的预测" class="headerlink" title="以规划启发的预测"></a>以规划启发的预测</h3><p><img src="Screenshot from 2022-05-06 01-08-24.png" alt=""></p>
-<p><img src="Screenshot from 2022-05-06 01-10-22.png" alt=""></p>
-<p><img src="Screenshot from 2022-05-06 01-08-58.png" alt=""></p>
-<p><img src="Screenshot from 2022-05-06 01-09-31.png" alt=""></p>
-<p><img src="Screenshot from 2022-05-06 01-11-41.png" alt=""></p>
+<h3 id="4-1-以规划启发的预测-PiP-Planning-informed-Prediction"><a href="#4-1-以规划启发的预测-PiP-Planning-informed-Prediction" class="headerlink" title="4.1 以规划启发的预测 PiP: Planning-informed Prediction"></a>4.1 以规划启发的预测 PiP: Planning-informed Prediction</h3><p>红色车要变道，需要预测其他蓝色车的未来轨迹，预测过程的产生是独立于红色车辆的规划过程，使得在当前状况下无法找到一个安全的自车规划路径，又右图中提出的PIp，是一个规划预测耦合的过程，他产生了不同预测结果，就产生了一个可执行的轨迹</p>
+<p><img src="Screenshot from 2022-05-08 23-34-24.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 23-34-24.png" alt=""></p>
+<p>这就考虑到了当自车采用了某种轨迹，他车在未来会和我们做怎么样的交互。这是一种更累的过程，这样的方式比较合适于更密集的情况    </p>
+<h3 id="4-2-架构"><a href="#4-2-架构" class="headerlink" title="4.2 架构"></a>4.2 架构</h3><p>这是我们对于这篇文章在网络层面上的一个实现，这是针对于高速的场景，没有复杂的场景建模。重心更多的放在了历史和未来的两个时间域的处理上.</p>
+<p>以红色的自车为中心， 目标是预测红色车范围内的蓝色车辆。中间为规划耦合模块，是框架的核心</p>
+<p>规划耦合模块，两个分支</p>
+<ul>
+<li>上面的分支，处理的是对自车候选轨迹的编码</li>
+<li>下面的分支，融合了所有车辆历史跟踪轨迹的编码</li>
+</ul>
+<p><img src="Screenshot from 2022-05-08 23-41-31.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-08 23-41-31.png" alt=""></p>
+<p>我们把这两个编码信息融合到一起，传入到下一个部分的目标融合模块，这个模块是对于解耦合的多个预测目标的特征进行编码和解码。最终把这样的特征向量传入到基于行为的轨迹解码器中，会输出每一个预测目标的行为概率以及在不同行为下对应的轨迹。    </p>
+<p>通过所有目标车辆未来轨迹的后验概率对轨迹进行优化</p>
+<h3 id="4-3-prediction-planning耦合框架"><a href="#4-3-prediction-planning耦合框架" class="headerlink" title="4.3 prediction-planning耦合框架"></a>4.3 prediction-planning耦合框架</h3><p><img src="Screenshot from 2022-05-09 00-03-04.png" alt=""></p>
+<p><img src="220505预测总览/Screenshot from 2022-05-09 00-03-04.png" alt=""></p>
 
         </div>
 
@@ -441,7 +474,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%A2%84%E6%B5%8B%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">1 预测的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%A2%84%E6%B5%8B%E7%9A%84%E5%87%A0%E4%B8%AA%E6%96%B9%E9%9D%A2"><span class="nav-number">2.</span> <span class="nav-text">2 预测的几个方面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E8%BE%93%E5%85%A5%E8%A1%A8%E5%BE%81"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 输入表征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E7%9A%84%E6%9E%B6%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">典型的架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E8%A7%84%E5%88%92%E5%90%AF%E5%8F%91%E7%9A%84%E9%A2%84%E6%B5%8B"><span class="nav-number">3.1.</span> <span class="nav-text">以规划启发的预测</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%A2%84%E6%B5%8B%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">1 预测的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%A2%84%E6%B5%8B%E7%9A%84%E5%87%A0%E4%B8%AA%E6%96%B9%E9%9D%A2"><span class="nav-number">2.</span> <span class="nav-text">2 预测的几个方面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E8%BE%93%E5%85%A5%E8%A1%A8%E5%BE%81"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 输入表征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%BE%93%E5%87%BA%E8%A1%A8%E5%BE%81"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 输出表征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 问题分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-PRIME"><span class="nav-number">3.</span> <span class="nav-text">3. PRIME</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%A1%86%E6%9E%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 框架流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-PRIME-%E4%BC%98%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 PRIME 优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9D%97%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">4. 预测模块的系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E4%BB%A5%E8%A7%84%E5%88%92%E5%90%AF%E5%8F%91%E7%9A%84%E9%A2%84%E6%B5%8B-PiP-Planning-informed-Prediction"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 以规划启发的预测 PiP: Planning-informed Prediction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E6%9E%B6%E6%9E%84"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-prediction-planning%E8%80%A6%E5%90%88%E6%A1%86%E6%9E%B6"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 prediction-planning耦合框架</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
@@ -488,23 +521,6 @@
     
 </div>
 
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>
