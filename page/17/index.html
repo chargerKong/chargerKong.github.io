@@ -145,6 +145,104 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/07/12/713%E5%90%8E%E7%AB%AF%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">
+                        后端优化笔记
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        前段匹配就是一个实时的不是很好的估计
+后端可以不实时，是一个可以比较慢的线程
+贝叶斯公式
+
+P(A|B)=\frac{P(A)P(B|A)}{P(B)}
+求的是在B已经发生的情况下，求A发生的概率。也称为A的后验概率
+
+$P(A)$是先验概率，和B无...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 12 2021 15:59:22 GMT+0800">2021-07-12</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E6%BF%80%E5%85%89SLAM/">激光SLAM</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E8%A7%86%E8%A7%89SLAM/">视觉SLAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/07/12/713%E5%90%8E%E7%AB%AF%E4%BC%98%E5%8C%96%E7%AC%94%E8%AE%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/07/12/0711%E7%9B%B4%E6%8E%A5%E6%B3%95/">
+                        直接法匹配
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        单层直接法假设有两个帧，运动位置，但是有初始的估计$R,t$
+
+假设左边这是第一帧，有了投影点$p_1$，按照初始的估计，得到第二帧上的投影为$p_2$。
+投影关系为
+
+已知的内容。注意在这里，第一幅图中的点不必是角点，随机的都可以
+1234567v...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 12 2021 15:59:22 GMT+0800">2021-07-12</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E8%A7%86%E8%A7%89SLAM/">视觉SLAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/07/12/0711%E7%9B%B4%E6%8E%A5%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/07/08/0708%E5%85%89%E6%B5%81%E6%B3%95%E5%8C%B9%E9%85%8D/">
                         光流法匹配
                     </a>
@@ -504,92 +602,6 @@ D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_
     </div>
 
     <a href="/2021/05/28/%E5%BB%BA%E5%9B%BE/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">
-                        前段配准
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        配准算法（二）爬山法（拟梯度法）总是朝着数值增大的方向移动
-缺陷：会陷入局部最高点
-名字来由，因为方向是固定的，不需要计算，所以是拟梯度法
-搜索时，如果所有的方向得分都小，则搜索步长减半，当减半次数大于五次，则认为收敛
-高斯牛顿优化方法爬山法的进阶！...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 28 2021 18:38:29 GMT+0800">2021-05-28</span></span>
-        
-        
-    </div>
-
-    <a href="/2021/05/28/%E9%85%8D%E5%87%86%E7%AE%97%E6%B3%95/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">
-                        图优化（Graph-based）
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        Pose Graph的构建图构建好，就需要进行优化
-
-用一个图来表示SLAM问题
-每一个节点都是位姿（x,y,theta）
-两个节点之间的边，表示两个节点之间的空间约束
-帧间边：表示时间连续的两个点
-回环边：两个时间是不连续的两个点
-
-
-一旦出现了回...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed May 26 2021 10:23:20 GMT+0800">2021-05-26</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E6%BF%80%E5%85%89SLAM/">激光SLAM</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/%E8%A7%86%E8%A7%89SLAM/">视觉SLAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/05/26/%E5%9B%BE%E4%BC%98%E5%8C%96%EF%BC%88Graph-based%EF%BC%89/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

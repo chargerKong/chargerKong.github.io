@@ -145,6 +145,94 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/04/08/220408c++%E5%87%BD%E6%95%B0/">
+                        c++函数重载，模板，指针
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        函数重载可以针对不同的参数列表定义多个同名的函数，如果只是函数名不同是不可以被重载的
+123456789int sum (int, int) &#123;    ...&#125;;double sum(double, double) &#123; ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 08 2022 18:38:29 GMT+0800">2022-04-08</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/08/220408c++%E5%87%BD%E6%95%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/06/220406%20%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84/">
+                        指针和数组
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        数组元素地址
+
+因为Student 的sizeof 为12个字节，所以每一个数组之间的地址偏移量都是12。
+指针当做数组使用下面三个printf 输出的均为students的首地址。
+把一个数组赋值给指针后，指针可以跟数组一样的操作
+
+
+指针的代数操...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 18:38:29 GMT+0800">2022-04-06</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/06/220406%20%E6%8C%87%E9%92%88%E5%92%8C%E6%95%B0%E7%BB%84/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/04/06/220406%E7%94%B3%E8%AF%B7%E5%86%85%E5%AD%98C%20style/">
                         内存申请与释放
                     </a>
@@ -484,112 +572,6 @@ gimbal lock 万向锁：他锁的是三维旋转的其中一个维度。如果�
     </div>
 
     <a href="/2022/03/03/220303%20Optional_c++/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/03/01/220301%20%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-                        雷达数据处理
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        
-消息回调接受数据
-
-经过sample过滤
-
-转换为点云，形式
-
-\begin{bmatrix}
-TimedPointCloud  \\ 
-std::vector  
-\end{bmatrix}
-=
-\begin{bmatrix}
-[x_0,y_0,...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 01 2022 18:38:29 GMT+0800">2022-03-01</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/03/01/220301%20%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/27/220227%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
-                        点云前端-LIOSAM
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        该节针对于图像投影节点
-把整个点云转到cv_Mat上，方便做后续的处理
-构造函数topic 订阅发布订阅
-
-imu消息
-增量的odom
-点云的消息
-
-发布
-
-运动补偿后的点云
-点云的相关信息
-
-123456subImu        = nh.sub...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 27 2022 12:59:22 GMT+0800">2022-02-27</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/27/220227%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

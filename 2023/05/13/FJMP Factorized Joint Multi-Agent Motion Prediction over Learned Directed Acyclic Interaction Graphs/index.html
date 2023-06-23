@@ -9,8 +9,6 @@
     
     <title>
         
-            Linear对象使用 |
-        
         大杂烩
     </title>
     
@@ -143,7 +141,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Linear对象使用</span>
+            <span class="title-hover-animation"></span>
         </div>
 
         
@@ -161,20 +159,9 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2022-11-10 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2023-05-13 14:12:34
     </span>
     
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/pytorch/">pytorch</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -189,15 +176,16 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="建立Linear对象"><a href="#建立Linear对象" class="headerlink" title="建立Linear对象"></a>建立Linear对象</h1><p>建立一个Linear对象，其输入特征维度为3，输出维度为4。数据随机生成<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line">linear1 = nn.Linear(<span class="number">3</span>, <span class="number">4</span>, bias=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure><br>通过weight和bias可以查看数据，weight的维度为<strong>4行3列</strong>，bias的维度是一维的，为4. 可以方便做广播操作<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(linear1.weight)</span><br><span class="line">Parameter containing:</span><br><span class="line">tensor([[ <span class="number">0.0139</span>,  <span class="number">0.2096</span>, -<span class="number">0.5021</span>],</span><br><span class="line">        [-<span class="number">0.4480</span>,  <span class="number">0.5108</span>,  <span class="number">0.0279</span>],</span><br><span class="line">        [-<span class="number">0.3873</span>, -<span class="number">0.5569</span>,  <span class="number">0.3556</span>],</span><br><span class="line">        [-<span class="number">0.4588</span>, -<span class="number">0.0081</span>, -<span class="number">0.3111</span>]], requires_grad=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(linear1.bias)</span><br><span class="line">Parameter containing:</span><br><span class="line">tensor([-<span class="number">0.0414</span>, -<span class="number">0.0023</span>, -<span class="number">0.3677</span>,  <span class="number">0.5600</span>], requires_grad=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-<p>上述两个变量的类型均为torch.nn.parameter.Parameter，<br>可以通过print(linear1.weight.data)获得tensor数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">linear1.weight.data</span><br><span class="line">tensor([[ <span class="number">0.0139</span>,  <span class="number">0.2096</span>, -<span class="number">0.5021</span>],</span><br><span class="line">        [-<span class="number">0.4480</span>,  <span class="number">0.5108</span>,  <span class="number">0.0279</span>],</span><br><span class="line">        [-<span class="number">0.3873</span>, -<span class="number">0.5569</span>,  <span class="number">0.3556</span>],</span><br><span class="line">        [-<span class="number">0.4588</span>, -<span class="number">0.0081</span>, -<span class="number">0.3111</span>]])     </span><br></pre></td></tr></table></figure></p>
-<h1 id="linear-计算"><a href="#linear-计算" class="headerlink" title="linear 计算"></a>linear 计算</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch </span><br><span class="line">x = torch.randn((<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line">y1 = linear1(x)</span><br><span class="line">y1.shape </span><br><span class="line"><span class="comment"># 输出为</span></span><br><span class="line">torch.Size([<span class="number">2</span>, <span class="number">4</span>])</span><br></pre></td></tr></table></figure>
-<p>等价计算<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">y2 = x @ (linear1.weight.data).t() + linear1.bias</span><br><span class="line">y2.shape </span><br><span class="line"><span class="comment"># 输出为</span></span><br><span class="line">torch.Size([<span class="number">2</span>, <span class="number">4</span>])</span><br></pre></td></tr></table></figure><br>详细计算</p>
-<script type="math/tex; mode=display">
-y = xA^T+b</script><p>其中x.shape = (2,3), $A^T$.shape=(3,4), b.shape=(4)。</p>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>对Linear的数据初始化<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_init_weights</span>(<span class="params">m</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(m, nn.Linear):</span><br><span class="line">        torch.nn.init.xavier_uniform_(m.weight)</span><br><span class="line">        m.bias.data.fill_(<span class="number">0.01</span>)</span><br><span class="line">_init_weights(linear1)</span><br></pre></td></tr></table></figure></p>
-<p>这里的两个操作，一个<code>torch.nn.init.xavier_uniform_</code>，一个<code>m.bias.data.fill_</code>都是inplace操作的 。<br>为何要手动初始化，可以参考<a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25110150" >https://zhuanlan.zhihu.com/p/25110150<i class="fas fa-external-link-alt"></i></a></p>
+            <h1 id="FJMP-Factorized-Joint-Multi-Agent-Motion-Prediction-over-Learned-Directed-Acyclic-Interaction-Graphs"><a href="#FJMP-Factorized-Joint-Multi-Agent-Motion-Prediction-over-Learned-Directed-Acyclic-Interaction-Graphs" class="headerlink" title="FJMP: Factorized Joint Multi-Agent Motion Prediction over Learned Directed Acyclic Interaction Graphs"></a>FJMP: Factorized Joint Multi-Agent Motion Prediction over Learned Directed Acyclic Interaction Graphs</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>很多现有工作都是预测marginal trajectories， 这可能会使得两个物体的预测轨迹碰撞。与之相反的是Joint future trajectory predictions，每个agent的预测轨迹都与其他agents的预测轨迹一起考虑，以确保它们彼此一致并且符合场景的逻辑。但是这种方法未能明确推理Joint预测中未来的相互作用</p>
+<p>为了解决这个问题，最近的研究表明，将两个相互作用的智能体的联合预测任务分解为影响者智能体的边际预测和反应者智能体的条件预测，其中反应者的预测取决于影响者的预测未来，可以比生成边际预测或同时联合预测的方法生成更准确、更符合场景一致性的联合预测[28, 38]。</p>
+<p>然而，这些方法针对仅两个相互作用的智能体进行联合预测进行了优化，并且不能有效地扩展到具有大量相互作用智能体的场景</p>
+<p>因此提出FJMP。它通过将联合预测任务分解为一系列边际和条件预测，有效地为具有任意数量智能体的驾驶场景生成联合预测。</p>
+<p>FJMP将未来场景交互动力学建模为稀疏的有向交互图，其中边表示智能体之间的显式交互，边的方向由它们的影响者-反应者关系确定[25, 27, 38]，如图1所示</p>
+<p>我们提出了一种机制，可以有效地将交互图修剪成有向无环图（DAG）。然后根据DAG的 partial ordering 关系，将联合未来轨迹预测解码为一系列边际和条件预测，其中联合未来轨迹使用有向无环图神经网络（DAGNN）解码。</p>
+<p>总结一下：他提出了一种方法，把联合预测分解为边际预测和条件预测，把交互图改为DAG，用DAGNN解码</p>
+<p>直观地，所提出的联合因式分解可以被解释为一种归纳偏差，它鼓励在预测n号代理人的未来时考虑影响n号代理人的代理人的预测未来。</p>
+<p>交叉熵是一种常用的损失函数，用于衡量模型在分类问题上的预测结果与真实标签之间的差异。在二分类问题中，假设模型的输出为 $y \in [0,1]$，其中 $y$ 表示样本属于正类的概率，$1-y$ 表示样本属于负类的概率。假设样本的真实标签为 $t \in {0,1}$，其中 $t=1$ 表示样本属于正类，$t=0$ 表示样本属于负类。那么样本的交叉熵可以表示为：</p>
+<p>当 $t=1$ 时，上式可以简化为 $-\log y$，表示样本属于正类时的损失；当 $t=0$ 时，上式可以简化为 $-\log (1-y)$，表示样本属于负类时的损失。因此，交叉熵损失函数可以很好地表示模型在不同标签下的预测效果。</p>
 
         </div>
 
@@ -210,10 +198,10 @@ y = xA^T+b</script><p>其中x.shape = (2,3), $A^T$.shape=(3,4), b.shape=(4)。</
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/10/27/221027torch%20%E6%A2%AF%E5%BA%A6%E5%9B%9E%E4%BC%A0/"
+                           href="/2022/11/10/221106%20Linear%E5%AF%B9%E8%B1%A1%E4%BD%BF%E7%94%A8/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">pytorch 自动求导</span>
+                                <span class="post-nav-title-item">Linear对象使用</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -383,7 +371,7 @@ y = xA^T+b</script><p>其中x.shape = (2,3), $A^T$.shape=(3,4), b.shape=(4)。</
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8BLinear%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">建立Linear对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linear-%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">linear 计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FJMP-Factorized-Joint-Multi-Agent-Motion-Prediction-over-Learned-Directed-Acyclic-Interaction-Graphs"><span class="nav-number">1.</span> <span class="nav-text">FJMP: Factorized Joint Multi-Agent Motion Prediction over Learned Directed Acyclic Interaction Graphs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">1. 介绍</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>

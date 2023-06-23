@@ -145,6 +145,91 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/12/12/1212%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%E7%B1%BB%E5%92%8C%E6%80%BB%E7%BB%93/">
+                        优化问题类和后端总结-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        当我们把所有的约束都放入了PoseGraph2D 类中的constraints中， 通过
+12optimization_problem_-&gt;Solve(data_.constraints, GetTrajectoryStates(),     ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Dec 12 2021 19:38:29 GMT+0800">2021-12-12</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/12/12/1212%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%E7%B1%BB%E5%92%8C%E6%80%BB%E7%BB%93/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/12/12/1212%E4%BC%98%E5%8C%96%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/">
+                        优化函数调用流程-cartographer
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        DrainWorkQueue调用和定义
+
+之前我们已经讲完了如何对一个节点，添加它对本submap的约束和其他所有submap的约束。即子图内约束和子图间的约束
+现在看一下是如何执行whendone，都做了什么内容
+在AddNode的时候，把计算约束...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Dec 12 2021 18:38:29 GMT+0800">2021-12-12</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/12/12/1212%E4%BC%98%E5%8C%96%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/12/10/1210%E5%88%86%E6%94%AF%E5%AE%9A%E7%95%8C%E7%AE%97%E6%B3%95%E6%9C%80%E4%BC%98%E8%A7%A3/">
                         分支定界算法-cartographer
                     </a>
@@ -467,88 +552,6 @@ ComputeConstraintsForNode在文件WorkItem::Result PoseGraph2D::ComputeCon...
     </div>
 
     <a href="/2021/12/06/1206Nav2-planner%E6%8F%92%E4%BB%B6/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/05/1205%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">
-                        子图间约束-cartographer
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        添加子图约束的函数，是放入线程池计算的其中一个，于函数PoseGraph2D::AddNode中
-12345// 把计算约束的工作放入workitem中等待执行AddWorkItem([=]() LOCKS_EXCLUDED(mutex_) &#12...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Dec 05 2021 18:38:29 GMT+0800">2021-12-05</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/12/05/1205%E5%AD%90%E5%9B%BE%E9%97%B4%E7%BA%A6%E6%9D%9F/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/12/05/1206%E5%90%AF%E5%8A%A8tb3-sim-nav2/">
-                        启动tb3_simulation.launch.py-navigation
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        启动tb3_simulation 的时候，gazebo会卡顿，原因是找不到world，设置model的目录即可
-123export GAZEBO_MODEL_PATH&#x3D;&#x2F;opt&#x2F;ros&#x2F;foxy&#x2F;sh...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Dec 05 2021 18:38:29 GMT+0800">2021-12-05</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/navigation2/">navigation2</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/12/05/1206%E5%90%AF%E5%8A%A8tb3-sim-nav2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

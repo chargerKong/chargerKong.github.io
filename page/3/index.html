@@ -145,6 +145,112 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/03/01/220301%20%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
+                        雷达数据处理
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+消息回调接受数据
+
+经过sample过滤
+
+转换为点云，形式
+
+\begin{bmatrix}
+TimedPointCloud  \\ 
+std::vector  
+\end{bmatrix}
+=
+\begin{bmatrix}
+[x_0,y_0,...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 01 2022 18:38:29 GMT+0800">2022-03-01</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/cartographer/">cartographer</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/03/01/220301%20%E9%9B%B7%E8%BE%BE%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/02/27/220227%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
+                        点云前端-LIOSAM
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        该节针对于图像投影节点
+把整个点云转到cv_Mat上，方便做后续的处理
+构造函数topic 订阅发布订阅
+
+imu消息
+增量的odom
+点云的消息
+
+发布
+
+运动补偿后的点云
+点云的相关信息
+
+123456subImu        = nh.sub...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 27 2022 12:59:22 GMT+0800">2022-02-27</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/02/27/220227%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/02/23/220223%20liosam%E9%A2%84%E7%A7%AF%E5%88%86/">
                         imu预积分代码解析
                     </a>
@@ -469,89 +575,6 @@
     </div>
 
     <a href="/2022/01/27/220127%20tf2-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AAframe/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/26/220129Lego-LOAM/">
-                        Lego-LOAM介绍
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        框架介绍LeGo-LOAM 是 Tixiao Shan 提出的一种基于 LOAM 的改进版本，其主要是为了实现小车在多变地形下的定位和建图，其针对前端和后端都做了一系列的改进，具体来说
-数据处理过程
-对地面点进行分类和提取，避免一些一场边缘点的提取
-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Jan 26 2022 15:59:22 GMT+0800">2022-01-26</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/LeGo-LOAM/">LeGo_LOAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/01/26/220129Lego-LOAM/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/01/24/220121A-LOAMmapping/">
-                        A_LOAM mapping模块
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        A_LOAm mapping模块不同于前端的 scan-to-scan 的过程， LOAM 的后端是 scan-to-map 的算法，具体来说就是把当前帧和地图进行匹配，得到更准的位姿同时也可以构建更好的地图。由于是 scan-to-map 的算法，...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jan 24 2022 15:59:22 GMT+0800">2022-01-24</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/A-LOAM/">A-LOAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/01/24/220121A-LOAMmapping/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
