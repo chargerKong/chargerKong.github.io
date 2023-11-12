@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            torch batch_norm计算举例 |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">torch batch_norm计算举例</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-05-08 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="1-BN"><a href="#1-BN" class="headerlink" title="1. BN"></a>1. BN</h1><p>batchnorm的顾名思义是对batch（即多个数据）之间的norm。下面以torch 的batchnorm计算举例来说明</p>
+<h2 id="1-1-nn-BatchNorm1d（BN）"><a href="#1-1-nn-BatchNorm1d（BN）" class="headerlink" title="1.1 nn.BatchNorm1d（BN）"></a>1.1 nn.BatchNorm1d（BN）</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nn.BatchNorm1d 指定的的值必须第二维度的数值，即通道数2</span><br></pre></td></tr></table></figure>
+<h3 id="1-1-1-二维数据"><a href="#1-1-1-二维数据" class="headerlink" title="1.1.1 二维数据"></a>1.1.1 二维数据</h3><p>用一组数据做例子</p>
+<p>数据内容为 51个点，每一个点都有6个维度，分别是（x,y,yaw,v_yaw,acc,kappa）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line">in_put = torch.rand((<span class="number">51</span>, <span class="number">6</span>)) <span class="comment"># 51个点，6维度，（x,y,yaw,v_yaw,acc,kappa）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 BatchNorm1d 层，其中 6 是特征的数量</span></span><br><span class="line">batch_norm = nn.BatchNorm1d(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对数据进行 Batch Normalization</span></span><br><span class="line">normalized_data = batch_norm(in_put)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 这里针对的是各个点的维度之间求平均</span></span><br><span class="line"><span class="comment"># 所有的x做norm， 所有的y做norm</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;x: mean: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].mean():<span class="number">.2</span>f&#125;</span>, var: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.2</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;y: mean: <span class="subst">&#123;normalized_data[:,<span class="number">1</span>].mean():<span class="number">.2</span>f&#125;</span>, var: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.2</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;yaw: mean: <span class="subst">&#123;normalized_data[:,<span class="number">2</span>].mean():<span class="number">.2</span>f&#125;</span>, var: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.2</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;v_yaw: mean: <span class="subst">&#123;normalized_data[:,<span class="number">3</span>].mean():<span class="number">.2</span>f&#125;</span>, var: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.2</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;acc: mean: <span class="subst">&#123;normalized_data[:,<span class="number">4</span>].mean():<span class="number">.2</span>f&#125;</span>, var: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.2</span>f&#125;</span>)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;kappa: mean: <span class="subst">&#123;normalized_data[:,<span class="number">4</span>].mean():<span class="number">.2</span>f&#125;</span>, var: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.2</span>f&#125;</span>)&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>运行结果表示，51个点的第一个维度所有x,第二个维度 所有y 。。。的平均值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x: mean: 0.00, var: 1.02)</span><br><span class="line">y: mean: 0.00, var: 1.02)</span><br><span class="line">yaw: mean: -0.00, var: 1.02)</span><br><span class="line">v_yaw: mean: 0.00, var: 1.02)</span><br><span class="line">acc: mean: -0.00, var: 1.02)</span><br><span class="line">kappa: mean: -0.00, var: 1.02)</span><br></pre></td></tr></table></figure>
+<p>所有被norm过的维度norm成均值为0，方差为1的分布</p>
+<h3 id="1-1-2-三维数据"><a href="#1-1-2-三维数据" class="headerlink" title="1.1.2 三维数据"></a>1.1.2 三维数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line">in_put = torch.rand((<span class="number">25</span>, <span class="number">51</span>, <span class="number">6</span>)) <span class="comment"># 25条轨迹， 51个点，6维度，（x,y,yaw,v_yaw,acc,kappa）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 BatchNorm1d 层，其中 51 是特征的数量</span></span><br><span class="line">batch_norm = nn.BatchNorm1d(<span class="number">51</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对数据进行 Batch Normalization</span></span><br><span class="line">normalized_data = batch_norm(in_put)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 这里是25条轨迹的第i个点的平均值和方差，注意每一个点都有6个维度，</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;normalized_data[:,0,:].shape=<span class="subst">&#123;normalized_data[:,<span class="number">0</span>,:].shape&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;first point mean: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>,:].mean()&#125;</span>, var:<span class="subst">&#123;normalized_data[:,<span class="number">0</span>,:].var()&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;second point mean: <span class="subst">&#123;normalized_data[:,<span class="number">1</span>,:].mean()&#125;</span>, var:<span class="subst">&#123;normalized_data[:,<span class="number">1</span>,:].var()&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;third point mean: <span class="subst">&#123;normalized_data[:,<span class="number">2</span>,:].mean()&#125;</span>, var:<span class="subst">&#123;normalized_data[:,<span class="number">2</span>,:].var()&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>运行结果表示，25条轨迹的第一个点的所有维度的平均值和方差，25条轨迹的第二个点的平均值和方差，25条轨迹的第三个点的平均值和方差…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">normalized_data[:,0,:].shape&#x3D;torch.Size([25, 6])</span><br><span class="line"></span><br><span class="line">first point mean: -1.5894572324981482e-09, var:1.0066999197006226</span><br><span class="line">second point mean: 1.2715657859985185e-08, var:1.0066999197006226</span><br><span class="line">third point mean: -1.5894572324981482e-09, var:1.0066999197006226</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-nn-BatchNorm2d（BN）"><a href="#1-2-nn-BatchNorm2d（BN）" class="headerlink" title="1.2  nn.BatchNorm2d（BN）"></a>1.2  nn.BatchNorm2d（BN）</h2><p>注意，这里数据是4维的。norm的对象所有帧中的第i条轨迹</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line">mean = <span class="number">2</span></span><br><span class="line">std_dev = <span class="number">3</span></span><br><span class="line">in_put = torch.rand((<span class="number">16</span>, <span class="number">25</span>, <span class="number">51</span>, <span class="number">6</span>)) * std_dev + mean <span class="comment"># 16条数据， 25条轨迹， 51个点，6维度，（x,y,yaw,v_yaw,acc,kappa）</span></span><br><span class="line"><span class="comment"># in_put = torch.rand((16, 25, 51, 6))  # 16条数据， 25条轨迹， 51个点，6维度，（x,y,yaw,v_yaw,acc,kappa）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 BatchNorm2d 层，其中 25 是特征的数量</span></span><br><span class="line">batch_norm = nn.BatchNorm2d(<span class="number">25</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对数据进行 Batch Normalization</span></span><br><span class="line">normalized_data = batch_norm(in_put)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 这里针对的是各个轨迹点之间求平均</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;normalized_data[:,0].shape=<span class="subst">&#123;normalized_data[:,<span class="number">0</span>].shape&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;first traj mean: <span class="subst">&#123;normalized_data[:,<span class="number">0</span>].mean():<span class="number">.4</span>f&#125;</span>, var:<span class="subst">&#123;normalized_data[:,<span class="number">0</span>].var():<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;second traj mean: <span class="subst">&#123;normalized_data[:,<span class="number">1</span>].mean():<span class="number">.4</span>f&#125;</span>, var:<span class="subst">&#123;normalized_data[:,<span class="number">1</span>].var():<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;third traj mean: <span class="subst">&#123;normalized_data[:,<span class="number">2</span>].mean():<span class="number">.4</span>f&#125;</span>, var:<span class="subst">&#123;normalized_data[:,<span class="number">2</span>].var():<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这里表示，所有16条数据的中所有的第i条轨迹的均值和方差</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">normalized_data[:,0].shape&#x3D;torch.Size([16, 51, 6])</span><br><span class="line">first traj mean: -0.0000, var:1.0002</span><br><span class="line">second traj mean: -0.0000, var:1.0002</span><br><span class="line">third traj mean: 0.0000, var:1.0002</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">位姿变换</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/05/08/20230926%E6%81%B6%E6%84%8F%E6%A3%80%E6%B5%8B/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">简记-恶意检测背景</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2023&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-BN"><span class="nav-number">1.</span> <span class="nav-text">1. BN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-nn-BatchNorm1d%EF%BC%88BN%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 nn.BatchNorm1d（BN）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-%E4%BA%8C%E7%BB%B4%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1 二维数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-%E4%B8%89%E7%BB%B4%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2 三维数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-nn-BatchNorm2d%EF%BC%88BN%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">1.2  nn.BatchNorm2d（BN）</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
