@@ -9,6 +9,8 @@
     
     <title>
         
+            UniAD-端到端面向规划的自动驾驶框架 |
+        
         大杂烩
     </title>
     
@@ -141,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation"></span>
+            <span class="title-hover-animation">UniAD-端到端面向规划的自动驾驶框架</span>
         </div>
 
         
@@ -159,9 +161,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2023-05-13 14:12:34
+        <i class="fas fa-edit"></i>&nbsp;2023-12-24 18:38:29
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -176,16 +189,38 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="FJMP-Factorized-Joint-Multi-Agent-Motion-Prediction-over-Learned-Directed-Acyclic-Interaction-Graphs"><a href="#FJMP-Factorized-Joint-Multi-Agent-Motion-Prediction-over-Learned-Directed-Acyclic-Interaction-Graphs" class="headerlink" title="FJMP: Factorized Joint Multi-Agent Motion Prediction over Learned Directed Acyclic Interaction Graphs"></a>FJMP: Factorized Joint Multi-Agent Motion Prediction over Learned Directed Acyclic Interaction Graphs</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>很多现有工作都是预测marginal trajectories， 这可能会使得两个物体的预测轨迹碰撞。与之相反的是Joint future trajectory predictions，每个agent的预测轨迹都与其他agents的预测轨迹一起考虑，以确保它们彼此一致并且符合场景的逻辑。但是这种方法未能明确推理Joint预测中未来的相互作用</p>
-<p>为了解决这个问题，最近的研究表明，将两个相互作用的智能体的联合预测任务分解为影响者智能体的边际预测和反应者智能体的条件预测，其中反应者的预测取决于影响者的预测未来，可以比生成边际预测或同时联合预测的方法生成更准确、更符合场景一致性的联合预测[28, 38]。</p>
-<p>然而，这些方法针对仅两个相互作用的智能体进行联合预测进行了优化，并且不能有效地扩展到具有大量相互作用智能体的场景</p>
-<p>因此提出FJMP。它通过将联合预测任务分解为一系列边际和条件预测，有效地为具有任意数量智能体的驾驶场景生成联合预测。</p>
-<p>FJMP将未来场景交互动力学建模为稀疏的有向交互图，其中边表示智能体之间的显式交互，边的方向由它们的影响者-反应者关系确定[25, 27, 38]，如图1所示</p>
-<p>我们提出了一种机制，可以有效地将交互图修剪成有向无环图（DAG）。然后根据DAG的 partial ordering 关系，将联合未来轨迹预测解码为一系列边际和条件预测，其中联合未来轨迹使用有向无环图神经网络（DAGNN）解码。</p>
-<p>总结一下：他提出了一种方法，把联合预测分解为边际预测和条件预测，把交互图改为DAG，用DAGNN解码</p>
-<p>直观地，所提出的联合因式分解可以被解释为一种归纳偏差，它鼓励在预测n号代理人的未来时考虑影响n号代理人的代理人的预测未来。</p>
-<p>交叉熵是一种常用的损失函数，用于衡量模型在分类问题上的预测结果与真实标签之间的差异。在二分类问题中，假设模型的输出为 $y \in [0,1]$，其中 $y$ 表示样本属于正类的概率，$1-y$ 表示样本属于负类的概率。假设样本的真实标签为 $t \in {0,1}$，其中 $t=1$ 表示样本属于正类，$t=0$ 表示样本属于负类。那么样本的交叉熵可以表示为：</p>
-<p>当 $t=1$ 时，上式可以简化为 $-\log y$，表示样本属于正类时的损失；当 $t=0$ 时，上式可以简化为 $-\log (1-y)$，表示样本属于负类时的损失。因此，交叉熵损失函数可以很好地表示模型在不同标签下的预测效果。</p>
+            <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>通常自动驾驶任务都是分模块，独立的部署和优化。这样的操作会带来俩问题</p>
+<ul>
+<li>累积误差。</li>
+<li>各个任务模块（例如感知、预测和规划）之间的协调不足，可能会导致系统性能下降。如果任务之间的协调不足，可能会导致信息丢失或误解，从而影响系统的整体性能</li>
+</ul>
+<p>UniAD ，该框架将所有驾驶任务整合到一个网络中。让感知和预测都为规划做出贡献。该框架以利用每个模块的优点，并提供互补的特征抽象，以便从全局视角进行交互。任务通过统一的查询接口进行通信，以便相互促进规划。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>本文的三个主要贡献</p>
+<ul>
+<li><p><strong>规划导向的自动驾驶框架</strong>：作者提出了一种新的自动驾驶系统设计理念，即以规划为目标，优化前置的感知和预测任务，使得各个任务能够协同合作，提高最终的规划性能和安全性。</p>
+</li>
+<li><p><strong>统一的自动驾驶（UniAD）</strong>：作者提出了一种综合性的自动驾驶算法框架，将全栈的驾驶任务（包括检测、跟踪、在线地图、运动预测、占据预测和规划）集成在一个网络中，利用query-based的设计连接各个模块，实现了端到端的优化和推理。</p>
+</li>
+<li><strong>优异的实验结果</strong>：作者在具有挑战性的nuScenes数据集上进行了广泛的实验，验证了UniAD在各个任务上的有效性和优越性。文章还进行了大量的消融实验，分析了各个组件的作用和贡献。文章展示了UniAD在复杂场景下的可视化结果，证明了其对规划导向的自动驾驶的潜力。</li>
+</ul>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="./Screenshot from 2023-12-25 00-08-55.png" alt=""></p>
+<p><img src="./20231224 uniad/Screenshot from 2023-12-25 00-08-55.png" alt=""></p>
+<p>上图由四个transformer decoder-based 模块和 一个planner模块组成。 Query Q在整个流程中都起着关键作用，连接各个模块。</p>
+<h3 id="Bev-feature"><a href="#Bev-feature" class="headerlink" title="Bev-feature"></a>Bev-feature</h3><p>将一系列多摄像头图像输入到特征提取器中，然后将得到的透视视图特征通过BEVFormer中的BEV编码器转换为统一的鸟瞰视图（BEV）特征B。值得注意的是，UniAD并不局限于使用特定的BEV编码器，还可以使用其他替代方案来提取具有长期时间融合或多模态融合的更丰富的BEV表示。这种处理方式为自动驾驶系统提供了更全面和丰富的环境感知信息。</p>
+<h3 id="TrackerFormer"><a href="#TrackerFormer" class="headerlink" title="TrackerFormer"></a>TrackerFormer</h3><ul>
+<li>TrackFormer模块中可学习的参数叫做track queries. 它从BEV特征图B中query信息，来做到agent的检测和跟踪。</li>
+<li>track queries是可学习的，代表agent及其状态。</li>
+<li>track queries关注B以提取信息，并随时间更新其嵌入</li>
+</ul>
+<h3 id="MapFormer"><a href="#MapFormer" class="headerlink" title="MapFormer"></a>MapFormer</h3><p>MapFormer是一个用于地图全景分割的模块，它使用地图查询作为道路元素（例如车道和分隔线）的语义抽象，并对地图进行分割和分类。它还利用agent查询和地图查询之间的交互来捕捉agent和道路之间的关系，从而为下游的运动预测提供有用的信息。</p>
+<h3 id="MotionFormer"><a href="#MotionFormer" class="headerlink" title="MotionFormer"></a>MotionFormer</h3><ul>
+<li>MotionFormer模块捕获了agent和地图之间的交互，并预测每个agent的未来轨迹。</li>
+<li>由于每个agent的行动可能会显著影响场景中的其他agent，因此该模块对所有考虑的agent进行联合预测。</li>
+<li>同时，我们设计了一个自车query，以显式地模拟自车，并使其能够与场景中的其他agent进行交互</li>
+</ul>
+<h3 id="OccFormer"><a href="#OccFormer" class="headerlink" title="OccFormer"></a>OccFormer</h3><p>OccFormer使用BEV特征B作为查询，使用agent 的信息作为键和值，然后预测多步未来的占用情况，同时以agent为单位保留特征</p>
+<p>这种设计使得系统能够在预测未来的占用情况时，考虑到每个智能体的特性和状态，从而提高了预测的准确性和可靠性</p>
+<h3 id="Planner"><a href="#Planner" class="headerlink" title="Planner"></a>Planner</h3><p>规划器利用来自MotionFormer的自我车辆查询来预测规划结果，并避开由OccFormer预测的已占用区域，以避免碰撞。</p>
 
         </div>
 
@@ -194,29 +229,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2023/12/24/20231224%20uniad/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">UniAD-端到端面向规划的自动驾驶框架</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/11/10/221106%20Linear%E5%AF%B9%E8%B1%A1%E4%BD%BF%E7%94%A8/"
+                           href="/2023/05/13/FJMP%20Factorized%20Joint%20Multi-Agent%20Motion%20Prediction%20over%20Learned%20Directed%20Acyclic%20Interaction%20Graphs/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Linear对象使用</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -386,7 +406,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FJMP-Factorized-Joint-Multi-Agent-Motion-Prediction-over-Learned-Directed-Acyclic-Interaction-Graphs"><span class="nav-number">1.</span> <span class="nav-text">FJMP: Factorized Joint Multi-Agent Motion Prediction over Learned Directed Acyclic Interaction Graphs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">1. 介绍</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E8%A7%88"><span class="nav-number">3.1.</span> <span class="nav-text">总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bev-feature"><span class="nav-number">3.1.1.</span> <span class="nav-text">Bev-feature</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TrackerFormer"><span class="nav-number">3.1.2.</span> <span class="nav-text">TrackerFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapFormer"><span class="nav-number">3.1.3.</span> <span class="nav-text">MapFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MotionFormer"><span class="nav-number">3.1.4.</span> <span class="nav-text">MotionFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OccFormer"><span class="nav-number">3.1.5.</span> <span class="nav-text">OccFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planner"><span class="nav-number">3.1.6.</span> <span class="nav-text">Planner</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>
