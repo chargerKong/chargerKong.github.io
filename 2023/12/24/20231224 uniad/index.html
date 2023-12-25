@@ -194,7 +194,7 @@
 <li>累积误差。</li>
 <li>各个任务模块（例如感知、预测和规划）之间的协调不足，可能会导致系统性能下降。如果任务之间的协调不足，可能会导致信息丢失或误解，从而影响系统的整体性能</li>
 </ul>
-<p>UniAD ，该框架将所有驾驶任务整合到一个网络中。让感知和预测都为规划做出贡献。该框架以利用每个模块的优点，并提供互补的特征抽象，以便从全局视角进行交互。任务通过统一的查询接口进行通信，以便相互促进规划。</p>
+<p>UniAD ，该框架将所有驾驶任务整合到一个网络中。让感知和预测都为规划做出贡献。该框架以利用每个模块的优点，并提供互补的特征抽象，以便从全局视角进行交互。任务通过统一的query接口进行通信，以便相互促进规划。</p>
 <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>本文的三个主要贡献</p>
 <ul>
 <li><p><strong>规划导向的自动驾驶框架</strong>：作者提出了一种新的自动驾驶系统设计理念，即以规划为目标，优化前置的感知和预测任务，使得各个任务能够协同合作，提高最终的规划性能和安全性。</p>
@@ -212,15 +212,29 @@
 <li>track queries是可学习的，代表agent及其状态。</li>
 <li>track queries关注B以提取信息，并随时间更新其嵌入</li>
 </ul>
-<h3 id="MapFormer"><a href="#MapFormer" class="headerlink" title="MapFormer"></a>MapFormer</h3><p>MapFormer是一个用于地图全景分割的模块，它使用地图查询作为道路元素（例如车道和分隔线）的语义抽象，并对地图进行分割和分类。它还利用agent查询和地图查询之间的交互来捕捉agent和道路之间的关系，从而为下游的运动预测提供有用的信息。</p>
+<h3 id="MapFormer"><a href="#MapFormer" class="headerlink" title="MapFormer"></a>MapFormer</h3><p>MapFormer是一个用于地图全景分割的模块，它使用地图query作为道路元素（例如车道和分隔线）的语义抽象，并对地图进行分割和分类。它还利用agent query和地图query之间的交互来捕捉agent和道路之间的关系，从而为下游的运动预测提供有用的信息。</p>
 <h3 id="MotionFormer"><a href="#MotionFormer" class="headerlink" title="MotionFormer"></a>MotionFormer</h3><ul>
 <li>MotionFormer模块捕获了agent和地图之间的交互，并预测每个agent的未来轨迹。</li>
 <li>由于每个agent的行动可能会显著影响场景中的其他agent，因此该模块对所有考虑的agent进行联合预测。</li>
 <li>同时，我们设计了一个自车query，以显式地模拟自车，并使其能够与场景中的其他agent进行交互</li>
 </ul>
-<h3 id="OccFormer"><a href="#OccFormer" class="headerlink" title="OccFormer"></a>OccFormer</h3><p>OccFormer使用BEV特征B作为查询，使用agent 的信息作为键和值，然后预测多步未来的占用情况，同时以agent为单位保留特征</p>
+<h3 id="OccFormer"><a href="#OccFormer" class="headerlink" title="OccFormer"></a>OccFormer</h3><p>OccFormer使用BEV特征B作为query，使用agent 的信息作为键和值，然后预测多步未来的占用情况，同时以agent为单位保留特征</p>
 <p>这种设计使得系统能够在预测未来的占用情况时，考虑到每个智能体的特性和状态，从而提高了预测的准确性和可靠性</p>
-<h3 id="Planner"><a href="#Planner" class="headerlink" title="Planner"></a>Planner</h3><p>规划器利用来自MotionFormer的自我车辆查询来预测规划结果，并避开由OccFormer预测的已占用区域，以避免碰撞。</p>
+<h3 id="Planner"><a href="#Planner" class="headerlink" title="Planner"></a>Planner</h3><p>规划器利用来自MotionFormer的自我车辆query来预测规划结果，并避开由OccFormer预测的已占用区域，以避免碰撞。</p>
+<h2 id="Perception-Tracking-and-Mapping"><a href="#Perception-Tracking-and-Mapping" class="headerlink" title="Perception: Tracking and Mapping"></a>Perception: Tracking and Mapping</h2><ul>
+<li>本节介绍了两个感知模块：TrackFormer和MapFormer，分别用于跟踪动态物体和分割静态地图。</li>
+<li>TrackFormer使用检测query和跟踪query来检测和跟踪物体，同时引入一个自车query来显式地模拟自驾车。</li>
+<li>MapFormer使用地图query来稀疏地表示道路元素，如车道、分隔线和交叉口，并将其输出给MotionFormer进行物体-地图交互。</li>
+</ul>
+<p><strong>TrackFormer</strong>: </p>
+<p>它执行检测和多目标跟踪。除了传统的检测query，用于目标检测之外，还引入了跟踪query，用于跟踪跨帧的物体。</p>
+<p>在每个时间步，初始化的检测query负责检测第一次被感知的新生物体，而跟踪query则保持对前一帧检测到的物体的建模，检测query和跟踪query都通过关注BEV特征B来捕捉物体的抽象信息。随着场景的不断演变，当前帧的跟踪query与之前记录的跟踪query在自注意力模块中进行交互，以聚合时间信息，直到相应的物体完全消失</p>
+<p>TrackFormer包含N层，最终的输出状态$Q_A$为下游预测任务提供了Na个有效物体的知识。除了query编码周围的其他物体外，我们还在query集中引入了一个特定的自车query，以显式地模拟自驾车本身，这在规划中进一步使用。</p>
+<p><strong>MapFormer</strong>：</p>
+<p>我们基于一个2D全景分割方法Panoptic SegFormer 设计了它。我们将道路元素稀疏地表示为地图query，以帮助下游的运动预测，编码了位置和结构知识。对于驾驶场景，我们将车道、分隔线和交叉口设置为物体，将可行驶区域设置为背景。MapFormer也有N个堆叠的层，每个层的输出结果都有监督，而只有最后一层的更新query$Q_M$被转发到MotionFormer，用于物体-地图交互。</p>
+<h2 id="Prediction-Motion-Forecasting"><a href="#Prediction-Motion-Forecasting" class="headerlink" title="Prediction: Motion Forecasting"></a>Prediction: Motion Forecasting</h2><p>通过使用高度抽象的query来表示动态agent $Q_A$和静态地图$Q_M$，MotionFormer可以预测所有agent的多模态未来运动, 即可能的top-k条轨迹。同时，我们用来自TrackFormer的自车查询传递到MotionFormer，使自车能够与其他agent进行交互，考虑未来的动态。</p>
+<p><strong>MotionFormer</strong>:</p>
+<p>它由N个层组成，每一个层都有三个交互类型：agent-agent， agent-map以及agent-goal point。</p>
 
         </div>
 
@@ -406,7 +420,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E8%A7%88"><span class="nav-number">3.1.</span> <span class="nav-text">总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bev-feature"><span class="nav-number">3.1.1.</span> <span class="nav-text">Bev-feature</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TrackerFormer"><span class="nav-number">3.1.2.</span> <span class="nav-text">TrackerFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapFormer"><span class="nav-number">3.1.3.</span> <span class="nav-text">MapFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MotionFormer"><span class="nav-number">3.1.4.</span> <span class="nav-text">MotionFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OccFormer"><span class="nav-number">3.1.5.</span> <span class="nav-text">OccFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planner"><span class="nav-number">3.1.6.</span> <span class="nav-text">Planner</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E8%A7%88"><span class="nav-number">3.1.</span> <span class="nav-text">总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bev-feature"><span class="nav-number">3.1.1.</span> <span class="nav-text">Bev-feature</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TrackerFormer"><span class="nav-number">3.1.2.</span> <span class="nav-text">TrackerFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapFormer"><span class="nav-number">3.1.3.</span> <span class="nav-text">MapFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MotionFormer"><span class="nav-number">3.1.4.</span> <span class="nav-text">MotionFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OccFormer"><span class="nav-number">3.1.5.</span> <span class="nav-text">OccFormer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planner"><span class="nav-number">3.1.6.</span> <span class="nav-text">Planner</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Perception-Tracking-and-Mapping"><span class="nav-number">3.2.</span> <span class="nav-text">Perception: Tracking and Mapping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prediction-Motion-Forecasting"><span class="nav-number">3.3.</span> <span class="nav-text">Prediction: Motion Forecasting</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
