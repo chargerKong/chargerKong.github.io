@@ -61,7 +61,7 @@
                             <a class=""
                                href="/"
                             >
-                                HOME
+                                首页
                             </a>
                         </li>
                     
@@ -69,7 +69,7 @@
                             <a class=""
                                href="/archives"
                             >
-                                ARCHIVES
+                                归档
                             </a>
                         </li>
                     
@@ -77,7 +77,7 @@
                             <a class=""
                                href="/tags"
                             >
-                                TAGS
+                                标签
                             </a>
                         </li>
                     
@@ -85,7 +85,7 @@
                             <a class=""
                                href="/about"
                             >
-                                ABOUT
+                                关于
                             </a>
                         </li>
                     
@@ -106,22 +106,22 @@
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/">HOME</a>
+                       href="/">首页</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/archives">ARCHIVES</a>
+                       href="/archives">归档</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/tags">TAGS</a>
+                       href="/tags">标签</a>
                 </li>
             
                 <li class="drawer-menu-item flex-center">
                     <a class=""
-                       href="/about">ABOUT</a>
+                       href="/about">关于</a>
                 </li>
             
         </ul>
@@ -238,7 +238,7 @@
 <h2 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h2><p>如果没有高精地图或者预先处理好的导航线，planning一般都需要一个命令（左转，右转，前行）来告诉自车怎么走。因此，我们将原始的导航信号（即左转、右转和直行）转换为三个可学习的embedding,，称为命令embedding。由于来自MotionFormer的自车查询已经表达了其多模态的意图，我们将其配备命令embedding以形成一个“plan 查询”。我们让plan查询关注BEV特征B以使其了解周围环境，然后将其解码为未来的路径点$\tau$。</p>
 <p>为了进一步避免碰撞，我们仅在推理中利用牛顿法来优化路点$\tau$,</p>
 <script type="math/tex; mode=display">
-\tau^*=arg \min_\tau f(\tau,\hat{\tau},\hat{O}),</script><p>其中，$\hat{\tau}$ 表示原始路点，$\tau^*$ 是通过最小化cost函数f, 用多重射击优化方法后的路点。$\hat{O}$是一个经典的二进制占用地图，它是从OccFormer的instance级别占用预测中合并得到的。cost函数f如下所示</p>
+\tau^*=arg \min_\tau f(\tau,\hat{\tau},\hat{O}),</script><p>其中，$\hat{\tau}$ 表示原始路点，τ是由多次射击生成的轨迹， $\tau^*$ 是通过最小化cost函数f优化方法后的路点轨迹。$\hat{O}$是一个经典的二进制占用地图，它是从OccFormer的instance级别占用预测中合并得到的。cost函数f如下所示</p>
 <p><img src="Screenshot from 2023-12-27 00-04-20.png" alt=""></p>
 <p><img src="./20231224 uniad/Screenshot from 2023-12-27 00-04-20.png" alt=""></p>
 <p>这里的两个 $\lambda$ 以及$\sigma$是三个超参，t 表示未来的timestep, $l2$ cost 将轨迹拉向原始预测的轨迹，而碰撞项D则将其从占据的网格中推开。考虑到限定在$S = {(x, y)|∥(x, y)−τ_t∥_2 &lt; d, O^t_{ x,y} = 1}$的周围位置。其中，$\hat{O}^t_{ x,y} = 1$表示在时间t，位置(x, y)被占据</p>
@@ -250,6 +250,21 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2024/02/02/20240202%20overview/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">End-to-end ADS overview</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
@@ -258,7 +273,7 @@
                         >
                             <span class="title flex-center">
                                 <span class="post-nav-title-item"></span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
                               <i class="fas fa-chevron-right"></i>
@@ -274,7 +289,7 @@
                 <div class="comments-container">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
+        <i class="fas fa-comments">&nbsp;评论</i>
     </div>
     
 
@@ -344,11 +359,11 @@
             
               <span>2020</span>&nbsp;-&nbsp;
             
-            2023&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
         </div>
         
         <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
         </div>
         
     </div>
