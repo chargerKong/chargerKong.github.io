@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            planning overview |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">planning overview</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2024-02-09 18:38:29
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/planning/">planning</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="notation"><a href="#notation" class="headerlink" title="notation"></a>notation</h2><p>$X_i=\{x_{t-t_{obs}},…,x_{t-1},x_t\}$: 障碍物$i$的历史状态特征，每一个$x$有多维特征，2D或者3D的位置信息，heading， speed等</p>
+<p>$X_{EV}$: ego vehicle的历史特征</p>
+<p>$X_{SV}$: Surrounding Vehicles的历史特征</p>
+<p>$\overline{X}_{SV}=\{X_1,X_2,…,X_m\}$: 周围所有车的历史特征</p>
+<p>$Y_i = {y_{t+1}, y_{t+2}, . . . , y_{t+tpred} }$: 障碍物$i$的未来信息，一般也称为未来轨迹</p>
+<p>$I$: 除未来轨迹和历史特征，其他场景信息，包括语义信息，交通灯，交通标志等</p>
+<p>$\overline{X}=\{\overline{X}_{SV}, X_{EV}\}$: 所有障碍物车的历史体特征</p>
+<h2 id="任务定义"><a href="#任务定义" class="headerlink" title="任务定义"></a>任务定义</h2><p>预测： 出一个概率分布</p>
+<script type="math/tex; mode=display">
+P_{pred}= P(\overline{Y}|\overline{X},I)</script><p>通过观测在$\overline{X}$中的m个障碍物的历史轨迹，出n个在$\overline{Y}$中的未来轨迹。$P_{pred}$为概率的一个分布，即解释了在预测中固有的不确定性。</p>
+<p>规划：整一条好的轨迹给控制</p>
+<p>我们定义一个函数$f$，用于做从输入$\overline{X}_{SV}, X_{EV}, I$到未来轨迹的$Y_{EV}$的映射</p>
+<script type="math/tex; mode=display">
+Y_{EV} = f(\overline{X}_{SV}, X_{EV}, I)</script><p>很多场景下，还会使用预测的结果$\overline{Y}_{SV}$作为输入</p>
+<script type="math/tex; mode=display">
+Y_{EV} = f(\overline{X}_{SV}, X_{EV}, I, \overline{Y}_{SV}) \tag5</script><h1 id="PLANNING"><a href="#PLANNING" class="headerlink" title="PLANNING"></a>PLANNING</h1><h2 id="input-表征"><a href="#input-表征" class="headerlink" title="input 表征"></a>input 表征</h2><p>在自动驾驶系统的规划阶段，输入表示主要分为两类：可解释的中间表示和隐含特征。</p>
+<ul>
+<li><p><strong>可解释的中间表示</strong>：这种表示通常用于模块化的自动驾驶系统。planning模块基于感知模块输出的，经过后处理的的场景表示。栅格化和稀疏表示是模块化自动驾驶系统中planning模块常用的可解释输入表示。</p>
+</li>
+<li><p><strong>隐含特征</strong>：对于直接将传感器信息映射到未来动作的端到端自动驾驶系统，规划系统的输入$（X_{EV}，\overline{X}_{SV})$和$I$将由潜在隐含特征。使用这种潜在隐含特征处是不需要手动工程化设计模块之间的接口。手工制作的接口必须适用于潜在驾驶场景的长尾分布，且任何被接口丢弃的信息都无法恢复。</p>
+<p>举个例子：如果一辆车当前被遮挡，但是可以通过其在另一辆车上的车灯反射来推断其存在，那么，使用边界框表示法、占用字段或者可供性这些方法将无法将这种信息传递给下游模块</p>
+<p>相反，隐含特征表示允许不确定性传播，使下游模块能够补偿早期阶段的错误。然而，隐含特征表示的主要缺点是缺乏可解释性。在出现故障的情况下，评估系统的哪一部分导致了错误非常困难。这使得调试和调整纯端到端系统特别困难。可解释的端到端系统试图通过产生额外的中间表示来弥补这一点。与模块化堆栈不同，这些可解释的中间输出不被规划器使用。相反，它们仅用于额外的监督和模型内省。</p>
+</li>
+</ul>
+<h2 id="Output-表征"><a href="#Output-表征" class="headerlink" title="Output 表征"></a>Output 表征</h2><p>planning的输出通常是一系列的未来状态或者控制动作</p>
+<ul>
+<li><p><strong>未来状态</strong> ：为什么是一系列的未来状态呢，因为通过预测未来的多个姿态，而不仅仅是下一个立即的姿态，可以提供更多的信息，帮助系统更好地学习和理解驾驶环境，从而提高其对未知情况的适应能力。这种方法有助于提高自动驾驶系统的稳定性和可靠性</p>
+</li>
+<li><p><strong>未来动作</strong>：如果输出是一系列的控制行为，考虑到每辆车的动力学特性可能会影响自动驾驶系统的行为。因此，将一种车辆的自动驾驶系统行为直接推广到其他车辆可能会受到限制。这是因为不同车辆的动力学特性可能会有所不同，这可能会影响自动驾驶系统的性能和行为。 </p>
+</li>
+</ul>
+<h2 id="GOAL-conditioning"><a href="#GOAL-conditioning" class="headerlink" title="GOAL conditioning"></a>GOAL conditioning</h2><p>planning中，能否到达目的地是判断一条轨迹是否合适的重要指标。</p>
+<p>如何把导航信息给到系统呢？目前有以下几种方式是比较流行的</p>
+<ol>
+<li>把每一条lane标上是on-route还是off-route的状态，这相当于又通过多条lane的组合组成了route。</li>
+<li>提供一组稀疏的目标点的位置来描述route</li>
+<li>从GPS中获得，类似于左转右转这样的指令</li>
+</ol>
+<p>我们定义了四种方式来描述这个goal信息如何应用到planning系统中</p>
+<ul>
+<li><p>input features: 无论以什么方式表达导航信息，直接针对导航信息进行编码。如on-route和off-route的方式可以作为额外一层语义信息加入栅格化地图中。向量化的表达方式可以表达出道路中心线。需要注意的是，<strong>这样的直接编码方式难以保障一定能到达目的地</strong></p>
+</li>
+<li><p>Separate submodules: 分拆为子模块，这些子模块只与高级命令一起使用，它们充当特定命令之间的切换开关。这种设置避免了数据集被单一驾驶模式（如车道跟随）所主导，因为每个模块只针对单一的高级命令进行训练。然而，这种方法需要预先定义固定数量的高级命令。</p>
+<p>这种方法的主要优点是可以避免数据集偏向某一种驾驶模式，但缺点是需要预先定义一定数量的高级命令，这可能限制了系统的灵活性</p>
+</li>
+<li><p>Hand-crafted routing cost: 第三种方式通过优化一个自己设计route-cost来规划轨迹。可以优先选择在route上能够走更多距离的轨迹，距离可以通过如下方式定义</p>
+<ul>
+<li>在给定稀疏目标位置的情况下，距离可以表示当前位置到目标点剩余的距离</li>
+<li>对于标注的车道，可以使用沿着这些车道的距离或者需要遵循这些车道所需的车道变更次数来衡量距离</li>
+</ul>
+<p>planner可以较好的权衡导航完成度和舒适性和安全性等其他考量因素，可以灵活的应对复杂的情况。例如，为了防止碰撞，它可以选择驶出道路。然而，安全性和舒适性与距离之间的权衡可能是不理想的。这意味着在某些情况下，为了保证安全和舒适，可能需要牺牲一定的进展速度。这可能会导致车辆的行驶速度降低，从而影响整体的行驶效率。这是自动驾驶系统在规划路径时需要考虑的一个重要因素。</p>
+</li>
+<li><p>route attention: 这可以通过从输入特征中移除地图的非路线部分，或者利用空间注意力机制来关注地图的相关部分来实现。</p>
+</li>
+</ul>
+<p>早期模型还没有加入导航，后期submodules 和 input features 占主导地位，现在的模型逐渐引入route-attention方式</p>
+<h2 id="planning-范式"><a href="#planning-范式" class="headerlink" title="planning 范式"></a>planning 范式</h2><p>回顾方程(5)，本节主要聚焦于函数$f$如何建立。</p>
+<p>一般我们都分为两个部分来建立该函数，第一部分一般是一个生成器$g$，生成一组合适的候选轨迹$\hat{Y}_{EV}^i, i=1,…,N$, 第二部分是建立一个选择器$h$, 在候选轨迹中选择一条轨迹$Y_{EV}$, 所以planning函数可以写为</p>
+<script type="math/tex; mode=display">
+f = h(g(\overline{X}_{SV}, X_{EV}, I, \overline{Y}_{SV}))</script><p>下面讨论三种不同的范式来处理planning任务</p>
+<ul>
+<li><p><strong>Cost function optimization.</strong> 因为planning本来就是要寻找一条安全的，舒适度高的，通行效率高的轨迹，因此我们可以设计一个损失函数，来权衡这些指标来寻找一条最合适的轨迹，基于cost函数的planning方法完全依赖于函数$h$怎么选择</p>
+<script type="math/tex; mode=display">
+h = \arg\min_ic(\hat{Y}_{EV}^i),</script><p>这里c是一个损失函数。g在这里基本就是一个简单的采样器需要保证轨迹的可行性和符合运动学规律。一般可以通过随机采样来生成，或者通过查看真实世界中的驾驶行为（专家演示）并对其进行聚类来生成。</p>
+<p><strong>传统方法</strong>是完全基于自己定义cost函数来出轨迹的。在此基础之上，PILOT把模仿学习作为NN的初始解，可以以更快的方式来找到最优解。但是这种方式处理长尾问题上依然有很大的挑战</p>
+<p><strong>基于NN的方法</strong>直接从专家开车的方式中去学习一种cost函数，</p>
+</li>
+<li><p><strong>Regression</strong>: 回归的方式没有选择这一步，即$h$为一个identity。$g$用于生成一条轨迹$Y_{EV}=\hat{Y}_{EV}^1$。回归方法直接从人驾数据中学习出未来要走的轨迹，这种监督学习的方式也被称为behaviour cloning(BC).  虽然这种方式可能优于手动设计cost的方式，但是它对数据分布偏移的敏感度较强，需要加入一些高级训练方法。</p>
+<p>这种方式出来的轨迹无法保证运动学和可行性，尤其是在一些Corner case中。但是可以通过回归action的方式，来保证运动学可行性。</p>
+</li>
+<li><p><strong>Hybrid planning</strong>: 这是上面两种方式的组合。首先通过一个轨迹生成器$g$回归出各个轨迹，然后通过cost函数选择出一条最好的轨迹。比如有的文章会从生成的轨迹中检查是否碰撞来剔除不合适的轨迹，类似的，在论文GC-PGP中，它在利用goal-conditioned的预测模型给出一系列可能的未来轨迹，然后从中选择出一条。</p>
+<p>在这种混合模式的情况下，我们通常不能很清楚的知道，选出这条轨迹的原因中，哪一部分是生成器的原因给出的，哪一部分是由于cost function来选择的。</p>
+</li>
+</ul>
+<h2 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h2><p>本节讨论如何去评价planning的结果到底好还是不好。一般有两个方式，开环评测和闭环评测</p>
+<h3 id="开环评测"><a href="#开环评测" class="headerlink" title="开环评测"></a>开环评测</h3><p>开环评测的过程和评测一条预测轨迹一样，他对比$Y_{EV}$和人驾数据$Y_{GT}$, 有两个主要问题</p>
+<ol>
+<li>自车是否真的学会了跟着导航走。</li>
+<li>把累积误差给消除了。</li>
+</ol>
+<p>所以开环评测无法真正的评价出planning的结果到底是好还是不好。</p>
+<h3 id="闭环评测"><a href="#闭环评测" class="headerlink" title="闭环评测"></a>闭环评测</h3><p>闭环模拟与开环模拟的区别:</p>
+<ul>
+<li><strong>模拟方式</strong>: 闭环模拟允许规划器控制自动驾驶车辆，更接近真实世界驾驶情况。</li>
+<li><strong>复杂性</strong>: 由于规划器会达到没有预测轨迹的状态，闭环模拟的复杂性更高。</li>
+<li><strong>轨迹比较</strong>: 规划的轨迹($Y_{EV}$)可能与实际行驶的闭环轨迹$Y_{CL}$不同，因为存在高频重新规划和控制器跟踪不完美的情况。</li>
+<li><strong>评估指标</strong>: 评估闭环模拟时不使用位移误差，而是使用描述进展、舒适度和安全性的不同指标。</li>
+</ul>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2024/03/03/20240303pred+planning/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">planning + prediction</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2024/02/02/20240209%E4%BC%A0%E7%BB%9F%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">传统规划算法</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '79f544d13d21b2fcc133',
+                    clientSecret: 'e0a9aab7ed86532d17f8c9e15ed14d875f074d4f',
+                    repo: 'hexo-site-comment',
+                    owner: 'chargerKong',
+                    admin: ['chargerKong'],
+                    id: __gitalk__pathname,
+                    language: 'ch'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#notation"><span class="nav-number">1.1.</span> <span class="nav-text">notation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.</span> <span class="nav-text">任务定义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PLANNING"><span class="nav-number">2.</span> <span class="nav-text">PLANNING</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#input-%E8%A1%A8%E5%BE%81"><span class="nav-number">2.1.</span> <span class="nav-text">input 表征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Output-%E8%A1%A8%E5%BE%81"><span class="nav-number">2.2.</span> <span class="nav-text">Output 表征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GOAL-conditioning"><span class="nav-number">2.3.</span> <span class="nav-text">GOAL conditioning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#planning-%E8%8C%83%E5%BC%8F"><span class="nav-number">2.4.</span> <span class="nav-text">planning 范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Benchmark"><span class="nav-number">2.5.</span> <span class="nav-text">Benchmark</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E7%8E%AF%E8%AF%84%E6%B5%8B"><span class="nav-number">2.5.1.</span> <span class="nav-text">开环评测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E7%8E%AF%E8%AF%84%E6%B5%8B"><span class="nav-number">2.5.2.</span> <span class="nav-text">闭环评测</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>

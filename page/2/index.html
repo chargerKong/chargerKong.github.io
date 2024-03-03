@@ -145,6 +145,54 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/04/15/220415%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8D%B1%E9%99%A9%E6%80%A7/">
+                        c++ 默认函数的危险性
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        在创建类的时候，c++编译器会帮助做一些事情，包括
+
+默认构造函数
+拷贝构造函数
+自动构建析构函数
+默认的赋值操作符
+
+在我们使用这些默认函数的时候，一定要知道他们都做了什么，会造成怎么样的危害。
+默认函数的危险性举例类定义下面一段代码新建一个类My...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Apr 15 2022 18:38:29 GMT+0800">2022-04-15</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/15/220415%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0%E7%9A%84%E5%8D%B1%E9%99%A9%E6%80%A7/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/04/13/220413%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E7%B1%BB/">
                         c++结构体和类
                     </a>
@@ -538,68 +586,22 @@ c++内存申请的时候还需要做多一步，即调用构造函数，他不�
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/03/22/220322c++%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
-                        数据类型
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        编译分开编译链接1g++ -c main.cpp
--c 表示只编译，生成一个目标文件 main.o
-1g++ -c mul.cpp
--c 表示只编译，生成一个目标文件 mul.o
-1g++ main.o mul.o -o mul
-表示链接
-一次性编译...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Mar 22 2022 18:38:29 GMT+0800">2022-03-22</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/c/">c++</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/03/22/220322c++%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
-        .paginator {
-  font-size: 1rem;
-  margin-top: 30px;
+        <div class="paginator">
+    
+        <a class="prev btn"
+           href="/"
+        >Prev</a>
+    
 
-  a.prev {
-    float: left;
-  }
-
-  a.next {
-    float: right;
-  }
-
-}
+    
+        <a class="next btn"
+           href="/page/3/"
+        >Next</a>
+    
+</div>
 
     </div>
 </div>

@@ -9,7 +9,7 @@
     
     <title>
         
-            End-to-end ADS overview |
+            planning + prediction |
         
         大杂烩
     </title>
@@ -143,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">End-to-end ADS overview</span>
+            <span class="title-hover-animation">planning + prediction</span>
         </div>
 
         
@@ -161,7 +161,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2024-02-02 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2024-03-03 18:38:29
     </span>
     
     
@@ -189,100 +189,7 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="notation"><a href="#notation" class="headerlink" title="notation"></a>notation</h2><p><font size=5>$X_i=\{x_{t-t_{obs}},…,x_{t-1},x_t\}$</font>: 障碍物$i$的历史状态特征，每一个$x$有多维特征，2D或者3D的位置信息，heading， speed等</p>
-<script type="math/tex; mode=display">X_{EV}$$: ego vehicle的历史特征
-
-$X_{SV}$: Surrounding Vehicles的历史特征
-
-$\overline{X}_{SV}=\{X_1,X_2,...,X_m\}$: 周围所有车的历史特征
-
-<font size=5>$Y_i = {y_{t+1}, y_{t+2}, . . . , y_{t+tpred} }$</font>: 障碍物i的未来信息，一般也称为未来轨迹
-
-$I$: 除未来轨迹和历史特征，其他场景信息，包括语义信息，交通灯，交通标志等
-
-$\overline{X}=\{\overline{X}_{SV}, X_{EV}\}$: 所有障碍物车的历史体特征
-
-## 任务定义
-
-预测： 出一个概率分布</script><p>P_{pred}= P(\overline{Y}|\overline{X},I)</p>
-<script type="math/tex; mode=display">
-通过观测在$\overline{X}$中的m个障碍物的历史轨迹，出n个在$\overline{Y}$中的未来轨迹。$P_{pred}$为概率的一个分布，即解释了在预测中固有的不确定性。
-
-
-
-规划：整一条好的轨迹给控制
-
-我们定义一个函数$f$，用于做从输入$\overline{X}_{SV}, X_{EV}, I$到未来轨迹的$Y_{EV}$的映射</script><p>Y_{EV} = f(\overline{X}_{SV}, X_{EV}, I)</p>
-<script type="math/tex; mode=display">
-很多场景下，还会使用预测的结果$\overline{Y}_{SV}$作为输入</script><p>Y_{EV} = f(\overline{X}_{SV}, X_{EV}, I, \overline{Y}_{SV}) \tag5</p>
-<script type="math/tex; mode=display">
-
-
-
-# PLANNING
-
-## input 表征
-
-在自动驾驶系统的规划阶段，输入表示主要分为两类：可解释的中间表示和潜在特征。
-
-- **可解释的中间表示**：这种表示通常用于模块化的自动驾驶系统。planning模块基于感知模块输出的，经过后处理的的场景表示。栅格化和稀疏表示是模块化自动驾驶系统中planning模块常用的可解释输入表示。
-
-- **潜在特征**：对于直接将传感器信息映射到未来动作的端到端自动驾驶系统，规划系统的输入$（X_{EV}，\overline{X}_{SV})$和$I$将由潜在特征表示。使用这种潜在特征的好处是不需要手动工程化设计模块之间的接口。手工制作的接口必须适用于潜在驾驶场景的长尾分布，且任何被接口丢弃的信息都无法恢复。
-
-  举个例子：如果一辆车当前被遮挡，但是可以通过其在另一辆车上的车灯反射来推断其存在，那么，使用边界框表示法、占用字段或者可供性这些方法将无法将这种信息传递给下游模块
-
-  相反，潜在特征表示允许不确定性传播，使下游模块能够补偿早期阶段的错误。然而，潜在特征表示的主要缺点是缺乏可解释性。在出现故障的情况下，评估系统的哪一部分导致了错误非常困难。这使得调试和调整纯端到端系统特别困难。可解释的端到端系统试图通过产生额外的中间表示来弥补这一点。与模块化堆栈不同，这些可解释的中间输出不被规划器使用。相反，它们仅用于额外的监督和模型内省。
-
-## Output 表征
-
-planning的输出通常是一系列的未来状态或者控制动作
-
-为什么是一系列的未来状态呢，因为通过预测未来的多个姿态，而不仅仅是下一个立即的姿态，可以提供更多的信息，帮助系统更好地学习和理解驾驶环境，从而提高其对未知情况的适应能力。这种方法有助于提高自动驾驶系统的稳定性和可靠性
-
-如果输出是一系列的控制行为，考虑到每辆车的动力学特性可能会影响自动驾驶系统的行为。因此，将一种车辆的自动驾驶系统行为直接推广到其他车辆可能会受到限制。这是因为不同车辆的动力学特性可能会有所不同，这可能会影响自动驾驶系统的性能和行为。 
-
-## GOAL conditioning
-
-planning中，能否到达目的地是判断一条轨迹是否合适的重要指标。
-
-如何把导航信息给到系统呢？目前有以下几种方式是比较流行的
-
-1. 把每一条lane标上是on-route还是off-route的状态，这相当于又通过多条lane的组合组成了route。
-2. 提供一组稀疏的目标点的位置来描述route
-3. 从GPS中获得，类似于左转右转这样的指令
-
-我们定义了四种方式来描述这个goal信息如何应用到planning系统中
-
-- input features: 无论以什么方式表达导航信息，直接针对导航信息进行编码。如on-route和off-route的方式可以作为额外一层语义信息加入栅格化地图中。向量化的表达方式可以表达出道路中心线。需要注意的是，**这样的直接编码方式难以保障一定能到达目的地**
-
-- Separate submodules: 分拆为子模块，这些子模块只与高级命令一起使用，它们充当特定命令之间的切换开关。这种设置避免了数据集被单一驾驶模式（如车道跟随）所主导，因为每个模块只针对单一的高级命令进行训练。然而，这种方法需要预先定义固定数量的高级命令。
-
-  这种方法的主要优点是可以避免数据集偏向某一种驾驶模式，但缺点是需要预先定义一定数量的高级命令，这可能限制了系统的灵活性
-
-- Hand-crafted routing cost: 第三种方式通过优化一个手工制定的route-cost来规划轨迹。可以优先选择在route上能够走更多距离的轨迹，距离可以通过如下方式定义
-
-  - 在给定稀疏目标位置的情况下，距离可以表示当前位置到目标点剩余的距离
-  - 对于标注的车道，可以使用沿着这些车道的距离或者需要遵循这些车道所需的车道变更次数来衡量距离
-
-  planner可以较好的权衡导航完成度和舒适性和安全性等其他考量因素，可以灵活的应对复杂的情况。例如，为了防止碰撞，它可以选择驶出道路。然而，安全性和舒适性与距离之间的权衡可能是不理想的。这意味着在某些情况下，为了保证安全和舒适，可能需要牺牲一定的进展速度。这可能会导致车辆的行驶速度降低，从而影响整体的行驶效率。这是自动驾驶系统在规划路径时需要考虑的一个重要因素。
-
-- route attention: 这可以通过从输入特征中移除地图的非路线部分，或者利用空间注意力机制来关注地图的相关部分来实现。
-
-早期模型还没有加入导航，后期submodules 和 input features 占主导地位，现在的模型逐渐引入route-attention方式
-
-## planning 范式
-
-回顾方程(5)，本节主要聚焦于函数$f$如何建立。
-
-一般我们都分为两个部分来建立该函数，第一部分一般是一个生成器$g$，生成一组合适的候选轨迹$\hat{Y}_{EV}^i, i=1,...,N$, 第二部分是建立一个选择器$h$, 在候选轨迹中选择一条轨迹$Y_{EV}$, 所以planning函数可以写为</script><p>f = h(g(\overline{X}_{SV}, X_{EV}, I, \overline{Y}_{SV}))</p>
-<script type="math/tex; mode=display">
-下面讨论三种不同的范式来处理planning任务
-
-- Cost function optimization. 因为planning本来就是要寻找一条安全的，舒适度高的，同行效率高的轨迹，因此我们可以设计一个损失函数，来权衡这些指标来寻找一条最合适的轨迹，基于cost函数的planning方法完全依赖于函数$h$怎么选择</script><p>  h = \arg\min_ic(\hat{Y}_{EV}^i),</p>
-<p>  $$<br>  这里c是一个损失函数。g在这里基本就是一个简单的采样器需要保证轨迹的可行性和符合运动学规律。一般可以通过随机采样来生成，或者通过查看真实世界中的驾驶行为（专家演示）并对其进行聚类来生成。</p>
-<p>  <strong>传统方法</strong>是完全基于自己定义cost函数来出轨迹的。在此基础之上，PILOT把模仿学习作为NN的初始解，可以以更快的方式来找到最优解。但是这种方式处理长尾问题上依然有很大的挑战</p>
-<p>  <strong>基于NN的方法</strong>直接从专家开车的方式中去学习一种cost函数，</p>
-
+            
         </div>
 
         
@@ -294,10 +201,10 @@ planning中，能否到达目的地是判断一条轨迹是否合适的重要指
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2023/12/24/20231224%20uniad/"
+                           href="/2024/02/09/20240202planning_overview/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">UniAD-端到端面向规划的自动驾驶框架</span>
+                                <span class="post-nav-title-item">planning overview</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -467,7 +374,7 @@ planning中，能否到达目的地是判断一条轨迹是否合适的重要指
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#notation"><span class="nav-number">1.1.</span> <span class="nav-text">notation</span></a></li></ol></li></ol>
+        
     </div>
 </div>
         </aside>
