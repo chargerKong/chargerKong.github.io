@@ -1,7 +1,7 @@
 ---
 title: tf2 broadcaster listener
 date: 2021-08-23 15:59:22
-tags: tf2
+tags: [tf2,ros2]
 ---
 
 在之前的教程中，我们学会了如何创建了一个静态变换

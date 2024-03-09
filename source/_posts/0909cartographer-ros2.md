@@ -50,7 +50,7 @@ ros2 launch my_slam cartographer.launch.py
 
 如果一切正常可以看见如下内容，gazebo启动雷达扫描，同时在cartographer进行SLAM建图，并且显示在rviz中。
 
-![](Screenshot from 2021-09-10 15-17-08.png)
+![](0909cartographer-ros2/Screenshot from 2021-09-10 15-17-08.png)
 
 此时，打开另外一个终端，启动键盘控制
 
@@ -60,7 +60,7 @@ ros2 run teleop_key_control teleop_key_control
 
 就可以进行整张地图的建立
 
-![](Screenshot from 2021-09-11 14-40-47.png)
+![](0909cartographer-ros2/Screenshot from 2021-09-11 14-40-47.png)
 
 
 

@@ -1,10 +1,8 @@
 ---
 title: 添加world到启动文件
 date: 2021-04-24 10:23:20
-tags:
+tags: robot_simulation
 ---
-
-
 
 # 添加world文件与model文件
 
@@ -109,7 +107,7 @@ colcon build --packages-select robot_description --symlink-install
 ros2 launch robot_description gazebo_lab_world.launch.py
 ```
 
-![](world.png)
+![](添加world到启动文件/world.png)
 
 
 

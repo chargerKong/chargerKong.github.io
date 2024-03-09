@@ -1,7 +1,7 @@
 ---
 title: gazebo的使用
 date: 2021-04-07 16:24:35
-tags: gazebo
+tags: [gazebo,robot_simulation]
 ---
 
 系统：`Ubuntu 20.04`
@@ -91,7 +91,7 @@ gazebo
 将会看到如下界面
 
 
-![](ftu3-boot-screen.png)
+![](gazebo的使用（一）/ftu3-boot-screen.png)
 
 接下来介绍Gazebo的界面
 
@@ -105,7 +105,7 @@ gazebo
 
 左右两边的面板都可以通过拖动分隔条（五个点）来显示、隐藏或调整他们的大小。
 
-![](ftu3-panels.png)
+![](gazebo的使用（一）/ftu3-panels.png)
 
 #### 左侧面板
 
@@ -123,7 +123,7 @@ gazebo
 
 主工具栏包括一些最常用的与模拟器交互的选项，例如:选择、移动、旋转和缩放对象的按钮; 创建简单的形状(如立方体，球体，圆柱体)和复制/粘贴。接下来点击每一个按钮可以查看他们是如何工作的
 
-![](ftu3-top-toolbar.png)
+![](gazebo的使用（一）/ftu3-top-toolbar.png)
 
 
 
@@ -148,7 +148,7 @@ gazebo
 
 Gazebo中的世界状态在每次迭代中都会计算一次。您可以在底部工具栏的右侧看到迭代次数。每次迭代都将模拟推进固定的秒数，称为步长。默认步长为1毫秒。您可以按下pause按钮暂停模拟，并使用step按钮一次执行几个步骤。
 
-![img](ftu3-bottom-toolbar.png)
+![](gazebo的使用（一）/ftu3-bottom-toolbar.png)
 
 
 
@@ -156,10 +156,10 @@ Gazebo中的世界状态在每次迭代中都会计算一次。您可以在底�
 
 和大多数应用程序一样，Gazebo的顶部也有一个应用程序菜单。有些菜单选项重复出现在工具栏或场景中的右键菜单选项中。
 
-![](ftu3-menu-options.png)
+![](gazebo的使用（一）/ftu3-menu-options.png)
 
 ### 鼠标控制
 
 在场景中导航时，鼠标非常有用。我们强烈建议使用鼠标与滚轮，右键单击模型也打开一个带有各种选项的上下文菜单。以下是用于在场景中导航并更改视角的基本鼠标操作。
 
-![](ftu3-mouse-controls.png)
+![](gazebo的使用（一）/ftu3-mouse-controls.png)

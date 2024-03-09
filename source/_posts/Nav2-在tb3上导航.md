@@ -1,7 +1,7 @@
 ---
 title: Navigation2设置指南
 date: 2021-04-28 16:24:35
-tags: Nav2
+tags: navigation2
 ---
 
 

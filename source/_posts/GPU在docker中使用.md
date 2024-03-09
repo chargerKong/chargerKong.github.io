@@ -12,17 +12,17 @@ tags: [GPU, docker]
 
 点开Ubuntu中自带的Software & update （软件和更新），选择下面的additional Drivers（附加驱动），即可查看自己的显卡型号
 
-![](/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 11-34-52屏幕截图.png)
+![](GPU在docker中使用/2021-07-02 11-34-52屏幕截图.png)
 
 这里可以看见，我的电脑上有一块GeForce MX250的显卡。现在默认使用的是系统自带的，我可以选择上面其他几个NVIDIA驱动。我这里选择的是nvidia-driver-460，两个460都可以，具体对应自己的GPU是多少可以去[NVIDIA官网](https://www.nvidia.com/Download/index.aspx#)查看最合适的驱动。
 
 首先选好对应自己的显卡和操作系统，我这里是GeForce MX250和Linux，点击确定会有推荐的驱动
 
-![](/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 14-26-11屏幕截图.png)
+![](GPU在docker中使用/2021-07-02 14-26-11屏幕截图.png)
 
 相应上面推荐的是460.84
 
-![](/home/kong/repo/blog/blog/source/_posts/GPU在docker中使用/2021-07-02 14-28-42屏幕截图.png)
+![](GPU在docker中使用/2021-07-02 14-28-42屏幕截图.png)
 
 
 
@@ -49,7 +49,8 @@ Fri Jul  2 14:31:35 2021
 |                               |                      |                  N/A |
 +-------------------------------+----------------------+----------------------+
                                                                                
-+-----------------------------------------------------------------------------+
++-----------------------------------------------------------------------------+显存类型： 不限rtx3060性能和rtx2070差不多,相比于rtx2060纯速度提升 ... Nvidia公司的GeForce RTX 2070和的GeForce RTX 2070 MAX-Q是笔记本电脑的高端显卡。
+
 | Processes:                                                                  |
 |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
 |        ID   ID                                                   Usage      |

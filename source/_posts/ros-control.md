@@ -1,7 +1,7 @@
 ---
 title: ros控制机器人
 date: 2021-04-14 10:11:26
-tags: gazebo
+tags: [gazebo, robot_simulation]
 ---
 
 
@@ -109,7 +109,7 @@ tags: gazebo
 ros2 run robot_description gazebo_empty_world.launch.py
 ```
 
-![](subscribe.png)
+![](ros-control/subscribe.png)
 
 可以看见，`differential_drive_controller`已经开始订阅了`\cmd_vel`topic，可以通过如下方式查看此topic的数据结构
 
@@ -361,7 +361,7 @@ ros2 run teleop_key_control teleop_key_control
 
 出现如下信息则说明，程序已经准备完毕
 
-![](node_start.png)
+![](ros-control/node_start.png)
 
 此时按下`i,j,k.l`，在终端会返回
 
@@ -385,5 +385,5 @@ to  control the robot and press s to stop the robot
 
 同时在gazebo中，机器人也会有移动的效果
 
-![](robot_move.png)
+![](ros-control/robot_move.png)
 

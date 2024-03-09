@@ -1,7 +1,7 @@
 ---
 title: Navigation2总览
 date: 2021-04-26 16:24:35
-tags: Nav2
+tags: navigation2
 ---
 
 # Navigation2

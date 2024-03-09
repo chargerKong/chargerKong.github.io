@@ -1,7 +1,7 @@
 ---
 title: sensor-brifge-cartographer
 date: 2021-09-25 15:59:23
-tags: ros2
+tags: cartographer
 ---
 
 SensorBridge类将ROS的消息转换为在tracking frame上的传感器数据，为了方便建图

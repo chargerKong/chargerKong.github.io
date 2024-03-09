@@ -1,7 +1,7 @@
 ---
 title: CMake实践
 date: 2021-05-05 14:30:29
-tags: 
+tags: c++
 ---
 
 ## Project（name）

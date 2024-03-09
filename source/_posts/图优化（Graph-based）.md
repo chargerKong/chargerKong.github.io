@@ -1,8 +1,7 @@
 ---
 title: 图优化（Graph-based）
 date: 2021-05-26 10:23:20
-tags:
-
+tags: [激光SLAM,视觉SLAM]
 ---
 
 ## Pose Graph的构建

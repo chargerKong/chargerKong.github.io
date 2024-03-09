@@ -1,6 +1,7 @@
 ---
 title: 修改orbslam2 OpenCV版本
 date: 2021-05-30 16:24:35
+tags: [视觉SLAM]
 ---
 
 ## 修改CMakeLists

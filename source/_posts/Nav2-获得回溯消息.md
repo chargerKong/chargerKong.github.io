@@ -1,7 +1,7 @@
 ---
 title: Navigation2-获得回溯消息
 date: 2021-04-29 16:24:35
-tags: Nav2
+tags: navigation2
 ---
 
 GDB是Unix系统上最流行的C ++调试器。 它可用于确定崩溃的原因并跟踪线程。 它也可以用于在代码中添加断点，以检查内存中的值，即软件中的特定点。
@@ -95,7 +95,7 @@ ros2 run --prefix 'gdb -ex run --args' <pkg> <node> --all-other-launch arguments
 
 
 
-## From Nav2 Bringup（再看）
+## From Nav2 Bringup
 
 使用多个节点的启动文件略有不同，因此您可以与您的GDB会话交互，而不会被同一终端中的其他日志所困扰。出于这个原因，在处理更大的启动文件时，最好选择您感兴趣的特定服务器并单独启动它。
 

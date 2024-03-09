@@ -1,7 +1,7 @@
 ---
 title: IMLS -ICP
 date: 2021-05-23 18:38:29
-tags:
+tags:[激光SLAM]
 ---
 
 ## 推荐书

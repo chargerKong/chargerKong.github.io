@@ -1,7 +1,7 @@
 ---
 title: ros2 launch 使用记录说明
 date: 2021-10-26 09:59:22
-tags: ros2-launch
+tags: [ros2, launch]
 ---
 
 # IncludeLaunchDescription
