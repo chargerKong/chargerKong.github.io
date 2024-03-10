@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Kong Liangqian">
+    
+    <title>
+        
+            KDtree |
+        
+        大杂烩
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/wuwuwu.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chargerkong.github.io","root":"/","language":"ch"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/wuwuwu.jpg","favicon":"/images/wuwuwu.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.2"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                大杂烩
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">TAGS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">KDtree</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/wuwuwu.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Kong Liangqian</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-03-06 11:01:52
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/math/">math</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>本文主要讲解利用KD树建立，以及搜索</p>
+<h2 id="1-暴力解法"><a href="#1-暴力解法" class="headerlink" title="1. 暴力解法"></a>1. 暴力解法</h2><p>假设对数据的第一个点寻找与他最近的几个点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># db_np 为Nx3的三维数据，需要找的数据是第一行的数据, 比如</span><br><span class="line"># db_np &#x3D; array([[ 5.2897942e+01,  2.2989739e-02,  1.9979945e+00],</span><br><span class="line">#       [ 5.3750526e+01,  1.9291429e-01,  2.0269539e+00],</span><br><span class="line">#       [ 5.3803116e+01,  3.6183926e-01,  2.0289137e+00],</span><br><span class="line">#       ...,</span><br><span class="line">#       [ 3.8401384e+00, -1.4381756e+00, -1.7735560e+00],</span><br><span class="line">#       [ 3.8257158e+00, -1.4192016e+00, -1.7645701e+00],</span><br><span class="line">#       [ 4.0923753e+00, -1.5071962e+00, -1.8955611e+00]], dtype&#x3D;float32)</span><br><span class="line">#  则我们需要求和[0.52897, 0.022, 1.9979]最近的几个点</span><br></pre></td></tr></table></figure>
+<p>对每一个点进行距离的计算</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">query &#x3D; db_np[0,:]</span><br><span class="line">dist &#x3D; np.linalg.norm(db_np - query, axis&#x3D;1)</span><br><span class="line"># 这样dist &#x3D; array([ 0.        ,  0.86983556,  0.96701366, ..., 49.224262 , 49.23739   , 48.98453   ], dtype&#x3D;float32)</span><br></pre></td></tr></table></figure>
+<p>接下来对距离进行排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">nn_idx &#x3D; np.argsort(dist)</span><br><span class="line"># 按照距离进行排序，出来的是原来数组的下标array([    0,  3943,  5884, ..., 20570, 22575, 18609])</span><br><span class="line"># 按照距离给出的序号，对原来的db_np进行排序</span><br><span class="line">min_dist_sort &#x3D; db_np[nn_idx]</span><br><span class="line"># 此时min_dist_sort &#x3D; array([[ 5.2897942e+01,  2.2989739e-02,  1.9979945e+00],</span><br><span class="line">#       [ 5.2810284e+01, -1.1394917e-01,  1.6600274e+00],</span><br><span class="line">#       [ 5.2790421e+01, -1.6892470e-01,  1.4110407e+00],</span><br><span class="line">#       ...,</span><br><span class="line">#       [-7.7472404e+01, -7.5055069e-01, -1.8607584e+00],</span><br><span class="line">#       [-7.7778915e+01, -4.4104338e-01, -2.3320513e+00],</span><br><span class="line">#       [-7.8087395e+01, -4.3613955e-01, -1.4752271e+00]], dtype&#x3D;float32)</span><br><span class="line"># 已经是排好序的点</span><br></pre></td></tr></table></figure>
+<p>以上暴力搜索的时间为（在我的机器上）：</p>
+<h2 id="2-KD（K-Dimensions）树"><a href="#2-KD（K-Dimensions）树" class="headerlink" title="2. KD（K-Dimensions）树"></a>2. KD（K-Dimensions）树</h2><p>它是按照不同的维度给数据进行划分区域，找点的时候需要按照区域来寻找，下面介绍一颗二维数据树的使用</p>
+<h3 id="2-1-如何构建一颗KD树"><a href="#2-1-如何构建一颗KD树" class="headerlink" title="2.1 如何构建一颗KD树"></a>2.1 如何构建一颗KD树</h3><p>假设我们有这么多的点，其中，</p>
+<p><img src="sfig1.jpg" alt="img"></p>
+<h4 id="2-1-1-构建Node数据结构"><a href="#2-1-1-构建Node数据结构" class="headerlink" title="2.1.1 构建Node数据结构"></a>2.1.1 构建Node数据结构</h4><p>他们组成一个大区域，我们需要一些数据来存储这个区域。</p>
+<ul>
+<li>这个区域会沿着哪个轴进行划分, 用一个数字保存。0表示第一个轴，1表示第二个轴… 这是因为在python中储存的点形式为，就是第一个轴上的值为3。0就表示为x轴。</li>
+<li>那个轴上的划分线的值</li>
+<li>左子树</li>
+<li>右子树</li>
+<li>这个区域内包含哪些点</li>
+</ul>
+<p>因此考虑一个新的数据结构来进行存储</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Node:</span><br><span class="line">	def __init__(self, axis, value, left, right, point_indices):</span><br><span class="line">    	self.axis &#x3D; axis</span><br><span class="line">        self.value &#x3D; value</span><br><span class="line">        self.left &#x3D; left</span><br><span class="line">        self.right &#x3D; right</span><br><span class="line">        self.point_indices &#x3D; point_indices</span><br></pre></td></tr></table></figure>
+<p>对于这个区域，我们对轴进行分割，其值记为</p>
+<p><img src="fig2.jpg" alt="img"></p>
+<p>那么，在这里代表的是在轴上切割，value取值为在x轴上的值，point_indices表示对应原数据的下标，记录是什么点在这个区域内。left就是左边的框的一个Node</p>
+<h4 id="2-2-2-建立一棵树"><a href="#2-2-2-建立一棵树" class="headerlink" title="2.2.2 建立一棵树"></a>2.2.2 建立一棵树</h4><p>目标</p>
+<ul>
+<li>输入：一堆维度一样的数据</li>
+<li>输出：一颗KD树</li>
+</ul>
+<p>假设已经设置好了需要被构建为KD的数据db_np.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">db_np &#x3D; np.asarray([[1,8],[3,7],[5,7],[1.3,4],[3.5,3.8],[7,4],[3,2.5],[6,3],[4.5,1]])</span><br></pre></td></tr></table></figure>
+<p>想通过一句话构建出KD树，（ leaf_size指切割最后叶子节点的点的数目，比如leaf_size=2，则当某区域的点小于等于2时，就不再分割。）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root &#x3D; kdtree_construction(db_np, leaf_size&#x3D;leaf_size)</span><br></pre></td></tr></table></figure>
+<p>构建一个区域需要之前介绍的这些参数，因此还需要嵌套一层函数比较合适</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def kdtree_construction(db_np, leaf_size):</span><br><span class="line">    N, dim &#x3D; db_np.shape[0], db_np.shape[1]</span><br><span class="line"></span><br><span class="line">    # build kd_tree recursively</span><br><span class="line">    root &#x3D; None</span><br><span class="line">    root &#x3D; kdtree_recursive_build(root,</span><br><span class="line">                                  db_np,</span><br><span class="line">                                  np.arange(N),</span><br><span class="line">                                  axis&#x3D;0,</span><br><span class="line">                                  leaf_size&#x3D;leaf_size)</span><br><span class="line">    return root</span><br></pre></td></tr></table></figure>
+<p>这里<code>np.arang(N)</code>表示序号，root表示最大的那个区域。</p>
+<p>需要再<code>kdtree_recursive_build</code>构建每一个Node, 在这里，默认从x轴开始，因此输入0.</p>
+<p>在<code>kdtree_recursive_build</code>中，首先要定一下切割的位置，我们可以把所有点的x轴拿出来，然后进行排序，找到中间的点</p>
+<p>在上面的例子中，相当于排序<code>[1, 3, 5, 1.3, 3.5 ,7, 6, 4.5]</code>,</p>
+<p>这里可以定义一个函数进行排序</p>
+<p>输入：点的序号和对应轴的坐标</p>
+<p>输出：根据轴的坐标排好序号的下标和值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def sort_key_by_vale(point_indices, value):                                                                                                                              </span><br><span class="line">    assert point_indices.shape &#x3D;&#x3D; value.shape</span><br><span class="line">    assert len(point_indices.shape) &#x3D;&#x3D; 1</span><br><span class="line">    sorted_idx &#x3D; np.argsort(value)</span><br><span class="line">    point_indices_sorted &#x3D; point_indices[sorted_idx]</span><br><span class="line">    value_sorted &#x3D; value[sorted_idx]</span><br><span class="line">    return point_indices_sorted, value_sorted</span><br></pre></td></tr></table></figure>
+<p>然后找寻中间的点，左边的放入left节点，右边的放入right节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 放入当前区域的点的序号和点的值</span><br><span class="line">point_indices_sorted &#x3D; sort_key_by_vale(point_indices, db[point_indices])</span><br><span class="line"># 找寻中间的点</span><br><span class="line">mid_indices &#x3D; point_indices_sorted.shape[0] &#x2F;&#x2F; 2</span><br><span class="line"># 序号左边的点放入左边节点</span><br><span class="line">left_indices &#x3D; point_indices_sorted[:mid_indices]</span><br><span class="line"># 序号右边的点放入右边界点</span><br><span class="line">right_indices &#x3D; point_indices_sorted[mid_indices:]</span><br></pre></td></tr></table></figure>
+<p>找到分割线，不要和点重合，找到左边的点最右边的点和右边最左边的点求平均</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 把左边序号最后一个和右边序号第一个的坐标求中间值</span><br><span class="line">root.value &#x3D; (db[mid_indices - 1, axis] + db[mid_indices, axis]) * 0.5</span><br></pre></td></tr></table></figure>
+<p>定义左右边节点, 并且更改切割的轴，我们定义了一个axis_round_robin函数来改变需要切换的轴，简单来说就是x轴、y轴、z轴、x轴、y轴如此循环下去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 给左边节点赋值</span><br><span class="line">root.left &#x3D; kdtree_recursive_build(root.left,</span><br><span class="line">                            		db, </span><br><span class="line">                                   left_indices,</span><br><span class="line">                                   axis_round_robin(axis, dim&#x3D;db.shape[1]),                                                                            </span><br><span class="line">                                   leaf_size)</span><br><span class="line"># 给右边节点赋值</span><br><span class="line">root.right &#x3D; kdtree_recursive_build(root.right,</span><br><span class="line">                                    db, </span><br><span class="line">                                    right_indices,</span><br><span class="line">                                    axis_round_robin(axis, dim&#x3D;db.shape[1]),</span><br><span class="line">                                    leaf_size)</span><br></pre></td></tr></table></figure>
+<p>在此之前，也需要对root进行定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if root is None:</span><br><span class="line">        root &#x3D; Node(axis, None, None, None, point_indices)</span><br></pre></td></tr></table></figure>
+<p>以上对root的切割和左右区域的操作都需要一个条件, 即剩下的点的数量大于叶子节点数。</p>
+<p>以下是全部的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">def kdtree_recursive_build(root, db, point_indices, axis, leaf_size):</span><br><span class="line">    if root is None:</span><br><span class="line">        root &#x3D; Node(axis, None, None, None, point_indices)</span><br><span class="line"></span><br><span class="line">    # determine whether to split into left and right</span><br><span class="line">    if len(point_indices) &gt; leaf_size:</span><br><span class="line">        # --- get the split position ---</span><br><span class="line">        point_indices_sorted, _ &#x3D; sort_key_by_vale(point_indices, db[point_indices, axis])  # M</span><br><span class="line">        # 当这个节点还不是叶子节点的时候，需要定义左子树和右子树</span><br><span class="line">        # 首先求出中间节点的序号</span><br><span class="line">        mid_indices &#x3D; point_indices_sorted.shape[0] &#x2F;&#x2F; 2</span><br><span class="line">        # 序号左边的点放入左边节点</span><br><span class="line">        left_indices &#x3D; point_indices_sorted[:mid_indices]</span><br><span class="line">        # 序号右边的点放入右边界点</span><br><span class="line">        right_indices &#x3D; point_indices_sorted[mid_indices:]</span><br><span class="line">        # 把左边序号最后一个和右边序号第一个的坐标求中间值</span><br><span class="line">        root.value &#x3D; (db[mid_indices - 1, axis] + db[mid_indices, axis]) * 0.5</span><br><span class="line">        # 给左边节点赋值</span><br><span class="line">        root.left &#x3D; kdtree_recursive_build(root.left,</span><br><span class="line">                                           db, </span><br><span class="line">                                           left_indices,</span><br><span class="line">                                           axis_round_robin(axis, dim&#x3D;db.shape[1]),</span><br><span class="line">                                           leaf_size)</span><br><span class="line">        # 给右边节点赋值</span><br><span class="line">        root.right &#x3D; kdtree_recursive_build(root.right,</span><br><span class="line">                                           db, </span><br><span class="line">                                           right_indices,</span><br><span class="line">                                           axis_round_robin(axis, dim&#x3D;db.shape[1]),</span><br><span class="line">                                           leaf_size)</span><br><span class="line">    return root</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-找寻一个点的附近点，K-NN"><a href="#2-2-找寻一个点的附近点，K-NN" class="headerlink" title="2.2 找寻一个点的附近点，K-NN"></a>2.2 找寻一个点的附近点，K-NN</h3><p>我们通过对比被寻找点与KD树再每一个维度上的切割的值，快速找到相应的区域。</p>
+<p>假设已经对数据点分好区域，很明显这里的<code>leaf_size=1</code>。我们的目标是找到和红点最近的K个点，先看如何找到最近的一个点。</p>
+<p><img src="fig3.jpg" alt="img"></p>
+<p>右图是从上往下看。</p>
+<p>第一个代表根节点，就是最大的区域，代表x轴的分割点</p>
+<p>第二行代表分割完的节点，左边的区域分割轴为y轴，y值为, 右边的区域分割轴为y轴，y值是</p>
+<p>…</p>
+<p>按照区域的划分，先和x轴的进行对比，我们有，因此选择root节点的左边节点，然后对比和，，因此选择上边的区域，这个区域分割点是, 依然是y轴，继续往上找，发现已经是一个叶子节点了，可以直接计算叶子节点里的点距离红点的距离。</p>
+<p>上面的过程可以通过类似于下面的代码实现, 这一段代码就表示着区域的寻找</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def kdtree_knn_search(root: Node, db: np.ndarray, result_set: KNNResultSet, query: np.ndarray):</span><br><span class="line">    # 判断query点和分割点的距离</span><br><span class="line">    if query[root.axis] &lt; root.value:</span><br><span class="line">        kdtree_knn_search(root.left, db, result_set, query)</span><br><span class="line">    else:</span><br><span class="line">        kdtree_knn_search(root.right, db, result_set, query)</span><br></pre></td></tr></table></figure>
+<p>一直寻找到叶子节点为止(需要对Node节点添加一个是不是叶子节点的方法)，然后计算每一个点到<code>query</code>点的距离</p>
+<p>添加方法is_leaf() (通过判定这个区域是否有切割先来判定是不是叶子节点)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Node:</span><br><span class="line">	def __init__(self, axis, value, left, right, point_indices):</span><br><span class="line">		self.axis &#x3D; axis</span><br><span class="line">        self.value &#x3D; value</span><br><span class="line">        self.left &#x3D; left</span><br><span class="line">        self.right &#x3D; right</span><br><span class="line">        self.point_indices &#x3D; point_indices</span><br><span class="line"></span><br><span class="line">    def is_leaf(self):                                                                                                            </span><br><span class="line">        if self.value is None:</span><br><span class="line">            return True</span><br><span class="line">        else:</span><br><span class="line">            return False</span><br></pre></td></tr></table></figure>
+<p>计算叶子节点中的点到query点的距离</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def kdtree_knn_search(root: Node, db: np.ndarray, result_set: KNNResultSet, query: np.ndarray):</span><br><span class="line">     if root.is_leaf():</span><br><span class="line">        # compare the contents of a leaf</span><br><span class="line">        leaf_points &#x3D; db[root.point_indices, :]</span><br><span class="line">        diff &#x3D; np.linalg.norm(np.expand_dims(query, 0) - leaf_points, axis&#x3D;1)</span><br><span class="line">        for i in range(diff.shape[0]):</span><br><span class="line">            result_set.add_point(diff[i], root.point_indices[i])</span><br><span class="line">            return False</span><br><span class="line">    # 判断query点和分割点的距离</span><br><span class="line">    if query[root.axis] &lt; root.value:</span><br><span class="line">        kdtree_knn_search(root.left, db, result_set, query)</span><br><span class="line">    else:</span><br><span class="line">        kdtree_knn_search(root.right, db, result_set, query)</span><br><span class="line">    return False</span><br></pre></td></tr></table></figure>
+<p>在这里，我们做了一个保存结果的集合<code>result_set</code>, 保证可以留下距离最小的K个数。但是这个只是计算了和<code>query</code>点在同一个区域内的点，其它区域内的点有可能比这些点更近。</p>
+<p><img src="fig4.jpg" alt="图4"></p>
+<p><strong>但是需要注意</strong>，虽然红点<code>query</code>点在左上角的区域内，但是在同一个区域内的却不是最近的！！而是在红色所在区域之外的点</p>
+<p>我们在添加点到结果集<code>result_set</code>的时候可以保存下这些点的最远距离<code>worst_distance</code>，当我们回溯的时候，再去计算每一个区域距离<code>query</code>的距离，如果区域距离<code>query</code>点小于<code>worst_distance</code>，则再去那个区域寻找有没有比较近的点。</p>
+<p>代码可以修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">151 def kdtree_knn_search(root: Node, db: np.ndarray, result_set: KNNResultSet, query: np.ndarray):</span><br><span class="line">152     if root is None:</span><br><span class="line">153         return False</span><br><span class="line">154 </span><br><span class="line">155     if root.is_leaf():</span><br><span class="line">156         # compare the contents of a leaf</span><br><span class="line">157         leaf_points &#x3D; db[root.point_indices, :]                                                                                          </span><br><span class="line">158         diff &#x3D; np.linalg.norm(np.expand_dims(query, 0) - leaf_points, axis&#x3D;1)</span><br><span class="line">159         for i in range(diff.shape[0]):</span><br><span class="line">160             result_set.add_point(diff[i], root.point_indices[i])</span><br><span class="line">161         return False</span><br><span class="line">162 </span><br><span class="line">163     # 作业2</span><br><span class="line">164     # 提示：仍通过递归的方式实现搜索</span><br><span class="line">165     # 对比一下query的值</span><br><span class="line">166     if query[root.axis] &lt; root.value:</span><br><span class="line">167         kdtree_knn_search(root.left, db, result_set, query)</span><br><span class="line">168         if math.fabs(root.value - query[root.axis]) &lt; result_set.worstDist():</span><br><span class="line">169             kdtree_knn_search(root.right, db, result_set, query)</span><br><span class="line">170     else:</span><br><span class="line">171         kdtree_knn_search(root.right, db, result_set, query)</span><br><span class="line">172         if math.fabs(root.value - query[root.axis]) &lt; result_set.worstDist():</span><br><span class="line">173             kdtree_knn_search(root.left, db, result_set, query)</span><br><span class="line">174 </span><br><span class="line">175     return False</span><br></pre></td></tr></table></figure>
+<p>假设现在图4中g所在的区域找完了，返回了167行，这个时候就需要去求一下切割线距离<code>query</code>点的距离，小于g到<code>query</code>的距离，即168行的判定，如果为true，则进入切割线的另外一边，进入169行。</p>
+<p>重新进入<code>kdtree_knn_search</code>函数，区域为如下灰色部分，</p>
+<p><img src="fig5.jpg" alt="img"></p>
+<p>然后一样的判断不是叶子节点，判断切割的x轴的值小于query的x轴<code>if query[root.axis] &lt; root.value:</code>，进入灰色区域右边171行</p>
+<p><img src="fig6.jpg" alt="img"></p>
+<p>向结果集添加点, 可以通过我们的结果集来计算到底要不要加。如果要加的话，要更新<code>worst_ditance</code>。加完后171行结束，判断到query点的距离是否小于<code>worst_ditance</code>, 即172行。。。如此回到跟根节点，计算结束</p>
+<p>下面看一下对于结果集的定义, 简单来说，找了一个<code>KNNResultSet.dist_index_list</code>来存储结果，里面的每一个元素都是一个<code>DistIndex</code>对象，来保存着距离和点的序号</p>
+<p>每一次add的操作，就会去更新这个列表，如果加入的点的距离小于第K个点（就是最后一个点）的距离，则更新列表，并且重新排序即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"> 6 class DistIndex:</span><br><span class="line"> 7     def __init__(self, distance, index):</span><br><span class="line"> 8         self.distance &#x3D; distance</span><br><span class="line"> 9         self.index &#x3D; index</span><br><span class="line">10 </span><br><span class="line">11     def __lt__(self, other):</span><br><span class="line">12         return self.distance &lt; other.distance</span><br><span class="line">13 </span><br><span class="line">14</span><br><span class="line">15 class KNNResultSet:                                                                                                                      </span><br><span class="line">16     def __init__(self, capacity):</span><br><span class="line">17         self.capacity &#x3D; capacity</span><br><span class="line">18         self.count &#x3D; 0</span><br><span class="line">19         self.worst_dist &#x3D; 1e10</span><br><span class="line">20         self.dist_index_list &#x3D; []</span><br><span class="line">21         for i in range(capacity):</span><br><span class="line">22             self.dist_index_list.append(DistIndex(self.worst_dist, 0))</span><br><span class="line">23 </span><br><span class="line">24         self.comparison_counter &#x3D; 0</span><br><span class="line">25</span><br><span class="line">26     def size(self):</span><br><span class="line">27         return self.count</span><br><span class="line">28 </span><br><span class="line">29     def full(self):</span><br><span class="line">30         return self.count &#x3D;&#x3D; self.capacity</span><br><span class="line">31 </span><br><span class="line">32     def worstDist(self):</span><br><span class="line">33         return self.worst_dist</span><br><span class="line">34 </span><br><span class="line">35     def add_point(self, dist, index):</span><br><span class="line">36         self.comparison_counter +&#x3D; 1</span><br><span class="line">37         if dist &gt; self.worst_dist:</span><br><span class="line">38             return</span><br><span class="line">39 </span><br><span class="line">40         if self.count &lt; self.capacity:</span><br><span class="line">41             self.count +&#x3D; 1</span><br><span class="line">42 </span><br><span class="line">43         i &#x3D; self.count - 1</span><br><span class="line">44         while i &gt; 0:</span><br><span class="line">45             if self.dist_index_list[i-1].distance &gt; dist:</span><br><span class="line">46                 self.dist_index_list[i] &#x3D; copy.deepcopy(self.dist_index_list[i-1])</span><br><span class="line">47                 i -&#x3D; 1</span><br><span class="line">48             else:</span><br><span class="line">49                 break</span><br><span class="line">50 </span><br><span class="line">51         self.dist_index_list[i].distance &#x3D; dist</span><br><span class="line">52         self.dist_index_list[i].index &#x3D; index</span><br><span class="line">53         self.worst_dist &#x3D; self.dist_index_list[self.capacity-1].distance</span><br></pre></td></tr></table></figure>
+<h2 id="3-运行代码"><a href="#3-运行代码" class="headerlink" title="3. 运行代码"></a>3. 运行代码</h2><p>最后给一个可以运行的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">216     db_size &#x3D; 64</span><br><span class="line">217     dim &#x3D; 3</span><br><span class="line">218     leaf_size &#x3D; 4</span><br><span class="line">219     k &#x3D; 2</span><br><span class="line">220     </span><br><span class="line">221     db_np &#x3D; np.random.rand(db_size, dim)</span><br><span class="line">223     db_np &#x3D; np.concatenate((db_np, np.array([[0.1,0.2,0.3],[0.1,0.2,0.3]])), axis&#x3D;0)</span><br><span class="line">224     root &#x3D; kdtree_construction(db_np, leaf_size&#x3D;leaf_size)</span><br><span class="line">225 </span><br><span class="line"></span><br><span class="line">232     query &#x3D; np.asarray([0.1, 0.2, 0.3])</span><br><span class="line">233     result_set &#x3D; KNNResultSet(capacity&#x3D;k)</span><br><span class="line">234     kdtree_knn_search(root, db_np, result_set, query)</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/03/07/octree/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">octree</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/03/03/voxelgrid_downsampling/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Voxel_Grid_Downsampling</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            /* variables */
+$gt-color-main := #6190e8
+$gt-color-sub := #a1a1a1
+$gt-color-loader := #999999
+$gt-color-error := #ff3860
+$gt-color-hr :=  #E9E9E9
+$gt-color-comment-txt := #333333
+$gt-color-link-active := #333333
+$gt-color-btn := #ffffff
+$gt-size-base := 16px // default font-size
+$gt-size-border-radius := 5px
+$gt-breakpoint-mobile := 479px
+$gt-mask-z-index := 9999
+
+/* functions & mixins */
+clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after { clear: both; }
+}
+em($px, $base-size = $gt-size-base)
+  u = unit($px)
+  if (u is 'px')
+    unit($px / $base-size, 'em')
+  else
+    unit($px, u)
+
+mobile()
+  @media (max-width: $gt-breakpoint-mobile)
+    {block}
+
+/* variables - calculated */
+$gt-size-loader-dot := em(6px)
+$gt-size-loader := em(28px)
+$gt-size-avatar := em(50px)
+$gt-size-avatar-mobi := em(32px)
+
+/* styles */
+// Put everything under container to avoid style conflicts
+.comments-container
+  .gt-container
+    box-sizing: border-box
+    *
+      box-sizing: border-box
+    font-size: $gt-size-base
+    // common
+    a
+      color: $gt-color-main
+      &:hover
+        color: lighten($gt-color-main, 20%)
+        border-color: lighten($gt-color-main, 20%)
+      &.is--active
+        color: $gt-color-link-active
+        cursor: default !important
+        &:hover
+          color: $gt-color-link-active
+    .hide
+      display: none !important
+    // icons
+    .gt-svg
+      display: inline-block
+      width: em(16px)
+      height: em(16px)
+      vertical-align: sub
+      svg
+        width: 100%
+        height: 100%
+        fill: $gt-color-main
+    .gt-ico
+      display: inline-block
+      &-text
+        margin-left: em(5px)
+      &-github
+        width: 100%
+        height: 100%
+        .gt-svg
+          width: 100%
+          height: 100%
+        svg
+          fill: inherit
+    /* loader */
+    .gt-spinner
+      position: relative
+      &::before
+        content: ''
+        box-sizing: border-box
+        position: absolute
+        top: 3px
+        width: em(12px)
+        height: em(12px)
+        margin-top: em(-3px)
+        margin-left: em(-6px)
+        border-radius: 50%
+        border: 1px solid $gt-color-btn
+        border-top-color: $gt-color-main
+        animation: gt-kf-rotate .6s linear infinite
+
+    .gt-loader
+      position: relative
+      border: 1px solid $gt-color-loader
+      animation: ease gt-kf-rotate 1.5s infinite
+      display: inline-block
+      font-style: normal
+      width: $gt-size-loader
+      height: $gt-size-loader
+      //font-size: $gt-size-loader
+      line-height: $gt-size-loader
+      border-radius: 50%
+      &:before
+        content: ''
+        position: absolute
+        display: block
+        top: 0
+        left: 50%
+        margin-top: -($gt-size-loader-dot / 2)
+        margin-left: -($gt-size-loader-dot / 2)
+        width: $gt-size-loader-dot
+        height: $gt-size-loader-dot
+        background-color: $gt-color-loader
+        border-radius: 50%
+    // avatar
+    .gt-avatar
+      display: inline-block
+      width: $gt-size-avatar
+      height: $gt-size-avatar
+      +mobile()
+        width: $gt-size-avatar-mobi
+        height: $gt-size-avatar-mobi
+      img
+        width: 100%
+        height: auto
+        border-radius: 3px
+      &-github
+        width: $gt-size-avatar - em(2px)
+        height: $gt-size-avatar - em(2px)
+        cursor: pointer
+        +mobile()
+          width: $gt-size-avatar-mobi - em(2px)
+          height: $gt-size-avatar-mobi - em(2px)
+    // button
+    .gt-btn
+      padding: em(12px) em(20px)
+      display: inline-block
+      line-height: 1
+      text-decoration: none
+      white-space: nowrap
+      cursor: pointer
+      border: 1px solid $gt-color-main
+      border-radius: $gt-size-border-radius
+      background-color: $gt-color-main
+      color: $gt-color-btn
+      outline: none
+      font-size: em(12px)
+      &-text
+        font-weight: 400
+      &-loading
+        position: relative
+        margin-left: em(8px)
+        display: inline-block
+        width: em(12px)
+        height: em(16px)
+        vertical-align: top
+      &.is--disable
+        cursor: not-allowed
+        opacity: 0.5
+      &-login
+        margin-right: 0
+      &-preview
+        background-color: var(--background-color)
+        color: $gt-color-main
+        &:hover
+          background-color: var(--second-background-color)
+      &-public
+        &:hover
+          background-color: lighten($gt-color-main, 20%)
+          border-color: lighten($gt-color-main, 20%)
+  &-loadmore
+  // loadmore
+
+  /* error */
+  .gt-error
+    text-align: center
+    margin: em(10px)
+    color: $gt-color-error
+
+  /* initing */
+  .gt-initing
+    padding: em(20px) 0
+    text-align: center
+    &-text
+      margin: em(10px) auto
+      font-size: 92%
+
+  /* no int */
+  .gt-no-init
+    padding: em(20px) 0
+    text-align: center
+
+  /* link */
+  .gt-link
+    border-bottom: 1px dotted $gt-color-main
+    &-counts, &-project
+      text-decoration: none
+
+  /* meta */
+  .gt-meta
+    margin: em(20px) 0
+    padding: em(16px) 0
+    position: relative
+    border-bottom: 1px solid $gt-color-hr
+    font-size: em(16px)
+    z-index: 10
+    clearfix()
+
+  .gt-counts
+    margin: 0 em(10px) 0 0
+    color: var(--default-text-color)
+
+  .gt-user
+    float: right
+    margin: 0
+    font-size: 92%
+    &-pic
+      width: 16px
+      height: 16px
+      vertical-align: top
+      margin-right: em(8px)
+    &-inner
+      display: inline-block
+      cursor: pointer
+      .gt-user-name
+        color: var(--default-text-color)
+
+    .gt-ico
+      margin: 0 0 0 em(5px)
+      svg
+        fill: var(--default-text-color)
+    .is--poping
+      .gt-ico
+        svg
+          fill: $gt-color-main
+
+  .gt-version
+    color: $gt-color-sub
+    margin-left: em(6px)
+
+  .gt-copyright
+    margin: 0 em(15px) em(8px)
+    border-top: 1px solid var(--border-color)
+    padding-top: em(8px)
+
+  /* popup */
+  .gt-popup
+    position: absolute
+    right: 0
+    top: em(38px)
+    background: var(--background-color)
+    display: inline-block
+    border: 1px solid var(--border-color)
+    padding: em(10px) 0
+    font-size: em(14px)
+    letter-spacing: .5px
+    .gt-action
+      cursor: pointer
+      display: block
+      margin: em(8px) 0
+      padding: 0 em(18px)
+      position: relative
+      text-decoration: none
+      &.is--active
+        &:before
+          content: ''
+          width: em(4px)
+          height: em(4px)
+          background: $gt-color-main
+          position: absolute
+          left: em(8px)
+          top: em(7px)
+  /* header */
+  .gt-header
+    position: relative
+    display: flex
+    &-comment
+      flex: 1
+      margin-left: em(20px)
+      +mobile()
+        margin-left: em(14px)
+    &-textarea
+      padding: em(12px)
+      display: block
+      box-sizing: border-box
+      width: 100%
+      min-height: em(82px)
+      max-height: em(240px)
+      border-radius: $gt-size-border-radius
+      border: 1px solid var(--border-color)
+      font-size: em(14px)
+      word-wrap: break-word
+      resize: vertical
+      color: var(--default-text-color)
+      background-color: var(--fourth-text-color)
+      outline: none
+      transition: all 0.25s ease
+      &:hover
+        background-color: var(--background-color)
+    &-preview
+      padding: em(12px)
+      border-radius: $gt-size-border-radius
+      border: 1px solid var(--border-color)
+      background-color: var(--background-color)
+    &-controls
+      position: relative
+      margin: em(12px) 0 0
+      clearfix()
+      +mobile()
+        margin: 0
+      &-tip
+        font-size: em(14px)
+        color: $gt-color-main
+        text-decoration: none
+        vertical-align: sub
+        +mobile()
+          display: none
+      .gt-btn
+        float: right
+        margin-left: em(20px)
+        +mobile()
+          float: none
+          width: 100%
+          margin: em(12px) 0 0
+
+  &:after
+    content: ''
+    position: fixed
+    bottom: 100%
+    left: 0
+    right: 0
+    top: 0
+    opacity: 0
+  &.gt-input-focused
+    position: relative
+    &:after
+      content: ''
+      position: fixed
+      bottom: 0
+      left: 0
+      right: 0
+      top: 0
+      background: #000
+      opacity: 0.6
+      transition: opacity .3s, bottom 0s
+      z-index: $gt-mask-z-index
+    .gt-header-comment
+      z-index: $gt-mask-z-index + 1
+
+  /* comments */
+  .gt-comments
+    padding-top: em(20px)
+    &-null
+      text-align: center
+    &-controls
+      margin: em(20px) 0
+      text-align: center
+
+  /* comment */
+  .gt-comment
+    position: relative
+    padding: em(10px) 0
+    display: flex
+    &-content
+      flex: 1
+      margin-left: em(20px)
+      padding: em(12px) em(16px)
+      background-color: var(--second-background-color)
+      overflow: auto
+      transition: all ease 0.25s
+      +mobile()
+        margin-left: em(14px)
+        padding: em(10px) em(12px)
+    &-header
+      margin-bottom: em(8px)
+      font-size: em(14px)
+      position: relative
+    &-block-1
+      float: right
+      height: em(22px)
+      width: em(32px)
+    &-block-2
+      float: right
+      height: em(22px)
+      width: em(64px)
+    &-username
+      font-weight: 500
+      color: $gt-color-main
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+    &-text
+      margin-left: em(8px)
+      color: $gt-color-sub
+    &-date
+      margin-left: em(8px)
+      color: $gt-color-sub
+    &-like, &-edit, &-reply
+      position: absolute
+      height: em(22px)
+      &:hover
+        cursor: pointer
+    &-like
+      top: 0
+      right: em(32px)
+    &-edit, &-reply
+      top: 0
+      right: 0
+    &-body
+      //color: $gt-color-comment-txt !important
+      color: var(--second-text-color) !important
+      .email-hidden-toggle a
+        display: inline-block;
+        height: 12px;
+        padding: 0 9px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 6px;
+        color: #444d56;
+        text-decoration: none;
+        vertical-align: middle;
+        background: #dfe2e5;
+        border-radius: 1px;
+        &:hover
+          background-color: #c6cbd1;
+      .email-hidden-reply
+        display: none;
+        white-space: pre-wrap
+        .email-signature-reply
+          padding: 0 15px;
+          margin: 15px 0;
+          color: #586069;
+          border-left: 4px solid #dfe2e5;
+      .email-hidden-reply.expanded
+        display: block
+    &-admin
+      .gt-comment-content
+        background-color: var(--fourth-text-color)
+
+  @keyframes gt-kf-rotate
+    0%
+      transform: rotate(0)
+    100%
+      transform: rotate(360deg)
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Kong Liangqian</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.2</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9A%B4%E5%8A%9B%E8%A7%A3%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">1. 暴力解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-KD%EF%BC%88K-Dimensions%EF%BC%89%E6%A0%91"><span class="nav-number">2.</span> <span class="nav-text">2. KD（K-Dimensions）树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E9%A2%97KD%E6%A0%91"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 如何构建一颗KD树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-%E6%9E%84%E5%BB%BANode%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 构建Node数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E5%BB%BA%E7%AB%8B%E4%B8%80%E6%A3%B5%E6%A0%91"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.2.2 建立一棵树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%89%BE%E5%AF%BB%E4%B8%80%E4%B8%AA%E7%82%B9%E7%9A%84%E9%99%84%E8%BF%91%E7%82%B9%EF%BC%8CK-NN"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 找寻一个点的附近点，K-NN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">3. 运行代码</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
