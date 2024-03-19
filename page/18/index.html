@@ -145,6 +145,92 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/06/29/%E5%89%8D%E7%AB%AF%E9%85%8D%E5%87%86icp%E7%B3%BB%E5%88%97/">
+                        前段匹配系列
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        ICP用于求解两个点云集合转换关系最通用的方法，
+去中心化，通过最小化
+
+\frac{1}{N}\sum_{i=1}^N||x_i-Rp_i-t||^2求得两个点云集合的位姿关系$R，T$。
+PL-ICP在匹配的过程中，重点不是点和点之间的匹配，而是...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Jun 29 2021 09:59:22 GMT+0800">2021-06-29</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E6%BF%80%E5%85%89SLAM/">激光SLAM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/06/29/%E5%89%8D%E7%AB%AF%E9%85%8D%E5%87%86icp%E7%B3%BB%E5%88%97/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2021/06/25/0620%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86/">
+                        矩阵求导
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        行向量偏导若自变量是$1\times m$向量，行向量偏导算子
+
+D_x\overset{def}=\frac{\partial}{\partial x^T}=\left[\frac{\partial}{\partial x_1},...,\frac...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jun 25 2021 10:23:20 GMT+0800">2021-06-25</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/math/">math</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2021/06/25/0620%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/06/16/%E6%9D%8E%E4%BB%A3%E6%95%B0/">
                         SLAM之李代数
                     </a>
@@ -471,96 +557,6 @@ ROS网络中的时间是指，如果当时在非仿真环境里运行，那它�
     </div>
 
     <a href="/2021/05/20/ROS1%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/">
-                        位姿变换
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        
-
-假设在$T_1$的原点在$T_0$坐标系下为$(1,2,-\pi/2)$, 有点P在$T_1$坐标系下的坐标为$(P(-0.5,  -0.5, -\pi/2)$, 求点P在$T_0$坐标系下的坐标
-
-T_p^{T_0}=T_{T_1}^{T_0}...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun May 16 2021 10:23:20 GMT+0800">2021-05-16</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/math/">math</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/05/16/%E4%BD%8D%E5%A7%BF%E5%8F%98%E6%8D%A2/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2021/05/08/20231111%E5%90%84%E7%A7%8Dnorm/">
-                        torch batch_norm计算举例
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        1. BNbatchnorm的顾名思义是对batch（即多个数据）之间的norm。下面以torch 的batchnorm计算举例来说明
-1.1 nn.BatchNorm1d（BN）1nn.BatchNorm1d 指定的的值必须第二维度的数值，即通道数...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat May 08 2021 18:38:29 GMT+0800">2021-05-08</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/torch/">torch</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2021/05/08/20231111%E5%90%84%E7%A7%8Dnorm/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

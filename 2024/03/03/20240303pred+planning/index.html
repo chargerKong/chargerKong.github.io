@@ -173,6 +173,10 @@
                         <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a>&nbsp;
                     </li>
                 
+                    <li>
+                        | <a href="/tags/planning/">planning</a>&nbsp;
+                    </li>
+                
             </ul>
         </span>
     
@@ -261,8 +265,6 @@ h = \arg\min_ic(\hat{Y}_{EV}^i,\overline{Y}_{SV})</script><p>其实这和Monolit
 <li><p><strong>最坏情况规划</strong>：这种方法假设最坏的预测情况将会发生，并据此制定规划，以确保在最坏情况下仍能保持安全。在这种情况下h应该如下</p>
 <script type="math/tex; mode=display">
 h = \arg\min_i \max_jc(\hat{Y}_{EV}^i,\overline{Y}_{SV}^j)</script></li>
-</ul>
-<ul>
 <li><p><strong>应急规划</strong>：这种方法在规划时会考虑到可能出现的紧急情况$\overline{Y}_{SV}^j$以及他们的概率$P(\overline{Y}_{SV}^j)$，并制定相应的应对措施，同时期望能够取得进展。这里的cost函数h应该是</p>
 <script type="math/tex; mode=display">
 h=f_c(Y_{EV}^i,\overline{Y}_{SV}^j, P(\overline{Y}_{SV}^j))</script><p>这里$f_c$是一个应急规划的选择函数（cost）.</p>
@@ -288,6 +290,21 @@ h=\arg\min_i \left(\max_j c_s(Y_{EV}^i,\overline{Y}_{SV}^j)+E_j(c_l(Y_{EV}^i,\ov
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2024/03/11/Untitled/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
