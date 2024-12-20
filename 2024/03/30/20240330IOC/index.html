@@ -9,7 +9,7 @@
     
     <title>
         
-            Contingencies from Observations Tractable Contingency Planning with Learned Behavior Models |
+            逆向最优控制 (inverse optimal control, IOC) |
         
         大杂烩
     </title>
@@ -143,7 +143,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Contingencies from Observations Tractable Contingency Planning with Learned Behavior Models</span>
+            <span class="title-hover-animation">逆向最优控制 (inverse optimal control, IOC)</span>
         </div>
 
         
@@ -161,7 +161,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2024-03-19 18:38:29
+        <i class="fas fa-edit"></i>&nbsp;2024-03-30 18:38:29
     </span>
     
     
@@ -171,10 +171,6 @@
                 
                     <li>
                         <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/planning/">planning</a>&nbsp;
                     </li>
                 
             </ul>
@@ -193,24 +189,22 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>正常开车的过程，人类是高智能体感觉没有这么困难，但是AI会比较困难，需要做好AI的控车需要具备以下三点特点</p>
+            <blockquote>
+<p>参考: <a class="link"   target="_blank" rel="noopener" href="https://www.jos.org.cn/jos/article/pdf/6671" >https://www.jos.org.cn/jos/article/pdf/6671<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<p>行为克隆的问题：</p>
+<p>​        行为克隆方法只考虑在每个状态采取的动作与专家样本是否匹配, <strong>不考虑未来收益</strong>, 所以若与环境交互路径 很长且专家样本不足, 则行为克隆方法会将细微误差在连续决策中逐步放大, 甚至环境发生一点变化, 都会极大影 响算法性能, 这被称为行为克隆方法中的复合误差问题</p>
+<p>​        在一般强 化学习问题中, 奖赏函数由人工设定, 而在许多复杂问题中, 很难设计出精确的奖赏函数, 此时却很容易通过专家 策略采样专家样本, 例如汽车驾驶[29]和操纵机器打结等[30,31] . 针对这类问题, 逆向强化学习方法<strong>抛弃人工设定奖赏 函数过程</strong>, 直接通过专家样本重建奖赏函数, 并依据所得奖赏函数求解最优策略, 达到模仿专家策略的目的</p>
+<p>​        相比行为克隆方法, 逆向强化学习方法具有更好的泛化性和鲁棒性. 若环境改变或在专家样本状态-动作 空间之外, 仍可保证算法性能. 此外, 由于逆向强化学习方法通过最大化累积奖赏值求解最优策略, 所以逆向强化 学习方法方法不存在行为克隆方法中的复合误差问题</p>
+<p>​         逆向强化学习方法的奖赏函数最初为线性函数, 由 Ng 等人于 2000 年提出[35] , 此后基于学徒学习的逆向强化 学习算法[36]、最大边际算法[37]、最大熵算法[38]和相对熵算法[39]等被相继提出. 这类算法假设状态或状态-动作对 特征的线性组合为奖赏函数, <strong>算法的最终目标为求解每个特征的系数,</strong> 当特征系数确定, 奖赏函数随之确定. 逆向 强化学习方法中多个奖赏函数均可求解专家策略。算法仍需在满足条件的奖赏函数集合中选择最优解。</p>
+<p>​        基于线性奖赏函数的逆向强化学习算法虽有一些不错的结果，但是由于所有的奖赏函数都是特征的线性组合, 导致以下问题: (1) 特征需要凭借人的经验来选 取, 增加了算法的难度和不稳定性; (2) 线性奖赏函数形式简单, 存在表达能力有限的问题.</p>
+<p>​       非线性奖赏函数的逆向强化学习算法被提出, 包括基于贝叶斯的非参数 化特征构建算法[44]和基于神经网络的非线性逆向强化学习算法. <strong>传统逆向强化学习算法 (例如学徒学习算法、最大边际算法、最大熵算法、相对 熵算法) 与神经网络结合</strong>, 将神经网络作为奖赏函数, 取得了很好的效果. 这类算法可以通过神经网络自动提取状 态特征, 具有更强的表征能力. 目前, 在游戏、自动驾驶、路径导航和机器控制领域取得了一定成果</p>
+<h1 id="强化学习符号"><a href="#强化学习符号" class="headerlink" title="强化学习符号"></a>强化学习符号</h1><p>$\pi(a|s)$: 状态s到动作a的策略，策略分以下两种</p>
 <ul>
-<li>推测其他车辆是如何行驶的</li>
-<li>驾驶员反应的预测模型</li>
-<li>在自车周围做路径规划，以及解决其他驾驶员意图的不确定性的能力。比如他车在路口加速，我们需要减速，我们如果超车，他车可能会减速并给出变道的空间等</li>
+<li>确定性策略: 确定性策略表示在每个状态 选择的动作确定且唯一: 即$\pi: S=&gt;A$</li>
+<li>随机策略:  随机策略表示在每个状态的动作选择满足一个概率分布$\pi: S=&gt;prob(A)$</li>
 </ul>
-<p>目前基于learning方法的e2e方法一般不具备第三条，因为他们不对其他agents进行行为建模</p>
-<p>frozen-robot-problem：如果忽略了其他智能体对机器人行动的反应以及机器人未来行动应如何根据其他智能体的行动而有所不同。这可能导致过度谨慎的行为。</p>
-<p>因此，在许多现实情况下，将prediction和planning任务解耦是一个糟糕的建模假设。通过Contingency Planning可以实现解决这个问题的方法，它能够自适应的根据agents或者环境未来可能的变化给出合适的轨迹。</p>
-<p>该文章是同时提出的方法既有contingency，又使用完全学习的行为模型，不像之前的工作那样，要么学习了行为模型，要么是主动contingency的，但从来没有两者都有。</p>
-<h1 id="Deep-contingency-planning"><a href="#Deep-contingency-planning" class="headerlink" title="Deep contingency planning"></a>Deep contingency planning</h1><p><img src="20240317contigency_plan/fig1.png" alt=""></p>
-<p><img src="fig1.png" alt=""></p>
-<h2 id="Depolyment"><a href="#Depolyment" class="headerlink" title="Depolyment"></a>Depolyment</h2><p>该部分的循环由如下步骤进行</p>
-<p>1）contingency planner接收model的输出，goal，以及embedding后的传感器输入。输出多步的规划的策略</p>
-<p>2）策略执行一步</p>
-<p>3）控制器追踪一步</p>
-<p>4）控制器完成一步，把新观察到的环境信息更新</p>
-<h2 id="Model-design-And-Training"><a href="#Model-design-And-Training" class="headerlink" title="Model design And Training"></a>Model design And Training</h2>
+
         </div>
 
         
@@ -221,13 +215,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2024/03/30/20240330IOC/"
+                           href="/2024/04/07/Untitled%201/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">逆向最优控制 (inverse optimal control, IOC)</span>
+                                <span class="post-nav-title-item"></span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -237,10 +231,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2024/03/11/Untitled/"
+                           href="/2024/03/19/20240317contigency_plan/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item"></span>
+                                <span class="post-nav-title-item">Contingencies from Observations Tractable Contingency Planning with Learned Behavior Models</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -410,7 +404,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Deep-contingency-planning"><span class="nav-number">2.</span> <span class="nav-text">Deep contingency planning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Depolyment"><span class="nav-number">2.1.</span> <span class="nav-text">Depolyment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-design-And-Training"><span class="nav-number">2.2.</span> <span class="nav-text">Model design And Training</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.</span> <span class="nav-text">强化学习符号</span></a></li></ol>
     </div>
 </div>
         </aside>

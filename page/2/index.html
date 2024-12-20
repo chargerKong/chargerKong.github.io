@@ -145,6 +145,102 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/05/07/230507%E6%A2%AF%E5%BA%A6%E6%9B%B4%E6%96%B0/">
+                        梯度更新
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        负梯度方向说明民见传闻，当我们寻找凸函数最小值的时候，沿着负梯度方向去寻找是可以找到最小值的，为何？
+假设有一个函数$y=f(x)$， 他存在着最小值$f(x_0)$， 假设我们移动一小步$\Delta x$
+
+f(x+\Delta x) - f(x...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat May 07 2022 18:38:29 GMT+0800">2022-05-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/math/">math</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/05/07/230507%E6%A2%AF%E5%BA%A6%E6%9B%B4%E6%96%B0/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/05/04/220504%20torch%E7%89%88%E6%9C%AC/">
+                        NoneType object has no attribute origin
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        该错误来自于
+1from torch_geometric.data import InMemoryDataset
+原因在于pytorch和torch_geometric的版本不正确，下面是正确的版本
+12345678torch            ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed May 04 2022 18:38:29 GMT+0800">2022-05-04</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/PyTorch/">PyTorch</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/05/04/220504%20torch%E7%89%88%E6%9C%AC/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/05/04/220505%E9%A2%84%E6%B5%8B%E6%80%BB%E8%A7%88/">
                         自动驾驶-预测介绍
                     </a>
@@ -498,94 +594,6 @@ c++内存申请的时候还需要做多一步，即调用构造函数，他不�
     </div>
 
     <a href="/2022/04/06/220406%E7%94%B3%E8%AF%B7%E5%86%85%E5%AD%98C%20style/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/06/220407%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82/">
-                        c++函数传参
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        函数传参有两种形式
-
-传值
-传引用
-
-传递值参数传入，进行了一次拷贝，拷贝到了x里面，然后+10，最后返回，返回的过程也是对x的一次拷贝，所以一共俩次拷贝
-所以对num1不会有任何的影响
-123456789int foo(int x) &#123; ...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 18:38:29 GMT+0800">2022-04-06</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/c/">c++</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/06/220407%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">
-                        Python 可迭代对象与迭代器
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        定义一个可迭代对象Python中的Iterable译为可迭代对象，在一个类中，只要定义了一个__iter__，那么他就是一个可迭代对象
-1234567from collections.abc import Iterable, Iterator  cl...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 05 2022 18:38:29 GMT+0800">2022-04-05</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Python/">Python</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

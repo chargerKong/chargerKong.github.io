@@ -145,6 +145,94 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2022/04/06/220407%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82/">
+                        c++函数传参
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        函数传参有两种形式
+
+传值
+传引用
+
+传递值参数传入，进行了一次拷贝，拷贝到了x里面，然后+10，最后返回，返回的过程也是对x的一次拷贝，所以一共俩次拷贝
+所以对num1不会有任何的影响
+123456789int foo(int x) &#123; ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Apr 06 2022 18:38:29 GMT+0800">2022-04-06</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/c/">c++</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/06/220407%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">
+                        Python 可迭代对象与迭代器
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        定义一个可迭代对象Python中的Iterable译为可迭代对象，在一个类中，只要定义了一个__iter__，那么他就是一个可迭代对象
+1234567from collections.abc import Iterable, Iterator  cl...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Apr 05 2022 18:38:29 GMT+0800">2022-04-05</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/Python/">Python</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2022/04/05/220405python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/04/01/220401c++%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
                         数据结构
                     </a>
@@ -499,92 +587,6 @@ imu消息
     </div>
 
     <a href="/2022/02/23/220223%20liosam%E9%A2%84%E7%A7%AF%E5%88%86/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/22/220222%E5%9B%A0%E5%AD%90%E5%9B%BEGTSAM/">
-                        因子图及GTSAM库介绍
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        因子图优化及 GTSAM 库介绍因子图在 slam 的后端优化问题中，我们通常会通过一些传感器的观测，比如视觉特征点， IMU 预积分量， Lidar面点和边缘点的约束去构建一个优化问题，求解状态量（如位姿、速度等），这个时候我们考虑一个问题，当给这...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Feb 22 2022 12:59:22 GMT+0800">2022-02-22</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/LIOSAM/">LIOSAM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/22/220222%E5%9B%A0%E5%AD%90%E5%9B%BEGTSAM/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2022/02/06/220206%20tf2%20Time%20travel/">
-                        Time travel with tf2
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        在之前的教程中，我们讨论了 tf2 和 time 的基础知识。 本教程将带我们更进一步，并揭示一个强大的 tf2 技巧：时间旅行(time travel.)。 简而言之，tf2 库的关键特性之一是它能够在时间和空间上转换数据。
-此 tf2 时间旅行功...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Feb 06 2022 12:59:22 GMT+0800">2022-02-06</span></span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/ros2/">ros2</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/tf2/">tf2</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2022/02/06/220206%20tf2%20Time%20travel/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
