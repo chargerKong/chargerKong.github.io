@@ -1,7 +1,7 @@
 ---
 title: planning与prediction集成方法
 date: 2024-03-03 18:38:29
-tags: [自动驾驶]
+tags: [自动驾驶, planning]
 ---
 
 ## 符号标记
@@ -139,7 +139,6 @@ $$
   h = \arg\min_i \max_jc(\hat{Y}_{EV}^i,\overline{Y}_{SV}^j)
   $$
   
-
 - **应急规划**：这种方法在规划时会考虑到可能出现的紧急情况$\overline{Y}_{SV}^j$以及他们的概率$P(\overline{Y}_{SV}^j)$，并制定相应的应对措施，同时期望能够取得进展。这里的cost函数h应该是
   $$
   h=f_c(Y_{EV}^i,\overline{Y}_{SV}^j, P(\overline{Y}_{SV}^j))
